@@ -1,0 +1,13 @@
+.sidebar-navigation-button {
+    -fx-background-color: #000000;
+    -fx-background-radius: 0;
+    -fx-text-fill: white;
+}
+.sidebar-navigation-button:hover {
+    -fx-background-color: #b9b9b9;
+    -fx-border-radius: 0;
+}
+.sidebar-navigation-button:pressed {
+    -fx-background-color: #b9b9b9;
+    -fx-border-radius: 0;
+}
