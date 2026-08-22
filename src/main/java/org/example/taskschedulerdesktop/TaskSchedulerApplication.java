@@ -6,7 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class HelloApplication extends Application {
+public class TaskSchedulerApplication extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -16,7 +16,10 @@ public class HelloApplication extends Application {
         );
         Parent root = loader.load();
 
-        Scene scene = new Scene(root, 900, 600);
+        Scene scene = new Scene(root, 1280, 720);
+
+        primaryStage.setMinWidth(900);
+        primaryStage.setMinHeight(600);
 
         try {
             scene.getStylesheets().add(

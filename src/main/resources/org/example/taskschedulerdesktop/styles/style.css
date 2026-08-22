@@ -11,3 +11,62 @@
     -fx-background-color: #b9b9b9;
     -fx-border-radius: 0;
 }
+
+.tasks-status-priority-button {
+    -fx-background-radius: 0;
+}
+
+/* 1. Главный контейнер таблицы (убираем лишние рамки) */
+.table-view {
+    -fx-background-color: transparent;
+    -fx-base: #ffffff;
+    /* -fx-background-radius: 8px; */
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 1px;
+    /*-fx-border-radius: 8px;
+    -fx-padding: 0;*/
+}
+
+/* 2. Стилизация шапки таблицы (заголовков колонок) */
+.table-view .column-header {
+    -fx-background-color: #ffffff;
+    -fx-size: 40px; /* Высота шапки */
+    -fx-border-color: transparent #e0e0e0 transparent transparent; /* Разделители колонок */
+    -fx-border-width: 1px;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: #4a5568; /* Цвет текста заголовков */
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+    -fx-alignment: CENTER_LEFT; /* Выравнивание текста */
+}
+
+/* 3. Настройка строк таблицы */
+.table-view .table-row-cell {
+    -fx-background-color: #ffffff;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 0;
+    -fx-cell-size: 38px; /* Высота строк */
+}
+
+/* Эффект наведения мыши на строку */
+.table-view .table-row-cell:hover {
+    -fx-background-color: #edf2f7;
+}
+
+/* 4. Стиль выделенной строки */
+.table-view .table-row-cell:selected {
+    -fx-background-color: #3182ce; /* Фирменный синий цвет */
+    -fx-background-insets: 0;
+}
+
+.table-view .table-row-cell:selected .text {
+    -fx-fill: #ffffff; /* Белый текст в выделенной строке */
+}
+
+/* 5. Убираем пустую колонку-заполнитель в конце, если она появляется */
+.table-view .filler {
+    -fx-background-color: transparent;
+}
+

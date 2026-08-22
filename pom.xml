@@ -61,7 +61,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                org.example.taskschedulerdesktop/org.example.taskschedulerdesktop.HelloApplication
+                                org.example.taskschedulerdesktop/org.example.taskschedulerdesktop.TaskSchedulerApplication
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
