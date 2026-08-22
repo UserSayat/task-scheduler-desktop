@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="250.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.taskschedulerdesktop.controllers.EmployeeCardController">
+   <children>
+      <HBox alignment="CENTER" spacing="10.0">
+         <children>
+            <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../java/org/example/taskschedulerdesktop/assets/icon.png" />
+               </image>
+            </ImageView>
+            <VBox HBox.hgrow="ALWAYS">
+               <children>
+                  <Label fx:id="employeeNameLabel" text="Редизайн портала">
+                     <font>
+                        <Font size="15.0" />
+                     </font></Label>
+                  <Label fx:id="employeePositionLabel" text="Руководитель: А. К.">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <HBox spacing="10.0">
+         <children>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Label fx:id="numberOfTasksLabel" text="2">
+                     <font>
+                        <Font size="15.0" />
+                     </font></Label>
+                  <Label text="задач">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Label fx:id="completedTasksLabel" text="0">
+                     <font>
+                        <Font size="15.0" />
+                     </font></Label>
+                  <Label text="готово">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <Label fx:id="firstTaskDescriptionLabel" text="Утвердить макеты главной страницы">
+         <font>
+            <Font size="10.0" />
+         </font>
+      </Label>
+      <Label fx:id="secondTaskDescriptionLabel" text="Оптимизация загрузки приложений">
+         <font>
+            <Font size="10.0" />
+         </font>
+      </Label>
+   </children>
+   <padding>
+      <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
+   </padding>
+</VBox>

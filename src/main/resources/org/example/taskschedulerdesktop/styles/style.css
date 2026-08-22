@@ -31,7 +31,7 @@
 .table-view .column-header {
     -fx-background-color: #ffffff;
     -fx-size: 40px; /* Высота шапки */
-    -fx-border-color: transparent #e0e0e0 transparent transparent; /* Разделители колонок */
+    -fx-border-color: transparent;
     -fx-border-width: 1px;
 }
 

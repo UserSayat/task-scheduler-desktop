@@ -26,7 +26,7 @@ public class MainController {
         navigationMenuActionMap.put("review", this::showReview);
         navigationMenuActionMap.put("tasks", this::showTasks);
         navigationMenuActionMap.put("projects", this::showProjects);
-//        navigationMenuActionMap.put("team", this::showTeam);
+        navigationMenuActionMap.put("team", this::showTeam);
 
         for (Node node : navigationMenu.getChildren()) {
             if (node instanceof Button) {
@@ -101,6 +101,18 @@ public class MainController {
         try {
             Parent page = FXMLLoader.load(
                     getClass().getResource("/org/example/taskschedulerdesktop/view/projects.fxml")
+            );
+            contentArea.getChildren().setAll(page);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void showTeam() {
+        try {
+            Parent page = FXMLLoader.load(
+                    getClass().getResource("/org/example/taskschedulerdesktop/view/team.fxml")
             );
             contentArea.getChildren().setAll(page);
         } catch (IOException e) {
