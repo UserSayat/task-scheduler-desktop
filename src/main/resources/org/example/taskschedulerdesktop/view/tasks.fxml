@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox minWidth="0.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+<VBox minWidth="0.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.taskschedulerdesktop.controllers.TasksController">
    <children>
       <HBox alignment="CENTER_LEFT" maxHeight="80.0" minHeight="80.0" minWidth="0.0" prefHeight="80.0" spacing="10.0" style="-fx-background-color: #ffffff;">
          <children>

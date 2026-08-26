@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox minWidth="0.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.taskschedulerdesktop.controllers.ProjectExtendedPageController">
+   <children>
+      <HBox alignment="CENTER_LEFT" maxHeight="80.0" minHeight="80.0" minWidth="0.0" prefHeight="80.0" spacing="10.0" style="-fx-background-color: #ffffff;">
+         <children>
+            <Label text="Назад" />
+            <VBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="1.7976931348623157E308">
+               <children>
+                  <Label text="Редизайн портала">
+                     <font>
+                        <Font name="Times New Roman" size="25.0" />
+                     </font>
+                  </Label>
+                  <Label text="воскресенье, 2 августа 2026 г." textFill="#6d6d6d">
+                     <font>
+                        <Font name="Arial" size="12.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+            <Region HBox.hgrow="ALWAYS" />
+            <Button mnemonicParsing="false" style="-fx-background-color: #ffffff; -fx-border-color: #d4d4d4; -fx-border-width: 0.5; -fx-border-radius: 0;" text="+ Новая задача">
+               <padding>
+                  <Insets bottom="4.0" left="10.0" right="10.0" top="4.0" />
+               </padding>
+            </Button>
+            <TextField promptText="Поиск задач..." />
+         </children>
+         <padding>
+            <Insets bottom="5.0" left="20.0" right="20.0" top="5.0" />
+         </padding>
+      </HBox>
+      <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="720.0" stylesheets="@../styles/style.css" VBox.vgrow="ALWAYS">
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+         <content>
+            <VBox minWidth="0.0" spacing="20.0">
+               <children>
+                  <VBox spacing="20.0">
+                     <children>
+                        <HBox spacing="20.0">
+                           <children>
+                              <VBox alignment="CENTER_LEFT">
+                                 <children>
+                                    <Label fx:id="projectNameLabel" text="Редизайн портала">
+                                       <font>
+                                          <Font size="27.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="projectSupervisorLabel" text="Руководитель: А.К." />
+                                 </children>
+                              </VBox>
+                              <Region maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                              <VBox alignment="CENTER">
+                                 <children>
+                                    <Label fx:id="numberOfTasksLabel" text="18">
+                                       <font>
+                                          <Font size="25.0" />
+                                       </font>
+                                    </Label>
+                                    <Label text="Задач" />
+                                 </children>
+                              </VBox>
+                              <VBox alignment="CENTER">
+                                 <children>
+                                    <Label fx:id="completedTasksLabel" text="13">
+                                       <font>
+                                          <Font size="25.0" />
+                                       </font>
+                                    </Label>
+                                    <Label text="Завершено" />
+                                 </children>
+                              </VBox>
+                              <VBox alignment="CENTER">
+                                 <children>
+                                    <Label fx:id="remainingTasksLabel" text="5">
+                                       <font>
+                                          <Font size="25.0" />
+                                       </font>
+                                    </Label>
+                                    <Label text="Осталось" />
+                                 </children>
+                              </VBox>
+                              <VBox alignment="CENTER">
+                                 <children>
+                                    <Label fx:id="percentOfCompletionLabel" text="72%">
+                                       <font>
+                                          <Font size="25.0" />
+                                       </font>
+                                    </Label>
+                                    <Label text="Прогресс" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <ProgressBar maxWidth="1.7976931348623157E308" progress="0.0" />
+                     </children>
+                  </VBox>
+                  <HBox>
+                     <children>
+                        <VBox>
+                           <children>
+                              <Label text="В РАБОТЕ" />
+                              <VBox fx:id="tasksInProgressVBox">
+                                 <children>
+                                    <HBox alignment="CENTER" spacing="10.0">
+                                       <children>
+                                          <Label text="01" />
+                                          <Label text="Оптимизация загрузки приложений" />
+                                          <Region maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                                          <Label alignment="CENTER" text="frontend">
+                                             <font>
+                                                <Font size="10.0" />
+                                             </font>
+                                          </Label>
+                                          <Label alignment="CENTER" text="06 авг">
+                                             <font>
+                                                <Font size="10.0" />
+                                             </font>
+                                          </Label>
+                                          <Label alignment="CENTER" text="АК">
+                                             <font>
+                                                <Font size="10.0" />
+                                             </font>
+                                          </Label>
+                                          <Label alignment="CENTER" text="Средний">
+                                             <font>
+                                                <Font size="10.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="10.0" left="15.0" right="15.0" top="10.0" />
+                                       </padding>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                              <Label text="НА ПРОВЕРКЕ" />
+                              <VBox fx:id="tasksUnderReviewVBox">
+                                 <children>
+                                    <HBox alignment="CENTER" spacing="10.0">
+                                       <children>
+                                          <Label text="01" />
+                                          <Label text="Утвердить макеты главной страницы" />
+                                          <Region maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                                          <Label alignment="CENTER" text="дизайн">
+                                             <font>
+                                                <Font size="10.0" />
+                                             </font>
+                                          </Label>
+                                          <Label alignment="CENTER" text="03 авг">
+                                             <font>
+                                                <Font size="10.0" />
+                                             </font>
+                                          </Label>
+                                          <Label alignment="CENTER" text="АК">
+                                             <font>
+                                                <Font size="10.0" />
+                                             </font>
+                                          </Label>
+                                          <Label alignment="CENTER" text="Высокий">
+                                             <font>
+                                                <Font size="10.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="10.0" left="15.0" right="15.0" top="10.0" />
+                                       </padding>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                              <Label text="ЗАВЕРШЕНО" />
+                              <VBox fx:id="completedTasksVBox">
+                                 <children>
+                                    <HBox alignment="CENTER" spacing="10.0">
+                                       <children>
+                                          <Label text="01" />
+                                          <Label text="Компонент навигационного меню" />
+                                          <Region maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                                          <Label alignment="CENTER" text="frontend">
+                                             <font>
+                                                <Font size="10.0" />
+                                             </font>
+                                          </Label>
+                                          <Label alignment="CENTER" text="31 июл">
+                                             <font>
+                                                <Font size="10.0" />
+                                             </font>
+                                          </Label>
+                                          <Label alignment="CENTER" text="ИФ">
+                                             <font>
+                                                <Font size="10.0" />
+                                             </font>
+                                          </Label>
+                                          <Label alignment="CENTER" text="Низкий">
+                                             <font>
+                                                <Font size="10.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="10.0" left="15.0" right="15.0" top="10.0" />
+                                       </padding>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </VBox>
+                        <Region maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                        <VBox HBox.hgrow="ALWAYS">
+                           <children>
+                              <VBox spacing="20.0">
+                                 <children>
+                                    <Label text="Участники" />
+                                    <HBox alignment="CENTER" spacing="20.0">
+                                       <children>
+                                          <Label text="АК" />
+                                          <VBox HBox.hgrow="ALWAYS">
+                                             <children>
+                                                <Label text="Алексей" />
+                                                <Label text="2 задачи" />
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER" spacing="20.0">
+                                       <children>
+                                          <Label text="ИФ" />
+                                          <VBox HBox.hgrow="ALWAYS">
+                                             <children>
+                                                <Label text="Ирина" />
+                                                <Label text="1 задача" />
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </padding>
+                              </VBox>
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+               </children>
+               <padding>
+                  <Insets bottom="30.0" left="40.0" right="40.0" top="30.0" />
+               </padding>
+            </VBox>
+         </content>
+      </ScrollPane>
+   </children>
+</VBox>

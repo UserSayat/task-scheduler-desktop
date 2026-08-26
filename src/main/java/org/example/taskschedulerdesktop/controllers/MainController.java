@@ -62,23 +62,26 @@ public class MainController {
                 });
             }
         }
-        navigateTo("review");
+        showReview();
     }
 
-    private void navigateTo(String page) {
-        Runnable action = navigationMenuActionMap.get(page);
-        if (action != null) {
-            action.run();
-        }
+    public void changeContentArea(Parent newContent) {
+        contentArea.getChildren().clear();
+        contentArea.getChildren().add(newContent);
     }
 
     @FXML
     private void showReview() {
         try {
-            Parent page = FXMLLoader.load(
+            FXMLLoader loader = new FXMLLoader(
                     getClass().getResource("/org/example/taskschedulerdesktop/view/review.fxml")
             );
-            contentArea.getChildren().setAll(page);
+
+            Parent review = loader.load();
+            ReviewController reviewController = loader.getController();
+            reviewController.setMainController(this);
+
+            changeContentArea(review);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -87,10 +90,15 @@ public class MainController {
     @FXML
     private void showTasks() {
         try {
-            Parent page = FXMLLoader.load(
+            FXMLLoader loader = new FXMLLoader(
                     getClass().getResource("/org/example/taskschedulerdesktop/view/tasks.fxml")
             );
-            contentArea.getChildren().setAll(page);
+
+            Parent tasks = loader.load();
+            TasksController tasksController = loader.getController();
+            tasksController.setMainController(this);
+
+            changeContentArea(tasks);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -99,10 +107,15 @@ public class MainController {
     @FXML
     private void showProjects() {
         try {
-            Parent page = FXMLLoader.load(
+            FXMLLoader loader = new FXMLLoader(
                     getClass().getResource("/org/example/taskschedulerdesktop/view/projects.fxml")
             );
-            contentArea.getChildren().setAll(page);
+
+            Parent projects = loader.load();
+            ProjectsController projectsController = loader.getController();
+            projectsController.setMainController(this);
+
+            changeContentArea(projects);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -111,10 +124,15 @@ public class MainController {
     @FXML
     private void showTeam() {
         try {
-            Parent page = FXMLLoader.load(
+            FXMLLoader loader  = new FXMLLoader(
                     getClass().getResource("/org/example/taskschedulerdesktop/view/team.fxml")
             );
-            contentArea.getChildren().setAll(page);
+
+            Parent team = loader.load();
+            TeamController teamController = loader.getController();
+            teamController.setMainController(this);
+
+            changeContentArea(team);
         } catch (IOException e) {
             e.printStackTrace();
         }

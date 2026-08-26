@@ -2,8 +2,11 @@ package org.example.taskschedulerdesktop.controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import org.example.taskschedulerdesktop.models.ProjectCard;
 
 import java.io.IOException;
@@ -13,8 +16,14 @@ public class ProjectsController {
     @FXML
     private FlowPane projectsFlowPane;
 
-    @FXML
-    public void initialize() {
+    private MainController mainController;
+
+    public MainController getMainController() {
+        return mainController;
+    }
+
+    public void setMainController(MainController mainController) {
+        this.mainController = mainController;
         loadProjects();
     }
 
@@ -53,6 +62,7 @@ public class ProjectsController {
                 VBox card = loader.load();
 
                 ProjectCardController cardController = loader.getController();
+                cardController.setMainController(mainController);
 
                 cardController.setProjectData(project);
 
