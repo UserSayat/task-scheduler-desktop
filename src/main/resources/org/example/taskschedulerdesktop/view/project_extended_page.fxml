@@ -15,7 +15,7 @@
    <children>
       <HBox alignment="CENTER_LEFT" maxHeight="80.0" minHeight="80.0" minWidth="0.0" prefHeight="80.0" spacing="10.0" style="-fx-background-color: #ffffff;">
          <children>
-            <Label text="Назад" />
+            <Label text="&lt;- Проекты" />
             <VBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="1.7976931348623157E308">
                <children>
                   <Label text="Редизайн портала">
@@ -116,7 +116,7 @@
                               <Label text="В РАБОТЕ" />
                               <VBox fx:id="tasksInProgressVBox">
                                  <children>
-                                    <HBox alignment="CENTER" spacing="10.0">
+                                    <HBox fx:id="taskInProgressHBox" alignment="CENTER" spacing="10.0">
                                        <children>
                                           <Label text="01" />
                                           <Label text="Оптимизация загрузки приложений" />
@@ -151,7 +151,7 @@
                               <Label text="НА ПРОВЕРКЕ" />
                               <VBox fx:id="tasksUnderReviewVBox">
                                  <children>
-                                    <HBox alignment="CENTER" spacing="10.0">
+                                    <HBox fx:id="taskUnderReviewHBox" alignment="CENTER" spacing="10.0">
                                        <children>
                                           <Label text="01" />
                                           <Label text="Утвердить макеты главной страницы" />
@@ -186,7 +186,7 @@
                               <Label text="ЗАВЕРШЕНО" />
                               <VBox fx:id="completedTasksVBox">
                                  <children>
-                                    <HBox alignment="CENTER" spacing="10.0">
+                                    <HBox fx:id="completedTaskHBox" alignment="CENTER" spacing="10.0">
                                        <children>
                                           <Label text="01" />
                                           <Label text="Компонент навигационного меню" />

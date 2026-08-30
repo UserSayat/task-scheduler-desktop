@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox maxHeight="1.7976931348623157E308" maxWidth="300.0" minHeight="-Infinity" minWidth="-Infinity" prefWidth="300.0" spacing="20.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.taskschedulerdesktop.controllers.TaskRightSidebarController">
+   <children>
+      <HBox>
+         <children>
+            <VBox spacing="10.0">
+               <children>
+                  <Label text="РЕДИЗАЙН ПОРТАЛА" />
+                  <Label text="Оптимизация загрузки приложений" />
+               </children>
+            </VBox>
+            <Region maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+            <Button fx:id="closeButton" alignment="CENTER_RIGHT" mnemonicParsing="false" text="x" />
+         </children>
+         <VBox.margin>
+            <Insets left="20.0" right="20.0" top="20.0" />
+         </VBox.margin>
+      </HBox>
+      <Region prefHeight="1.0" style="-fx-background-color: #000;" />
+      <HBox spacing="50.0">
+         <children>
+            <VBox>
+               <children>
+                  <Label text="СТАТУС" />
+                  <Label text="В работе" />
+               </children>
+            </VBox>
+            <VBox>
+               <children>
+                  <Label text="ПРИОРИТЕТ" />
+                  <Label text="Средний" />
+               </children>
+            </VBox>
+         </children>
+         <VBox.margin>
+            <Insets left="20.0" right="20.0" />
+         </VBox.margin>
+      </HBox>
+      <VBox>
+         <children>
+            <Label text="ИСПОЛНИТЕЛЬ" />
+            <FlowPane>
+               <children>
+                  <Label text="Алексей Козлов" />
+               </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </FlowPane>
+         </children>
+         <padding>
+            <Insets left="20.0" right="20.0" />
+         </padding>
+      </VBox>
+      <VBox>
+         <children>
+            <Label text="ДЕДЛАЙН" />
+            <Label text="06 авг" />
+         </children>
+         <padding>
+            <Insets left="20.0" right="20.0" />
+         </padding>
+      </VBox>
+      <VBox>
+         <children>
+            <Label text="ТЕГИ" />
+            <FlowPane>
+               <children>
+                  <Label text="frontend" />
+                  <Label text="performance" />
+               </children>
+            </FlowPane>
+         </children>
+         <padding>
+            <Insets left="20.0" right="20.0" />
+         </padding>
+      </VBox>
+      <VBox>
+         <children>
+            <Label text="ОПИСАНИЕ" />
+            <ScrollPane hbarPolicy="NEVER">
+               <content>
+                  <Label text="Задача в рамках проекта «Редизайн портала». Требует координации с командой и соответствия установленным срокам. Приоритет: средний." />
+               </content>
+            </ScrollPane>
+         </children>
+         <padding>
+            <Insets left="20.0" right="20.0" />
+         </padding>
+      </VBox>
+      <HBox>
+         <children>
+            <Button mnemonicParsing="false" text="Взять в работу" />
+            <Button mnemonicParsing="false" text="Изменить" />
+         </children>
+         <VBox.margin>
+            <Insets bottom="30.0" left="20.0" right="20.0" />
+         </VBox.margin>
+      </HBox>
+   </children>
+</VBox>

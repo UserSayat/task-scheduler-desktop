@@ -70,6 +70,8 @@ public class ProjectCardController {
                     );
 
                     Parent projectExtendedPage = loader.load();
+                    ProjectExtendedPageController projectExtendedPageController = loader.getController();
+                    projectExtendedPageController.setMainController(mainController);
 
                     mainController.changeContentArea(projectExtendedPage);
                 } catch (IOException e) {

@@ -1,12 +1,15 @@
 package org.example.taskschedulerdesktop.controllers;
 
+import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -20,6 +23,9 @@ public class MainController {
 
     @FXML
     private StackPane contentArea;
+
+    private Parent rightSidebar = null;
+    private final double RIGHT_SIDEBAR_WIDTH = 300.0;
 
     @FXML
     public void initialize() {
@@ -68,6 +74,64 @@ public class MainController {
     public void changeContentArea(Parent newContent) {
         contentArea.getChildren().clear();
         contentArea.getChildren().add(newContent);
+    }
+
+    public void openRightSidebar(String path) {
+        if (rightSidebar != null) {
+            contentArea.getChildren().remove(rightSidebar);
+        }
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
+
+            rightSidebar = loader.load();
+
+            TaskRightSidebarController sidebarController = loader.getController();
+            sidebarController.setMainController(this);
+
+            if (rightSidebar instanceof VBox) {
+                VBox sidebarVBox = (VBox) rightSidebar;
+                sidebarVBox.setPrefWidth(RIGHT_SIDEBAR_WIDTH);
+                sidebarVBox.setMaxWidth(RIGHT_SIDEBAR_WIDTH);
+            }
+
+            StackPane.setAlignment(rightSidebar, Pos.CENTER_RIGHT);
+
+            contentArea.getChildren().add(rightSidebar);
+
+            contentArea.setOnMouseClicked(event -> {
+                Node clickedNode = (Node) event.getTarget();
+
+                if (clickedNode == rightSidebar || isChildOf(clickedNode, rightSidebar)) {
+                    return;
+                }
+
+                closeRightSidebar();
+            });
+
+            TranslateTransition animate = new TranslateTransition(Duration.millis(200), rightSidebar);
+
+            animate.setFromX(RIGHT_SIDEBAR_WIDTH);
+            animate.setToX(0);
+            animate.play();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void closeRightSidebar() {
+        if (rightSidebar != null) {
+            TranslateTransition animate = new TranslateTransition(Duration.millis(200), rightSidebar);
+
+            animate.setToX(RIGHT_SIDEBAR_WIDTH);
+
+            animate.setOnFinished(event -> {
+                contentArea.getChildren().remove(rightSidebar);
+                rightSidebar = null;
+            });
+
+            animate.play();
+        }
     }
 
     @FXML
@@ -136,6 +200,16 @@ public class MainController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private boolean isChildOf(Node node, Node potentialParent) {
+        while (node != null) {
+            if (node == potentialParent) {
+                return true;
+            }
+            node = node.getParent();
+        }
+        return false;
     }
 
 }
