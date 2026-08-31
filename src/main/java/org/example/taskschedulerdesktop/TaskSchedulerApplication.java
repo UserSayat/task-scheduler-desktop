@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.example.taskschedulerdesktop.database.DatabaseConnection;
 
 public class TaskSchedulerApplication extends Application {
 
@@ -38,4 +39,13 @@ public class TaskSchedulerApplication extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+
+    @Override
+    public void stop() {
+        DatabaseConnection.getInstance().close();
+    }
 }
+
+//Сначала создай локальную бд потом продолжай работу с контроллерами
+//Ты остановился на TaskExtendedPageController т.к. нет данных
+//Добавить синхронизацию с бд

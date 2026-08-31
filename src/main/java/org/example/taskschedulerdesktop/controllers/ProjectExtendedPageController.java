@@ -6,12 +6,16 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import org.example.taskschedulerdesktop.models.TaskDescriptionCard;
+import org.example.taskschedulerdesktop.dto.TaskForProjectExtendedPage;
+import org.example.taskschedulerdesktop.navigation.NavigationManager;
+import org.example.taskschedulerdesktop.service.TaskService;
 
 import java.io.IOException;
 import java.util.List;
 
 public class ProjectExtendedPageController {
+
+    private final TaskService<TaskForProjectExtendedPage> taskService;
 
     @FXML
     private Label projectNameLabel;
@@ -40,7 +44,9 @@ public class ProjectExtendedPageController {
     @FXML
     private VBox completedTasksVBox;
 
-    private MainController mainController;
+    public ProjectExtendedPageController(TaskService<TaskForProjectExtendedPage> taskService) {
+        this.taskService = taskService;
+    }
 
     public Label getProjectNameLabel() {
         return projectNameLabel;
@@ -114,24 +120,17 @@ public class ProjectExtendedPageController {
         this.completedTasksVBox = completedTasksVBox;
     }
 
-    public MainController getMainController() {
-        return mainController;
-    }
-
-    public void setMainController(MainController mainController) {
-        this.mainController = mainController;
-    }
-
     public void initialize() {
         loadTasksInProgress();
     }
 
     public void loadTasksInProgress() {
-        List<TaskDescriptionCard> tasksInProgress = List.of(
-                new TaskDescriptionCard(1, "Оптимизация загрузки приложений", "frontend", "06 авг", "АК", "Средний"));
+        List<TaskForProjectExtendedPage> tasksInProgress = taskService.findAll();
+                //= List.of(new TaskDescriptionCard(1, "Оптимизация загрузки приложений", "frontend", "06 авг", "АК", "Средний"));
 
         try {
-            for (TaskDescriptionCard task : tasksInProgress) {
+            for (TaskForProjectExtendedPage task : tasksInProgress) {
+                int sequenceNumber = 1;
                 FXMLLoader loader = new FXMLLoader(
                         getClass().getResource("/org/example/taskschedulerdesktop/view/task_description_card.fxml")
                 );
@@ -140,24 +139,62 @@ public class ProjectExtendedPageController {
                 TaskDescriptionCardController taskDescriptionCardController = loader.getController();
 
 
-                taskDescriptionCardController.setTaskSequenceNumberLabel(new Label(String.valueOf(task.getSequenceNumber())));
-                taskDescriptionCardController.setTaskNameLabel(new Label(task.getName()));
+                taskDescriptionCardController.setTaskSequenceNumberLabel(new Label(String.valueOf(sequenceNumber)));
+                taskDescriptionCardController.setTaskNameLabel(new Label(task.getTaskName()));
                 taskDescriptionCardController.setTaskTypeLabel(new Label(task.getType()));
                 taskDescriptionCardController.setTaskDeadlineLabel(new Label(task.getDeadline()));
-                taskDescriptionCardController.setExecutorInitialsLabel(new Label(task.getExecutorInitials()));
+                taskDescriptionCardController.setExecutorInitialsLabel(new Label(task.getExecutor()));
                 taskDescriptionCardController.setPriorityLabel(new Label(task.getPriority()));
 
                 taskDescriptionCard.setOnMouseClicked(event -> {
                     if (event.getButton() == MouseButton.PRIMARY) {
-                        mainController.openRightSidebar("/org/example/taskschedulerdesktop/view/task_right_sidebar.fxml");
+                        NavigationManager.openRightSidebar("/org/example/taskschedulerdesktop/view/task_right_sidebar.fxml", task);
                         event.consume();
                     }
                 });
 
                 tasksInProgressVBox.getChildren().add(taskDescriptionCard);
+                sequenceNumber++;
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void loadTasksUnderReview() {
+        List<TaskForProjectExtendedPage> tasksUnderReview = taskService.findAll();
+        //List.of(new TaskDescriptionCard(1, "Утвердить макеты главной страницы", "Дизайн", "03 авг", "АК", "Высокий"));
+
+        try {
+            for (TaskForProjectExtendedPage task : tasksUnderReview) {
+                int sequenceNumber = 1;
+                FXMLLoader loader = new FXMLLoader(
+                        getClass().getResource("/org/example/taskschedulerdesktop/view/task_description_card.fxml")
+                );
+
+                HBox taskDescriptionCard = loader.load();
+                TaskDescriptionCardController taskDescriptionCardController = loader.getController();
+
+                taskDescriptionCardController.setTaskSequenceNumberLabel(new Label(String.valueOf(sequenceNumber++)));
+                taskDescriptionCardController.setTaskNameLabel(new Label(task.getTaskName()));
+                taskDescriptionCardController.setTaskTypeLabel(new Label(task.getType()));
+                taskDescriptionCardController.setTaskDeadlineLabel(new Label(task.getDeadline()));
+                taskDescriptionCardController.setExecutorInitialsLabel(new Label(task.getExecutor()));
+                taskDescriptionCardController.setPriorityLabel(new Label(task.getPriority()));
+
+                taskDescriptionCard.setOnMouseClicked(event -> {
+                    if (event.getButton() == MouseButton.PRIMARY) {
+                        NavigationManager.openRightSidebar("/org/example/taskschedulerdesktop/view/task_right_sidebar.fxml", task);
+                        event.consume();
+                    }
+                });
+
+                tasksUnderReviewVBox.getChildren().add(taskDescriptionCard);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //Добавить загрузку завершенных задач
     }
 }

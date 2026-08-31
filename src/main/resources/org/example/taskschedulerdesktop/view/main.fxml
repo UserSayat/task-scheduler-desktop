@@ -11,10 +11,10 @@
          <children>
             <VBox fx:id="navigationMenu" prefHeight="200.0" prefWidth="100.0">
                <children>
-                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Обзор" />
-                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Задачи" />
-                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Проекты" />
-                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Команда" />
+                  <Button fx:id="reviewButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Обзор" />
+                  <Button fx:id="tasksButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Задачи" />
+                  <Button fx:id="projectsButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Проекты" />
+                  <Button fx:id="teamButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Команда" />
                </children>
             </VBox>
          </children>

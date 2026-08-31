@@ -1,39 +1,45 @@
 package org.example.taskschedulerdesktop.models;
 
-public class Task {
+public class Task implements Entity {
 
-    private int sequenceNumber;
-    private String name;
+    private long id;
+    private String taskName;
     private String projectName;
     private String executor;
-    private String priority;
+    private String type;
     private String status;
-    private String term;
+    private String priority;
+    private String deadline;
+    private String description;
+    private boolean synced;
 
-    public Task(int sequenceNumber, String name, String projectName, String executor, String priority, String status, String term) {
-        this.sequenceNumber = sequenceNumber;
-        this.name = name;
+    public Task(long id, String taskName, String projectName, String executor, String type, String status, String priority, String deadline, String description, boolean synced) {
+        this.id = id;
+        this.taskName = taskName;
         this.projectName = projectName;
         this.executor = executor;
-        this.priority = priority;
+        this.type = type;
         this.status = status;
-        this.term = term;
+        this.priority = priority;
+        this.deadline = deadline;
+        this.description = description;
+        this.synced = synced;
     }
 
-    public int getSequenceNumber() {
-        return sequenceNumber;
+    public long getId() {
+        return id;
     }
 
-    public void setSequenceNumber(int sequenceNumber) {
-        this.sequenceNumber = sequenceNumber;
+    public void setId(long id) {
+        this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTaskName() {
+        return taskName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTaskName(String taskName) {
+        this.taskName = taskName;
     }
 
     public String getProjectName() {
@@ -52,12 +58,12 @@ public class Task {
         this.executor = executor;
     }
 
-    public String getPriority() {
-        return priority;
+    public String getType() {
+        return type;
     }
 
-    public void setPriority(String priority) {
-        this.priority = priority;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getStatus() {
@@ -68,11 +74,35 @@ public class Task {
         this.status = status;
     }
 
-    public String getTerm() {
-        return term;
+    public String getPriority() {
+        return priority;
     }
 
-    public void setTerm(String term) {
-        this.term = term;
+    public void setPriority(String priority) {
+        this.priority = priority;
+    }
+
+    public String getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(String deadline) {
+        this.deadline = deadline;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public boolean isSynced() {
+        return synced;
+    }
+
+    public void setSynced(boolean synced) {
+        this.synced = synced;
     }
 }

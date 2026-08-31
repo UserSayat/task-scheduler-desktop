@@ -8,15 +8,19 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<VBox maxHeight="1.7976931348623157E308" maxWidth="300.0" minHeight="-Infinity" minWidth="-Infinity" prefWidth="300.0" spacing="20.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.taskschedulerdesktop.controllers.TaskRightSidebarController">
+<VBox maxHeight="1.7976931348623157E308" maxWidth="300.0" minHeight="-Infinity" minWidth="-Infinity" prefWidth="300.0" spacing="20.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.taskschedulerdesktop.controllers.TaskRightSidebarController">
    <children>
       <HBox>
          <children>
-            <VBox spacing="10.0">
+            <VBox prefHeight="70.0" spacing="10.0">
                <children>
-                  <Label text="РЕДИЗАЙН ПОРТАЛА" />
-                  <Label text="Оптимизация загрузки приложений" />
+                  <Label fx:id="projectNameLabel" text="РЕДИЗАЙН ПОРТАЛА" />
+                  <Label fx:id="taskNameLabel" text="Оптимизация загрузки приложений">
+                     <font>
+                        <Font name="Times New Roman" size="25.0" />
+                     </font></Label>
                </children>
             </VBox>
             <Region maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
@@ -32,13 +36,13 @@
             <VBox>
                <children>
                   <Label text="СТАТУС" />
-                  <Label text="В работе" />
+                  <Label fx:id="statusLabel" text="В работе" />
                </children>
             </VBox>
             <VBox>
                <children>
                   <Label text="ПРИОРИТЕТ" />
-                  <Label text="Средний" />
+                  <Label fx:id="priorityLabel" text="Средний" />
                </children>
             </VBox>
          </children>
@@ -49,7 +53,7 @@
       <VBox>
          <children>
             <Label text="ИСПОЛНИТЕЛЬ" />
-            <FlowPane>
+            <FlowPane fx:id="executorsFlowPane">
                <children>
                   <Label text="Алексей Козлов" />
                </children>
@@ -65,7 +69,7 @@
       <VBox>
          <children>
             <Label text="ДЕДЛАЙН" />
-            <Label text="06 авг" />
+            <Label fx:id="deadlineLabel" text="06 авг" />
          </children>
          <padding>
             <Insets left="20.0" right="20.0" />
@@ -74,7 +78,7 @@
       <VBox>
          <children>
             <Label text="ТЕГИ" />
-            <FlowPane>
+            <FlowPane fx:id="tagsFlowPane">
                <children>
                   <Label text="frontend" />
                   <Label text="performance" />
@@ -85,12 +89,12 @@
             <Insets left="20.0" right="20.0" />
          </padding>
       </VBox>
-      <VBox>
+      <VBox maxHeight="1.7976931348623157E308" VBox.vgrow="ALWAYS">
          <children>
             <Label text="ОПИСАНИЕ" />
-            <ScrollPane hbarPolicy="NEVER">
+            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" VBox.vgrow="ALWAYS">
                <content>
-                  <Label text="Задача в рамках проекта «Редизайн портала». Требует координации с командой и соответствия установленным срокам. Приоритет: средний." />
+                  <Label fx:id="taskDescriptionLabel" maxHeight="1.7976931348623157E308" text="Задача в рамках проекта «Редизайн портала». Требует координации с командой и соответствия установленным срокам. Приоритет: средний." wrapText="true" />
                </content>
             </ScrollPane>
          </children>
@@ -100,8 +104,8 @@
       </VBox>
       <HBox>
          <children>
-            <Button mnemonicParsing="false" text="Взять в работу" />
-            <Button mnemonicParsing="false" text="Изменить" />
+            <Button fx:id="acceptTheTaskButton" mnemonicParsing="false" text="Взять в работу" />
+            <Button fx:id="editButton" mnemonicParsing="false" text="Изменить" />
          </children>
          <VBox.margin>
             <Insets bottom="30.0" left="20.0" right="20.0" />

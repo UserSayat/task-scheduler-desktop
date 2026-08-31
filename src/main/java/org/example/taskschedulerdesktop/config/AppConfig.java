@@ -1,0 +1,57 @@
+package org.example.taskschedulerdesktop.config;
+
+import javafx.util.Callback;
+import org.example.taskschedulerdesktop.controllers.ProjectExtendedPageController;
+import org.example.taskschedulerdesktop.controllers.TaskController;
+import org.example.taskschedulerdesktop.database.DatabaseConnection;
+import org.example.taskschedulerdesktop.dto.TaskForProjectExtendedPage;
+import org.example.taskschedulerdesktop.repository.H2TaskRepository;
+import org.example.taskschedulerdesktop.repository.TaskRepository;
+import org.example.taskschedulerdesktop.service.ProjectExtendedPageTaskService;
+import org.example.taskschedulerdesktop.service.TaskService;
+
+public class AppConfig {
+
+    private static AppConfig instance;
+
+    private final DatabaseConnection databaseConnection;
+    private final TaskRepository taskRepository;
+    private final TaskService<TaskForProjectExtendedPage> projectExtendedPageTaskService;
+
+    private final Callback<Class<?>, Object> controllerFactory;
+
+    private AppConfig() {
+        this.databaseConnection = DatabaseConnection.getInstance();
+        this.taskRepository = new H2TaskRepository(databaseConnection);
+        this.projectExtendedPageTaskService = new ProjectExtendedPageTaskService(taskRepository);
+
+        this.controllerFactory = clazz -> {
+            if (clazz == TaskController.class) {
+                return new TaskController(projectExtendedPageTaskService);
+            }
+            if (clazz == ProjectExtendedPageController.class) {
+                return new ProjectExtendedPageController(projectExtendedPageTaskService);
+            }
+            try {
+                return clazz.getDeclaredConstructor().newInstance();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        };
+    }
+
+    public static AppConfig getInstance() {
+        if (instance == null) {
+            instance = new AppConfig();
+        }
+        return instance;
+    }
+
+    public Callback<Class<?>, Object> getControllerFactory() {
+        return controllerFactory;
+    }
+
+    public DatabaseConnection getDatabaseConnection() {
+        return databaseConnection;
+    }
+}

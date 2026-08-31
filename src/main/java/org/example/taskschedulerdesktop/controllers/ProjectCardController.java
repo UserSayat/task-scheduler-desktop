@@ -1,15 +1,15 @@
 package org.example.taskschedulerdesktop.controllers;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import org.example.taskschedulerdesktop.config.AppConfig;
 import org.example.taskschedulerdesktop.models.ProjectCard;
-
-import java.io.IOException;
+import org.example.taskschedulerdesktop.navigation.NavigationManager;
 
 public class ProjectCardController {
+
+    private final AppConfig appConfig = AppConfig.getInstance();
 
     @FXML
     private VBox rootVBox;
@@ -50,35 +50,10 @@ public class ProjectCardController {
     @FXML
     private Label thirdTaskDeadlineLabel;
 
-    private MainController mainController;
-
-    public MainController getMainController() {
-        return mainController;
-    }
-
-    public void setMainController(MainController mainController) {
-        this.mainController = mainController;
-    }
-
     @FXML
     public void initialize() {
-        rootVBox.setOnMouseClicked(event -> {
-            if (mainController != null) {
-                try {
-                    FXMLLoader loader = new FXMLLoader(
-                            getClass().getResource("/org/example/taskschedulerdesktop/view/project_extended_page.fxml")
-                    );
-
-                    Parent projectExtendedPage = loader.load();
-                    ProjectExtendedPageController projectExtendedPageController = loader.getController();
-                    projectExtendedPageController.setMainController(mainController);
-
-                    mainController.changeContentArea(projectExtendedPage);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+        rootVBox.setOnMouseClicked(e -> NavigationManager
+                .navigateTo("/org/example/taskschedulerdesktop/view/project_extended_page.fxml"));
     }
 
     public void setProjectData(ProjectCard card) {

@@ -10,206 +10,45 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
+import org.example.taskschedulerdesktop.config.AppConfig;
+import org.example.taskschedulerdesktop.models.Entity;
+import org.example.taskschedulerdesktop.navigation.NavigationManager;
+import org.example.taskschedulerdesktop.navigation.Routes;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 public class MainController {
-    @FXML
-    private VBox navigationMenu;
 
-    private Map<String, Runnable> navigationMenuActionMap = new HashMap<>();
+    private final AppConfig appConfig = AppConfig.getInstance();
 
     @FXML
     private StackPane contentArea;
 
-    private Parent rightSidebar = null;
-    private final double RIGHT_SIDEBAR_WIDTH = 300.0;
+    @FXML
+    private VBox navigationMenu;
+    @FXML
+    private Button reviewButton;
+    @FXML
+    private Button tasksButton;
+    @FXML
+    private Button projectsButton;
+    @FXML
+    private Button teamButton;
 
     @FXML
     public void initialize() {
-        navigationMenuActionMap.put("review", this::showReview);
-        navigationMenuActionMap.put("tasks", this::showTasks);
-        navigationMenuActionMap.put("projects", this::showProjects);
-        navigationMenuActionMap.put("team", this::showTeam);
 
-        for (Node node : navigationMenu.getChildren()) {
-            if (node instanceof Button) {
-                Button button = (Button) node;
+        NavigationManager.init(contentArea,
+                appConfig.getControllerFactory());
 
-                String text = button.getText();
-                switch (text) {
-                    case "Обзор":
-                        button.setUserData("review");
-                        break;
-                    case "Задачи":
-                        button.setUserData("tasks");
-                        break;
-                    case "Проекты":
-                        button.setUserData("projects");
-                        break;
-                    case "Команда":
-                        button.setUserData("team");
-                        break;
-                    default:
-                        button.setUserData("");
-                }
+        reviewButton.setOnAction(e -> NavigationManager.navigateTo(Routes.REVIEW));
+        tasksButton.setOnAction(e -> NavigationManager.navigateTo(Routes.TASKS));
+        projectsButton.setOnAction(e -> NavigationManager.navigateTo(Routes.PROJECTS));
+        teamButton.setOnAction(e -> NavigationManager.navigateTo(Routes.TEAM));
 
-                button.setOnAction(event -> {
-                    String command = (String) button.getUserData();
-                    Runnable action = navigationMenuActionMap.get(command);
-
-                    try {
-                        action.run();
-                    } catch (Exception e) {
-                        System.out.println("Команда не установлена: " + command);
-                    }
-                });
-            }
-        }
-        showReview();
-    }
-
-    public void changeContentArea(Parent newContent) {
-        contentArea.getChildren().clear();
-        contentArea.getChildren().add(newContent);
-    }
-
-    public void openRightSidebar(String path) {
-        if (rightSidebar != null) {
-            contentArea.getChildren().remove(rightSidebar);
-        }
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
-
-            rightSidebar = loader.load();
-
-            TaskRightSidebarController sidebarController = loader.getController();
-            sidebarController.setMainController(this);
-
-            if (rightSidebar instanceof VBox) {
-                VBox sidebarVBox = (VBox) rightSidebar;
-                sidebarVBox.setPrefWidth(RIGHT_SIDEBAR_WIDTH);
-                sidebarVBox.setMaxWidth(RIGHT_SIDEBAR_WIDTH);
-            }
-
-            StackPane.setAlignment(rightSidebar, Pos.CENTER_RIGHT);
-
-            contentArea.getChildren().add(rightSidebar);
-
-            contentArea.setOnMouseClicked(event -> {
-                Node clickedNode = (Node) event.getTarget();
-
-                if (clickedNode == rightSidebar || isChildOf(clickedNode, rightSidebar)) {
-                    return;
-                }
-
-                closeRightSidebar();
-            });
-
-            TranslateTransition animate = new TranslateTransition(Duration.millis(200), rightSidebar);
-
-            animate.setFromX(RIGHT_SIDEBAR_WIDTH);
-            animate.setToX(0);
-            animate.play();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void closeRightSidebar() {
-        if (rightSidebar != null) {
-            TranslateTransition animate = new TranslateTransition(Duration.millis(200), rightSidebar);
-
-            animate.setToX(RIGHT_SIDEBAR_WIDTH);
-
-            animate.setOnFinished(event -> {
-                contentArea.getChildren().remove(rightSidebar);
-                rightSidebar = null;
-            });
-
-            animate.play();
-        }
-    }
-
-    @FXML
-    private void showReview() {
-        try {
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/org/example/taskschedulerdesktop/view/review.fxml")
-            );
-
-            Parent review = loader.load();
-            ReviewController reviewController = loader.getController();
-            reviewController.setMainController(this);
-
-            changeContentArea(review);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    private void showTasks() {
-        try {
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/org/example/taskschedulerdesktop/view/tasks.fxml")
-            );
-
-            Parent tasks = loader.load();
-            TasksController tasksController = loader.getController();
-            tasksController.setMainController(this);
-
-            changeContentArea(tasks);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    private void showProjects() {
-        try {
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/org/example/taskschedulerdesktop/view/projects.fxml")
-            );
-
-            Parent projects = loader.load();
-            ProjectsController projectsController = loader.getController();
-            projectsController.setMainController(this);
-
-            changeContentArea(projects);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    private void showTeam() {
-        try {
-            FXMLLoader loader  = new FXMLLoader(
-                    getClass().getResource("/org/example/taskschedulerdesktop/view/team.fxml")
-            );
-
-            Parent team = loader.load();
-            TeamController teamController = loader.getController();
-            teamController.setMainController(this);
-
-            changeContentArea(team);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private boolean isChildOf(Node node, Node potentialParent) {
-        while (node != null) {
-            if (node == potentialParent) {
-                return true;
-            }
-            node = node.getParent();
-        }
-        return false;
+        NavigationManager.navigateTo(Routes.REVIEW);
     }
 
 }

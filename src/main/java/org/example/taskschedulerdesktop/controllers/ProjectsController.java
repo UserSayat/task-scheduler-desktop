@@ -13,14 +13,8 @@ public class ProjectsController {
     @FXML
     private FlowPane projectsFlowPane;
 
-    private MainController mainController;
-
-    public MainController getMainController() {
-        return mainController;
-    }
-
-    public void setMainController(MainController mainController) {
-        this.mainController = mainController;
+    @FXML
+    public void initialize() {
         loadProjects();
     }
 
@@ -50,6 +44,11 @@ public class ProjectsController {
                         null, null),
         };
 
+        // ============================================================
+        // ЗАГРУЗКА КАРТОЧЕК
+        // ============================================================
+
+
         try {
             for (ProjectCard project : tempProjects) {
                 FXMLLoader loader = new FXMLLoader(
@@ -59,7 +58,6 @@ public class ProjectsController {
                 VBox card = loader.load();
 
                 ProjectCardController cardController = loader.getController();
-                cardController.setMainController(mainController);
 
                 cardController.setProjectData(project);
 
