@@ -125,7 +125,7 @@ public class ProjectExtendedPageController {
     }
 
     public void loadTasksInProgress() {
-        List<TaskForProjectExtendedPage> tasksInProgress = taskService.findAll();
+        List<TaskForProjectExtendedPage> tasksInProgress = taskService.findAll(); //findInProgress()
                 //= List.of(new TaskDescriptionCard(1, "Оптимизация загрузки приложений", "frontend", "06 авг", "АК", "Средний"));
 
         try {
@@ -162,7 +162,7 @@ public class ProjectExtendedPageController {
     }
 
     public void loadTasksUnderReview() {
-        List<TaskForProjectExtendedPage> tasksUnderReview = taskService.findAll();
+        List<TaskForProjectExtendedPage> tasksUnderReview = taskService.findAll(); //findUnderReview()
         //List.of(new TaskDescriptionCard(1, "Утвердить макеты главной страницы", "Дизайн", "03 авг", "АК", "Высокий"));
 
         try {
@@ -194,7 +194,36 @@ public class ProjectExtendedPageController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
-        //Добавить загрузку завершенных задач
+    public void loadCompletedTasks() {
+        List<TaskForProjectExtendedPage> completedTasks = taskService.findAll();
+        try {
+            for (TaskForProjectExtendedPage task : completedTasks) {
+                int sequenceNumber = 1;
+                FXMLLoader loader = new FXMLLoader(
+                        getClass().getResource("/org/example/taskschedulerdesktop/view/task_description_card.fxml")
+                );
+
+                HBox taskDescriptionCard = loader.load();
+                TaskDescriptionCardController taskDescriptionCardController = loader.getController();
+
+                taskDescriptionCardController.setTaskSequenceNumberLabel(new Label(String.valueOf(sequenceNumber++)));
+                taskDescriptionCardController.setTaskNameLabel(new Label(task.getTaskName()));
+                taskDescriptionCardController.setTaskTypeLabel(new Label(task.getType()));
+                taskDescriptionCardController.setTaskDeadlineLabel(new Label(task.getDeadline()));
+                taskDescriptionCardController.setExecutorInitialsLabel(new Label(task.getExecutor()));
+                taskDescriptionCardController.setPriorityLabel(new Label(task.getPriority()));
+
+                taskDescriptionCard.setOnMouseClicked(event -> {
+                    if (event.getButton() == MouseButton.PRIMARY) {
+                        NavigationManager.openRightSidebar("/org/example/taskschedulerdesktop/view/task_right_sidebar.fxml", task);
+                        event.consume();
+                    }
+                });
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
