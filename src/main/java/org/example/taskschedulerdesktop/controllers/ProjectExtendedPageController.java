@@ -7,6 +7,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.example.taskschedulerdesktop.dto.TaskForProjectExtendedPage;
+import org.example.taskschedulerdesktop.models.Task;
 import org.example.taskschedulerdesktop.navigation.NavigationManager;
 import org.example.taskschedulerdesktop.service.TaskService;
 
@@ -15,7 +16,7 @@ import java.util.List;
 
 public class ProjectExtendedPageController {
 
-    private final TaskService<TaskForProjectExtendedPage> taskService;
+    private final TaskService taskService;
 
     @FXML
     private Label projectNameLabel;
@@ -44,7 +45,7 @@ public class ProjectExtendedPageController {
     @FXML
     private VBox completedTasksVBox;
 
-    public ProjectExtendedPageController(TaskService<TaskForProjectExtendedPage> taskService) {
+    public ProjectExtendedPageController(TaskService taskService) {
         this.taskService = taskService;
     }
 
@@ -125,11 +126,11 @@ public class ProjectExtendedPageController {
     }
 
     public void loadTasksInProgress() {
-        List<TaskForProjectExtendedPage> tasksInProgress = taskService.findAll(); //findInProgress()
+        List<Task> tasksInProgress = taskService.findAll(); //findInProgress()
                 //= List.of(new TaskDescriptionCard(1, "Оптимизация загрузки приложений", "frontend", "06 авг", "АК", "Средний"));
 
         try {
-            for (TaskForProjectExtendedPage task : tasksInProgress) {
+            for (Task task : tasksInProgress) {
                 int sequenceNumber = 1;
                 FXMLLoader loader = new FXMLLoader(
                         getClass().getResource("/org/example/taskschedulerdesktop/view/task_description_card.fxml")
@@ -162,11 +163,11 @@ public class ProjectExtendedPageController {
     }
 
     public void loadTasksUnderReview() {
-        List<TaskForProjectExtendedPage> tasksUnderReview = taskService.findAll(); //findUnderReview()
+        List<Task> tasksUnderReview = taskService.findAll(); //findUnderReview()
         //List.of(new TaskDescriptionCard(1, "Утвердить макеты главной страницы", "Дизайн", "03 авг", "АК", "Высокий"));
 
         try {
-            for (TaskForProjectExtendedPage task : tasksUnderReview) {
+            for (Task task : tasksUnderReview) {
                 int sequenceNumber = 1;
                 FXMLLoader loader = new FXMLLoader(
                         getClass().getResource("/org/example/taskschedulerdesktop/view/task_description_card.fxml")
@@ -197,9 +198,9 @@ public class ProjectExtendedPageController {
     }
 
     public void loadCompletedTasks() {
-        List<TaskForProjectExtendedPage> completedTasks = taskService.findAll();
+        List<Task> completedTasks = taskService.findAll();
         try {
-            for (TaskForProjectExtendedPage task : completedTasks) {
+            for (Task task : completedTasks) {
                 int sequenceNumber = 1;
                 FXMLLoader loader = new FXMLLoader(
                         getClass().getResource("/org/example/taskschedulerdesktop/view/task_description_card.fxml")

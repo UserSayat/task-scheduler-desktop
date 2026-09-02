@@ -2,7 +2,7 @@ package org.example.taskschedulerdesktop.models;
 
 public class Task implements Entity {
 
-    private long id;
+    private Long id;
     private String taskName;
     private String projectName;
     private String executor;
@@ -13,7 +13,7 @@ public class Task implements Entity {
     private String description;
     private boolean synced;
 
-    public Task(long id, String taskName, String projectName, String executor, String type, String status, String priority, String deadline, String description, boolean synced) {
+    public Task(Long id, String taskName, String projectName, String executor, String type, String status, String priority, String deadline, String description, boolean synced) {
         this.id = id;
         this.taskName = taskName;
         this.projectName = projectName;

@@ -198,7 +198,7 @@ public class H2TaskRepository implements TaskRepository {
     // ===== ВСПОМОГАТЕЛЬНЫЕ МЕТОДЫ =====
 
     private Task mapRowToTask(ResultSet rs) throws SQLException {
-        return new Task(rs.getInt("id"),
+        return new Task(rs.getLong("id"),
                 rs.getString("taskName"),
                 rs.getString("projectName"),
                 rs.getString("executor"),
