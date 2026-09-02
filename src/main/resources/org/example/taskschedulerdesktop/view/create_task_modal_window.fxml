@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="500.0" spacing="20.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.taskschedulerdesktop.controllers.CreateTaskModalWindowController">
+   <children>
+      <VBox prefHeight="50.0" style="-fx-border-color: #000;">
+         <children>
+            <Label text="СОЗДАНИЕ" />
+            <HBox>
+               <children>
+                  <Label text="Новая задача">
+                     <font>
+                        <Font name="Times New Roman" size="25.0" />
+                     </font>
+                  </Label>
+                  <Region maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                  <Button fx:id="exitButton" mnemonicParsing="false" text="x" />
+               </children>
+               <padding>
+                  <Insets bottom="20.0" />
+               </padding>
+            </HBox>
+         </children>
+         <padding>
+            <Insets left="30.0" right="30.0" />
+         </padding>
+      </VBox>
+      <VBox spacing="5.0">
+         <children>
+            <Label text="НАЗВАНИЕ ЗАДАЧИ *" />
+            <TextField fx:id="taskNameTextField" text="Что нужно сделать?" />
+         </children>
+         <padding>
+            <Insets left="30.0" right="30.0" />
+         </padding>
+      </VBox>
+      <HBox spacing="20.0">
+         <children>
+            <VBox spacing="20.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <VBox spacing="5.0">
+                     <children>
+                        <Label text="ПРОЕКТ" />
+                        <ChoiceBox fx:id="projectChoiceBox" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS" />
+                     </children>
+                  </VBox>
+                  <VBox spacing="5.0">
+                     <children>
+                        <Label text="ПРИОРИТЕТ" />
+                        <HBox spacing="10.0">
+                           <children>
+                              <Label fx:id="highPriorityLabel" text="Высокий" />
+                              <Label fx:id="middlePriorityLabel" text="Средний" />
+                              <Label fx:id="lowPriorityLabel" text="Низкий" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+            <VBox spacing="20.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <VBox spacing="5.0">
+                     <children>
+                        <Label text="ИСПОЛНИТЕЛЬ" />
+                        <ChoiceBox fx:id="executorChoiceBox" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS" />
+                     </children>
+                  </VBox>
+                  <VBox spacing="5.0">
+                     <children>
+                        <Label text="СРОК" />
+                        <DatePicker fx:id="deadlineDatePicker" maxWidth="1.7976931348623157E308" promptText="дд.мм.гггг" VBox.vgrow="ALWAYS" />
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+         </children>
+         <padding>
+            <Insets left="30.0" right="30.0" />
+         </padding>
+      </HBox>
+      <VBox spacing="5.0">
+         <children>
+            <Label text="Теги" />
+            <TextField fx:id="tagsTextField" text="backend, дизайн, QA - через запятую" />
+         </children>
+         <padding>
+            <Insets left="30.0" right="30.0" />
+         </padding>
+         <VBox.margin>
+            <Insets bottom="5.0" top="5.0" />
+         </VBox.margin>
+      </VBox>
+      <HBox spacing="20.0">
+         <children>
+            <Button fx:id="createTaskButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Создать задачу" HBox.hgrow="ALWAYS" />
+            <Button fx:id="cancelButton" mnemonicParsing="false" text="Отмена" />
+         </children>
+         <padding>
+            <Insets left="30.0" right="30.0" />
+         </padding>
+      </HBox>
+   </children>
+   <padding>
+      <Insets bottom="30.0" top="25.0" />
+   </padding>
+</VBox>

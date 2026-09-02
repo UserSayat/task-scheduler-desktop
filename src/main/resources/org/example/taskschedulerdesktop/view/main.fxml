@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="600.0" minWidth="900.0" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.taskschedulerdesktop.controllers.MainController">
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="600.0" minWidth="900.0" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.taskschedulerdesktop.controllers.MainController">
    <left>
       <VBox maxWidth="-Infinity" minWidth="200.0" prefWidth="200.0" style="-fx-background-color: #000;" BorderPane.alignment="CENTER">
          <children>
@@ -23,4 +29,39 @@
    <center>
       <StackPane fx:id="contentArea" prefWidth="1040.0" BorderPane.alignment="CENTER" />
    </center>
+   <top>
+      <HBox alignment="CENTER_LEFT" prefHeight="80.0" spacing="10.0" style="-fx-background-color: #ffffff;" BorderPane.alignment="CENTER">
+         <children>
+            <Region prefWidth="200.0" style="-fx-background-color: #000;" />
+            <Region />
+            <Button fx:id="backButton" mnemonicParsing="false" text="&lt;- Назад" />
+            <VBox alignment="CENTER_LEFT">
+               <children>
+                  <Label fx:id="pageTitleLabel" text="Обзор">
+                     <font>
+                        <Font name="Times New Roman" size="25.0" />
+                     </font>
+                  </Label>
+                  <Label text="воскресенье, 2 августа 2026 г.">
+                     <font>
+                        <Font name="Arial" size="12.0" />
+                     </font>
+                  </Label>
+               </children>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </VBox>
+            <Region HBox.hgrow="ALWAYS" />
+            <Button mnemonicParsing="false" text="+ Новая задача" />
+            <TextField text="Поиск задач..." />
+         </children>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+         <padding>
+            <Insets right="20.0" />
+         </padding>
+      </HBox>
+   </top>
 </BorderPane>

@@ -1,23 +1,13 @@
 package org.example.taskschedulerdesktop.controllers;
 
-import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.util.Duration;
 import org.example.taskschedulerdesktop.config.AppConfig;
-import org.example.taskschedulerdesktop.models.Entity;
 import org.example.taskschedulerdesktop.navigation.NavigationManager;
 import org.example.taskschedulerdesktop.navigation.Routes;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 public class MainController {
 
@@ -38,10 +28,24 @@ public class MainController {
     private Button teamButton;
 
     @FXML
+    private Button backButton;
+
+    @FXML
+    private Label pageTitleLabel;
+
+    @FXML
     public void initialize() {
 
         NavigationManager.init(contentArea,
                 appConfig.getControllerFactory());
+
+        NavigationManager.addListener(() -> {
+            pageTitleLabel.setText(NavigationManager.getCurrentTitle());
+            updateBackButtonState();
+        });
+
+        backButton.setOnAction(event -> NavigationManager.goBack());
+        updateBackButtonState(); // начальное состояние
 
         reviewButton.setOnAction(e -> NavigationManager.navigateTo(Routes.REVIEW));
         tasksButton.setOnAction(e -> NavigationManager.navigateTo(Routes.TASKS));
@@ -51,4 +55,9 @@ public class MainController {
         NavigationManager.navigateTo(Routes.REVIEW);
     }
 
+    public void updateBackButtonState() {
+        boolean canGoBack = NavigationManager.canGoBack();
+        backButton.setVisible(canGoBack);
+        backButton.setManaged(canGoBack);
+    }
 }

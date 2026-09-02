@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import org.example.taskschedulerdesktop.models.ProjectCard;
+import org.example.taskschedulerdesktop.navigation.NavigationManager;
 
 import java.io.IOException;
 
@@ -15,6 +16,7 @@ public class ProjectsController {
 
     @FXML
     public void initialize() {
+        NavigationManager.setCurrentTitle("Проекты");
         loadProjects();
     }
 
