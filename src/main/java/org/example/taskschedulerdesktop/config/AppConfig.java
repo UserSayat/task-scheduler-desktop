@@ -1,5 +1,6 @@
 package org.example.taskschedulerdesktop.config;
 
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.example.taskschedulerdesktop.controllers.ProjectExtendedPageController;
 import org.example.taskschedulerdesktop.controllers.TaskController;
@@ -13,6 +14,8 @@ import org.example.taskschedulerdesktop.service.TaskService;
 public class AppConfig {
 
     private static AppConfig instance;
+
+    private Stage primaryStage;
 
     private final DatabaseConnection databaseConnection;
     private final TaskRepository taskRepository;
@@ -45,6 +48,14 @@ public class AppConfig {
             instance = new AppConfig();
         }
         return instance;
+    }
+
+    public Stage getPrimaryStage() {
+        return primaryStage;
+    }
+
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
     }
 
     public Callback<Class<?>, Object> getControllerFactory() {

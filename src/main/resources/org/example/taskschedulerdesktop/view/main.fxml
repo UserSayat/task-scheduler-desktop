@@ -53,7 +53,7 @@
                </HBox.margin>
             </VBox>
             <Region HBox.hgrow="ALWAYS" />
-            <Button mnemonicParsing="false" text="+ Новая задача" />
+            <Button fx:id="createTaskButton" mnemonicParsing="false" text="+ Новая задача" />
             <TextField text="Поиск задач..." />
          </children>
          <BorderPane.margin>

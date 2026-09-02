@@ -5,12 +5,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.example.taskschedulerdesktop.config.AppConfig;
 import org.example.taskschedulerdesktop.database.DatabaseConnection;
 
 public class TaskSchedulerApplication extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+
+        AppConfig.getInstance().setPrimaryStage(primaryStage);
 
         FXMLLoader loader = new FXMLLoader(
                 getClass().getResource("/org/example/taskschedulerdesktop/view/main.fxml")

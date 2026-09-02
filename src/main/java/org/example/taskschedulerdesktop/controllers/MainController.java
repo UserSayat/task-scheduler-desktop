@@ -34,6 +34,9 @@ public class MainController {
     private Label pageTitleLabel;
 
     @FXML
+    private Button createTaskButton;
+
+    @FXML
     public void initialize() {
 
         NavigationManager.init(contentArea,
@@ -47,10 +50,15 @@ public class MainController {
         backButton.setOnAction(event -> NavigationManager.goBack());
         updateBackButtonState(); // начальное состояние
 
-        reviewButton.setOnAction(e -> NavigationManager.navigateTo(Routes.REVIEW));
-        tasksButton.setOnAction(e -> NavigationManager.navigateTo(Routes.TASKS));
-        projectsButton.setOnAction(e -> NavigationManager.navigateTo(Routes.PROJECTS));
-        teamButton.setOnAction(e -> NavigationManager.navigateTo(Routes.TEAM));
+        createTaskButton.setOnAction(event -> NavigationManager.openDialog(
+                Routes.CREATE_TASK,
+                "Новая задача",
+                AppConfig.getInstance().getPrimaryStage()));
+
+        reviewButton.setOnAction(event -> NavigationManager.navigateTo(Routes.REVIEW));
+        tasksButton.setOnAction(event -> NavigationManager.navigateTo(Routes.TASKS));
+        projectsButton.setOnAction(event -> NavigationManager.navigateTo(Routes.PROJECTS));
+        teamButton.setOnAction(event -> NavigationManager.navigateTo(Routes.TEAM));
 
         NavigationManager.navigateTo(Routes.REVIEW);
     }
