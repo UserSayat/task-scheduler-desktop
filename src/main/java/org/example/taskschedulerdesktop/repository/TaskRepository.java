@@ -10,6 +10,7 @@ public interface TaskRepository {
     void update(Task task);
     void delete(long id);
     Task findById(long id);
+    List<Task> findByStatus(String status);
     List<Task> findUnsynced();
     void markAsSynced(long id);
 }

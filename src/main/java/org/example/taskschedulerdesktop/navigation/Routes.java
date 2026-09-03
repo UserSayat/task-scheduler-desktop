@@ -9,4 +9,5 @@ public final class Routes {
     public static final String PROJECTS = "/org/example/taskschedulerdesktop/view/projects.fxml";
     public static final String TEAM = "/org/example/taskschedulerdesktop/view/team.fxml";
     public static final String CREATE_TASK = "/org/example/taskschedulerdesktop/view/create_task_modal_window.fxml";
+    public static final String TASK_DESCRIPTION_CARD_FXML_PATH = "/org/example/taskschedulerdesktop/view/task_description_card.fxml";
 }

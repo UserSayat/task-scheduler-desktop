@@ -8,8 +8,10 @@ import org.example.taskschedulerdesktop.controllers.TaskController;
 import org.example.taskschedulerdesktop.database.DatabaseConnection;
 import org.example.taskschedulerdesktop.repository.H2TaskRepository;
 import org.example.taskschedulerdesktop.repository.TaskRepository;
-import org.example.taskschedulerdesktop.service.TaskServiceImpl;
-import org.example.taskschedulerdesktop.service.TaskService;
+import org.example.taskschedulerdesktop.service.task.AsyncTaskService;
+import org.example.taskschedulerdesktop.service.task.TaskCardService;
+import org.example.taskschedulerdesktop.service.task.TaskServiceImpl;
+import org.example.taskschedulerdesktop.service.task.TaskService;
 
 public class AppConfig {
 
@@ -20,6 +22,8 @@ public class AppConfig {
     private final DatabaseConnection databaseConnection;
     private final TaskRepository taskRepository;
     private final TaskService taskService;
+    private final AsyncTaskService asyncTaskService;
+    private final TaskCardService taskCardService;
 
     private final Callback<Class<?>, Object> controllerFactory;
 
@@ -27,13 +31,15 @@ public class AppConfig {
         this.databaseConnection = DatabaseConnection.getInstance();
         this.taskRepository = new H2TaskRepository(databaseConnection);
         this.taskService = new TaskServiceImpl(taskRepository);
+        this.asyncTaskService = new AsyncTaskService(taskService);
+        this.taskCardService = new TaskCardService();
 
         this.controllerFactory = clazz -> {
             if (clazz == TaskController.class) {
                 return new TaskController(taskService);
             }
             if (clazz == ProjectExtendedPageController.class) {
-                return new ProjectExtendedPageController(taskService);
+                return new ProjectExtendedPageController(asyncTaskService, taskCardService);
             }
             if (clazz == CreateTaskModalWindowController.class) {
                 return new CreateTaskModalWindowController(taskService);

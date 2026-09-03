@@ -14,6 +14,7 @@ public class H2TaskRepository implements TaskRepository {
     public H2TaskRepository(DatabaseConnection db) {
         this.db = db;
         createTableIfNotExists();
+        createIndexes();
     }
 
     // ===== СОЗДАНИЕ ТАБЛИЦЫ =====
@@ -160,6 +161,26 @@ public class H2TaskRepository implements TaskRepository {
         return null;
     }
 
+    @Override
+    public List<Task> findByStatus(String status) {
+        String sql = "SELECT * FROM tasks WHERE status = ?";
+        List<Task> tasks = new ArrayList<>();
+
+        try (Connection conn = db.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, status);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                tasks.add(mapRowToTask(rs));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return tasks;
+    }
+
     // ===== МЕТОДЫ ДЛЯ СИНХРОНИЗАЦИИ =====
 
     @Override
@@ -209,4 +230,16 @@ public class H2TaskRepository implements TaskRepository {
                 rs.getString("description"),
                 rs.getBoolean("synced"));
     }
+
+    private void createIndexes() {
+        String sql = "CREATE INDEX IF NOT EXISTS idx_task_status ON tasks(status)";
+        try (Connection conn = db.getConnection();
+             Statement stmt = conn.createStatement()) {
+            stmt.execute(sql);
+            System.out.println("✅ Индекс на status создан (если его не было)");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
 }

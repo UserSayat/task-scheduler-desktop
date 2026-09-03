@@ -3,7 +3,7 @@ package org.example.taskschedulerdesktop.controllers;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import org.example.taskschedulerdesktop.models.Task;
-import org.example.taskschedulerdesktop.service.TaskService;
+import org.example.taskschedulerdesktop.service.task.TaskService;
 
 import java.time.LocalDate;
 
@@ -47,6 +47,9 @@ public class CreateTaskModalWindowController {
         this.taskService = taskService;
     }
 
+    //TODO остановился на том что экраны стали медленнее загружаться
+    //TODO настроить контроллеры чтобы брали данные из бд
+
     @FXML
     public void initialize() {
 
@@ -77,7 +80,7 @@ public class CreateTaskModalWindowController {
                         selectedProject,
                         selectedExecutor,
                         tagsTextField.getText(),
-                        "for execution",
+                        "InProgress",
                         highPriorityLabel.getText(),
                         deadlineDatePicker.getAccessibleText(),
                         null,

@@ -1,22 +1,18 @@
 package org.example.taskschedulerdesktop.controllers;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseButton;
-import javafx.scene.layout.HBox;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.VBox;
-import org.example.taskschedulerdesktop.dto.TaskForProjectExtendedPage;
-import org.example.taskschedulerdesktop.models.Task;
-import org.example.taskschedulerdesktop.navigation.NavigationManager;
-import org.example.taskschedulerdesktop.service.TaskService;
-
-import java.io.IOException;
-import java.util.List;
+import org.example.taskschedulerdesktop.service.task.AsyncTaskService;
+import org.example.taskschedulerdesktop.service.task.TaskCardService;
 
 public class ProjectExtendedPageController {
 
-    private final TaskService taskService;
+    private final AsyncTaskService asyncTaskService;
+    private final TaskCardService taskCardService;
 
     @FXML
     private Label projectNameLabel;
@@ -45,186 +41,100 @@ public class ProjectExtendedPageController {
     @FXML
     private VBox completedTasksVBox;
 
-    public ProjectExtendedPageController(TaskService taskService) {
-        this.taskService = taskService;
-    }
+    @FXML
+    private ProgressIndicator loadingIndicator;
 
-    public Label getProjectNameLabel() {
-        return projectNameLabel;
-    }
+    private int loadedCount = 0;
+    private final int TOTAL_LOADERS = 3;
 
-    public void setProjectNameLabel(Label projectNameLabel) {
-        this.projectNameLabel = projectNameLabel;
-    }
-
-    public Label getProjectSupervisorLabel() {
-        return projectSupervisorLabel;
-    }
-
-    public void setProjectSupervisorLabel(Label projectSupervisorLabel) {
-        this.projectSupervisorLabel = projectSupervisorLabel;
-    }
-
-    public Label getNumberOfTasksLabel() {
-        return numberOfTasksLabel;
-    }
-
-    public void setNumberOfTasksLabel(Label numberOfTasksLabel) {
-        this.numberOfTasksLabel = numberOfTasksLabel;
-    }
-
-    public Label getCompletedTasksLabel() {
-        return completedTasksLabel;
-    }
-
-    public void setCompletedTasksLabel(Label completedTasksLabel) {
-        this.completedTasksLabel = completedTasksLabel;
-    }
-
-    public Label getRemainingTasksLabel() {
-        return remainingTasksLabel;
-    }
-
-    public void setRemainingTasksLabel(Label remainingTasksLabel) {
-        this.remainingTasksLabel = remainingTasksLabel;
-    }
-
-    public Label getPercentOfCompletionLabel() {
-        return percentOfCompletionLabel;
-    }
-
-    public void setPercentOfCompletionLabel(Label percentOfCompletionLabel) {
-        this.percentOfCompletionLabel = percentOfCompletionLabel;
-    }
-
-    public VBox getTasksInProgressVBox() {
-        return tasksInProgressVBox;
-    }
-
-    public void setTasksInProgressVBox(VBox tasksInProgressVBox) {
-        this.tasksInProgressVBox = tasksInProgressVBox;
-    }
-
-    public VBox getTasksUnderReviewVBox() {
-        return tasksUnderReviewVBox;
-    }
-
-    public void setTasksUnderReviewVBox(VBox tasksUnderReviewVBox) {
-        this.tasksUnderReviewVBox = tasksUnderReviewVBox;
-    }
-
-    public VBox getCompletedTasksVBox() {
-        return completedTasksVBox;
-    }
-
-    public void setCompletedTasksVBox(VBox completedTasksVBox) {
-        this.completedTasksVBox = completedTasksVBox;
+    public ProjectExtendedPageController(AsyncTaskService taskService, TaskCardService taskCardService) {
+        this.asyncTaskService = taskService;
+        this.taskCardService = taskCardService;
     }
 
     public void initialize() {
+
         loadTasksInProgress();
+        loadTasksUnderReview();
+        loadCompletedTasks();
     }
 
     public void loadTasksInProgress() {
-        List<Task> tasksInProgress = taskService.findAll(); //findInProgress()
-                //= List.of(new TaskDescriptionCard(1, "Оптимизация загрузки приложений", "frontend", "06 авг", "АК", "Средний"));
+        loadingIndicator.setVisible(true);
+        tasksInProgressVBox.getChildren().clear();
 
-        try {
-            for (Task task : tasksInProgress) {
-                int sequenceNumber = 1;
-                FXMLLoader loader = new FXMLLoader(
-                        getClass().getResource("/org/example/taskschedulerdesktop/view/task_description_card.fxml")
-                );
+        asyncTaskService.findInProgress(
+                tasks -> Platform.runLater(() -> {
+                    checkAllLoaded();
 
-                HBox taskDescriptionCard = loader.load();
-                TaskDescriptionCardController taskDescriptionCardController = loader.getController();
-
-
-                taskDescriptionCardController.setTaskSequenceNumberLabel(new Label(String.valueOf(sequenceNumber)));
-                taskDescriptionCardController.setTaskNameLabel(new Label(task.getTaskName()));
-                taskDescriptionCardController.setTaskTypeLabel(new Label(task.getType()));
-                taskDescriptionCardController.setTaskDeadlineLabel(new Label(task.getDeadline()));
-                taskDescriptionCardController.setExecutorInitialsLabel(new Label(task.getExecutor()));
-                taskDescriptionCardController.setPriorityLabel(new Label(task.getPriority()));
-
-                taskDescriptionCard.setOnMouseClicked(event -> {
-                    if (event.getButton() == MouseButton.PRIMARY) {
-                        NavigationManager.openRightSidebar("/org/example/taskschedulerdesktop/view/task_right_sidebar.fxml", task);
-                        event.consume();
+                    if (tasks.isEmpty()) {
+                        tasksInProgressVBox.getChildren().add(new Label("Нет задач в работе"));
+                        return;
                     }
-                });
 
-                tasksInProgressVBox.getChildren().add(taskDescriptionCard);
-                sequenceNumber++;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+                    tasksInProgressVBox.getChildren().addAll(
+                            taskCardService.createCards(tasks)
+                    );
+                }),
+                error -> {
+                    checkAllLoaded();
+                    tasksInProgressVBox.getChildren().add(new Label("Ошибка"));
+                }
+        );
     }
 
     public void loadTasksUnderReview() {
-        List<Task> tasksUnderReview = taskService.findAll(); //findUnderReview()
-        //List.of(new TaskDescriptionCard(1, "Утвердить макеты главной страницы", "Дизайн", "03 авг", "АК", "Высокий"));
+        loadingIndicator.setVisible(true);
+        tasksUnderReviewVBox.getChildren().clear();
 
-        try {
-            for (Task task : tasksUnderReview) {
-                int sequenceNumber = 1;
-                FXMLLoader loader = new FXMLLoader(
-                        getClass().getResource("/org/example/taskschedulerdesktop/view/task_description_card.fxml")
-                );
+        asyncTaskService.findAll(
+                tasks -> Platform.runLater(() -> {
+                    checkAllLoaded();
 
-                HBox taskDescriptionCard = loader.load();
-                TaskDescriptionCardController taskDescriptionCardController = loader.getController();
-
-                taskDescriptionCardController.setTaskSequenceNumberLabel(new Label(String.valueOf(sequenceNumber++)));
-                taskDescriptionCardController.setTaskNameLabel(new Label(task.getTaskName()));
-                taskDescriptionCardController.setTaskTypeLabel(new Label(task.getType()));
-                taskDescriptionCardController.setTaskDeadlineLabel(new Label(task.getDeadline()));
-                taskDescriptionCardController.setExecutorInitialsLabel(new Label(task.getExecutor()));
-                taskDescriptionCardController.setPriorityLabel(new Label(task.getPriority()));
-
-                taskDescriptionCard.setOnMouseClicked(event -> {
-                    if (event.getButton() == MouseButton.PRIMARY) {
-                        NavigationManager.openRightSidebar("/org/example/taskschedulerdesktop/view/task_right_sidebar.fxml", task);
-                        event.consume();
+                    if (tasks.isEmpty()) {
+                        tasksUnderReviewVBox.getChildren().add(new Label("Нет задач на проверке"));
+                        return;
                     }
-                });
 
-                tasksUnderReviewVBox.getChildren().add(taskDescriptionCard);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+                    tasksUnderReviewVBox.getChildren().addAll(
+                            taskCardService.createCards(tasks)
+                    );
+                }),
+                error -> {
+                    checkAllLoaded();
+                    tasksUnderReviewVBox.getChildren().add(new Label("Ошибка"));
+                }
+        );
     }
 
     public void loadCompletedTasks() {
-        List<Task> completedTasks = taskService.findAll();
-        try {
-            for (Task task : completedTasks) {
-                int sequenceNumber = 1;
-                FXMLLoader loader = new FXMLLoader(
-                        getClass().getResource("/org/example/taskschedulerdesktop/view/task_description_card.fxml")
-                );
+        loadingIndicator.setVisible(true);
+        completedTasksVBox.getChildren().clear();
 
-                HBox taskDescriptionCard = loader.load();
-                TaskDescriptionCardController taskDescriptionCardController = loader.getController();
+        asyncTaskService.findCompletedTasks(
+                tasks -> Platform.runLater(() -> {
+                    checkAllLoaded();
 
-                taskDescriptionCardController.setTaskSequenceNumberLabel(new Label(String.valueOf(sequenceNumber++)));
-                taskDescriptionCardController.setTaskNameLabel(new Label(task.getTaskName()));
-                taskDescriptionCardController.setTaskTypeLabel(new Label(task.getType()));
-                taskDescriptionCardController.setTaskDeadlineLabel(new Label(task.getDeadline()));
-                taskDescriptionCardController.setExecutorInitialsLabel(new Label(task.getExecutor()));
-                taskDescriptionCardController.setPriorityLabel(new Label(task.getPriority()));
-
-                taskDescriptionCard.setOnMouseClicked(event -> {
-                    if (event.getButton() == MouseButton.PRIMARY) {
-                        NavigationManager.openRightSidebar("/org/example/taskschedulerdesktop/view/task_right_sidebar.fxml", task);
-                        event.consume();
+                    if (tasks.isEmpty()) {
+                        completedTasksVBox.getChildren().add(new Label("Нет завершенных задач"));
+                        return;
                     }
-                });
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+
+                    completedTasksVBox.getChildren().addAll(
+                            taskCardService.createCards(tasks)
+                    );
+                }),
+                error -> {
+                    checkAllLoaded();
+                    completedTasksVBox.getChildren().add(new Label("Ошибка"));
+                }
+        );
+    }
+
+    private void checkAllLoaded() {
+        loadedCount++;
+        if (loadedCount == TOTAL_LOADERS) {
+            loadingIndicator.setVisible(false);
         }
     }
 }
