@@ -2,7 +2,6 @@ package org.example.taskschedulerdesktop.controllers;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.VBox;
@@ -53,7 +52,6 @@ public class ProjectExtendedPageController {
     }
 
     public void initialize() {
-
         loadTasksInProgress();
         loadTasksUnderReview();
         loadCompletedTasks();
@@ -65,20 +63,21 @@ public class ProjectExtendedPageController {
 
         asyncTaskService.findInProgress(
                 tasks -> Platform.runLater(() -> {
-                    checkAllLoaded();
-
                     if (tasks.isEmpty()) {
                         tasksInProgressVBox.getChildren().add(new Label("Нет задач в работе"));
+                        checkAllLoaded();
                         return;
                     }
 
                     tasksInProgressVBox.getChildren().addAll(
                             taskCardService.createCards(tasks)
                     );
+
+                    checkAllLoaded();
                 }),
                 error -> {
-                    checkAllLoaded();
                     tasksInProgressVBox.getChildren().add(new Label("Ошибка"));
+                    checkAllLoaded();
                 }
         );
     }
@@ -87,22 +86,23 @@ public class ProjectExtendedPageController {
         loadingIndicator.setVisible(true);
         tasksUnderReviewVBox.getChildren().clear();
 
-        asyncTaskService.findAll(
+        asyncTaskService.findUnderReview(
                 tasks -> Platform.runLater(() -> {
-                    checkAllLoaded();
-
                     if (tasks.isEmpty()) {
                         tasksUnderReviewVBox.getChildren().add(new Label("Нет задач на проверке"));
+                        checkAllLoaded();
                         return;
                     }
 
                     tasksUnderReviewVBox.getChildren().addAll(
                             taskCardService.createCards(tasks)
                     );
+
+                    checkAllLoaded();
                 }),
                 error -> {
-                    checkAllLoaded();
                     tasksUnderReviewVBox.getChildren().add(new Label("Ошибка"));
+                    checkAllLoaded();
                 }
         );
     }
@@ -113,20 +113,21 @@ public class ProjectExtendedPageController {
 
         asyncTaskService.findCompletedTasks(
                 tasks -> Platform.runLater(() -> {
-                    checkAllLoaded();
-
                     if (tasks.isEmpty()) {
                         completedTasksVBox.getChildren().add(new Label("Нет завершенных задач"));
+                        checkAllLoaded();
                         return;
                     }
 
                     completedTasksVBox.getChildren().addAll(
                             taskCardService.createCards(tasks)
                     );
+
+                    checkAllLoaded();
                 }),
                 error -> {
-                    checkAllLoaded();
                     completedTasksVBox.getChildren().add(new Label("Ошибка"));
+                    checkAllLoaded();
                 }
         );
     }

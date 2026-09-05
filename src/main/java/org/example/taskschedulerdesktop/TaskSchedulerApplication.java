@@ -48,7 +48,3 @@ public class TaskSchedulerApplication extends Application {
         DatabaseConnection.getInstance().close();
     }
 }
-
-//Сначала создай локальную бд потом продолжай работу с контроллерами
-//Ты остановился на TaskExtendedPageController т.к. нет данных
-//Добавить синхронизацию с бд

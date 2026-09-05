@@ -20,17 +20,16 @@ public class TaskCardService {
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource(Routes.TASK_DESCRIPTION_CARD_FXML_PATH)
             );
-
             HBox card = loader.load();
             TaskDescriptionCardController controller = loader.getController();
 
             // Заполняем карточку
-            controller.setTaskSequenceNumberLabel(new Label(String.valueOf(sequenceNumber)));
-            controller.setTaskNameLabel(new Label(task.getTaskName()));
-            controller.setTaskTypeLabel(new Label(task.getStatus()));
-            controller.setTaskDeadlineLabel(new Label(task.getDeadline()));
-            controller.setExecutorInitialsLabel(new Label(task.getExecutor()));
-            controller.setPriorityLabel(new Label(task.getPriority()));
+            controller.setTaskSequenceNumberLabel(sequenceNumber);
+            controller.setTaskNameLabel(task.getTaskName());
+            controller.setTaskTypeLabel(task.getStatus());
+            controller.setTaskDeadlineLabel(task.getDeadline());
+            controller.setExecutorInitialsLabel(task.getExecutor());
+            controller.setPriorityLabel(task.getPriority());
 
             // Клик по карточке
             card.setOnMouseClicked(event -> {

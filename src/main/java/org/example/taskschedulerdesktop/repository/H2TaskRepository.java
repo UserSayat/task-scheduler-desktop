@@ -241,5 +241,10 @@ public class H2TaskRepository implements TaskRepository {
             e.printStackTrace();
         }
     }
-    
+
+    //TODO Остановился на создании индексов
+    //TODO Поменять VBox на TableView (при необходимости HBox на ListView)
+    //TODO Сделать кэширование
+    //TODO Работал с ProjectExtendedPageController
+    //TODO Не работает findInProgress() и кнопка создания задачи или вывод карточки на экран
 }
