@@ -12,6 +12,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.Duration;
+import org.example.taskschedulerdesktop.controllers.RightSidebarController;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -96,6 +98,10 @@ public class NavigationManager {
             // Передаем контекст, если контроллер умеет его принимать
             if (loader.getController() instanceof ContextAware aware) {
                 aware.setContext(context);
+            }
+
+            if (loader.getController() instanceof RightSidebarController sidebarController) {
+                sidebarController.setContext(context);
             }
 
             contentArea.getChildren().setAll(page);
@@ -228,33 +234,48 @@ public class NavigationManager {
     public static void openRightSidebar(String path, Object context) {
         if (rightSidebar != null) {
             contentArea.getChildren().remove(rightSidebar);
-    }
-        navigateTo(path, null, context);
-
-        if (rightSidebar instanceof VBox sidebarVBox) {
-            sidebarVBox.setPrefWidth(RIGHT_SIDEBAR_WIDTH);
-            sidebarVBox.setMaxWidth(RIGHT_SIDEBAR_WIDTH);
         }
 
-        StackPane.setAlignment(rightSidebar, Pos.CENTER_RIGHT);
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    NavigationManager.class.getResource(path)
+            );
 
-        contentArea.getChildren().add(rightSidebar);
+            Parent sidebar = loader.load();
 
-        contentArea.setOnMouseClicked(event -> {
-            Node clickedNode = (Node) event.getTarget();
-
-            if (clickedNode == rightSidebar || isChildOf(clickedNode, rightSidebar)) {
-                return;
+            if (sidebar instanceof RightSidebarController sidebarController) {
+                sidebarController.setContext(context);
             }
 
-            closeRightSidebar();
-        });
+            rightSidebar = sidebar;
 
-        TranslateTransition animate = new TranslateTransition(Duration.millis(200), rightSidebar);
+            if (rightSidebar instanceof VBox sidebarVBox) {
+                sidebarVBox.setPrefWidth(RIGHT_SIDEBAR_WIDTH);
+                sidebarVBox.setMaxWidth(RIGHT_SIDEBAR_WIDTH);
+            }
 
-        animate.setFromX(RIGHT_SIDEBAR_WIDTH);
-        animate.setToX(0);
-        animate.play();
+            StackPane.setAlignment(rightSidebar, Pos.CENTER_RIGHT);
+
+            contentArea.getChildren().add(rightSidebar);
+
+            contentArea.setOnMouseClicked(event -> {
+                Node clickedNode = (Node) event.getTarget();
+
+                if (clickedNode == rightSidebar || isChildOf(clickedNode, rightSidebar)) {
+                    return;
+                }
+
+                closeRightSidebar();
+            });
+
+            TranslateTransition animate = new TranslateTransition(Duration.millis(200), rightSidebar);
+
+            animate.setFromX(RIGHT_SIDEBAR_WIDTH);
+            animate.setToX(0);
+            animate.play();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void closeRightSidebar() {

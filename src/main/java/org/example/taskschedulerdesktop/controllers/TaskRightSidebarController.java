@@ -4,11 +4,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
-import org.example.taskschedulerdesktop.models.Entity;
 import org.example.taskschedulerdesktop.models.Task;
 import org.example.taskschedulerdesktop.navigation.NavigationManager;
 
-public class TaskRightSidebarController implements RightSidebarController{
+public class TaskRightSidebarController implements RightSidebarController {
     @FXML
     private Button closeButton;
 
@@ -43,12 +42,12 @@ public class TaskRightSidebarController implements RightSidebarController{
     private Button editButton;
 
     @Override
-    public void setData(Entity object) {
-        if (!(object instanceof Task)) {
+    public void setContext(Object context) {
+        if (!(context instanceof Task)) {
             throw new IllegalArgumentException();
         }
 
-        Task task = (Task) object;
+        Task task = (Task) context;
 
         projectNameLabel.setText(task.getProjectName());
         taskNameLabel.setText(task.getTaskName());
