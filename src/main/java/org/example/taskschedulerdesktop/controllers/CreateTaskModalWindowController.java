@@ -4,6 +4,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import org.example.taskschedulerdesktop.models.Task;
 import org.example.taskschedulerdesktop.service.task.TaskService;
+import org.example.taskschedulerdesktop.utils.TaskPriority;
+import org.example.taskschedulerdesktop.utils.TaskStatus;
 
 import java.time.LocalDate;
 
@@ -23,11 +25,13 @@ public class CreateTaskModalWindowController {
     private String selectedExecutor;
 
     @FXML
-    private Label highPriorityLabel;
+    private Button highPriorityButton;
     @FXML
-    private Label middlePriorityLabel;
+    private Button middlePriorityButton;
     @FXML
-    private Label lowPriorityLabel;
+    private Button lowPriorityButton;
+
+    private TaskPriority currentPriority = TaskPriority.LOW;
 
     @FXML
     private DatePicker deadlineDatePicker;
@@ -69,6 +73,18 @@ public class CreateTaskModalWindowController {
             selectedExecutor = executorChoiceBox.getValue();
         });
 
+        highPriorityButton.setOnAction(event -> {
+            this.currentPriority = TaskPriority.HIGH;
+        });
+
+        middlePriorityButton.setOnAction(event -> {
+            this.currentPriority = TaskPriority.MIDDLE;
+        });
+
+        lowPriorityButton.setOnAction(event -> {
+            this.currentPriority = TaskPriority.LOW;
+        });
+
         deadlineDatePicker.setOnAction(event -> {
             selectedDate = deadlineDatePicker.getValue();
         });
@@ -80,9 +96,9 @@ public class CreateTaskModalWindowController {
                         selectedProject,
                         selectedExecutor,
                         tagsTextField.getText(),
-                        "InProgress",
-                        highPriorityLabel.getText(),
-                        deadlineDatePicker.getAccessibleText(),
+                        TaskStatus.NEW,
+                        currentPriority,
+                        deadlineDatePicker.getValue(),
                         null,
                         false));
             }

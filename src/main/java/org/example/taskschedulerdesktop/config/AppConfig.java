@@ -2,9 +2,7 @@ package org.example.taskschedulerdesktop.config;
 
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import org.example.taskschedulerdesktop.controllers.CreateTaskModalWindowController;
-import org.example.taskschedulerdesktop.controllers.ProjectExtendedPageController;
-import org.example.taskschedulerdesktop.controllers.TaskController;
+import org.example.taskschedulerdesktop.controllers.*;
 import org.example.taskschedulerdesktop.database.DatabaseConnection;
 import org.example.taskschedulerdesktop.repository.H2TaskRepository;
 import org.example.taskschedulerdesktop.repository.TaskRepository;
@@ -43,6 +41,12 @@ public class AppConfig {
             }
             if (clazz == CreateTaskModalWindowController.class) {
                 return new CreateTaskModalWindowController(taskService);
+            }
+            if (clazz == TaskRightSidebarController.class) {
+                return new TaskRightSidebarController(asyncTaskService);
+            }
+            if (clazz == EditTaskRightSidebarController.class) {
+                return new EditTaskRightSidebarController(asyncTaskService);
             }
             try {
                 return clazz.getDeclaredConstructor().newInstance();

@@ -1,6 +1,9 @@
 package org.example.taskschedulerdesktop.service.task;
 
 import org.example.taskschedulerdesktop.models.Task;
+import org.example.taskschedulerdesktop.utils.TaskStatus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -8,6 +11,8 @@ import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
 public class AsyncTaskService {
+
+    private static final Logger log = LoggerFactory.getLogger(AsyncTaskService.class);
 
     private final TaskService delegate;
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -27,10 +32,24 @@ public class AsyncTaskService {
         });
     }
 
+    public void findNewTasks(Consumer<List<Task>> onSuccess, Consumer<Throwable> onError) {
+        log.debug("findNewTasks: request to db...");
+        executor.submit(() -> {
+            try {
+                List<Task> tasks = delegate.findByStatus(TaskStatus.NEW.getDisplayName());
+                log.debug("findNewTasks: {} tasks found", tasks.size());
+                onSuccess.accept(tasks);
+            } catch (Exception e) {
+                log.error("❌ findNewTasks: ", e);
+                onError.accept(e);
+            }
+        });
+    }
+
     public void findInProgress(Consumer<List<Task>> onSuccess, Consumer<Throwable> onError) {
         executor.submit(() -> {
             try {
-                List<Task> tasks = delegate.findByStatus("InProgress");
+                List<Task> tasks = delegate.findByStatus(TaskStatus.IN_PROGRESS.getDisplayName());
                 onSuccess.accept(tasks);
             } catch (Exception e) {
                 onError.accept(e);
@@ -41,7 +60,7 @@ public class AsyncTaskService {
     public void findUnderReview(Consumer<List<Task>> onSuccess, Consumer<Throwable> onError) {
         executor.submit(() -> {
             try {
-                List<Task> tasks = delegate.findByStatus("UnderReview");
+                List<Task> tasks = delegate.findByStatus(TaskStatus.UNDER_REVIEW.getDisplayName());
                 onSuccess.accept(tasks);
             } catch (Exception e) {
                 onError.accept(e);
@@ -52,7 +71,7 @@ public class AsyncTaskService {
     public void findCompletedTasks(Consumer<List<Task>> onSuccess, Consumer<Throwable> onError) {
         executor.submit(() -> {
             try {
-                List<Task> tasks = delegate.findByStatus("Completed");
+                List<Task> tasks = delegate.findByStatus(TaskStatus.COMPLETED.getDisplayName());
                 onSuccess.accept(tasks);
             } catch (Exception e) {
                 onError.accept(e);

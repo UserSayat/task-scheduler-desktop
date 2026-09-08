@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.taskschedulerdesktop.controllers.ProjectExtendedPageController">
+<StackPane xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.taskschedulerdesktop.controllers.ProjectExtendedPageController">
    <children>
       <VBox minWidth="0.0">
          <children>
@@ -86,11 +86,37 @@
                            <children>
                               <VBox>
                                  <children>
-                                    <Label text="В РАБОТЕ" />
+                                    <HBox>
+                                       <children>
+                                          <Label text="НОВЫЕ" />
+                                          <Region HBox.hgrow="ALWAYS" />
+                                          <ProgressIndicator fx:id="newTasksLoadingIndicator" prefHeight="15.0" prefWidth="15.0" visible="false" />
+                                       </children>
+                                    </HBox>
+                                    <VBox fx:id="newTasksVBox" />
+                                    <HBox>
+                                       <children>
+                                          <Label text="В РАБОТЕ" />
+                                          <Region HBox.hgrow="ALWAYS" />
+                                          <ProgressIndicator fx:id="tasksInProgressLoadingIndicator" prefHeight="15.0" prefWidth="15.0" visible="false" />
+                                       </children>
+                                    </HBox>
                                     <VBox fx:id="tasksInProgressVBox" />
-                                    <Label text="НА ПРОВЕРКЕ" />
+                                    <HBox>
+                                       <children>
+                                          <Label text="НА ПРОВЕРКЕ" />
+                                          <Region HBox.hgrow="ALWAYS" />
+                                          <ProgressIndicator fx:id="tasksUnderReviewLoadingIndicator" prefHeight="15.0" prefWidth="15.0" visible="false" />
+                                       </children>
+                                    </HBox>
                                     <VBox fx:id="tasksUnderReviewVBox" />
-                                    <Label text="ЗАВЕРШЕНО" />
+                                    <HBox>
+                                       <children>
+                                          <Label text="ЗАВЕРШЕНО" />
+                                          <Region HBox.hgrow="ALWAYS" />
+                                          <ProgressIndicator fx:id="completedTasksLoadingIndicator" prefHeight="15.0" prefWidth="15.0" visible="false" />
+                                       </children>
+                                    </HBox>
                                     <VBox fx:id="completedTasksVBox" />
                                  </children>
                               </VBox>
@@ -140,6 +166,5 @@
             </ScrollPane>
          </children>
       </VBox>
-      <ProgressIndicator fx:id="loadingIndicator" visible="false" StackPane.alignment="CENTER" />
    </children>
 </StackPane>

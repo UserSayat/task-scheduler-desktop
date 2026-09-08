@@ -1,7 +1,6 @@
 package org.example.taskschedulerdesktop.service.task;
 
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
 import org.example.taskschedulerdesktop.controllers.TaskDescriptionCardController;
@@ -26,10 +25,10 @@ public class TaskCardService {
             // Заполняем карточку
             controller.setTaskSequenceNumberLabel(sequenceNumber);
             controller.setTaskNameLabel(task.getTaskName());
-            controller.setTaskTypeLabel(task.getStatus());
-            controller.setTaskDeadlineLabel(task.getDeadline());
+            controller.setTaskTypeLabel(task.getType());
+            controller.setTaskDeadlineLabel(task.getDeadline().toString());
             controller.setExecutorInitialsLabel(task.getExecutor());
-            controller.setPriorityLabel(task.getPriority());
+            controller.setPriorityLabel(task.getPriority().getDisplayName());
 
             // Клик по карточке
             card.setOnMouseClicked(event -> {

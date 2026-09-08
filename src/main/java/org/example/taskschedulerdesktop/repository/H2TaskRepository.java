@@ -2,8 +2,11 @@ package org.example.taskschedulerdesktop.repository;
 
 import org.example.taskschedulerdesktop.database.DatabaseConnection;
 import org.example.taskschedulerdesktop.models.Task;
+import org.example.taskschedulerdesktop.utils.TaskPriority;
+import org.example.taskschedulerdesktop.utils.TaskStatus;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,9 +83,9 @@ public class H2TaskRepository implements TaskRepository {
             pstmt.setString(2, task.getProjectName());
             pstmt.setString(3, task.getExecutor());
             pstmt.setString(4, task.getType());
-            pstmt.setString(5, task.getStatus());
-            pstmt.setString(6, task.getPriority());
-            pstmt.setString(7, task.getDeadline());
+            pstmt.setString(5, task.getStatus().getDisplayName());
+            pstmt.setString(6, task.getPriority().getDisplayName());
+            pstmt.setObject(7, task.getDeadline());
             pstmt.setString(8, task.getDescription());
             pstmt.setBoolean(9, task.isSynced());
             pstmt.executeUpdate();
@@ -111,9 +114,9 @@ public class H2TaskRepository implements TaskRepository {
             pstmt.setString(2, task.getProjectName());
             pstmt.setString(3, task.getExecutor());
             pstmt.setString(4, task.getType());
-            pstmt.setString(5, task.getStatus());
-            pstmt.setString(6, task.getPriority());
-            pstmt.setString(7, task.getDeadline());
+            pstmt.setString(5, task.getStatus().getDisplayName());
+            pstmt.setString(6, task.getPriority().getDisplayName());
+            pstmt.setString(7, task.getDeadline().toString());
             pstmt.setString(8, task.getDescription());
             pstmt.setBoolean(9, task.isSynced());
             pstmt.setLong(10, task.getId());
@@ -219,14 +222,21 @@ public class H2TaskRepository implements TaskRepository {
     // ===== ВСПОМОГАТЕЛЬНЫЕ МЕТОДЫ =====
 
     private Task mapRowToTask(ResultSet rs) throws SQLException {
+        String deadlineStr = rs.getString("deadline");
+        LocalDate deadline = null;
+
+        if (deadlineStr != null && !deadlineStr.isEmpty()) {
+            deadline = LocalDate.parse(deadlineStr);
+        }
+
         return new Task(rs.getLong("id"),
                 rs.getString("taskName"),
                 rs.getString("projectName"),
                 rs.getString("executor"),
                 rs.getString("type"),
-                rs.getString("status"),
-                rs.getString("priority"),
-                rs.getString("deadline"),
+                TaskStatus.fromString(rs.getString("status")),
+                TaskPriority.fromString(rs.getString("priority")),
+                deadline,
                 rs.getString("description"),
                 rs.getBoolean("synced"));
     }

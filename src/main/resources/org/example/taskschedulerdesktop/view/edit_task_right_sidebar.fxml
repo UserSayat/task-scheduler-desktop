@@ -2,15 +2,17 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefWidth="400.0" spacing="20.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.taskschedulerdesktop.controllers.TaskRightSidebarController">
+<VBox maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefWidth="400.0" spacing="20.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.taskschedulerdesktop.controllers.EditTaskRightSidebarController">
    <children>
       <HBox>
          <children>
@@ -20,7 +22,8 @@
                   <Label fx:id="taskNameLabel" prefWidth="305.0" text="Оптимизация загрузки приложений" wrapText="true">
                      <font>
                         <Font name="Times New Roman" size="20.0" />
-                     </font></Label>
+                     </font>
+                  </Label>
                </children>
             </VBox>
             <Region maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
@@ -31,18 +34,19 @@
          </VBox.margin>
       </HBox>
       <Region prefHeight="1.0" style="-fx-background-color: #000;" />
-      <HBox spacing="150.0">
+      <HBox>
          <children>
             <VBox>
                <children>
                   <Label text="СТАТУС" />
-                  <Label fx:id="statusLabel" text="В работе" />
+                  <ChoiceBox fx:id="statusChoiceBox" prefWidth="165.0" />
                </children>
             </VBox>
+            <Region maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
             <VBox>
                <children>
                   <Label text="ПРИОРИТЕТ" />
-                  <Label fx:id="priorityLabel" text="Средний" />
+                  <ChoiceBox fx:id="priorityChoiceBox" prefWidth="165.0" />
                </children>
             </VBox>
          </children>
@@ -56,14 +60,7 @@
       <VBox>
          <children>
             <Label text="ИСПОЛНИТЕЛЬ" />
-            <FlowPane fx:id="executorsFlowPane">
-               <children>
-                  <Label text="Алексей Козлов" />
-               </children>
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-            </FlowPane>
+            <ChoiceBox fx:id="executorChoiceBox" maxWidth="1.7976931348623157E308" />
          </children>
          <padding>
             <Insets left="25.0" right="25.0" />
@@ -72,7 +69,7 @@
       <VBox>
          <children>
             <Label text="ДЕДЛАЙН" />
-            <Label fx:id="deadlineLabel" text="06 авг" />
+            <DatePicker fx:id="deadlineDatePicker" maxWidth="1.7976931348623157E308" />
          </children>
          <padding>
             <Insets left="25.0" right="25.0" />
@@ -81,12 +78,7 @@
       <VBox>
          <children>
             <Label text="ТЕГИ" />
-            <FlowPane fx:id="tagsFlowPane">
-               <children>
-                  <Label text="frontend" />
-                  <Label text="performance" />
-               </children>
-            </FlowPane>
+            <TextField fx:id="tagsTextField" />
          </children>
          <padding>
             <Insets left="25.0" right="25.0" />
@@ -95,11 +87,7 @@
       <VBox maxHeight="1.7976931348623157E308" VBox.vgrow="ALWAYS">
          <children>
             <Label text="ОПИСАНИЕ" />
-            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" VBox.vgrow="ALWAYS">
-               <content>
-                  <Label fx:id="taskDescriptionLabel" maxHeight="1.7976931348623157E308" text="Задача в рамках проекта «Редизайн портала». Требует координации с командой и соответствия установленным срокам. Приоритет: средний." wrapText="true" />
-               </content>
-            </ScrollPane>
+            <TextArea fx:id="taskDescriptionTextArea" prefHeight="100.0" wrapText="true" />
          </children>
          <padding>
             <Insets left="25.0" right="25.0" />
@@ -107,9 +95,9 @@
       </VBox>
       <HBox>
          <children>
-            <Button fx:id="acceptTheTaskButton" mnemonicParsing="false" prefWidth="230.0" text="Взять в работу" />
+            <Button fx:id="saveTheTaskButton" mnemonicParsing="false" prefWidth="230.0" text="Сохранить" />
             <Region maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
-            <Button fx:id="editButton" mnemonicParsing="false" prefWidth="110.0" text="Изменить" />
+            <Button fx:id="cancelButton" mnemonicParsing="false" prefWidth="110.0" text="Отмена" />
          </children>
          <VBox.margin>
             <Insets />

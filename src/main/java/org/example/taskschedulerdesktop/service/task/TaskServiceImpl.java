@@ -2,6 +2,7 @@ package org.example.taskschedulerdesktop.service.task;
 
 import org.example.taskschedulerdesktop.models.Task;
 import org.example.taskschedulerdesktop.repository.TaskRepository;
+import org.example.taskschedulerdesktop.utils.TaskStatus;
 
 import java.util.List;
 
@@ -35,8 +36,8 @@ public class TaskServiceImpl implements TaskService {
             throw new IllegalArgumentException("Название задачи не может быть пустым");
         }
 
-        if (task.getStatus() == null || task.getStatus().isEmpty()) {
-            task.setStatus("Новая");
+        if (task.getStatus() == null || task.getStatus().getDisplayName().isEmpty()) {
+            task.setStatus(TaskStatus.NEW);
         }
 
         repository.save(task);

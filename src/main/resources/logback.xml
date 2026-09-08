@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <!-- ============================================================
+    ВЫВОД В КОНСОЛЬ (цветной)
+    ============================================================ -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <!--
+                %d{HH:mm:ss.SSS} - время
+                %highlight - цветной уровень логирования
+                %cyan - голубой цвет для имени логгера
+                %msg - сообщение
+                %n - перевод строки
+            -->
+            <pattern>%d{HH:mm:ss.SSS} %highlight(%-5level) %cyan(%logger{0}) - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- ============================================================
+    ВЫВОД В ФАЙЛ (с ротацией)
+    ============================================================ -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/app.log</file>
+
+        <!-- Политика ротации: каждый день новый файл -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/app.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>7</maxHistory> <!-- Хранить 7 дней -->
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- ============================================================
+    НАСТРОЙКИ УРОВНЕЙ ЛОГИРОВАНИЯ
+    ============================================================ -->
+
+    <!-- Логи нашего приложения (уровень DEBUG) -->
+    <logger name="org.example.taskschedulerdesktop" level="DEBUG"/>
+
+    <!-- Логи самой JavaFX (менее важные) -->
+    <logger name="javafx" level="WARN"/>
+
+    <!-- Логи H2 (база данных) -->
+    <logger name="org.h2" level="WARN"/>
+
+    <!-- Корневой логгер (по умолчанию WARN) -->
+    <root level="WARN">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
+    </root>
+
+</configuration>

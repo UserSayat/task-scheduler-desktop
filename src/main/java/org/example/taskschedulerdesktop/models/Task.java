@@ -1,19 +1,24 @@
 package org.example.taskschedulerdesktop.models;
 
-public class Task implements Entity {
+import org.example.taskschedulerdesktop.utils.TaskPriority;
+import org.example.taskschedulerdesktop.utils.TaskStatus;
+
+import java.time.LocalDate;
+
+public class Task {
 
     private Long id;
     private String taskName;
     private String projectName;
     private String executor;
     private String type;
-    private String status;
-    private String priority;
-    private String deadline;
+    private TaskStatus status;
+    private TaskPriority priority;
+    private LocalDate deadline;
     private String description;
     private boolean synced;
 
-    public Task(Long id, String taskName, String projectName, String executor, String type, String status, String priority, String deadline, String description, boolean synced) {
+    public Task(Long id, String taskName, String projectName, String executor, String type, TaskStatus status, TaskPriority priority, LocalDate deadline, String description, boolean synced) {
         this.id = id;
         this.taskName = taskName;
         this.projectName = projectName;
@@ -66,27 +71,27 @@ public class Task implements Entity {
         this.type = type;
     }
 
-    public String getStatus() {
+    public TaskStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(TaskStatus status) {
         this.status = status;
     }
 
-    public String getPriority() {
+    public TaskPriority getPriority() {
         return priority;
     }
 
-    public void setPriority(String priority) {
+    public void setPriority(TaskPriority priority) {
         this.priority = priority;
     }
 
-    public String getDeadline() {
+    public LocalDate getDeadline() {
         return deadline;
     }
 
-    public void setDeadline(String deadline) {
+    public void setDeadline(LocalDate deadline) {
         this.deadline = deadline;
     }
 

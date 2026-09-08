@@ -14,6 +14,9 @@ public class MainController {
     private final AppConfig appConfig = AppConfig.getInstance();
 
     @FXML
+    private StackPane globalStackPane;
+
+    @FXML
     private StackPane contentArea;
 
     @FXML
@@ -39,7 +42,8 @@ public class MainController {
     @FXML
     public void initialize() {
 
-        NavigationManager.init(contentArea,
+        NavigationManager.init(globalStackPane,
+                contentArea,
                 appConfig.getControllerFactory());
 
         NavigationManager.addListener(() -> {

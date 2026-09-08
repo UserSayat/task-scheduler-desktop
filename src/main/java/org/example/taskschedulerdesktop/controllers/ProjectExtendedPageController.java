@@ -13,38 +13,21 @@ public class ProjectExtendedPageController {
     private final AsyncTaskService asyncTaskService;
     private final TaskCardService taskCardService;
 
-    @FXML
-    private Label projectNameLabel;
+    @FXML private Label projectNameLabel;
+    @FXML private Label projectSupervisorLabel;
+    @FXML private Label numberOfTasksLabel;
+    @FXML private Label completedTasksLabel;
+    @FXML private Label remainingTasksLabel;
+    @FXML private Label percentOfCompletionLabel;
 
-    @FXML
-    private Label projectSupervisorLabel;
-
-    @FXML
-    private Label numberOfTasksLabel;
-
-    @FXML
-    private Label completedTasksLabel;
-
-    @FXML
-    private Label remainingTasksLabel;
-
-    @FXML
-    private Label percentOfCompletionLabel;
-
-    @FXML
-    private VBox tasksInProgressVBox;
-
-    @FXML
-    private VBox tasksUnderReviewVBox;
-
-    @FXML
-    private VBox completedTasksVBox;
-
-    @FXML
-    private ProgressIndicator loadingIndicator;
-
-    private int loadedCount = 0;
-    private final int TOTAL_LOADERS = 3;
+    @FXML private VBox newTasksVBox;
+    @FXML private ProgressIndicator newTasksLoadingIndicator;
+    @FXML private VBox tasksInProgressVBox;
+    @FXML private ProgressIndicator tasksInProgressLoadingIndicator;
+    @FXML private VBox tasksUnderReviewVBox;
+    @FXML private ProgressIndicator tasksUnderReviewLoadingIndicator;
+    @FXML private VBox completedTasksVBox;
+    @FXML private ProgressIndicator completedTasksLoadingIndicator;
 
     public ProjectExtendedPageController(AsyncTaskService taskService, TaskCardService taskCardService) {
         this.asyncTaskService = taskService;
@@ -52,90 +35,101 @@ public class ProjectExtendedPageController {
     }
 
     public void initialize() {
+        loadNewTasks();
         loadTasksInProgress();
         loadTasksUnderReview();
         loadCompletedTasks();
     }
 
+    public void loadNewTasks() {
+        newTasksLoadingIndicator.setVisible(true);
+        newTasksVBox.getChildren().clear();
+
+        asyncTaskService.findNewTasks(
+                tasks -> Platform.runLater(() -> {
+                    if (tasks.isEmpty()) {
+                        newTasksVBox.getChildren().add(new Label("Нет новых задач"));
+                        newTasksLoadingIndicator.setVisible(false);
+                    } else {
+                        newTasksVBox.getChildren().addAll(
+                                taskCardService.createCards(tasks)
+                        );
+                    }
+                    newTasksLoadingIndicator.setVisible(false);
+                }),
+                error -> Platform.runLater(() -> {
+                    newTasksVBox.getChildren().add(new Label("Ошибка"));
+                    newTasksLoadingIndicator.setVisible(false);
+                })
+        );
+    }
+
     public void loadTasksInProgress() {
-        loadingIndicator.setVisible(true);
+        tasksInProgressLoadingIndicator.setVisible(true);
         tasksInProgressVBox.getChildren().clear();
 
         asyncTaskService.findInProgress(
                 tasks -> Platform.runLater(() -> {
                     if (tasks.isEmpty()) {
                         tasksInProgressVBox.getChildren().add(new Label("Нет задач в работе"));
-                        checkAllLoaded();
-                        return;
+                        tasksInProgressLoadingIndicator.setVisible(false);
+                    } else {
+                        tasksInProgressVBox.getChildren().addAll(
+                                taskCardService.createCards(tasks)
+                        );
                     }
-
-                    tasksInProgressVBox.getChildren().addAll(
-                            taskCardService.createCards(tasks)
-                    );
-
-                    checkAllLoaded();
+                    tasksInProgressLoadingIndicator.setVisible(false);
                 }),
                 error -> {
                     tasksInProgressVBox.getChildren().add(new Label("Ошибка"));
-                    checkAllLoaded();
+                    tasksInProgressLoadingIndicator.setVisible(false);
                 }
         );
     }
 
     public void loadTasksUnderReview() {
-        loadingIndicator.setVisible(true);
+        tasksUnderReviewLoadingIndicator.setVisible(true);
         tasksUnderReviewVBox.getChildren().clear();
 
         asyncTaskService.findUnderReview(
                 tasks -> Platform.runLater(() -> {
                     if (tasks.isEmpty()) {
                         tasksUnderReviewVBox.getChildren().add(new Label("Нет задач на проверке"));
-                        checkAllLoaded();
-                        return;
+                        tasksUnderReviewLoadingIndicator.setVisible(false);
+                    } else {
+                        tasksUnderReviewVBox.getChildren().addAll(
+                                taskCardService.createCards(tasks)
+                        );
                     }
-
-                    tasksUnderReviewVBox.getChildren().addAll(
-                            taskCardService.createCards(tasks)
-                    );
-
-                    checkAllLoaded();
+                    tasksUnderReviewLoadingIndicator.setVisible(false);
                 }),
                 error -> {
                     tasksUnderReviewVBox.getChildren().add(new Label("Ошибка"));
-                    checkAllLoaded();
+                    tasksUnderReviewLoadingIndicator.setVisible(false);
                 }
         );
     }
 
     public void loadCompletedTasks() {
-        loadingIndicator.setVisible(true);
+        completedTasksLoadingIndicator.setVisible(true);
         completedTasksVBox.getChildren().clear();
 
         asyncTaskService.findCompletedTasks(
                 tasks -> Platform.runLater(() -> {
                     if (tasks.isEmpty()) {
                         completedTasksVBox.getChildren().add(new Label("Нет завершенных задач"));
-                        checkAllLoaded();
-                        return;
+                        completedTasksLoadingIndicator.setVisible(false);
+                    } else {
+                        completedTasksVBox.getChildren().addAll(
+                                taskCardService.createCards(tasks)
+                        );
                     }
-
-                    completedTasksVBox.getChildren().addAll(
-                            taskCardService.createCards(tasks)
-                    );
-
-                    checkAllLoaded();
+                    completedTasksLoadingIndicator.setVisible(false);
                 }),
                 error -> {
                     completedTasksVBox.getChildren().add(new Label("Ошибка"));
-                    checkAllLoaded();
+                    completedTasksLoadingIndicator.setVisible(false);
                 }
         );
-    }
-
-    private void checkAllLoaded() {
-        loadedCount++;
-        if (loadedCount == TOTAL_LOADERS) {
-            loadingIndicator.setVisible(false);
-        }
     }
 }
