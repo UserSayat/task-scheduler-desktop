@@ -2,14 +2,20 @@ package org.example.taskschedulerdesktop.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 import org.example.taskschedulerdesktop.models.Task;
+import org.example.taskschedulerdesktop.navigation.NavigationManager;
 import org.example.taskschedulerdesktop.service.task.TaskService;
 import org.example.taskschedulerdesktop.utils.TaskPriority;
 import org.example.taskschedulerdesktop.utils.TaskStatus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
 
 public class CreateTaskModalWindowController {
+
+    private static final Logger log = LoggerFactory.getLogger(CreateTaskModalWindowController.class);
 
     private final TaskService taskService;
 
@@ -44,8 +50,6 @@ public class CreateTaskModalWindowController {
     private Button createTaskButton;
     @FXML
     private Button cancelButton;
-    @FXML
-    private Button exitButton;
 
     public CreateTaskModalWindowController(TaskService taskService) {
         this.taskService = taskService;
@@ -101,6 +105,19 @@ public class CreateTaskModalWindowController {
                         deadlineDatePicker.getValue(),
                         null,
                         false));
+
+                log.debug("createTaskButton.getScene() = {}", createTaskButton.getScene());
+                log.debug("createTaskButton.getScene().getWindow() = {}", createTaskButton.getScene().getWindow());
+
+                Stage stage = (Stage) createTaskButton.getScene().getWindow();
+                if (stage != null) {
+                    NavigationManager.closeDialog(stage);
+                    NavigationManager.showToast("Задача сохранена", "success");
+                }
+
+                //TODO После создания и удаления задач окна долго не закрываются исправить
+            } else {
+                NavigationManager.showToast("Заполните пустые поля", "info");
             }
         });
     }

@@ -3,6 +3,7 @@ package org.example.taskschedulerdesktop.navigation;
 import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
 import javafx.animation.TranslateTransition;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -183,11 +184,11 @@ public class NavigationManager {
     // МОДАЛЬНЫЕ ДИАЛОГИ
     // ============================================================
 
-    public static void openDialog(String fxmlPath, String title, Stage owner) {
-        openDialog(fxmlPath, title, owner, null);
+    public static Stage openDialog(String fxmlPath, String title, Stage owner) {
+        return openDialog(fxmlPath, title, owner, null);
     }
 
-    public static void openDialog(String fxmlPath, String title, Stage owner, Object context) {
+    public static Stage openDialog(String fxmlPath, String title, Stage owner, Object context) {
         try {
             FXMLLoader loader = new FXMLLoader(
                     NavigationManager.class.getResource(fxmlPath)
@@ -206,9 +207,22 @@ public class NavigationManager {
             dialogStage.initOwner(owner);
             dialogStage.setScene(new Scene(root));
             dialogStage.showAndWait();
+            return dialogStage;
 
         } catch (IOException e) {
             e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static void closeDialog(Stage stage) {
+        if (stage != null) {
+            log.debug("Close Stage: {}", stage.getTitle());
+            Platform.runLater(() -> {
+                stage.close();
+            });
+        } else {
+            log.debug("Stage is null");
         }
     }
 
