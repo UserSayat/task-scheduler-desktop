@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.taskschedulerdesktop.controllers.ProjectExtendedPageController">
+<StackPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.taskschedulerdesktop.controllers.ProjectExtendedPageController">
    <children>
       <VBox minWidth="0.0">
          <children>
@@ -88,7 +88,7 @@
                                  <children>
                                     <HBox>
                                        <children>
-                                          <Label text="НОВЫЕ" />
+                                          <Label text="К ВЫПОЛНЕНИЮ" />
                                           <Region HBox.hgrow="ALWAYS" />
                                           <ProgressIndicator fx:id="newTasksLoadingIndicator" prefHeight="15.0" prefWidth="15.0" visible="false" />
                                        </children>

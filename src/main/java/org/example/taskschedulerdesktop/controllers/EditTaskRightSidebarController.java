@@ -44,7 +44,13 @@ public class EditTaskRightSidebarController implements RightSidebarController {
     public void initialize() {
         log.info("initialize()");
 
+        for (TaskStatus status : TaskStatus.values()) {
+            statusChoiceBox.getItems().add(status.getDisplayName());
+        }
 
+        for (TaskPriority priority : TaskPriority.values()) {
+            priorityChoiceBox.getItems().add(priority.getDisplayName());
+        }
 
         closeButton.setOnAction(event -> {
             log.debug("Close right sidebar");
@@ -98,8 +104,8 @@ public class EditTaskRightSidebarController implements RightSidebarController {
         priorityChoiceBox.setValue(contextTask.getPriority().getDisplayName());
         executorChoiceBox.setValue(contextTask.getExecutor());
         deadlineDatePicker.setValue(contextTask.getDeadline());
-        //tagsTextField.setText(contextTask.getType());
-        //taskDescriptionTextArea.setText(contextTask.getDescription());
+        tagsTextField.setText(contextTask.getType());
+        taskDescriptionTextArea.setText(contextTask.getDescription());
     }
 
     public void loadExecutors() {

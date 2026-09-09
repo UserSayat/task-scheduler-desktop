@@ -7,8 +7,8 @@ import java.util.List;
 public interface TaskService {
     List<Task> findAll();
     List<Task> findByStatus(String status);
-    Task findById(int id);
+    Task findById(long id);
     void save(Task task);
     void update(Task task);
-    void delete(int id);
+    void delete(long id);
 }

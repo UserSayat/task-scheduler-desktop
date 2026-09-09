@@ -25,7 +25,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Task findById(int id) {
+    public Task findById(long id) {
         return repository.findById(id);
     }
 
@@ -52,7 +52,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(long id) {
         repository.delete(id);
     }
 }

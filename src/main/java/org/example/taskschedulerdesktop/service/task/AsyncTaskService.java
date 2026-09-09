@@ -40,7 +40,7 @@ public class AsyncTaskService {
                 log.debug("findNewTasks: {} tasks found", tasks.size());
                 onSuccess.accept(tasks);
             } catch (Exception e) {
-                log.error("❌ findNewTasks: ", e);
+                log.error("findNewTasks: ", e);
                 onError.accept(e);
             }
         });
@@ -79,7 +79,7 @@ public class AsyncTaskService {
         });
     }
 
-    public void findById(int id, Consumer<Task> onSuccess, Consumer<Throwable> onError) {
+    public void findById(long id, Consumer<Task> onSuccess, Consumer<Throwable> onError) {
         executor.submit(() -> {
             try {
                 Task task = delegate.findById(id);
@@ -112,7 +112,7 @@ public class AsyncTaskService {
         });
     }
 
-    public void delete(int id, Runnable onSuccess, Consumer<Throwable> onError) {
+    public void delete(long id, Runnable onSuccess, Consumer<Throwable> onError) {
         executor.submit(() -> {
             try {
                 delegate.delete(id);

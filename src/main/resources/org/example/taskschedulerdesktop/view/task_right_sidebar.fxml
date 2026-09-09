@@ -7,6 +7,7 @@
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -107,16 +108,36 @@
       </VBox>
       <HBox>
          <children>
-            <Button fx:id="acceptTheTaskButton" mnemonicParsing="false" prefWidth="230.0" text="Взять в работу" />
+            <Button fx:id="acceptButton" mnemonicParsing="false" prefWidth="230.0" text="Взять в работу" />
             <Region maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
             <Button fx:id="editButton" mnemonicParsing="false" prefWidth="110.0" text="Изменить" />
          </children>
-         <VBox.margin>
-            <Insets />
-         </VBox.margin>
+         <padding>
+            <Insets left="25.0" right="25.0" />
+         </padding>
+      </HBox>
+      <StackPane alignment="TOP_LEFT">
+         <children>
+            <Button fx:id="deleteButton" mnemonicParsing="false" text="Удалить задачу" />
+            <VBox fx:id="confirmDeletePanelVBox" spacing="10.0" visible="false">
+               <children>
+                  <Label text="Удалить задачу безвозвратно?" />
+                  <HBox>
+                     <children>
+                        <Button fx:id="confirmDeleteButton" mnemonicParsing="false" prefWidth="230.0" text="Да, удалить" />
+                        <Region maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                        <Button fx:id="cancelDeleteButton" layoutX="240.0" layoutY="10.0" mnemonicParsing="false" prefWidth="110.0" text="Отмена" />
+                     </children>
+                  </HBox>
+               </children>
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+            </VBox>
+         </children>
          <padding>
             <Insets bottom="30.0" left="25.0" right="25.0" />
          </padding>
-      </HBox>
+      </StackPane>
    </children>
 </VBox>
