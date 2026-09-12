@@ -55,9 +55,6 @@ public class CreateTaskModalWindowController {
         this.taskService = taskService;
     }
 
-    //TODO остановился на том что экраны стали медленнее загружаться
-    //TODO настроить контроллеры чтобы брали данные из бд
-
     @FXML
     public void initialize() {
 

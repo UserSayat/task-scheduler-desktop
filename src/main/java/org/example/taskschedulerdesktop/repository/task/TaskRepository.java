@@ -1,4 +1,4 @@
-package org.example.taskschedulerdesktop.repository;
+package org.example.taskschedulerdesktop.repository.task;
 
 import org.example.taskschedulerdesktop.models.Task;
 import java.util.List;

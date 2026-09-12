@@ -1,7 +1,7 @@
 package org.example.taskschedulerdesktop.service.task;
 
 import org.example.taskschedulerdesktop.models.Task;
-import org.example.taskschedulerdesktop.repository.TaskRepository;
+import org.example.taskschedulerdesktop.repository.task.TaskRepository;
 import org.example.taskschedulerdesktop.utils.TaskStatus;
 
 import java.util.List;
