@@ -37,7 +37,7 @@ public class H2TaskRepository implements TaskRepository {
                 synced BOOLEAN DEFAULT FALSE
             )
         """;
-        //id, taskName, projectName, executor, type, status, priority, deadline, description, synced
+
         try (Connection conn = db.getConnection();
              Statement stmt = conn.createStatement()) {
             stmt.execute(sql);
@@ -83,8 +83,8 @@ public class H2TaskRepository implements TaskRepository {
             pstmt.setString(2, task.getProjectName());
             pstmt.setString(3, task.getExecutor());
             pstmt.setString(4, task.getType());
-            pstmt.setString(5, task.getStatus().getDisplayName());
-            pstmt.setString(6, task.getPriority().getDisplayName());
+            pstmt.setString(5, task.getStatus().name());
+            pstmt.setString(6, task.getPriority().name());
             pstmt.setObject(7, task.getDeadline());
             pstmt.setString(8, task.getDescription());
             pstmt.setBoolean(9, task.isSynced());
@@ -93,7 +93,7 @@ public class H2TaskRepository implements TaskRepository {
             // Получаем сгенерированный ID
             ResultSet generatedKeys = pstmt.getGeneratedKeys();
             if (generatedKeys.next()) {
-                task.setId(generatedKeys.getInt(1));
+                task.setId(generatedKeys.getLong(1));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -114,8 +114,8 @@ public class H2TaskRepository implements TaskRepository {
             pstmt.setString(2, task.getProjectName());
             pstmt.setString(3, task.getExecutor());
             pstmt.setString(4, task.getType());
-            pstmt.setString(5, task.getStatus().getDisplayName());
-            pstmt.setString(6, task.getPriority().getDisplayName());
+            pstmt.setString(5, task.getStatus().name());
+            pstmt.setString(6, task.getPriority().name());
             pstmt.setString(7, task.getDeadline().toString());
             pstmt.setString(8, task.getDescription());
             pstmt.setBoolean(9, task.isSynced());
@@ -165,14 +165,14 @@ public class H2TaskRepository implements TaskRepository {
     }
 
     @Override
-    public List<Task> findByStatus(String status) {
+    public List<Task> findByStatus(TaskStatus status) {
         String sql = "SELECT * FROM tasks WHERE status = ?";
         List<Task> tasks = new ArrayList<>();
 
         try (Connection conn = db.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setString(1, status);
+            pstmt.setString(1, status.name());
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
@@ -182,6 +182,27 @@ public class H2TaskRepository implements TaskRepository {
             e.printStackTrace();
         }
         return tasks;
+    }
+
+    @Override
+    public int countByProjectNameAndStatus(String projectName, TaskStatus status) {
+        String sql = "SELECT COUNT(1) FROM tasks WHERE projectName = ? AND status = ?";
+
+        try (Connection conn = db.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, projectName);
+            stmt.setString(2, status.getDisplayName());
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     // ===== МЕТОДЫ ДЛЯ СИНХРОНИЗАЦИИ =====
@@ -246,15 +267,9 @@ public class H2TaskRepository implements TaskRepository {
         try (Connection conn = db.getConnection();
              Statement stmt = conn.createStatement()) {
             stmt.execute(sql);
-            System.out.println("✅ Индекс на status создан (если его не было)");
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-
-    //TODO Остановился на создании индексов
-    //TODO Поменять VBox на TableView (при необходимости HBox на ListView)
     //TODO Сделать кэширование
-    //TODO Работал с ProjectExtendedPageController
-    //TODO Не работает findInProgress() и кнопка создания задачи или вывод карточки на экран
 }

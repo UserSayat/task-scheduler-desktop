@@ -10,14 +10,14 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
-public class AsyncTaskService {
+public class TasksLoaderService {
 
-    private static final Logger log = LoggerFactory.getLogger(AsyncTaskService.class);
+    private static final Logger log = LoggerFactory.getLogger(TasksLoaderService.class);
 
     private final TaskService delegate;
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
-    public AsyncTaskService(TaskService delegate) {
+    public TasksLoaderService(TaskService delegate) {
         this.delegate = delegate;
     }
 
@@ -36,7 +36,7 @@ public class AsyncTaskService {
         log.debug("findNewTasks: request to db...");
         executor.submit(() -> {
             try {
-                List<Task> tasks = delegate.findByStatus(TaskStatus.NEW.getDisplayName());
+                List<Task> tasks = delegate.findByStatus(TaskStatus.NEW);
                 log.debug("findNewTasks: {} tasks found", tasks.size());
                 onSuccess.accept(tasks);
             } catch (Exception e) {
@@ -49,7 +49,7 @@ public class AsyncTaskService {
     public void findInProgress(Consumer<List<Task>> onSuccess, Consumer<Throwable> onError) {
         executor.submit(() -> {
             try {
-                List<Task> tasks = delegate.findByStatus(TaskStatus.IN_PROGRESS.getDisplayName());
+                List<Task> tasks = delegate.findByStatus(TaskStatus.IN_PROGRESS);
                 onSuccess.accept(tasks);
             } catch (Exception e) {
                 onError.accept(e);
@@ -60,7 +60,7 @@ public class AsyncTaskService {
     public void findUnderReview(Consumer<List<Task>> onSuccess, Consumer<Throwable> onError) {
         executor.submit(() -> {
             try {
-                List<Task> tasks = delegate.findByStatus(TaskStatus.UNDER_REVIEW.getDisplayName());
+                List<Task> tasks = delegate.findByStatus(TaskStatus.UNDER_REVIEW);
                 onSuccess.accept(tasks);
             } catch (Exception e) {
                 onError.accept(e);
@@ -71,7 +71,7 @@ public class AsyncTaskService {
     public void findCompletedTasks(Consumer<List<Task>> onSuccess, Consumer<Throwable> onError) {
         executor.submit(() -> {
             try {
-                List<Task> tasks = delegate.findByStatus(TaskStatus.COMPLETED.getDisplayName());
+                List<Task> tasks = delegate.findByStatus(TaskStatus.COMPLETED);
                 onSuccess.accept(tasks);
             } catch (Exception e) {
                 onError.accept(e);

@@ -20,7 +20,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<Task> findByStatus(String status) {
+    public List<Task> findByStatus(TaskStatus status) {
         return repository.findByStatus(status);
     }
 
@@ -54,5 +54,10 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public void delete(long id) {
         repository.delete(id);
+    }
+
+    @Override
+    public int countByProjectNameAndStatus(String projectName, TaskStatus status) {
+        return repository.countByProjectNameAndStatus(projectName, status);
     }
 }

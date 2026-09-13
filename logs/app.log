@@ -1,29 +1,12 @@
-2026-09-12 19:30:46.036 [JavaFX Application Thread] DEBUG o.e.t.service.task.AsyncTaskService - findNewTasks: request to db...
-2026-09-12 19:30:46.339 [pool-2-thread-1] DEBUG o.e.t.service.task.AsyncTaskService - findNewTasks: 6 tasks found
-2026-09-12 19:30:48.583 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_right_sidebar.fxml, context=org.example.taskschedulerdesktop.models.Task@1da09c0e
-2026-09-12 19:30:48.605 [JavaFX Application Thread] INFO  o.e.t.c.TaskRightSidebarController - initialize()
-2026-09-12 19:30:48.608 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - sidebarController found, calling setContext()
-2026-09-12 19:30:48.610 [JavaFX Application Thread] INFO  o.e.t.c.TaskRightSidebarController - setContext()
-2026-09-12 19:30:48.611 [JavaFX Application Thread] DEBUG o.e.t.c.TaskRightSidebarController - context = org.example.taskschedulerdesktop.models.Task@1da09c0e
-2026-09-12 19:30:48.611 [JavaFX Application Thread] INFO  o.e.t.c.TaskRightSidebarController - contextTask saved: Приемка товара
-2026-09-12 19:30:48.611 [JavaFX Application Thread] DEBUG o.e.t.c.TaskRightSidebarController - updateUI()
-2026-09-12 19:30:48.611 [JavaFX Application Thread] DEBUG o.e.t.c.TaskRightSidebarController - projectName: Миграция CRM
-2026-09-12 19:30:48.611 [JavaFX Application Thread] DEBUG o.e.t.c.TaskRightSidebarController - taskName: Приемка товара
-2026-09-12 19:30:48.611 [JavaFX Application Thread] DEBUG o.e.t.c.TaskRightSidebarController - status: NEW
-2026-09-12 19:30:48.611 [JavaFX Application Thread] INFO  o.e.t.c.TaskRightSidebarController - UI updated
-2026-09-12 19:30:49.969 [JavaFX Application Thread] DEBUG o.e.t.c.TaskRightSidebarController - Click on delete button
-2026-09-12 19:30:49.969 [JavaFX Application Thread] INFO  o.e.t.c.TaskRightSidebarController - Open delete panel for task: Приемка товара
-2026-09-12 19:30:53.546 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_right_sidebar.fxml, context=org.example.taskschedulerdesktop.models.Task@6cf30287
-2026-09-12 19:30:53.562 [JavaFX Application Thread] INFO  o.e.t.c.TaskRightSidebarController - initialize()
-2026-09-12 19:30:53.562 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - sidebarController found, calling setContext()
-2026-09-12 19:30:53.562 [JavaFX Application Thread] INFO  o.e.t.c.TaskRightSidebarController - setContext()
-2026-09-12 19:30:53.562 [JavaFX Application Thread] DEBUG o.e.t.c.TaskRightSidebarController - context = org.example.taskschedulerdesktop.models.Task@6cf30287
-2026-09-12 19:30:53.562 [JavaFX Application Thread] INFO  o.e.t.c.TaskRightSidebarController - contextTask saved: oaruhg[aurgh'uarh'b
-2026-09-12 19:30:53.562 [JavaFX Application Thread] DEBUG o.e.t.c.TaskRightSidebarController - updateUI()
-2026-09-12 19:30:53.562 [JavaFX Application Thread] DEBUG o.e.t.c.TaskRightSidebarController - projectName: Мобильное приложение
-2026-09-12 19:30:53.562 [JavaFX Application Thread] DEBUG o.e.t.c.TaskRightSidebarController - taskName: oaruhg[aurgh'uarh'b
-2026-09-12 19:30:53.562 [JavaFX Application Thread] DEBUG o.e.t.c.TaskRightSidebarController - status: NEW
-2026-09-12 19:30:53.562 [JavaFX Application Thread] INFO  o.e.t.c.TaskRightSidebarController - UI updated
-2026-09-12 19:30:54.586 [JavaFX Application Thread] DEBUG o.e.t.c.TaskRightSidebarController - Click on delete button
-2026-09-12 19:30:54.587 [JavaFX Application Thread] INFO  o.e.t.c.TaskRightSidebarController - Open delete panel for task: oaruhg[aurgh'uarh'b
-2026-09-12 19:30:55.678 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Toast is displayed: Задача удалена
+2026-09-13 13:53:17.857 [JavaFX Application Thread] DEBUG o.e.t.service.task.AsyncTaskService - findNewTasks: request to db...
+2026-09-13 13:53:23.317 [pool-2-thread-1] DEBUG o.e.t.service.task.AsyncTaskService - findNewTasks: 0 tasks found
+2026-09-13 13:54:11.765 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Close Stage: Новый проект
+2026-09-13 13:54:11.788 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Toast is displayed: Задача сохранена
+2026-09-13 13:54:11.788 [JavaFX Application Thread] DEBUG o.e.t.c.CreateProjectModalWindowController - createProjectButton.getScene() = javafx.scene.Scene@738cffb3
+2026-09-13 13:54:11.788 [JavaFX Application Thread] DEBUG o.e.t.c.CreateProjectModalWindowController - createProjectButton.getScene().getWindow() = javafx.stage.Stage@1dff36fb
+2026-09-13 13:54:47.890 [JavaFX Application Thread] DEBUG o.e.t.service.task.AsyncTaskService - findNewTasks: request to db...
+2026-09-13 13:54:53.190 [pool-2-thread-1] DEBUG o.e.t.service.task.AsyncTaskService - findNewTasks: 0 tasks found
+2026-09-13 13:58:21.338 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Close Stage: Новый проект
+2026-09-13 13:58:21.379 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Toast is displayed: Проект создан
+2026-09-13 13:58:21.379 [JavaFX Application Thread] DEBUG o.e.t.c.CreateProjectModalWindowController - createProjectButton.getScene() = javafx.scene.Scene@6feebe5c
+2026-09-13 13:58:21.379 [JavaFX Application Thread] DEBUG o.e.t.c.CreateProjectModalWindowController - createProjectButton.getScene().getWindow() = javafx.stage.Stage@49e4e1f6

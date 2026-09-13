@@ -6,20 +6,17 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import org.example.taskschedulerdesktop.models.Task;
 import org.example.taskschedulerdesktop.navigation.NavigationManager;
-import org.example.taskschedulerdesktop.service.task.AsyncTaskService;
+import org.example.taskschedulerdesktop.service.task.TasksLoaderService;
 import org.example.taskschedulerdesktop.utils.TaskPriority;
 import org.example.taskschedulerdesktop.utils.TaskStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-
 public class EditTaskRightSidebarController implements RightSidebarController {
 
     private static final Logger log = LoggerFactory.getLogger(EditTaskRightSidebarController.class);
 
-    private final AsyncTaskService taskService;
+    private final TasksLoaderService taskService;
 
     @FXML private VBox sidebarRoot;
     @FXML private Button closeButton;
@@ -36,7 +33,7 @@ public class EditTaskRightSidebarController implements RightSidebarController {
 
     private Task contextTask;
 
-    public EditTaskRightSidebarController(AsyncTaskService taskService) {
+    public EditTaskRightSidebarController(TasksLoaderService taskService) {
         this.taskService = taskService;
     }
 

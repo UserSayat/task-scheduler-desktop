@@ -10,14 +10,14 @@ import javafx.scene.layout.VBox;
 import org.example.taskschedulerdesktop.models.Task;
 import org.example.taskschedulerdesktop.navigation.NavigationManager;
 import org.example.taskschedulerdesktop.navigation.Routes;
-import org.example.taskschedulerdesktop.service.task.AsyncTaskService;
+import org.example.taskschedulerdesktop.service.task.TasksLoaderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class TaskRightSidebarController implements RightSidebarController {
 
     private static final Logger log = LoggerFactory.getLogger(TaskRightSidebarController.class);
-    private final AsyncTaskService taskService;
+    private final TasksLoaderService taskService;
 
     @FXML private Button closeButton;
     @FXML private Label projectNameLabel;
@@ -38,7 +38,7 @@ public class TaskRightSidebarController implements RightSidebarController {
 
     private Task contextTask;
 
-    public TaskRightSidebarController(AsyncTaskService taskService) {
+    public TaskRightSidebarController(TasksLoaderService taskService) {
         this.taskService = taskService;
     }
 

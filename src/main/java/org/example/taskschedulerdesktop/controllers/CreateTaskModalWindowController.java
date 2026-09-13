@@ -19,37 +19,26 @@ public class CreateTaskModalWindowController {
 
     private final TaskService taskService;
 
-    @FXML
-    private TextField taskNameTextField;
+    @FXML private TextField taskNameTextField;
 
-    @FXML
-    private ChoiceBox<String> projectChoiceBox;
+    @FXML private ChoiceBox<String> projectChoiceBox;
     private String selectedProject;
 
-    @FXML
-    private ChoiceBox<String>executorChoiceBox;
+    @FXML private ChoiceBox<String>executorChoiceBox;
     private String selectedExecutor;
 
-    @FXML
-    private Button highPriorityButton;
-    @FXML
-    private Button middlePriorityButton;
-    @FXML
-    private Button lowPriorityButton;
-
+    @FXML private Button highPriorityButton;
+    @FXML private Button middlePriorityButton;
+    @FXML private Button lowPriorityButton;
     private TaskPriority currentPriority = TaskPriority.LOW;
 
-    @FXML
-    private DatePicker deadlineDatePicker;
+    @FXML private DatePicker deadlineDatePicker;
     private LocalDate selectedDate;
 
-    @FXML
-    private TextField tagsTextField;
+    @FXML private TextField tagsTextField;
 
-    @FXML
-    private Button createTaskButton;
-    @FXML
-    private Button cancelButton;
+    @FXML private Button createTaskButton;
+    @FXML private Button cancelButton;
 
     public CreateTaskModalWindowController(TaskService taskService) {
         this.taskService = taskService;
@@ -91,30 +80,41 @@ public class CreateTaskModalWindowController {
         });
 
         createTaskButton.setOnAction(event -> {
-            if (selectedProject != null && selectedExecutor != null && selectedDate != null) {
-                taskService.save(new Task(null,
-                        taskNameTextField.getText(),
-                        selectedProject,
-                        selectedExecutor,
-                        tagsTextField.getText(),
-                        TaskStatus.NEW,
-                        currentPriority,
-                        deadlineDatePicker.getValue(),
-                        null,
-                        false));
-
-                log.debug("createTaskButton.getScene() = {}", createTaskButton.getScene());
-                log.debug("createTaskButton.getScene().getWindow() = {}", createTaskButton.getScene().getWindow());
-
-                Stage stage = (Stage) createTaskButton.getScene().getWindow();
-                if (stage != null) {
-                    NavigationManager.closeDialog(stage);
-                    NavigationManager.showToast("Задача сохранена", "success");
-                }
-
-                //TODO После создания и удаления задач окна долго не закрываются исправить
-            } else {
+            if (taskNameTextField.getText().isEmpty() ||
+                    selectedProject != null ||
+                    selectedExecutor != null ||
+                    selectedDate != null) {
                 NavigationManager.showToast("Заполните пустые поля", "info");
+            }
+
+            //TODO может быть стоит использовать AsyncTaskService
+            taskService.save(new Task(null,
+                    taskNameTextField.getText(),
+                    selectedProject,
+                    selectedExecutor,
+                    tagsTextField.getText(),
+                    TaskStatus.NEW,
+                    currentPriority,
+                    deadlineDatePicker.getValue(),
+                    null,
+                    false));
+
+            Stage stage = (Stage) createTaskButton.getScene().getWindow();
+            if (stage != null) {
+                NavigationManager.closeDialog(stage);
+                NavigationManager.showToast("Задача сохранена", "success");
+            }
+
+            log.debug("createTaskButton.getScene() = {}", createTaskButton.getScene());
+            log.debug("createTaskButton.getScene().getWindow() = {}", createTaskButton.getScene().getWindow());
+
+            //TODO После создания и удаления задач окна долго не закрываются исправить
+        });
+
+        cancelButton.setOnAction(event -> {
+            Stage stage = (Stage) cancelButton.getScene().getWindow();
+            if (stage != null) {
+                NavigationManager.closeDialog(stage);
             }
         });
     }

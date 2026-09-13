@@ -5,12 +5,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.VBox;
-import org.example.taskschedulerdesktop.service.task.AsyncTaskService;
+import org.example.taskschedulerdesktop.service.task.TasksLoaderService;
 import org.example.taskschedulerdesktop.service.task.TaskCardService;
 
 public class ProjectExtendedPageController {
 
-    private final AsyncTaskService asyncTaskService;
+    private final TasksLoaderService tasksLoaderService;
     private final TaskCardService taskCardService;
 
     @FXML private Label projectNameLabel;
@@ -29,8 +29,8 @@ public class ProjectExtendedPageController {
     @FXML private VBox completedTasksVBox;
     @FXML private ProgressIndicator completedTasksLoadingIndicator;
 
-    public ProjectExtendedPageController(AsyncTaskService taskService, TaskCardService taskCardService) {
-        this.asyncTaskService = taskService;
+    public ProjectExtendedPageController(TasksLoaderService taskService, TaskCardService taskCardService) {
+        this.tasksLoaderService = taskService;
         this.taskCardService = taskCardService;
     }
 
@@ -45,7 +45,7 @@ public class ProjectExtendedPageController {
         newTasksLoadingIndicator.setVisible(true);
         newTasksVBox.getChildren().clear();
 
-        asyncTaskService.findNewTasks(
+        tasksLoaderService.findNewTasks(
                 tasks -> Platform.runLater(() -> {
                     if (tasks.isEmpty()) {
                         newTasksVBox.getChildren().add(new Label("Нет новых задач"));
@@ -68,7 +68,7 @@ public class ProjectExtendedPageController {
         tasksInProgressLoadingIndicator.setVisible(true);
         tasksInProgressVBox.getChildren().clear();
 
-        asyncTaskService.findInProgress(
+        tasksLoaderService.findInProgress(
                 tasks -> Platform.runLater(() -> {
                     if (tasks.isEmpty()) {
                         tasksInProgressVBox.getChildren().add(new Label("Нет задач в работе"));
@@ -91,7 +91,7 @@ public class ProjectExtendedPageController {
         tasksUnderReviewLoadingIndicator.setVisible(true);
         tasksUnderReviewVBox.getChildren().clear();
 
-        asyncTaskService.findUnderReview(
+        tasksLoaderService.findUnderReview(
                 tasks -> Platform.runLater(() -> {
                     if (tasks.isEmpty()) {
                         tasksUnderReviewVBox.getChildren().add(new Label("Нет задач на проверке"));
@@ -114,7 +114,7 @@ public class ProjectExtendedPageController {
         completedTasksLoadingIndicator.setVisible(true);
         completedTasksVBox.getChildren().clear();
 
-        asyncTaskService.findCompletedTasks(
+        tasksLoaderService.findCompletedTasks(
                 tasks -> Platform.runLater(() -> {
                     if (tasks.isEmpty()) {
                         completedTasksVBox.getChildren().add(new Label("Нет завершенных задач"));

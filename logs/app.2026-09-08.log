@@ -412,7 +412,7 @@ java.lang.IllegalStateException: Not on FX application thread; currentThread = p
 	at javafx.graphics@21/javafx.scene.Parent$3.onProposedChange(Parent.java:475)
 	at javafx.base@21/com.sun.javafx.collections.VetoableListDecorator.addAll(VetoableListDecorator.java:238)
 	at org.example.taskschedulerdesktop/org.example.taskschedulerdesktop.controllers.ProjectExtendedPageController.lambda$loadNewTasks$0(ProjectExtendedPageController.java:58)
-	at org.example.taskschedulerdesktop/org.example.taskschedulerdesktop.service.task.AsyncTaskService.lambda$findNewTasks$1(AsyncTaskService.java:41)
+	at org.example.taskschedulerdesktop/org.example.taskschedulerdesktop.service.task.TasksLoaderService.lambda$findNewTasks$1(AsyncTaskService.java:41)
 	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:572)
 	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
 	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
