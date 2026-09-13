@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="TOP_RIGHT" minWidth="0.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.taskschedulerdesktop.controllers.ProjectsController">
+<VBox alignment="TOP_RIGHT" minWidth="0.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.taskschedulerdesktop.controllers.projects.ProjectsController">
    <children>
       <Button fx:id="createProjectButton" mnemonicParsing="false" text="+ Новый проект">
          <VBox.margin>

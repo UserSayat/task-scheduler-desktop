@@ -1,9 +1,9 @@
 package org.example.taskschedulerdesktop.service.task;
 
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.input.MouseButton;
-import javafx.scene.layout.HBox;
-import org.example.taskschedulerdesktop.controllers.TaskDescriptionCardController;
+import org.example.taskschedulerdesktop.controllers.tasks.TaskDescriptionCardController;
 import org.example.taskschedulerdesktop.models.Task;
 import org.example.taskschedulerdesktop.navigation.NavigationManager;
 import org.example.taskschedulerdesktop.navigation.Routes;
@@ -14,12 +14,12 @@ import java.util.List;
 
 public class TaskCardService {
 
-    public HBox createCard(Task task, int sequenceNumber) {
+    public Node createCard(Task task, int sequenceNumber) {
         try {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource(Routes.TASK_DESCRIPTION_CARD_FXML_PATH)
+                    getClass().getResource( Routes.TASK_DESCRIPTION_CARD_FXML_PATH)
             );
-            HBox card = loader.load();
+            Node card = loader.load();
             TaskDescriptionCardController controller = loader.getController();
 
             // Заполняем карточку
@@ -48,12 +48,12 @@ public class TaskCardService {
         }
     }
 
-    public List<HBox> createCards(List<Task> tasks) {
-        List<HBox> cards = new ArrayList<>();
+    public List<Node> createCards(List<Task> tasks) {
+        List<Node> cards = new ArrayList<>();
         int sequenceNumber = 1;
 
         for (Task task : tasks) {
-            HBox card = createCard(task, sequenceNumber);
+            Node card = createCard(task, sequenceNumber);
             cards.add(card);
             sequenceNumber++;
         }

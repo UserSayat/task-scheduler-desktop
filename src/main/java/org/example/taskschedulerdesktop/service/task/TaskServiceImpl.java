@@ -57,7 +57,12 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public int countByProjectNameAndStatus(String projectName, TaskStatus status) {
+    public int countTasksByProjectNameAndStatus(String projectName, TaskStatus status) {
         return repository.countByProjectNameAndStatus(projectName, status);
+    }
+
+    @Override
+    public int countTasksByProjectName(String projectName) {
+        return repository.countByProjectName(projectName);
     }
 }

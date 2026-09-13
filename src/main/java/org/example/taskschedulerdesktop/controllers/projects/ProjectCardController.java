@@ -1,4 +1,4 @@
-package org.example.taskschedulerdesktop.controllers;
+package org.example.taskschedulerdesktop.controllers.projects;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -51,7 +51,7 @@ public class ProjectCardController {
 
     @FXML
     public void initialize() {
-        rootVBox.setOnMouseClicked(e -> NavigationManager
+        rootVBox.setOnMouseClicked(event -> NavigationManager
                 .navigateTo("/org/example/taskschedulerdesktop/view/project_extended_page.fxml"));
     }
 

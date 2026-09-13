@@ -1,4 +1,4 @@
-package org.example.taskschedulerdesktop.controllers;
+package org.example.taskschedulerdesktop.controllers.team;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

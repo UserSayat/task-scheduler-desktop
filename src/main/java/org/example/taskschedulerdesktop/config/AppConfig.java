@@ -2,15 +2,23 @@ package org.example.taskschedulerdesktop.config;
 
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import org.example.taskschedulerdesktop.controllers.*;
+import org.example.taskschedulerdesktop.controllers.projects.CreateProjectModalWindowController;
+import org.example.taskschedulerdesktop.controllers.projects.ProjectExtendedPageController;
+import org.example.taskschedulerdesktop.controllers.projects.ProjectsController;
+import org.example.taskschedulerdesktop.controllers.tasks.CreateTaskModalWindowController;
+import org.example.taskschedulerdesktop.controllers.tasks.EditTaskRightSidebarController;
+import org.example.taskschedulerdesktop.controllers.tasks.TaskController;
+import org.example.taskschedulerdesktop.controllers.tasks.TaskRightSidebarController;
 import org.example.taskschedulerdesktop.database.DatabaseConnection;
 import org.example.taskschedulerdesktop.repository.project.H2ProjectRepository;
 import org.example.taskschedulerdesktop.repository.project.ProjectRepository;
 import org.example.taskschedulerdesktop.repository.task.H2TaskRepository;
 import org.example.taskschedulerdesktop.repository.task.TaskRepository;
+import org.example.taskschedulerdesktop.service.project.AsyncProjectService;
+import org.example.taskschedulerdesktop.service.project.ProjectCardService;
 import org.example.taskschedulerdesktop.service.project.ProjectService;
 import org.example.taskschedulerdesktop.service.project.ProjectServiceImpl;
-import org.example.taskschedulerdesktop.service.task.TasksLoaderService;
+import org.example.taskschedulerdesktop.service.task.AsyncTaskService;
 import org.example.taskschedulerdesktop.service.task.TaskCardService;
 import org.example.taskschedulerdesktop.service.task.TaskServiceImpl;
 import org.example.taskschedulerdesktop.service.task.TaskService;
@@ -25,9 +33,11 @@ public class AppConfig {
     private final TaskRepository taskRepository;
     private final ProjectRepository projectRepository;
     private final TaskService taskService;
-    private final TasksLoaderService tasksLoaderService;
     private final TaskCardService taskCardService;
+    private final AsyncTaskService asyncTaskService;
     private final ProjectService projectService;
+    private final ProjectCardService projectCardService;
+    private final AsyncProjectService asyncProjectService;
 
     private final Callback<Class<?>, Object> controllerFactory;
 
@@ -36,9 +46,12 @@ public class AppConfig {
         this.taskRepository = new H2TaskRepository(databaseConnection);
         this.projectRepository = new H2ProjectRepository(databaseConnection);
         this.taskService = new TaskServiceImpl(taskRepository);
-        this.tasksLoaderService = new TasksLoaderService(taskService);
         this.taskCardService = new TaskCardService();
+        this.asyncTaskService = new AsyncTaskService(taskService, taskCardService);
         this.projectService = new ProjectServiceImpl(projectRepository, taskService);
+        this.projectCardService = new ProjectCardService(projectService);
+        this.asyncProjectService = new AsyncProjectService(projectService, projectCardService);
+
 
 
         this.controllerFactory = clazz -> {
@@ -46,19 +59,19 @@ public class AppConfig {
                 return new TaskController(taskService);
             }
             if (clazz == ProjectExtendedPageController.class) {
-                return new ProjectExtendedPageController(tasksLoaderService, taskCardService);
+                return new ProjectExtendedPageController(asyncTaskService);
             }
             if (clazz == CreateTaskModalWindowController.class) {
                 return new CreateTaskModalWindowController(taskService);
             }
             if (clazz == TaskRightSidebarController.class) {
-                return new TaskRightSidebarController(tasksLoaderService);
+                return new TaskRightSidebarController(asyncTaskService);
             }
             if (clazz == EditTaskRightSidebarController.class) {
-                return new EditTaskRightSidebarController(tasksLoaderService);
+                return new EditTaskRightSidebarController(asyncTaskService);
             }
             if (clazz == ProjectsController.class) {
-                return new ProjectsController(projectService);
+                return new ProjectsController(asyncProjectService);
             }
             if (clazz == CreateProjectModalWindowController.class) {
                 return new CreateProjectModalWindowController(projectService);

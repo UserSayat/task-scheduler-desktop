@@ -12,5 +12,7 @@ public interface TaskService {
     void save(Task task);
     void update(Task task);
     void delete(long id);
-    int countByProjectNameAndStatus(String projectName, TaskStatus status);
+    int countTasksByProjectNameAndStatus(String projectName, TaskStatus status);
+    int countTasksByProjectName(String projectName);
 }
+

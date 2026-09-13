@@ -1,12 +1,13 @@
-package org.example.taskschedulerdesktop.controllers;
+package org.example.taskschedulerdesktop.controllers.tasks;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
+import org.example.taskschedulerdesktop.controllers.sidebar.RightSidebarController;
 import org.example.taskschedulerdesktop.models.Task;
 import org.example.taskschedulerdesktop.navigation.NavigationManager;
-import org.example.taskschedulerdesktop.service.task.TasksLoaderService;
+import org.example.taskschedulerdesktop.service.task.AsyncTaskService;
 import org.example.taskschedulerdesktop.utils.TaskPriority;
 import org.example.taskschedulerdesktop.utils.TaskStatus;
 import org.slf4j.Logger;
@@ -16,7 +17,7 @@ public class EditTaskRightSidebarController implements RightSidebarController {
 
     private static final Logger log = LoggerFactory.getLogger(EditTaskRightSidebarController.class);
 
-    private final TasksLoaderService taskService;
+    private final AsyncTaskService taskService;
 
     @FXML private VBox sidebarRoot;
     @FXML private Button closeButton;
@@ -33,7 +34,7 @@ public class EditTaskRightSidebarController implements RightSidebarController {
 
     private Task contextTask;
 
-    public EditTaskRightSidebarController(TasksLoaderService taskService) {
+    public EditTaskRightSidebarController(AsyncTaskService taskService) {
         this.taskService = taskService;
     }
 
@@ -66,7 +67,7 @@ public class EditTaskRightSidebarController implements RightSidebarController {
             contextTask.setType(tagsTextField.getText());
             contextTask.setDescription(taskDescriptionTextArea.getText());
 
-            taskService.update(
+            taskService.updateTask(
                     contextTask,
                     () -> Platform.runLater(() -> {
                         NavigationManager.showToast("Данные обновлены", "success");

@@ -1,4 +1,4 @@
-package org.example.taskschedulerdesktop.controllers;
+package org.example.taskschedulerdesktop.controllers.projects;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

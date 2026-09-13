@@ -13,4 +13,5 @@ public interface ProjectService {
     void delete(long id);
     Project findById(long id);
     int countTasksByProjectNameAndStatus(String projectName, TaskStatus status);
+    int countTasksByProjectName(String projectName);
 }

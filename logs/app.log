@@ -10,3 +10,57 @@
 2026-09-13 13:58:21.379 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Toast is displayed: Проект создан
 2026-09-13 13:58:21.379 [JavaFX Application Thread] DEBUG o.e.t.c.CreateProjectModalWindowController - createProjectButton.getScene() = javafx.scene.Scene@6feebe5c
 2026-09-13 13:58:21.379 [JavaFX Application Thread] DEBUG o.e.t.c.CreateProjectModalWindowController - createProjectButton.getScene().getWindow() = javafx.stage.Stage@49e4e1f6
+2026-09-13 19:43:17.365 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/review.fxml
+2026-09-13 19:43:17.736 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/review.fxml
+2026-09-13 19:43:19.010 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-13 19:43:54.868 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-13 19:47:55.517 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/review.fxml
+2026-09-13 19:47:55.927 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/review.fxml
+2026-09-13 19:48:12.847 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/tasks.fxml
+2026-09-13 19:48:12.871 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/tasks.fxml
+2026-09-13 19:48:13.789 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-13 19:48:21.599 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/team.fxml
+2026-09-13 19:48:21.657 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/team.fxml
+2026-09-13 19:48:23.290 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-13 19:48:24.199 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/tasks.fxml
+2026-09-13 19:48:35.618 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/review.fxml
+2026-09-13 19:48:37.971 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/team.fxml
+2026-09-13 19:48:38.660 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/team.fxml
+2026-09-13 19:48:39.366 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-13 19:48:39.841 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/team.fxml
+2026-09-13 19:48:40.338 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-13 19:48:40.668 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/tasks.fxml
+2026-09-13 19:48:40.957 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/review.fxml
+2026-09-13 19:48:41.336 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/tasks.fxml
+2026-09-13 19:48:41.657 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-13 19:48:41.962 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/team.fxml
+2026-09-13 19:48:42.301 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-13 19:48:42.575 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/tasks.fxml
+2026-09-13 19:48:42.908 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/review.fxml
+2026-09-13 19:48:44.024 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/team.fxml
+2026-09-13 19:48:44.213 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-13 19:48:44.272 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/tasks.fxml
+2026-09-13 19:48:44.274 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/review.fxml
+2026-09-13 19:48:44.337 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/team.fxml
+2026-09-13 19:48:44.379 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/team.fxml
+2026-09-13 19:48:46.333 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/tasks.fxml
+2026-09-13 19:48:49.487 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-13 19:48:49.527 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/team.fxml
+2026-09-13 19:49:09.744 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-13 19:49:09.778 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/tasks.fxml
+2026-09-13 19:49:09.778 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/review.fxml
+2026-09-13 19:49:09.823 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/tasks.fxml
+2026-09-13 19:49:14.844 [JavaFX Application Thread] ERROR o.e.t.navigation.NavigationManager - Async load critical error
+2026-09-13 19:49:14.859 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-13 19:49:14.859 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/team.fxml
+2026-09-13 19:49:14.905 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/tasks.fxml
+2026-09-13 19:49:14.906 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-13 19:49:14.928 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/review.fxml
+2026-09-13 19:49:14.928 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/tasks.fxml
+2026-09-13 19:49:14.928 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/team.fxml
+2026-09-13 21:05:03.417 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/review.fxml
+2026-09-13 21:05:03.819 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/review.fxml
+2026-09-13 21:05:10.397 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/tasks.fxml
+2026-09-13 21:05:10.427 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/tasks.fxml
+2026-09-13 21:05:11.127 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-13 21:05:11.160 [JavaFX Application Thread] ERROR o.e.t.navigation.NavigationManager - Async load critical error

@@ -4,6 +4,7 @@ import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -18,7 +19,8 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.Duration;
 import org.example.taskschedulerdesktop.config.AppConfig;
-import org.example.taskschedulerdesktop.controllers.RightSidebarController;
+import org.example.taskschedulerdesktop.controllers.sidebar.RightSidebarController;
+import org.example.taskschedulerdesktop.controllers.Shutdownable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,6 +28,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Центральный менеджер навигации.
@@ -47,11 +51,24 @@ public class NavigationManager {
     private static final Stack<String> history = new Stack<>();
     private static String currentPage = null;
     private static String currentTitle = "";
+
     private static final List<Runnable> listeners = new ArrayList<>();
+
     private static boolean isBackNavigation = false;
 
     //Уведомления
     private static Popup activeToast = null;
+
+    // Пул потоков специально для асинхронной загрузки интерфейсов (хватит 2-х потоков)
+    private static final ExecutorService navigationExecutor = Executors.newFixedThreadPool(2, runnable -> {
+        Thread thread = new Thread(runnable);
+        thread.setDaemon(true);
+        return thread;
+    });
+
+    // Храним ссылку на контроллер ТЕКУЩЕЙ страницы, чтобы вовремя вызывать shutdown
+    private static Object currentController = null;
+
     // ============================================================
     // ИНИЦИАЛИЗАЦИЯ
     // ============================================================
@@ -100,35 +117,63 @@ public class NavigationManager {
             history.push(currentPage);
         }
 
-        try {
-            FXMLLoader loader = new FXMLLoader(
-                    NavigationManager.class.getResource(fxmlPath)
-            );
-            loader.setControllerFactory(controllerFactory);
+        log.debug("Start async loading page: {}", fxmlPath);
 
-            Parent page = loader.load();
-
-            // Передаем контекст, если контроллер умеет его принимать
-            if (loader.getController() instanceof ContextAware aware) {
-                aware.setContext(context);
+        Task<FXMLLoader> loadTask = new Task<>() {
+            @Override
+            protected FXMLLoader call() throws Exception {
+                FXMLLoader loader = new FXMLLoader(
+                        NavigationManager.class.getResource(fxmlPath)
+                );
+                loader.setControllerFactory(controllerFactory);
+                loader.load();
+                return loader;
             }
+        };
 
-            if (loader.getController() instanceof RightSidebarController sidebarController) {
-                sidebarController.setContext(context);
+        loadTask.setOnSucceeded(event -> {
+            try {
+                FXMLLoader loader = loadTask.getValue();
+                Parent page = loader.getRoot();
+                Object newController = loader.getController();
+
+                if (currentController instanceof Shutdownable shutdownableController) {
+                    // Java сама проверяет тип, компилятор гарантирует наличие метода,
+                    // и код выполняется с максимальной скоростью!
+                    shutdownableController.shutdown();
+                }
+
+                currentController = newController;
+
+                if (newController instanceof ContextAware aware) {
+                    aware.setContext(context);
+                }
+                if (newController instanceof RightSidebarController sidebarController) {
+                    sidebarController.setContext(context);
+                }
+
+                contentArea.getChildren().setAll(page);
+                currentPage = fxmlPath;
+
+                if (title != null) {
+                    currentTitle = title;
+                }
+
+                notifyListeners();
+                log.debug("Page displayed successfully: {}", fxmlPath);
+
+            } catch (Exception e) {
+                log.error("Error displaying page after load", e);
             }
+        });
 
-            contentArea.getChildren().setAll(page);
-            currentPage = fxmlPath;
-
-            if (title != null) {
-                currentTitle = title;
-            }
-
-            notifyListeners();
-
-        } catch (IOException e) {
+        loadTask.setOnFailed(event -> {
+            Throwable e = loadTask.getException();
+            log.error("Async load critical error");
             e.printStackTrace();
-        }
+        });
+
+        navigationExecutor.submit(loadTask);
     }
 
     // ============================================================
@@ -146,7 +191,7 @@ public class NavigationManager {
             navigateTo(previousPage, null, null);
             isBackNavigation = false;
         } else {
-            System.out.println("⚠️ История пуста, некуда возвращаться");
+            log.info("History is empty, nowhere to go");
         }
     }
 

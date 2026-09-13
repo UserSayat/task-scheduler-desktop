@@ -16,4 +16,5 @@ public interface TaskRepository {
     List<Task> findUnsynced();
     void markAsSynced(long id);
     int countByProjectNameAndStatus(String projectName, TaskStatus status);
+    int countByProjectName(String projectName);
 }

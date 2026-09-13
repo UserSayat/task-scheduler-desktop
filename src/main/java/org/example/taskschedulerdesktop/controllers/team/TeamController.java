@@ -1,11 +1,10 @@
-package org.example.taskschedulerdesktop.controllers;
+package org.example.taskschedulerdesktop.controllers.team;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import org.example.taskschedulerdesktop.models.EmployeeCard;
-import org.example.taskschedulerdesktop.navigation.NavigationManager;
 
 import java.io.IOException;
 
@@ -16,7 +15,7 @@ public class TeamController {
 
     @FXML
     public void initialize() {
-        NavigationManager.setCurrentTitle("Команда");
+        //NavigationManager.setCurrentTitle("Команда");
         loadTeam();
     }
 

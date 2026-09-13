@@ -1,7 +1,6 @@
-package org.example.taskschedulerdesktop.controllers;
+package org.example.taskschedulerdesktop.controllers.tasks;
 
 import javafx.fxml.FXML;
-import org.example.taskschedulerdesktop.navigation.NavigationManager;
 import org.example.taskschedulerdesktop.service.task.TaskService;
 
 public class TaskController {
@@ -14,6 +13,6 @@ public class TaskController {
 
     @FXML
     public void initialize() {
-        NavigationManager.setCurrentTitle("Задачи");
+        //NavigationManager.setCurrentTitle("Задачи");
     }
 }

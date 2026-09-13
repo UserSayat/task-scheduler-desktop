@@ -1,23 +1,24 @@
-package org.example.taskschedulerdesktop.controllers;
+package org.example.taskschedulerdesktop.controllers.tasks;
 
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import org.example.taskschedulerdesktop.controllers.sidebar.RightSidebarController;
+import org.example.taskschedulerdesktop.listeners.TaskUpdateListener;
 import org.example.taskschedulerdesktop.models.Task;
 import org.example.taskschedulerdesktop.navigation.NavigationManager;
 import org.example.taskschedulerdesktop.navigation.Routes;
-import org.example.taskschedulerdesktop.service.task.TasksLoaderService;
+import org.example.taskschedulerdesktop.service.task.AsyncTaskService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class TaskRightSidebarController implements RightSidebarController {
 
     private static final Logger log = LoggerFactory.getLogger(TaskRightSidebarController.class);
-    private final TasksLoaderService taskService;
+    private final AsyncTaskService taskService;
 
     @FXML private Button closeButton;
     @FXML private Label projectNameLabel;
@@ -38,7 +39,7 @@ public class TaskRightSidebarController implements RightSidebarController {
 
     private Task contextTask;
 
-    public TaskRightSidebarController(TasksLoaderService taskService) {
+    public TaskRightSidebarController(AsyncTaskService taskService) {
         this.taskService = taskService;
     }
 
@@ -83,17 +84,12 @@ public class TaskRightSidebarController implements RightSidebarController {
         });
 
         confirmDeleteButton.setOnAction(event -> {
-            taskService.delete(
+            taskService.deleteTask(
                     contextTask.getId(),
-                    () -> Platform.runLater(() -> {
-                        NavigationManager.showToast("Задача удалена", "success");
-                        resetDeleteUI();
-                        //loadTasks
-                    }),
-                    error -> Platform.runLater(() -> {
-                        NavigationManager.showToast("Ошибка, задача не удалена", "error");
-                        resetDeleteUI();
-                    })
+                    () -> {
+                        TaskUpdateListener.notifyTaskChanged(contextTask);
+                    },
+                    error -> NavigationManager.showToast("Не удалось удалить", "error")
             );
         });
 

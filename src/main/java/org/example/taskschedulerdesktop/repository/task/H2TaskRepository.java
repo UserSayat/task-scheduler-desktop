@@ -205,6 +205,26 @@ public class H2TaskRepository implements TaskRepository {
         return 0;
     }
 
+    @Override
+    public int countByProjectName(String projectName) {
+        String sql = "SELECT COUNT(1) FROM tasks WHERE projectName = ?";
+
+        try (Connection conn = db.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, projectName);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
     // ===== МЕТОДЫ ДЛЯ СИНХРОНИЗАЦИИ =====
 
     @Override

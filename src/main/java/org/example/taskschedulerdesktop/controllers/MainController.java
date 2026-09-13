@@ -39,6 +39,11 @@ public class MainController {
     @FXML
     private Button createTaskButton;
 
+    private final Runnable titleUpdateListener = () -> {
+        pageTitleLabel.setText(NavigationManager.getCurrentTitle());
+        updateBackButtonState();
+    };
+
     @FXML
     public void initialize() {
 
@@ -46,10 +51,7 @@ public class MainController {
                 contentArea,
                 appConfig.getControllerFactory());
 
-        NavigationManager.addListener(() -> {
-            pageTitleLabel.setText(NavigationManager.getCurrentTitle());
-            updateBackButtonState();
-        });
+        NavigationManager.addListener(titleUpdateListener);
 
         backButton.setOnAction(event -> NavigationManager.goBack());
         updateBackButtonState(); // начальное состояние
@@ -59,10 +61,10 @@ public class MainController {
                 "Новая задача",
                 AppConfig.getInstance().getPrimaryStage()));
 
-        reviewButton.setOnAction(event -> NavigationManager.navigateTo(Routes.REVIEW));
-        tasksButton.setOnAction(event -> NavigationManager.navigateTo(Routes.TASKS));
-        projectsButton.setOnAction(event -> NavigationManager.navigateTo(Routes.PROJECTS));
-        teamButton.setOnAction(event -> NavigationManager.navigateTo(Routes.TEAM));
+        reviewButton.setOnAction(event -> NavigationManager.navigateTo(Routes.REVIEW, "Обзор"));
+        tasksButton.setOnAction(event -> NavigationManager.navigateTo(Routes.TASKS, "Задачи"));
+        projectsButton.setOnAction(event -> NavigationManager.navigateTo(Routes.PROJECTS, "Проекты"));
+        teamButton.setOnAction(event -> NavigationManager.navigateTo(Routes.TEAM, "Команда"));
 
         NavigationManager.navigateTo(Routes.REVIEW);
     }
@@ -71,5 +73,9 @@ public class MainController {
         boolean canGoBack = NavigationManager.canGoBack();
         backButton.setVisible(canGoBack);
         backButton.setManaged(canGoBack);
+    }
+
+    public void shutdown() {
+        NavigationManager.removeListener(titleUpdateListener);
     }
 }

@@ -44,6 +44,11 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public int countTasksByProjectNameAndStatus(String projectName, TaskStatus status) {
-        return taskService.countByProjectNameAndStatus(projectName, status);
+        return taskService.countTasksByProjectNameAndStatus(projectName, status);
+    }
+
+    @Override
+    public int countTasksByProjectName(String projectName) {
+        return taskService.countTasksByProjectName(projectName);
     }
 }
