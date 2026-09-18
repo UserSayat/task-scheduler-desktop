@@ -17,7 +17,7 @@ public class TaskCardService {
     public Node createCard(Task task, int sequenceNumber) {
         try {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource( Routes.TASK_DESCRIPTION_CARD_FXML_PATH)
+                    getClass().getResource( Routes.TASK_DESCRIPTION_CARD)
             );
             Node card = loader.load();
             TaskDescriptionCardController controller = loader.getController();

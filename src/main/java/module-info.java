@@ -1,8 +1,10 @@
 module org.example.taskschedulerdesktop {
+
+    requires org.slf4j;
     requires javafx.controls;
     requires javafx.fxml;
+    requires com.zaxxer.hikari;
     requires java.sql;
-    requires org.slf4j;
 
 
     opens org.example.taskschedulerdesktop to javafx.fxml;

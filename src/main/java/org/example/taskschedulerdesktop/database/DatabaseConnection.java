@@ -1,5 +1,8 @@
 package org.example.taskschedulerdesktop.database;
 
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -7,21 +10,22 @@ import java.sql.SQLException;
 public class DatabaseConnection {
 
     private static DatabaseConnection instance;
-    private Connection connection;
+    private final HikariDataSource dataSource;
 
     private static final String URL = "jdbc:h2:~/tasks-db;AUTO_SERVER=TRUE";
     private static final String USER = "sa";
     private static final String PASSWORD = "";
 
     private DatabaseConnection() {
-        try {
-            Class.forName("org.h2.Driver");
-            this.connection = DriverManager.getConnection(URL, USER, PASSWORD);
-            System.out.println("✅ База данных подключена");
-        } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Не удалось подключиться к БД", e);
-        }
+        HikariConfig config = new HikariConfig();
+        config.setJdbcUrl(URL);
+        config.setUsername(USER);
+        config.setPassword(PASSWORD);
+
+        config.setMaximumPoolSize(10);
+        config.setPoolName("TaskSchedulerPool");
+
+        this.dataSource = new HikariDataSource(config);
     }
 
     public static DatabaseConnection getInstance() {
@@ -31,25 +35,14 @@ public class DatabaseConnection {
         return instance;
     }
 
-    public Connection getConnection() {
-        try {
-            if (connection == null || connection.isClosed()) {
-                connection = DriverManager.getConnection(URL, USER, PASSWORD);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return connection;
+    public Connection getConnection() throws SQLException{
+        return dataSource.getConnection();
     }
 
     public void close() {
-        try {
-            if (connection != null && !connection.isClosed()) {
-                connection.close();
-                System.out.println("✅ База данных закрыта");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        if (dataSource != null) {
+            dataSource.close();
+            System.out.println("✅ Пул соединений HikariCP закрыт");
         }
     }
 }

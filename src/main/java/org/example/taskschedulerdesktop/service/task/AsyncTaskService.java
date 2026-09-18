@@ -8,6 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
@@ -18,6 +20,9 @@ public class AsyncTaskService {
 
     private final TaskService delegate;
     private final TaskCardService taskCardService;
+
+    private final Map<TaskStatus, List<Node>> taskCache = new ConcurrentHashMap<>();
+    private final Map<TaskStatus, Boolean> dirtyFlags = new ConcurrentHashMap<>();
 
     private final ExecutorService executor = Executors.newFixedThreadPool(4, runnable -> {
         Thread thread = new Thread(runnable);
@@ -30,6 +35,16 @@ public class AsyncTaskService {
         this.taskCardService = taskCardService;
     }
 
+    public void invalidateCache(TaskStatus status) {
+        dirtyFlags.put(status, true);
+    }
+
+    public void invalidateAllCache() {
+        for (TaskStatus status : TaskStatus.values()) {
+            dirtyFlags.put(status, true);
+        }
+    }
+
     public Service<List<Node>> createLoaderService(TaskStatus status) {
         Service<List<Node>> service = new Service<>() {
             @Override
@@ -39,9 +54,22 @@ public class AsyncTaskService {
                     protected List<Node> call() throws Exception {
                         //TODO добавить в качестве параметра поиска название проекта
                         // чтобы не выводились задачи со всех проектов, а только с текущего
-                        List<Task> tasks = delegate.findByStatus(status);
+                        boolean isDirty = dirtyFlags.getOrDefault(status, true);
 
-                        return taskCardService.createCards(tasks);
+                        List<Node> cachedCards = taskCache.computeIfAbsent(status, k -> new java.util.concurrent.CopyOnWriteArrayList<>());
+
+                        if (!isDirty && !cachedCards.isEmpty()) {
+                            return cachedCards;
+                        }
+
+                        List<Task> tasks = delegate.findByStatus(status);
+                        List<Node> newCards = taskCardService.createCards(tasks);
+
+                        cachedCards.clear();
+                        cachedCards.addAll(newCards);
+                        dirtyFlags.put(status, false);
+
+                        return cachedCards;
                     }
                 };
             }
@@ -66,7 +94,10 @@ public class AsyncTaskService {
             }
         };
 
-        if (onSuccess != null) task.setOnSucceeded(event -> onSuccess.run());
+        if (onSuccess != null) task.setOnSucceeded(event -> {
+            invalidateCache(newTask.getStatus());
+            onSuccess.run();
+        });
         if (onError != null) task.setOnFailed(event -> onError.accept(task.getException()));
 
         executor.submit(task);
@@ -84,7 +115,10 @@ public class AsyncTaskService {
             }
         };
 
-        if (onSuccess != null) task.setOnSucceeded(e -> onSuccess.run());
+        if (onSuccess != null) task.setOnSucceeded(event -> {
+            invalidateCache(taskToUpdate.getStatus());
+            onSuccess.run();
+        });
         if (onError != null) task.setOnFailed(e -> onError.accept(task.getException()));
 
         executor.submit(task);
@@ -93,16 +127,19 @@ public class AsyncTaskService {
     /**
      * Фоновое удаление задачи из БД.
      */
-    public void deleteTask(long id, Runnable onSuccess, Consumer<Throwable> onError) {
+    public void deleteTask(Task taskToDelete, Runnable onSuccess, Consumer<Throwable> onError) {
         javafx.concurrent.Task<Void> task = new javafx.concurrent.Task<>() {
             @Override
             protected Void call() throws Exception {
-                delegate.delete(id);
+                delegate.delete(taskToDelete.getId());
                 return null;
             }
         };
 
-        if (onSuccess != null) task.setOnSucceeded(e -> onSuccess.run());
+        if (onSuccess != null) task.setOnSucceeded(event -> {
+            invalidateCache(taskToDelete.getStatus());
+            onSuccess.run();
+        });
         if (onError != null) task.setOnFailed(e -> onError.accept(task.getException()));
 
         executor.submit(task);

@@ -85,7 +85,7 @@ public class TaskRightSidebarController implements RightSidebarController {
 
         confirmDeleteButton.setOnAction(event -> {
             taskService.deleteTask(
-                    contextTask.getId(),
+                    contextTask,
                     () -> {
                         TaskUpdateListener.notifyTaskChanged(contextTask);
                     },

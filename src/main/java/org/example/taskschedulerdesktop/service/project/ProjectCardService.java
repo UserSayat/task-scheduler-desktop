@@ -5,8 +5,10 @@ import javafx.scene.Node;
 import javafx.scene.input.MouseButton;
 import org.example.taskschedulerdesktop.controllers.projects.ProjectCardController;
 import org.example.taskschedulerdesktop.models.Project;
+import org.example.taskschedulerdesktop.models.ProjectCard;
 import org.example.taskschedulerdesktop.navigation.NavigationManager;
 import org.example.taskschedulerdesktop.navigation.Routes;
+import org.example.taskschedulerdesktop.utils.TaskStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,17 +29,16 @@ public class ProjectCardService {
     public Node createCard(Project project) {
         try {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource( Routes.TASK_DESCRIPTION_CARD_FXML_PATH)
+                    getClass().getResource(Routes.PROJECT_CARD)
             );
             Node card = loader.load();
             ProjectCardController controller = loader.getController();
 
-            // Заполняем карточку
             controller.setProjectNameLabel(project.getName());
             controller.setProjectSupervisorLabel(project.getSupervisor());
 
-            int numberOfTasks = projectService.findAll().size();
-            int completedTasks = projectService.countTasksByProjectName(project.getName());
+            int numberOfTasks = projectService.countTasksByProjectName(project.getName());
+            int completedTasks = projectService.countTasksByProjectNameAndStatus(project.getName(), TaskStatus.COMPLETED);
             int remainingTasks = numberOfTasks - completedTasks;
             int percentOfCompletion = (completedTasks / numberOfTasks) * 100;
 
@@ -46,17 +47,25 @@ public class ProjectCardService {
             controller.setCompletedTasksLabel(completedTasks);
             controller.setPercentOfCompletionLabel(percentOfCompletion);
 
-            // Клик по карточке
             card.setOnMouseClicked(event -> {
                 if (event.getButton() == MouseButton.PRIMARY) {
                     NavigationManager.navigateTo("/org/example/taskschedulerdesktop/view/project_extended_page.fxml");
                 }
             });
 
+            ProjectCard projectCard = new ProjectCard(project.getName(),
+                    project.getSupervisor(),
+                    percentOfCompletion,
+                    numberOfTasks,
+                    completedTasks,
+                    remainingTasks);
+
+            controller.setContext(projectCard);
+
             return card;
 
         } catch (IOException e) {
-            log.warn("Failed to create a card for project: " + project.getName());
+            log.warn("Failed to create a card for project: {}", project.getName());
             throw new RuntimeException("Failed to create a card for the project. ", e);
         }
     }

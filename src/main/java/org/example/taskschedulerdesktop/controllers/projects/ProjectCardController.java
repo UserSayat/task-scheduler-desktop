@@ -4,11 +4,16 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import org.example.taskschedulerdesktop.config.AppConfig;
+import org.example.taskschedulerdesktop.models.ProjectCard;
+import org.example.taskschedulerdesktop.navigation.ContextAware;
 import org.example.taskschedulerdesktop.navigation.NavigationManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class ProjectCardController {
+public class ProjectCardController implements ContextAware {
 
     private final AppConfig appConfig = AppConfig.getInstance();
+    private static final Logger log = LoggerFactory.getLogger(ProjectCardController.class);
 
     @FXML
     private VBox rootVBox;
@@ -31,6 +36,8 @@ public class ProjectCardController {
     @FXML
     private Label remainingTasksLabel;
 
+    private ProjectCard context;
+
 //    @FXML
 //    private Label firstTaskDescriptionLabel;
 //
@@ -51,10 +58,27 @@ public class ProjectCardController {
 
     @FXML
     public void initialize() {
-        rootVBox.setOnMouseClicked(event -> NavigationManager
-                .navigateTo("/org/example/taskschedulerdesktop/view/project_extended_page.fxml"));
+        log.debug("ProjectCardController.initialize(), hashCode = {}", this.hashCode());
+        log.debug("context = {}", context);
     }
 
+    @Override
+    public void setContext(Object context) {
+        log.debug("ProjectCardController.setContext: {}, hashCode = {}", context, this.hashCode());
+        log.debug("class = {}", context != null ? context.getClass().getName() : "null");
+
+        if (context instanceof ProjectCard projectContext) {
+            this.context = projectContext;
+
+            rootVBox.setOnMouseClicked(event -> {
+                log.debug("Click on the card, context = {}", context);
+                NavigationManager
+                        .navigateTo("/org/example/taskschedulerdesktop/view/project_extended_page.fxml", null, context);
+            });
+        } else {
+            log.error("Context isn't an instance of Project");
+        }
+    }
 
     public Label getProjectNameLabel() {
         return projectNameLabel;

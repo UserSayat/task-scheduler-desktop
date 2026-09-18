@@ -3,8 +3,8 @@ package org.example.taskschedulerdesktop.config;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.example.taskschedulerdesktop.controllers.projects.CreateProjectModalWindowController;
+import org.example.taskschedulerdesktop.controllers.projects.ProjectController;
 import org.example.taskschedulerdesktop.controllers.projects.ProjectExtendedPageController;
-import org.example.taskschedulerdesktop.controllers.projects.ProjectsController;
 import org.example.taskschedulerdesktop.controllers.tasks.CreateTaskModalWindowController;
 import org.example.taskschedulerdesktop.controllers.tasks.EditTaskRightSidebarController;
 import org.example.taskschedulerdesktop.controllers.tasks.TaskController;
@@ -70,8 +70,8 @@ public class AppConfig {
             if (clazz == EditTaskRightSidebarController.class) {
                 return new EditTaskRightSidebarController(asyncTaskService);
             }
-            if (clazz == ProjectsController.class) {
-                return new ProjectsController(asyncProjectService);
+            if (clazz == ProjectController.class) {
+                return new ProjectController(asyncProjectService);
             }
             if (clazz == CreateProjectModalWindowController.class) {
                 return new CreateProjectModalWindowController(projectService);

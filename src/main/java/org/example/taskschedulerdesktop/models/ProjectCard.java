@@ -14,31 +14,25 @@ public class ProjectCard {
 
     private int remainingTasks;
 
-    private String firstTaskDescription;
+//    private String firstTaskDescription;
+//
+//    private String firstTaskDeadline;
+//
+//    private String secondTaskDescription;
+//
+//    private String secondTaskDeadline;
+//
+//    private String thirdTaskDescription;
+//
+//    private String thirdTaskDeadline;
 
-    private String firstTaskDeadline;
-
-    private String secondTaskDescription;
-
-    private String secondTaskDeadline;
-
-    private String thirdTaskDescription;
-
-    private String thirdTaskDeadline;
-
-    public ProjectCard(String projectNameLabel, String projectSupervisor, int percentOfCompletion, int numberOfTasks, int completedTasks, int remainingTasks, String firstTaskDescription, String firstTaskDeadline, String secondTaskDescription, String secondTaskDeadline, String thirdTaskDescription, String thirdTaskDeadline) {
+    public ProjectCard(String projectNameLabel, String projectSupervisor, int percentOfCompletion, int numberOfTasks, int completedTasks, int remainingTasks) {
         this.projectName = projectNameLabel;
         this.projectSupervisor = projectSupervisor;
         this.percentOfCompletion = percentOfCompletion;
         this.numberOfTasks = numberOfTasks;
         this.completedTasks = completedTasks;
         this.remainingTasks = remainingTasks;
-        this.firstTaskDescription = firstTaskDescription;
-        this.firstTaskDeadline = firstTaskDeadline;
-        this.secondTaskDescription = secondTaskDescription;
-        this.secondTaskDeadline = secondTaskDeadline;
-        this.thirdTaskDescription = thirdTaskDescription;
-        this.thirdTaskDeadline = thirdTaskDeadline;
     }
 
     public String getProjectName() {
@@ -87,53 +81,5 @@ public class ProjectCard {
 
     public void setRemainingTasks(int remainingTasks) {
         this.remainingTasks = remainingTasks;
-    }
-
-    public String getFirstTaskDescription() {
-        return firstTaskDescription;
-    }
-
-    public void setFirstTaskDescription(String firstTaskDescription) {
-        this.firstTaskDescription = firstTaskDescription;
-    }
-
-    public String getFirstTaskDeadline() {
-        return firstTaskDeadline;
-    }
-
-    public void setFirstTaskDeadline(String firstTaskDeadline) {
-        this.firstTaskDeadline = firstTaskDeadline;
-    }
-
-    public String getSecondTaskDescription() {
-        return secondTaskDescription;
-    }
-
-    public void setSecondTaskDescription(String secondTaskDescription) {
-        this.secondTaskDescription = secondTaskDescription;
-    }
-
-    public String getSecondTaskDeadline() {
-        return secondTaskDeadline;
-    }
-
-    public void setSecondTaskDeadline(String secondTaskDeadline) {
-        this.secondTaskDeadline = secondTaskDeadline;
-    }
-
-    public String getThirdTaskDescription() {
-        return thirdTaskDescription;
-    }
-
-    public void setThirdTaskDescription(String thirdTaskDescription) {
-        this.thirdTaskDescription = thirdTaskDescription;
-    }
-
-    public String getThirdTaskDeadline() {
-        return thirdTaskDeadline;
-    }
-
-    public void setThirdTaskDeadline(String thirdTaskDeadline) {
-        this.thirdTaskDeadline = thirdTaskDeadline;
     }
 }

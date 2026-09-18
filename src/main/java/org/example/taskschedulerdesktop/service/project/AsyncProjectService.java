@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -17,6 +18,9 @@ public class AsyncProjectService {
 
     private final ProjectService delegate;
     private final ProjectCardService projectCardService;
+
+    private final List<Node> cachedProjectCards = new CopyOnWriteArrayList<>();
+    private boolean isCacheDirty = true;
 
     private final ExecutorService executor = Executors.newFixedThreadPool(4, runnable -> {
         Thread thread = new Thread(runnable);
@@ -29,6 +33,10 @@ public class AsyncProjectService {
         this.projectCardService = projectCardService;
     }
 
+    public void invalidateCache() {
+        this.isCacheDirty = true;
+    }
+
     public Service<List<Node>> createProjectsLoader() {
         Service<List<Node>> service = new Service<>() {
             @Override
@@ -36,9 +44,18 @@ public class AsyncProjectService {
                 return new Task<>(){
                     @Override
                     protected List<Node> call() throws Exception {
-                        List<Project> projects = delegate.findAll();
+                        if (!isCacheDirty && !cachedProjectCards.isEmpty()) {
+                            return new java.util.ArrayList<>(cachedProjectCards);
+                        }
 
-                        return projectCardService.createCards(projects);
+                        List<Project> projects = delegate.findAll();
+                        List<Node> newCards = projectCardService.createCards(projects);
+
+                        cachedProjectCards.clear();
+                        cachedProjectCards.addAll(newCards);
+                        isCacheDirty = false;
+
+                        return cachedProjectCards;
                     }
                 };
             }
