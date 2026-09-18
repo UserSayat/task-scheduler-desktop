@@ -7,8 +7,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.VBox;
 import org.example.taskschedulerdesktop.controllers.Shutdownable;
+import org.example.taskschedulerdesktop.dto.TaskView;
 import org.example.taskschedulerdesktop.listeners.TaskUpdateListener;
-import org.example.taskschedulerdesktop.models.ProjectCard;
+import org.example.taskschedulerdesktop.models.Project;
 import org.example.taskschedulerdesktop.models.Task;
 import org.example.taskschedulerdesktop.navigation.ContextAware;
 import org.example.taskschedulerdesktop.service.task.AsyncTaskService;
@@ -46,9 +47,9 @@ public class ProjectExtendedPageController implements Shutdownable, ContextAware
     private Service<List<Node>> underReviewLoader;
     private Service<List<Node>> completedLoader;
 
-    private ProjectCard context;
+    private Project context;
 
-    private final Consumer<Task> taskUpdateListener = changedTask -> {
+    private final Consumer<TaskView> taskUpdateListener = changedTask -> {
 
         asyncTaskService.invalidateCache(changedTask.getStatus());
 
@@ -124,11 +125,11 @@ public class ProjectExtendedPageController implements Shutdownable, ContextAware
         log.debug("setContext: {}", context);
         log.debug("class = {}", context != null ? context.getClass().getName() : "null");
 
-        if (context instanceof ProjectCard projectCard) {
+        if (context instanceof Project projectCard) {
             this.context = projectCard;
             updateUI();
         } else {
-            log.error("Context isn't an instance of ProjectCard");
+            log.error("Context isn't an instance of Project");
         }
     }
 
@@ -138,8 +139,8 @@ public class ProjectExtendedPageController implements Shutdownable, ContextAware
             return;
         }
 
-        this.projectNameLabel.setText(context.getProjectName());
-        this.projectSupervisorLabel.setText(context.getProjectSupervisor());
+        this.projectNameLabel.setText(context.getName());
+        this.projectSupervisorLabel.setText(context.getSupervisor());
         this.numberOfTasksLabel.setText(String.valueOf(context.getNumberOfTasks()));
         this.completedTasksLabel.setText(String.valueOf(context.getCompletedTasks()));
         this.remainingTasksLabel.setText(String.valueOf(context.getRemainingTasks()));

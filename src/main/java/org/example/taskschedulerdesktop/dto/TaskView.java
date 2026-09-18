@@ -1,15 +1,16 @@
-package org.example.taskschedulerdesktop.models;
+package org.example.taskschedulerdesktop.dto;
 
 import org.example.taskschedulerdesktop.utils.TaskPriority;
 import org.example.taskschedulerdesktop.utils.TaskStatus;
 
 import java.time.LocalDate;
 
-public class Task {
+public class TaskView {
 
     private Long id;
     private String taskName;
-    private long projectId;
+    private Long projectId;
+    private String projectName;  // 👈 из JOIN
     private String executor;
     private String type;
     private TaskStatus status;
@@ -18,10 +19,11 @@ public class Task {
     private String description;
     private boolean synced;
 
-    public Task(Long id, String taskName, long projectId, String executor, String type, TaskStatus status, TaskPriority priority, LocalDate deadline, String description, boolean synced) {
+    public TaskView(Long id, String taskName, long projectId, String projectName, String executor, String type, TaskStatus status, TaskPriority priority, LocalDate deadline, String description, boolean synced) {
         this.id = id;
         this.taskName = taskName;
         this.projectId = projectId;
+        this.projectName = projectName;
         this.executor = executor;
         this.type = type;
         this.status = status;
@@ -31,11 +33,11 @@ public class Task {
         this.synced = synced;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -47,12 +49,20 @@ public class Task {
         this.taskName = taskName;
     }
 
-    public long getProjectId() {
+    public Long getProjectId() {
         return projectId;
     }
 
-    public void setProjectId(long projectId) {
+    public void setProjectId(Long projectId) {
         this.projectId = projectId;
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
     }
 
     public String getExecutor() {

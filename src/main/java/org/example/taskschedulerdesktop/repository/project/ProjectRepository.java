@@ -3,6 +3,7 @@ package org.example.taskschedulerdesktop.repository.project;
 import org.example.taskschedulerdesktop.models.Project;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ProjectRepository {
 
@@ -10,7 +11,7 @@ public interface ProjectRepository {
     void save(Project project);
     void update(Project project);
     void delete(long id);
-    Project findById(long id);
+    Optional<Project> findById(long id);
     List<Project> findUnsynced();
     void markAsSynced(long id);
 }

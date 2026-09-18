@@ -2,6 +2,8 @@ package org.example.taskschedulerdesktop.database;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -11,6 +13,7 @@ public class DatabaseConnection {
 
     private static DatabaseConnection instance;
     private final HikariDataSource dataSource;
+    private static final Logger log = LoggerFactory.getLogger(DatabaseConnection.class);
 
     private static final String URL = "jdbc:h2:~/tasks-db;AUTO_SERVER=TRUE";
     private static final String USER = "sa";
@@ -42,7 +45,7 @@ public class DatabaseConnection {
     public void close() {
         if (dataSource != null) {
             dataSource.close();
-            System.out.println("✅ Пул соединений HikariCP закрыт");
+            log.info("HikariCP connection pool closed");
         }
     }
 }

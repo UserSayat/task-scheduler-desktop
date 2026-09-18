@@ -7,8 +7,8 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import org.example.taskschedulerdesktop.controllers.sidebar.RightSidebarController;
+import org.example.taskschedulerdesktop.dto.TaskView;
 import org.example.taskschedulerdesktop.listeners.TaskUpdateListener;
-import org.example.taskschedulerdesktop.models.Task;
 import org.example.taskschedulerdesktop.navigation.NavigationManager;
 import org.example.taskschedulerdesktop.navigation.Routes;
 import org.example.taskschedulerdesktop.service.task.AsyncTaskService;
@@ -37,7 +37,7 @@ public class TaskRightSidebarController implements RightSidebarController {
     @FXML private Button confirmDeleteButton;
     @FXML private Button cancelDeleteButton;
 
-    private Task contextTask;
+    private TaskView contextTask;
 
     public TaskRightSidebarController(AsyncTaskService taskService) {
         this.taskService = taskService;
@@ -108,13 +108,13 @@ public class TaskRightSidebarController implements RightSidebarController {
         log.info("setContext()");
         log.debug("context = {}", context);
 
-        if (!(context instanceof Task)) {
-            log.error("Expected Task, received: {}", context.getClass().getSimpleName());
+        if (!(context instanceof TaskView)) {
+            log.error("Expected TaskView, received: {}", context.getClass().getSimpleName());
             throw new IllegalArgumentException();
         }
 
-        this.contextTask = (Task) context;
-        log.info("contextTask saved: {}", contextTask.getTaskName());
+        this.contextTask = (TaskView) context;
+        log.info("context saved: {}", contextTask.getTaskName());
 
         updateUI();
     }
@@ -128,7 +128,7 @@ public class TaskRightSidebarController implements RightSidebarController {
             return;
         }
 
-        log.debug("projectName: {}", contextTask.getProjectName());
+        log.debug("projectName: {}", contextTask.getProjectId());
         log.debug("taskName: {}", contextTask.getTaskName());
         log.debug("status: {}", contextTask.getStatus());
         projectNameLabel.setText(contextTask.getProjectName());

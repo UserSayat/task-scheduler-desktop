@@ -1,5 +1,6 @@
 package org.example.taskschedulerdesktop.service.project;
 
+import org.example.taskschedulerdesktop.exeptions.NotFoundException;
 import org.example.taskschedulerdesktop.models.Project;
 import org.example.taskschedulerdesktop.repository.project.ProjectRepository;
 import org.example.taskschedulerdesktop.service.task.TaskService;
@@ -24,6 +25,20 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public void save(Project project) {
+
+        if (project.getNumberOfTasks() == null) {
+
+            int numberOfTasks = countTasksByProjectName(project.getName());
+            int completedTasks = countTasksByProjectNameAndStatus(project.getName(), TaskStatus.COMPLETED);
+            int remainingTasks = numberOfTasks - completedTasks;
+            int percentOfCompletion = numberOfTasks > 0 ? (completedTasks / numberOfTasks) * 100 : 0;
+
+            project.setNumberOfTasks(numberOfTasks);
+            project.setCompletedTasks(completedTasks);
+            project.setRemainingTasks(remainingTasks);
+            project.setPercentOfCompletion(percentOfCompletion);
+        }
+
         projectRepository.save(project);
     }
 
@@ -39,7 +54,8 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public Project findById(long id) {
-        return projectRepository.findById(id);
+        return projectRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Project not found"));
     }
 
     @Override

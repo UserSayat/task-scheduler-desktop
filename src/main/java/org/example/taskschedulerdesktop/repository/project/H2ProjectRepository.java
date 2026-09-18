@@ -2,11 +2,11 @@ package org.example.taskschedulerdesktop.repository.project;
 
 import org.example.taskschedulerdesktop.database.DatabaseConnection;
 import org.example.taskschedulerdesktop.models.Project;
-import org.example.taskschedulerdesktop.models.Task;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class H2ProjectRepository implements ProjectRepository {
 
@@ -26,6 +26,10 @@ public class H2ProjectRepository implements ProjectRepository {
                 id INT PRIMARY KEY AUTO_INCREMENT,
                 name VARCHAR(255) NOT NULL,
                 supervisor VARCHAR(255) NOT NULL,
+                numberOfTasks INT,
+                completedTasks INT,
+                remainingTasks INT,
+                percentOfCompletion INT,
                 synced BOOLEAN DEFAULT FALSE
             )
         """;
@@ -42,7 +46,10 @@ public class H2ProjectRepository implements ProjectRepository {
 
     @Override
     public List<Project> findAll() {
-        String sql = "SELECT id, name, supervisor, synced FROM projects";
+        String sql = """
+            SELECT id, name, supervisor, numberOfTasks, completedTasks,
+            remainingTasks, percentOfCompletion, synced FROM projects
+        """;
 
         List<Project> projects = new ArrayList<>();
 
@@ -61,14 +68,21 @@ public class H2ProjectRepository implements ProjectRepository {
 
     @Override
     public void save(Project project) {
-        String sql = "INSERT INTO projects (name, supervisor, synced) VALUES (?, ?, ?)";
+        String sql = """
+            INSERT INTO projects (name, supervisor, numberOfTasks, completedTasks,
+            remainingTasks, percentOfCompletion, synced) VALUES (?, ?, ?, ?, ?, ?, ?)
+        """;
 
         try (Connection conn = db.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             pstmt.setString(1, project.getName());
             pstmt.setString(2, project.getSupervisor());
-            pstmt.setBoolean(3, project.isSynced());
+            pstmt.setInt(3, project.getNumberOfTasks());
+            pstmt.setInt(4, project.getCompletedTasks());
+            pstmt.setInt(5, project.getRemainingTasks());
+            pstmt.setInt(6, project.getPercentOfCompletion());
+            pstmt.setBoolean(7, project.isSynced());
             pstmt.executeUpdate();
 
             // Получаем сгенерированный ID
@@ -83,15 +97,22 @@ public class H2ProjectRepository implements ProjectRepository {
 
     @Override
     public void update(Project project) {
-        String sql = "UPDATE projects SET name = ?, supervisor = ?, synced = ? WHERE id = ?";
+        String sql = """
+            UPDATE projects SET name = ?, supervisor = ?, numberOfTasks = ?, completedTasks = ?,
+            remainingTasks = ?, percentOfCompletion = ?, synced = ? WHERE id = ?
+        """;
 
         try (Connection conn = db.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, project.getName());
             pstmt.setString(2, project.getSupervisor());
-            pstmt.setBoolean(3, project.isSynced());
-            pstmt.setLong(4, project.getId());
+            pstmt.setInt(3, project.getNumberOfTasks());
+            pstmt.setInt(4, project.getCompletedTasks());
+            pstmt.setInt(5, project.getRemainingTasks());
+            pstmt.setInt(6, project.getPercentOfCompletion());
+            pstmt.setBoolean(7, project.isSynced());
+            pstmt.setLong(8, project.getId());
             pstmt.executeUpdate();
 
         } catch (SQLException e) {
@@ -115,8 +136,11 @@ public class H2ProjectRepository implements ProjectRepository {
     }
 
     @Override
-    public Project findById(long id) {
-        String sql = "SELECT id, name, supervisor, synced FROM projects WHERE id = ?";
+    public Optional<Project> findById(long id) {
+        String sql = """
+            SELECT id, name, supervisor, numberOfTasks, completedTasks,
+            remainingTasks, percentOfCompletion, synced FROM projects WHERE id = ?
+        """;
 
         try (Connection conn = db.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -125,7 +149,9 @@ public class H2ProjectRepository implements ProjectRepository {
             ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                return mapRowToProject(rs);
+                return Optional.ofNullable(mapRowToProject(rs));
+            } else {
+                return Optional.empty();
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -137,7 +163,10 @@ public class H2ProjectRepository implements ProjectRepository {
 
     @Override
     public List<Project> findUnsynced() {
-        String sql = "SELECT id, name, supervisor, synced FROM projects WHERE synced = FALSE";
+        String sql = """
+            SELECT id, name, supervisor, numberOfTasks, completedTasks,
+            remainingTasks, percentOfCompletion, synced FROM projects WHERE synced = FALSE
+        """;
         List<Project> projects = new ArrayList<>();
 
         try (Connection conn = db.getConnection();
@@ -175,6 +204,10 @@ public class H2ProjectRepository implements ProjectRepository {
         return new Project(rs.getLong("id"),
                 rs.getString("name"),
                 rs.getString("supervisor"),
+                rs.getInt("numberOfTasks"),
+                rs.getInt("completedTasks"),
+                rs.getInt("remainingTasks"),
+                rs.getInt("percentOfCompletion"),
                 rs.getBoolean("synced"));
     }
 

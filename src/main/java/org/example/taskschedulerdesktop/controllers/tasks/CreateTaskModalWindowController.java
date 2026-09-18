@@ -3,9 +3,11 @@ package org.example.taskschedulerdesktop.controllers.tasks;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import org.example.taskschedulerdesktop.models.Project;
 import org.example.taskschedulerdesktop.models.Task;
 import org.example.taskschedulerdesktop.navigation.NavigationManager;
 import org.example.taskschedulerdesktop.service.task.TaskService;
+import org.example.taskschedulerdesktop.utils.ProjectStringConverter;
 import org.example.taskschedulerdesktop.utils.TaskPriority;
 import org.example.taskschedulerdesktop.utils.TaskStatus;
 import org.slf4j.Logger;
@@ -21,8 +23,8 @@ public class CreateTaskModalWindowController {
 
     @FXML private TextField taskNameTextField;
 
-    @FXML private ChoiceBox<String> projectChoiceBox;
-    private String selectedProject;
+    @FXML private ChoiceBox<Project> projectChoiceBox;
+    private Long selectedProject;
 
     @FXML private ChoiceBox<String>executorChoiceBox;
     private String selectedExecutor;
@@ -49,14 +51,19 @@ public class CreateTaskModalWindowController {
 
         //TODO Сделать загрузку данных с бд
         //TODO Добавлять объекты Task, а не строки (нужен javafx.util.StringConverter<Task>)
-        projectChoiceBox.getItems().addAll("Редизайн портала", "Миграция CRM",
-                "Мобильное приложение", "Отчетность Q3");
+        projectChoiceBox.setConverter(new ProjectStringConverter());
+
+        projectChoiceBox.getItems().addAll(new Project(1L, "Редизайн портала", "Алексей Козлов",
+                        null, null, null, null, false),
+                new Project(2L, "Миграция CRM", "", null, null, null, null, false),
+                new Project(3L, "Мобильное приложение", "", null, null, null, null, false),
+                new Project(4L, "Отчетность Q3", "", null, null, null, null, false));
 
         executorChoiceBox.getItems().addAll("Алексей Козлов", "Мария Волкова", "Елена Никитина",
                 "Павел Сорокин", "Дмитрий Лебедев", "Ирина Фёдорова");
 
         projectChoiceBox.setOnAction(event -> {
-            selectedProject = projectChoiceBox.getValue();
+            selectedProject = projectChoiceBox.getValue().getId();
         });
 
         executorChoiceBox.setOnAction(event -> {
@@ -107,8 +114,6 @@ public class CreateTaskModalWindowController {
 
             log.debug("createTaskButton.getScene() = {}", createTaskButton.getScene());
             log.debug("createTaskButton.getScene().getWindow() = {}", createTaskButton.getScene().getWindow());
-
-            //TODO После создания и удаления задач окна долго не закрываются исправить
         });
 
         cancelButton.setOnAction(event -> {

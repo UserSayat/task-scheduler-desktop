@@ -4,7 +4,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.input.MouseButton;
 import org.example.taskschedulerdesktop.controllers.tasks.TaskDescriptionCardController;
-import org.example.taskschedulerdesktop.models.Task;
+import org.example.taskschedulerdesktop.dto.TaskView;
 import org.example.taskschedulerdesktop.navigation.NavigationManager;
 import org.example.taskschedulerdesktop.navigation.Routes;
 
@@ -14,7 +14,7 @@ import java.util.List;
 
 public class TaskCardService {
 
-    public Node createCard(Task task, int sequenceNumber) {
+    public Node createCard(TaskView task, int sequenceNumber) {
         try {
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource( Routes.TASK_DESCRIPTION_CARD)
@@ -48,11 +48,11 @@ public class TaskCardService {
         }
     }
 
-    public List<Node> createCards(List<Task> tasks) {
+    public List<Node> createCards(List<TaskView> tasks) {
         List<Node> cards = new ArrayList<>();
         int sequenceNumber = 1;
 
-        for (Task task : tasks) {
+        for (TaskView task : tasks) {
             Node card = createCard(task, sequenceNumber);
             cards.add(card);
             sequenceNumber++;

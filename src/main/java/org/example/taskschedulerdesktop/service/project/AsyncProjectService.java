@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.function.Consumer;
 
 public class AsyncProjectService {
 
@@ -65,4 +66,71 @@ public class AsyncProjectService {
         return service;
     }
 
+    public void saveProject(Project project, Runnable onSuccess, Consumer<Throwable> onError) {
+        Task<Void> task = new Task<>() {
+            @Override
+            protected Void call() throws Exception {
+                delegate.save(project);
+                invalidateCache();
+                log.debug("Project saved: {}", project.getName());
+                return null;
+            }
+        };
+
+        task.setOnSucceeded(event -> onSuccess.run());
+        task.setOnFailed(event -> onError.accept(task.getException()));
+
+        executor.submit(task);
+    }
+
+    public void updateProject(Project project, Runnable onSuccess, Consumer<Throwable> onError) {
+        Task<Void> task = new Task<>() {
+            @Override
+            protected Void call() throws Exception {
+                delegate.update(project);
+                invalidateCache();
+                log.debug("Project updated: {}", project.getName());
+                return null;
+            }
+        };
+
+        task.setOnSucceeded(event -> onSuccess.run());
+        task.setOnFailed(event -> onError.accept(task.getException()));
+
+        executor.submit(task);
+    }
+
+    public void deleteProject(long projectId, Runnable onSuccess, Consumer<Throwable> onError) {
+        Task<Void> task = new Task<>() {
+            @Override
+            protected Void call() throws Exception {
+                delegate.delete(projectId);
+                invalidateCache();
+                log.debug("Project deleted id = {}", projectId);
+                return null;
+            }
+        };
+
+        task.setOnSucceeded(event -> onSuccess.run());
+        task.setOnFailed(event -> onError.accept(task.getException()));
+
+        executor.submit(task);
+    }
+
+    public void findProjectById(long projectId, Consumer<Project> onSuccess, Consumer<Throwable> onError) {
+        Task<Project> task = new Task<>() {
+            @Override
+            protected Project call() throws Exception {
+                Project project = delegate.findById(projectId);
+                if (project == null) {
+                    log.info("Project not found id = {}", projectId);
+                }
+                return project;            }
+        };
+
+        task.setOnSucceeded(event -> onSuccess.accept(task.getValue()));
+        task.setOnFailed(event -> onError.accept(task.getException()));
+
+        executor.submit(task);
+    }
 }

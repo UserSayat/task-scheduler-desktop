@@ -3,6 +3,7 @@ package org.example.taskschedulerdesktop.config;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.example.taskschedulerdesktop.controllers.projects.CreateProjectModalWindowController;
+import org.example.taskschedulerdesktop.controllers.projects.ProjectCardController;
 import org.example.taskschedulerdesktop.controllers.projects.ProjectController;
 import org.example.taskschedulerdesktop.controllers.projects.ProjectExtendedPageController;
 import org.example.taskschedulerdesktop.controllers.tasks.CreateTaskModalWindowController;
@@ -76,6 +77,9 @@ public class AppConfig {
             if (clazz == CreateProjectModalWindowController.class) {
                 return new CreateProjectModalWindowController(projectService);
             }
+            if (clazz == ProjectCardController.class) {
+                return new ProjectCardController(asyncProjectService);
+            }
             try {
                 return clazz.getDeclaredConstructor().newInstance();
             } catch (Exception e) {
@@ -105,5 +109,9 @@ public class AppConfig {
 
     public DatabaseConnection getDatabaseConnection() {
         return databaseConnection;
+    }
+
+    public AsyncProjectService getAsyncProjectService() {
+        return asyncProjectService;
     }
 }

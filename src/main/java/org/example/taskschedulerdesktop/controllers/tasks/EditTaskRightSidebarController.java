@@ -1,6 +1,5 @@
 package org.example.taskschedulerdesktop.controllers.tasks;
 
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
@@ -69,9 +68,7 @@ public class EditTaskRightSidebarController implements RightSidebarController {
 
             taskService.updateTask(
                     contextTask,
-                    () -> Platform.runLater(() -> {
-                        NavigationManager.showToast("Данные обновлены", "success");
-                    }),
+                    () -> NavigationManager.showToast("Данные обновлены", "success"),
                     error -> {
                         NavigationManager.showToast("Возникла ошибка при обновлении данных", "error");
                     });
@@ -96,7 +93,9 @@ public class EditTaskRightSidebarController implements RightSidebarController {
             return;
         }
 
-        projectNameLabel.setText(contextTask.getProjectName());
+        taskService.getProjectNameById(contextTask.getProjectId(),
+                projectName -> projectNameLabel.setText(projectName),
+                error -> log.error(error.getClass().getName()));
         taskNameLabel.setText(contextTask.getTaskName());
         statusChoiceBox.setValue(contextTask.getStatus().getDisplayName());
         priorityChoiceBox.setValue(contextTask.getPriority().getDisplayName());

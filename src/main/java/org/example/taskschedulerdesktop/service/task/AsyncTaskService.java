@@ -2,6 +2,7 @@ package org.example.taskschedulerdesktop.service.task;
 
 import javafx.concurrent.Service;
 import javafx.scene.Node;
+import org.example.taskschedulerdesktop.dto.TaskView;
 import org.example.taskschedulerdesktop.models.Task;
 import org.example.taskschedulerdesktop.utils.TaskStatus;
 import org.slf4j.Logger;
@@ -62,7 +63,7 @@ public class AsyncTaskService {
                             return cachedCards;
                         }
 
-                        List<Task> tasks = delegate.findByStatus(status);
+                        List<TaskView> tasks = delegate.findViewByStatus(status);
                         List<Node> newCards = taskCardService.createCards(tasks);
 
                         cachedCards.clear();
@@ -127,7 +128,7 @@ public class AsyncTaskService {
     /**
      * Фоновое удаление задачи из БД.
      */
-    public void deleteTask(Task taskToDelete, Runnable onSuccess, Consumer<Throwable> onError) {
+    public void deleteTask(TaskView taskToDelete, Runnable onSuccess, Consumer<Throwable> onError) {
         javafx.concurrent.Task<Void> task = new javafx.concurrent.Task<>() {
             @Override
             protected Void call() throws Exception {
@@ -141,6 +142,20 @@ public class AsyncTaskService {
             onSuccess.run();
         });
         if (onError != null) task.setOnFailed(e -> onError.accept(task.getException()));
+
+        executor.submit(task);
+    }
+
+    public void getProjectNameById(long id, Consumer<String> onSuccess, Consumer<Throwable> onError) {
+        javafx.concurrent.Task<String> task = new javafx.concurrent.Task<>() {
+            @Override
+            protected String call() throws Exception {
+                return delegate.getProjectNameById(id);
+            }
+        };
+
+        task.setOnSucceeded(event -> onSuccess.accept(task.getValue()));
+        task.setOnFailed(event -> onError.accept(task.getException()));
 
         executor.submit(task);
     }

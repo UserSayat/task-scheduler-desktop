@@ -1,13 +1,21 @@
 package org.example.taskschedulerdesktop.service.task;
 
+import org.example.taskschedulerdesktop.config.AppConfig;
+import org.example.taskschedulerdesktop.dto.TaskView;
+import org.example.taskschedulerdesktop.exeptions.NotFoundException;
+import org.example.taskschedulerdesktop.listeners.EventBus;
+import org.example.taskschedulerdesktop.listeners.TaskChangedEvent;
 import org.example.taskschedulerdesktop.models.Task;
 import org.example.taskschedulerdesktop.repository.task.TaskRepository;
 import org.example.taskschedulerdesktop.utils.TaskStatus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
 public class TaskServiceImpl implements TaskService {
 
+    private static final Logger log = LoggerFactory.getLogger(TaskServiceImpl.class);
     private final TaskRepository repository;
 
     public TaskServiceImpl(TaskRepository repository) {
@@ -15,25 +23,25 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<Task> findAll() {
-        return repository.findAll();
+    public List<TaskView> findAllViews() {
+        return repository.findAllViews();
     }
 
     @Override
-    public List<Task> findByStatus(TaskStatus status) {
-        return repository.findByStatus(status);
+    public List<TaskView> findViewByStatus(TaskStatus status) {
+        return repository.findViewsByStatus(status);
     }
 
     @Override
-    public Task findById(long id) {
-        return repository.findById(id);
+    public TaskView findViewById(long id) {
+        return repository.findViewById(id)
+                .orElseThrow(() -> new NotFoundException("Task not found"));
     }
 
     @Override
     public void save(Task task) {
-        // Бизнес-логика
         if (task.getTaskName() == null || task.getTaskName().isEmpty()) {
-            throw new IllegalArgumentException("Название задачи не может быть пустым");
+            log.warn("The name of the task should not be empty");
         }
 
         if (task.getStatus() == null || task.getStatus().getDisplayName().isEmpty()) {
@@ -41,6 +49,12 @@ public class TaskServiceImpl implements TaskService {
         }
 
         repository.save(task);
+
+        AppConfig.getInstance().getAsyncProjectService().invalidateCache();
+
+        EventBus.getInstance().fire(new TaskChangedEvent(task.getProjectId(), task.getTaskName()));
+
+        log.debug("Event TaskChangedEvent sent: projectName = {}", task.getProjectId());
     }
 
     @Override
@@ -64,5 +78,12 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public int countTasksByProjectName(String projectName) {
         return repository.countByProjectName(projectName);
+    }
+
+    @Override
+    public String getProjectNameById(long id) {
+        TaskView view = repository.findViewById(id)
+                .orElseThrow(() -> new IllegalArgumentException(""));
+        return view.getProjectName();
     }
 }

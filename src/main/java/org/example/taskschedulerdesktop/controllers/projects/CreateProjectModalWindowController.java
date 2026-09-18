@@ -47,6 +47,10 @@ public class CreateProjectModalWindowController {
             projectService.save(new Project(null,
                     projectNameTextField.getText(),
                     selectedSupervisor,
+                    null,
+                    null,
+                    null,
+                    null,
                     false));
 
             Stage stage = (Stage) createProjectButton.getScene().getWindow();

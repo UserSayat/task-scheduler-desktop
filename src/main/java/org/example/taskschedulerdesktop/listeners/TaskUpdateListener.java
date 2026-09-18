@@ -1,5 +1,6 @@
 package org.example.taskschedulerdesktop.listeners;
 
+import org.example.taskschedulerdesktop.dto.TaskView;
 import org.example.taskschedulerdesktop.models.Task;
 
 import java.util.ArrayList;
@@ -8,13 +9,13 @@ import java.util.function.Consumer;
 
 public class TaskUpdateListener {
 
-    private static final List<Consumer<Task>> listeners = new ArrayList<>();
+    private static final List<Consumer<TaskView>> listeners = new ArrayList<>();
 
     /**
      * Подписаться на изменения задач.
      * Вызывать в методе initialize() контроллера.
      */
-    public static void subscribe(Consumer<Task> listener) {
+    public static void subscribe(Consumer<TaskView> listener) {
         if (!listeners.contains(listener)) {
             listeners.add(listener);
         }
@@ -24,14 +25,14 @@ public class TaskUpdateListener {
      * Отписаться от изменения задач.
      * Вызывать в методе shutdown() контроллера.
      */
-    public static void unsubscribe(Consumer<Task> listener) {
+    public static void unsubscribe(Consumer<TaskView> listener) {
         listeners.remove(listener);
     }
 
     /**
      * Оповестить все экраны о том, что задача изменилась (создана, обновлена или удалена).
      */
-    public static void notifyTaskChanged(Task changedTask) {
+    public static void notifyTaskChanged(TaskView changedTask) {
         for (var listener : listeners) {
             listener.accept(changedTask);
         }
