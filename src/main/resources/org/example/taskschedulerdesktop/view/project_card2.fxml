@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.taskschedulerdesktop.controllers.projects.ProjectCardController"
+      styleClass="card" spacing="0" onMouseClicked="#openProject1">
+    <HBox alignment="CENTER_LEFT" spacing="8" style="-fx-padding:0 0 14 0;">
+        <VBox HBox.hgrow="ALWAYS" spacing="3">
+            <HBox spacing="8" alignment="CENTER_LEFT">
+                <Region styleClass="dot-blue"/>
+                <Label text="Редизайн портала"
+                       style="-fx-font-family:'Georgia',serif;-fx-font-size:17px;-fx-text-fill:#111110;"/>
+            </HBox>
+            <Label text="Руководитель: А.К." styleClass="section-mono"/>
+        </VBox>
+        <VBox alignment="CENTER_RIGHT" spacing="1">
+            <Label text="72%" style="-fx-font-family:'Georgia',serif;-fx-font-size:22px;-fx-text-fill:#111110;"/>
+            <Label text="выполнено" styleClass="section-mono"/>
+        </VBox>
+    </HBox>
+    <ProgressBar progress="0.72" maxWidth="Infinity" styleClass="progress-thin"
+                 style="-fx-accent:#1a3a8f;"/>
+    <HBox spacing="24" style="-fx-padding:14 0 12 0;">
+        <VBox spacing="2">
+            <Label text="Задач"     styleClass="section-mono"/>
+            <Label text="18"        style="-fx-font-weight:600;"/>
+        </VBox>
+        <VBox spacing="2">
+            <Label text="Завершено" styleClass="section-mono"/>
+            <Label text="13"        style="-fx-font-weight:600;"/>
+        </VBox>
+        <VBox spacing="2">
+            <Label text="Осталось"  styleClass="section-mono"/>
+            <Label text="5"         style="-fx-font-weight:600;"/>
+        </VBox>
+    </HBox>
+    <VBox spacing="6">
+        <HBox spacing="6" alignment="CENTER_LEFT">
+            <Region style="-fx-background-color:#7c3aed;-fx-min-width:6;-fx-min-height:6;-fx-max-width:6;-fx-max-height:6;-fx-background-radius:3;"/>
+            <Label text="Утвердить макеты главной страницы"
+                   style="-fx-font-size:12px;-fx-text-fill:#5a5a56;" HBox.hgrow="ALWAYS"/>
+            <Label text="03 авг" styleClass="section-mono"/>
+        </HBox>
+        <HBox spacing="6" alignment="CENTER_LEFT">
+            <Region style="-fx-background-color:#1a3a8f;-fx-min-width:6;-fx-min-height:6;-fx-max-width:6;-fx-max-height:6;-fx-background-radius:3;"/>
+            <Label text="Оптимизация загрузки изображений"
+                   style="-fx-font-size:12px;-fx-text-fill:#5a5a56;" HBox.hgrow="ALWAYS"/>
+            <Label text="06 авг" styleClass="section-mono"/>
+        </HBox>
+        <HBox spacing="6" alignment="CENTER_LEFT">
+            <Region style="-fx-background-color:#14532d;-fx-min-width:6;-fx-min-height:6;-fx-max-width:6;-fx-max-height:6;-fx-background-radius:3;"/>
+            <Label text="Компонент навигационного меню"
+                   style="-fx-font-size:12px;-fx-text-fill:#5a5a56;" HBox.hgrow="ALWAYS"/>
+            <Label text="31 июл" styleClass="section-mono"/>
+        </HBox>
+    </VBox>
+    <Label text="Открыть проект →" styleClass="section-mono"
+           style="-fx-padding:12 0 0 0; -fx-cursor:hand;"/>
+</VBox>
