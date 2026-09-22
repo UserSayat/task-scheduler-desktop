@@ -1,354 +1,220 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
-<VBox minWidth="0.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.taskschedulerdesktop.controllers.review.DashboardController">
-   <children>
-      <ScrollPane fitToWidth="true" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="720.0" VBox.vgrow="ALWAYS">
-         <content>
-            <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="0.0" spacing="30.0">
-               <children>
-                  <HBox alignment="CENTER" prefHeight="155.0" prefWidth="1230.0" spacing="20.0">
-                     <children>
-                        <VBox maxWidth="1.7976931348623157E308" minWidth="250.0" style="-fx-background-color: #ffffff;" HBox.hgrow="ALWAYS">
-                           <children>
-                              <Label text="10">
-                                 <font>
-                                    <Font size="30.0" />
-                                 </font>
-                              </Label>
-                              <Label text="Всего задач">
-                                 <padding>
-                                    <Insets bottom="15.0" top="15.0" />
-                                 </padding>
-                                 <font>
-                                    <Font name="System Bold" size="15.0" />
-                                 </font>
-                              </Label>
-                              <Label text="Активных проектов" />
-                           </children>
-                           <padding>
-                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                           </padding>
-                        </VBox>
-                        <VBox maxWidth="1.7976931348623157E308" minWidth="250.0" style="-fx-background-color: #ffffff;" HBox.hgrow="ALWAYS">
-                           <children>
-                              <Label text="3">
-                                 <font>
-                                    <Font size="30.0" />
-                                 </font>
-                              </Label>
-                              <Label text="В работе">
-                                 <padding>
-                                    <Insets bottom="15.0" top="15.0" />
-                                 </padding>
-                                 <font>
-                                    <Font name="System Bold" size="15.0" />
-                                 </font>
-                              </Label>
-                              <Label text="Требуют внимания" />
-                           </children>
-                           <padding>
-                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                           </padding>
-                        </VBox>
-                        <VBox maxWidth="1.7976931348623157E308" minWidth="250.0" style="-fx-background-color: #ffffff;" HBox.hgrow="ALWAYS">
-                           <children>
-                              <Label text="2">
-                                 <font>
-                                    <Font size="30.0" />
-                                 </font>
-                              </Label>
-                              <Label text="На проверке">
-                                 <padding>
-                                    <Insets bottom="15.0" top="15.0" />
-                                 </padding>
-                                 <font>
-                                    <Font name="System Bold" size="15.0" />
-                                 </font>
-                              </Label>
-                              <Label text="Ожидают решения" />
-                           </children>
-                           <padding>
-                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                           </padding>
-                        </VBox>
-                        <VBox maxWidth="1.7976931348623157E308" minWidth="250.0" style="-fx-background-color: #ffffff;" HBox.hgrow="ALWAYS">
-                           <children>
-                              <Label text="2">
-                                 <font>
-                                    <Font size="30.0" />
-                                 </font>
-                              </Label>
-                              <Label text="Завершено">
-                                 <padding>
-                                    <Insets bottom="15.0" top="15.0" />
-                                 </padding>
-                                 <font>
-                                    <Font name="System Bold" size="15.0" />
-                                 </font>
-                              </Label>
-                              <Label text="За текущий спринт" />
-                           </children>
-                           <padding>
-                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                           </padding>
-                        </VBox>
-                     </children>
-                  </HBox>
-                  <HBox spacing="20.0" VBox.vgrow="ALWAYS">
-                     <children>
-                        <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #ffffff;" HBox.hgrow="ALWAYS">
-                           <children>
-                              <HBox>
-                                 <children>
-                                    <Label text="Проекты">
-                                       <font>
-                                          <Font size="24.0" />
-                                       </font>
-                                    </Label>
-                                    <Region HBox.hgrow="ALWAYS">
-                                       <HBox.margin>
-                                          <Insets />
-                                       </HBox.margin>
-                                    </Region>
-                                    <Label text="ПРОГРЕСС ВЫПОЛНЕНИЯ">
-                                       <font>
-                                          <Font size="18.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                                 <VBox.margin>
-                                    <Insets bottom="30.0" />
-                                 </VBox.margin>
-                              </HBox>
-                              <HBox>
-                                 <children>
-                                    <Label text="Редизайн портала">
-                                       <font>
-                                          <Font size="15.0" />
-                                       </font>
-                                       <HBox.margin>
-                                          <Insets />
-                                       </HBox.margin>
-                                    </Label>
-                                    <Region HBox.hgrow="ALWAYS" />
-                                    <Label text="13/18 задач">
-                                       <font>
-                                          <Font size="15.0" />
-                                       </font>
-                                       <HBox.margin>
-                                          <Insets left="30.0" right="30.0" />
-                                       </HBox.margin>
-                                    </Label>
-                                    <Label text="72%">
-                                       <font>
-                                          <Font size="15.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                              </HBox>
-                              <ProgressBar maxWidth="1.7976931348623157E308" progress="0.0">
-                                 <VBox.margin>
-                                    <Insets bottom="20.0" top="10.0" />
-                                 </VBox.margin>
-                              </ProgressBar>
-                              <HBox>
-                                 <children>
-                                    <Label text="Миграция CRM">
-                                       <font>
-                                          <Font size="15.0" />
-                                       </font>
-                                       <HBox.margin>
-                                          <Insets />
-                                       </HBox.margin>
-                                    </Label>
-                                    <Region HBox.hgrow="ALWAYS" />
-                                    <Label text="10/24 задач">
-                                       <font>
-                                          <Font size="15.0" />
-                                       </font>
-                                       <HBox.margin>
-                                          <Insets left="30.0" right="30.0" />
-                                       </HBox.margin>
-                                    </Label>
-                                    <Label text="41%">
-                                       <font>
-                                          <Font size="15.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                              </HBox>
-                              <ProgressBar maxWidth="1.7976931348623157E308" progress="0.0">
-                                 <VBox.margin>
-                                    <Insets bottom="20.0" top="10.0" />
-                                 </VBox.margin>
-                              </ProgressBar>
-                              <HBox>
-                                 <children>
-                                    <Label text="Мобильное приложение">
-                                       <font>
-                                          <Font size="15.0" />
-                                       </font>
-                                       <HBox.margin>
-                                          <Insets />
-                                       </HBox.margin>
-                                    </Label>
-                                    <Region HBox.hgrow="ALWAYS" />
-                                    <Label text="27/31 задач">
-                                       <font>
-                                          <Font size="15.0" />
-                                       </font>
-                                       <HBox.margin>
-                                          <Insets left="30.0" right="30.0" />
-                                       </HBox.margin>
-                                    </Label>
-                                    <Label text="88%">
-                                       <font>
-                                          <Font size="15.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                              </HBox>
-                              <ProgressBar maxWidth="1.7976931348623157E308" progress="0.0">
-                                 <VBox.margin>
-                                    <Insets bottom="20.0" top="10.0" />
-                                 </VBox.margin>
-                              </ProgressBar>
-                              <HBox>
-                                 <children>
-                                    <Label text="Отчетность Q3">
-                                       <font>
-                                          <Font size="15.0" />
-                                       </font>
-                                       <HBox.margin>
-                                          <Insets />
-                                       </HBox.margin>
-                                    </Label>
-                                    <Region HBox.hgrow="ALWAYS" />
-                                    <Label text="2/12 задач">
-                                       <font>
-                                          <Font size="15.0" />
-                                       </font>
-                                       <HBox.margin>
-                                          <Insets left="30.0" right="30.0" />
-                                       </HBox.margin>
-                                    </Label>
-                                    <Label text="15%">
-                                       <font>
-                                          <Font size="15.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                              </HBox>
-                              <ProgressBar maxWidth="1.7976931348623157E308" progress="0.0">
-                                 <VBox.margin>
-                                    <Insets bottom="20.0" top="10.0" />
-                                 </VBox.margin>
-                              </ProgressBar>
-                           </children>
-                           <HBox.margin>
-                              <Insets />
-                           </HBox.margin>
-                           <padding>
-                              <Insets bottom="30.0" left="20.0" right="20.0" top="30.0" />
-                           </padding>
-                        </VBox>
-                        <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #ffffff;">
-                           <children>
-                              <HBox>
-                                 <children>
-                                    <Label text="Ближайшие дедлайны">
-                                       <font>
-                                          <Font size="24.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                                 <VBox.margin>
-                                    <Insets bottom="10.0" />
-                                 </VBox.margin>
-                              </HBox>
-                              <VBox>
-                                 <children>
-                                    <Label text="Утвердить макеты главной страницы" />
-                                    <Label text="03 авг" />
-                                    <Region maxHeight="1.0" prefHeight="1.0" style="-fx-background-color: #000000;" />
-                                 </children>
-                                 <padding>
-                                    <Insets top="20.0" />
-                                 </padding>
-                              </VBox>
-                              <VBox>
-                                 <children>
-                                    <Label text="Настроить интеграцию с 1С" />
-                                    <Label text="05 авг" />
-                                    <Region maxHeight="1.0" prefHeight="1.0" style="-fx-background-color: #000000;" />
-                                 </children>
-                                 <padding>
-                                    <Insets top="20.0" />
-                                 </padding>
-                              </VBox>
-                              <VBox>
-                                 <children>
-                                    <Label text="Тестирование PUSH-уведомлений" />
-                                    <Label text="04 авг" />
-                                    <Region maxHeight="1.0" prefHeight="1.0" style="-fx-background-color: #000000;" />
-                                 </children>
-                                 <padding>
-                                    <Insets top="20.0" />
-                                 </padding>
-                              </VBox>
-                              <VBox>
-                                 <children>
-                                    <Label text="Подготовить данные по выручке" />
-                                    <Label text="10 авг" />
-                                    <Region maxHeight="1.0" prefHeight="1.0" style="-fx-background-color: #000000;" />
-                                 </children>
-                                 <padding>
-                                    <Insets top="20.0" />
-                                 </padding>
-                              </VBox>
-                              <VBox>
-                                 <children>
-                                    <Label text="Оптимизация загрузки приложений" />
-                                    <Label text="06 авг" />
-                                    <Region maxHeight="1.0" prefHeight="1.0" style="-fx-background-color: #000000;" />
-                                 </children>
-                                 <padding>
-                                    <Insets top="20.0" />
-                                 </padding>
-                              </VBox>
-                              <VBox>
-                                 <children>
-                                    <Label text="Перенос базы клиентов" />
-                                    <Label text="08 авг" />
-                                    <Region maxHeight="1.0" prefHeight="1.0" style="-fx-background-color: #000000;" />
-                                 </children>
-                                 <padding>
-                                    <Insets top="20.0" />
-                                 </padding>
-                              </VBox>
-                           </children>
-                           <padding>
-                              <Insets bottom="30.0" left="20.0" right="20.0" top="30.0" />
-                           </padding>
-                        </VBox>
-                     </children>
-                  </HBox>
-                  <VBox fx:id="taskTableContainerVBox" />
-               </children>
-               <padding>
-                  <Insets bottom="30.0" left="40.0" right="40.0" top="30.0" />
-               </padding>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.example.taskschedulerdesktop.controllers.review.DashboardController">
+    <ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="scroll-pane-clean">
+        <VBox spacing="16" styleClass="content-area">
+
+            <!-- Статистика -->
+            <GridPane hgap="12" vgap="0">
+                <columnConstraints>
+                    <ColumnConstraints hgrow="ALWAYS" percentWidth="25"/>
+                    <ColumnConstraints hgrow="ALWAYS" percentWidth="25"/>
+                    <ColumnConstraints hgrow="ALWAYS" percentWidth="25"/>
+                    <ColumnConstraints hgrow="ALWAYS" percentWidth="25"/>
+                </columnConstraints>
+
+                <!-- Всего -->
+                <StackPane styleClass="card" GridPane.columnIndex="0">
+                    <VBox spacing="4">
+                        <Label style="-fx-alignment:TOP_RIGHT;" styleClass="stat-mono" text="001"/>
+                        <Label fx:id="statAll" styleClass="stat-number" text="10"/>
+                        <Label styleClass="stat-label" text="Всего задач"/>
+                        <Label styleClass="stat-sub" text="активных проектов: 4"/>
+                    </VBox>
+                </StackPane>
+
+                <!-- В работе -->
+                <StackPane styleClass="card" GridPane.columnIndex="1">
+                    <VBox spacing="4">
+                        <Label styleClass="stat-mono" text="002"/>
+                        <Label fx:id="statInProgress" styleClass="stat-number" text="3"/>
+                        <Label styleClass="stat-label" text="В работе"/>
+                        <Label styleClass="stat-sub" text="требуют внимания"/>
+                    </VBox>
+                </StackPane>
+
+                <!-- На проверке -->
+                <StackPane styleClass="card" GridPane.columnIndex="2">
+                    <VBox spacing="4">
+                        <Label styleClass="stat-mono" text="003"/>
+                        <Label fx:id="statReview" styleClass="stat-number" text="2"/>
+                        <Label styleClass="stat-label" text="На проверке"/>
+                        <Label styleClass="stat-sub" text="ожидают решения"/>
+                    </VBox>
+                </StackPane>
+
+                <!-- Завершено -->
+                <StackPane styleClass="card" GridPane.columnIndex="3">
+                    <VBox spacing="4">
+                        <Label styleClass="stat-mono" text="004"/>
+                        <Label fx:id="statDone" styleClass="stat-number" text="2"/>
+                        <Label styleClass="stat-label" text="Завершено"/>
+                        <Label styleClass="stat-sub" text="за текущий спринт"/>
+                    </VBox>
+                </StackPane>
+                <rowConstraints>
+                    <RowConstraints/>
+                </rowConstraints>
+            </GridPane>
+
+            <!-- Прогресс проектов + дедлайны -->
+            <GridPane hgap="12">
+                <columnConstraints>
+                    <ColumnConstraints hgrow="ALWAYS" percentWidth="67"/>
+                    <ColumnConstraints hgrow="ALWAYS" percentWidth="33"/>
+                </columnConstraints>
+
+                <!-- Прогресс проектов -->
+                <VBox spacing="0" styleClass="card" GridPane.columnIndex="0">
+                    <HBox alignment="CENTER_LEFT" spacing="8" style="-fx-padding: 0 0 16 0;">
+                        <Label styleClass="card-title" text="Проекты" HBox.hgrow="ALWAYS"/>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Label styleClass="section-mono" text="прогресс выполнения"/>
+                    </HBox>
+
+                    <!-- Редизайн портала -->
+                    <VBox spacing="6" style="-fx-padding: 0 0 14 0;">
+                        <HBox alignment="CENTER_LEFT" spacing="8">
+                            <Region styleClass="dot-blue" HBox.hgrow="NEVER"/>
+                            <Label style="-fx-font-weight:600;-fx-font-size:13px;" text="Редизайн портала"
+                                   HBox.hgrow="ALWAYS"/>
+                            <Label styleClass="section-mono" text="/А.К."/>
+                            <Label style="-fx-font-size:11px;-fx-text-fill:#9b9b95;" text="13/18 задач"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Label style="-fx-font-family:'Courier New';-fx-font-size:11px;" text="72%"/>
+                        </HBox>
+                        <ProgressBar maxWidth="Infinity" progress="0.72" style="-fx-accent:#1a3a8f;"
+                                     styleClass="progress-thin"/>
+                    </VBox>
+
+                    <!-- Миграция CRM -->
+                    <VBox spacing="6" style="-fx-padding: 0 0 14 0;">
+                        <HBox alignment="CENTER_LEFT" spacing="8">
+                            <Region styleClass="dot-violet" HBox.hgrow="NEVER"/>
+                            <Label style="-fx-font-weight:600;-fx-font-size:13px;" text="Миграция CRM"
+                                   HBox.hgrow="ALWAYS"/>
+                            <Label styleClass="section-mono" text="/М.В."/>
+                            <Label style="-fx-font-size:11px;-fx-text-fill:#9b9b95;" text="10/24 задач"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Label style="-fx-font-family:'Courier New';-fx-font-size:11px;" text="41%"/>
+                        </HBox>
+                        <ProgressBar maxWidth="Infinity" progress="0.41" style="-fx-accent:#7c3aed;"
+                                     styleClass="progress-thin"/>
+                    </VBox>
+
+                    <!-- Мобильное приложение -->
+                    <VBox spacing="6" style="-fx-padding: 0 0 14 0;">
+                        <HBox alignment="CENTER_LEFT" spacing="8">
+                            <Region styleClass="dot-teal" HBox.hgrow="NEVER"/>
+                            <Label style="-fx-font-weight:600;-fx-font-size:13px;" text="Мобильное приложение"
+                                   HBox.hgrow="ALWAYS"/>
+                            <Label styleClass="section-mono" text="/Е.Н."/>
+                            <Label style="-fx-font-size:11px;-fx-text-fill:#9b9b95;" text="27/31 задач"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Label style="-fx-font-family:'Courier New';-fx-font-size:11px;" text="88%"/>
+                        </HBox>
+                        <ProgressBar maxWidth="Infinity" progress="0.88" style="-fx-accent:#0f766e;"
+                                     styleClass="progress-thin"/>
+                    </VBox>
+
+                    <!-- Отчётность Q3 -->
+                    <VBox spacing="6">
+                        <HBox alignment="CENTER_LEFT" spacing="8">
+                            <Region styleClass="dot-amber" HBox.hgrow="NEVER"/>
+                            <Label style="-fx-font-weight:600;-fx-font-size:13px;" text="Отчётность Q3"
+                                   HBox.hgrow="ALWAYS"/>
+                            <Label styleClass="section-mono" text="/П.С."/>
+                            <Label style="-fx-font-size:11px;-fx-text-fill:#9b9b95;" text="2/12 задач"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Label style="-fx-font-family:'Courier New';-fx-font-size:11px;" text="15%"/>
+                        </HBox>
+                        <ProgressBar maxWidth="Infinity" progress="0.15" style="-fx-accent:#92400e;"
+                                     styleClass="progress-thin"/>
+                    </VBox>
+                </VBox>
+
+                <!-- Дедлайны -->
+                <VBox spacing="0" styleClass="card" GridPane.columnIndex="1">
+                    <HBox alignment="CENTER_LEFT" style="-fx-padding: 0 0 14 0;">
+                        <Label styleClass="card-title" text="Дедлайны" HBox.hgrow="ALWAYS"/>
+                        <Label styleClass="section-mono" text="ближайшие"/>
+                    </HBox>
+
+                    <VBox fx:id="deadlinesList" spacing="0">
+                        <!-- Элементы добавляются контроллером -->
+                        <HBox alignment="CENTER_LEFT" spacing="10" styleClass="deadline-row">
+                            <StackPane styleClass="avatar-box">
+                                <Label styleClass="avatar-text" text="АК"/>
+                            </StackPane>
+                            <VBox spacing="2" HBox.hgrow="ALWAYS">
+                                <Label styleClass="deadline-title" text="Утвердить макеты" wrapText="true"/>
+                                <Label styleClass="deadline-date" text="03 авг"/>
+                            </VBox>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" spacing="10" styleClass="deadline-row">
+                            <StackPane styleClass="avatar-box">
+                                <Label styleClass="avatar-text" text="МВ"/>
+                            </StackPane>
+                            <VBox spacing="2" HBox.hgrow="ALWAYS">
+                                <Label styleClass="deadline-title" text="Интеграция с 1С" wrapText="true"/>
+                                <Label styleClass="deadline-date" text="05 авг"/>
+                            </VBox>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" spacing="10" styleClass="deadline-row">
+                            <StackPane styleClass="avatar-box">
+                                <Label styleClass="avatar-text" text="ЕН"/>
+                            </StackPane>
+                            <VBox spacing="2" HBox.hgrow="ALWAYS">
+                                <Label styleClass="deadline-title" text="Push-уведомления" wrapText="true"/>
+                                <Label styleClass="deadline-date" text="04 авг"/>
+                            </VBox>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" spacing="10" styleClass="deadline-row">
+                            <StackPane styleClass="avatar-box">
+                                <Label styleClass="avatar-text" text="ПС"/>
+                            </StackPane>
+                            <VBox spacing="2" HBox.hgrow="ALWAYS">
+                                <Label styleClass="deadline-title" text="Данные по выручке" wrapText="true"/>
+                                <Label styleClass="deadline-date" text="10 авг"/>
+                            </VBox>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" spacing="10" styleClass="deadline-row">
+                            <StackPane styleClass="avatar-box">
+                                <Label styleClass="avatar-text" text="АК"/>
+                            </StackPane>
+                            <VBox spacing="2" HBox.hgrow="ALWAYS">
+                                <Label styleClass="deadline-title" text="Оптимизация изображений" wrapText="true"/>
+                                <Label styleClass="deadline-date" text="06 авг"/>
+                            </VBox>
+                        </HBox>
+                    </VBox>
+                </VBox>
+                <rowConstraints>
+                    <RowConstraints/>
+                </rowConstraints>
+            </GridPane>
+
+            <!-- Таблица последних задач -->
+            <!--        <HBox alignment="CENTER_LEFT" style="-fx-padding:0 0 12 0;">-->
+            <!--            <Label text="Последние задачи" styleClass="card-title" HBox.hgrow="ALWAYS"/>-->
+            <!--            <Label text="6 из 10" styleClass="section-mono"/>-->
+            <!--        </HBox>-->
+            <VBox fx:id="taskTableContainerVBox">
             </VBox>
-         </content>
-      </ScrollPane>
-   </children>
+
+        </VBox>
+    </ScrollPane>
 </VBox>
