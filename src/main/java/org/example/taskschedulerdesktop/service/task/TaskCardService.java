@@ -14,15 +14,14 @@ import java.util.List;
 
 public class TaskCardService {
 
-    public Node createCard(TaskView task, int sequenceNumber) {
+    public Node createCardForProjectExtendedPage(TaskView task, int sequenceNumber) {
         try {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource( Routes.TASK_DESCRIPTION_CARD)
+                    getClass().getResource(Routes.TASK_DESCRIPTION_CARD)
             );
             Node card = loader.load();
             TaskDescriptionCardController controller = loader.getController();
 
-            // Заполняем карточку
             controller.setTaskSequenceNumberLabel(sequenceNumber);
             controller.setTaskNameLabel(task.getTaskName());
             controller.setTaskTypeLabel(task.getType());
@@ -48,16 +47,17 @@ public class TaskCardService {
         }
     }
 
-    public List<Node> createCards(List<TaskView> tasks) {
+    public List<Node> createCardsForProjectExtendedPage(List<TaskView> tasks) {
         List<Node> cards = new ArrayList<>();
         int sequenceNumber = 1;
 
         for (TaskView task : tasks) {
-            Node card = createCard(task, sequenceNumber);
+            Node card = createCardForProjectExtendedPage(task, sequenceNumber);
             cards.add(card);
             sequenceNumber++;
         }
 
         return cards;
     }
+
 }

@@ -8,7 +8,8 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import org.example.taskschedulerdesktop.controllers.sidebar.RightSidebarController;
 import org.example.taskschedulerdesktop.dto.TaskView;
-import org.example.taskschedulerdesktop.listeners.TaskUpdateListener;
+import org.example.taskschedulerdesktop.listeners.EventBus;
+import org.example.taskschedulerdesktop.listeners.TaskChangedEvent;
 import org.example.taskschedulerdesktop.navigation.NavigationManager;
 import org.example.taskschedulerdesktop.navigation.Routes;
 import org.example.taskschedulerdesktop.service.task.AsyncTaskService;
@@ -87,7 +88,7 @@ public class TaskRightSidebarController implements RightSidebarController {
             taskService.deleteTask(
                     contextTask,
                     () -> {
-                        TaskUpdateListener.notifyTaskChanged(contextTask);
+                        EventBus.getInstance().fire(new TaskChangedEvent(contextTask.getProjectId(), contextTask.getTaskName()));
                     },
                     error -> NavigationManager.showToast("Не удалось удалить", "error")
             );

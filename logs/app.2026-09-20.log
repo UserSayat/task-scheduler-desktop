@@ -1,0 +1,1082 @@
+2026-09-20 14:46:51.544 [JavaFX Application Thread] DEBUG o.e.t.database.DatabaseConnection - H2 TCP-server started on the port:9092 successful
+2026-09-20 14:46:51.557 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - createTableIfNotExists()
+2026-09-20 14:46:51.577 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - createIndexes()
+2026-09-20 14:46:52.501 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/review.fxml
+2026-09-20 14:46:53.319 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/review.fxml
+2026-09-20 14:46:55.485 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 14:46:55.553 [Thread-7] DEBUG o.e.t.s.project.AsyncProjectService - createProjectLoader()
+2026-09-20 14:46:55.556 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 14:46:55.563 [Thread-7] DEBUG o.e.t.s.project.AsyncProjectService - Project: org.example.taskschedulerdesktop.models.Project@7e0a87c8, number of tasks = 0
+2026-09-20 14:46:55.564 [Thread-7] DEBUG o.e.t.s.project.ProjectCardService - createCard(org.example.taskschedulerdesktop.models.Project@7e0a87c8)
+2026-09-20 14:46:55.605 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.initialize(), hashCode = 916677519
+2026-09-20 14:46:55.607 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - context = null
+2026-09-20 14:46:55.607 [Thread-7] DEBUG o.e.t.s.project.ProjectCardService - Project: org.example.taskschedulerdesktop.models.Project@7e0a87c8, number of tasks = 0
+2026-09-20 14:46:55.608 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.setContext: org.example.taskschedulerdesktop.models.Project@7e0a87c8, hashCode = 916677519
+2026-09-20 14:46:55.609 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-20 14:46:57.806 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectCardController - Click on the card, context = org.example.taskschedulerdesktop.models.Project@7e0a87c8
+2026-09-20 14:46:57.807 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/project_extended_page.fxml
+2026-09-20 14:46:57.896 [Thread-10] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(UNDER_REVIEW)
+2026-09-20 14:46:57.896 [Thread-9] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(IN_PROGRESS)
+2026-09-20 14:46:57.897 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectExtendedPageController - setContext: org.example.taskschedulerdesktop.models.Project@7e0a87c8
+2026-09-20 14:46:57.897 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectExtendedPageController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-20 14:46:57.896 [Thread-8] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(NEW)
+2026-09-20 14:46:57.902 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/project_extended_page.fxml
+2026-09-20 14:46:57.905 [Thread-11] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(COMPLETED)
+2026-09-20 14:47:12.096 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - save(org.example.taskschedulerdesktop.models.Task@10b7e05a)
+2026-09-20 14:47:12.104 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - Task saved: id = 14
+2026-09-20 14:47:12.105 [JavaFX Application Thread] DEBUG o.e.t.service.task.TaskServiceImpl - Event TaskChangedEvent sent: projectName = 1
+2026-09-20 14:47:12.105 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Close Stage: Новая задача
+2026-09-20 14:47:12.138 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Toast is displayed: Задача сохранена
+2026-09-20 14:47:12.138 [JavaFX Application Thread] DEBUG o.e.t.c.t.CreateTaskModalWindowController - createTaskButton.getScene() = javafx.scene.Scene@32af688e
+2026-09-20 14:47:12.140 [JavaFX Application Thread] DEBUG o.e.t.c.t.CreateTaskModalWindowController - createTaskButton.getScene().getWindow() = javafx.stage.Stage@51c373ba
+2026-09-20 14:47:15.432 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 14:47:15.446 [Thread-13] DEBUG o.e.t.s.project.AsyncProjectService - createProjectLoader()
+2026-09-20 14:47:15.447 [Thread-13] DEBUG o.e.t.s.project.AsyncProjectService - Project: org.example.taskschedulerdesktop.models.Project@3d24d472, number of tasks = 0
+2026-09-20 14:47:15.447 [Thread-13] DEBUG o.e.t.s.project.ProjectCardService - createCard(org.example.taskschedulerdesktop.models.Project@3d24d472)
+2026-09-20 14:47:15.446 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 14:47:15.467 [Thread-13] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.initialize(), hashCode = 404138078
+2026-09-20 14:47:15.468 [Thread-13] DEBUG o.e.t.c.p.ProjectCardController - context = null
+2026-09-20 14:47:15.468 [Thread-13] DEBUG o.e.t.s.project.ProjectCardService - Project: org.example.taskschedulerdesktop.models.Project@3d24d472, number of tasks = 0
+2026-09-20 14:47:15.468 [Thread-13] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.setContext: org.example.taskschedulerdesktop.models.Project@3d24d472, hashCode = 404138078
+2026-09-20 14:47:15.468 [Thread-13] DEBUG o.e.t.c.p.ProjectCardController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-20 15:06:46.051 [JavaFX Application Thread] DEBUG o.e.t.database.DatabaseConnection - H2 TCP-server started on the port:9092 successful
+2026-09-20 15:06:46.055 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - createTableIfNotExists()
+2026-09-20 15:06:46.078 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - createIndexes()
+2026-09-20 15:06:46.561 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/review.fxml
+2026-09-20 15:06:47.286 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/review.fxml
+2026-09-20 15:06:58.560 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 15:06:58.579 [Thread-7] DEBUG o.e.t.s.project.AsyncProjectService - createProjectLoader()
+2026-09-20 15:06:58.582 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 15:06:58.586 [Thread-7] DEBUG o.e.t.s.project.AsyncProjectService - Project: org.example.taskschedulerdesktop.models.Project@428d33be, number of tasks = 0
+2026-09-20 15:06:58.587 [Thread-7] DEBUG o.e.t.s.project.ProjectCardService - createCard(org.example.taskschedulerdesktop.models.Project@428d33be)
+2026-09-20 15:06:58.606 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.initialize(), hashCode = 1261519216
+2026-09-20 15:06:58.606 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - context = null
+2026-09-20 15:06:58.607 [Thread-7] DEBUG o.e.t.s.project.ProjectCardService - Project: org.example.taskschedulerdesktop.models.Project@428d33be, number of tasks = 0
+2026-09-20 15:06:58.608 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.setContext: org.example.taskschedulerdesktop.models.Project@428d33be, hashCode = 1261519216
+2026-09-20 15:06:58.609 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-20 15:07:00.523 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectCardController - Click on the card, context = org.example.taskschedulerdesktop.models.Project@428d33be
+2026-09-20 15:07:00.523 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/project_extended_page.fxml
+2026-09-20 15:07:00.546 [Thread-8] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(NEW)
+2026-09-20 15:07:00.546 [Thread-9] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(IN_PROGRESS)
+2026-09-20 15:07:00.546 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectExtendedPageController - setContext: org.example.taskschedulerdesktop.models.Project@428d33be
+2026-09-20 15:07:00.546 [Thread-11] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(COMPLETED)
+2026-09-20 15:07:00.546 [Thread-10] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(UNDER_REVIEW)
+2026-09-20 15:07:00.546 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectExtendedPageController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-20 15:07:00.549 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/project_extended_page.fxml
+2026-09-20 15:07:15.446 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - save(org.example.taskschedulerdesktop.models.Task@154ba193)
+2026-09-20 15:07:15.450 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - Task saved: id = 15
+2026-09-20 15:07:15.451 [JavaFX Application Thread] DEBUG o.e.t.service.task.TaskServiceImpl - Event TaskChangedEvent sent: projectName = 1
+2026-09-20 15:07:15.451 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Close Stage: Новая задача
+2026-09-20 15:07:15.470 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Toast is displayed: Задача сохранена
+2026-09-20 15:07:15.470 [JavaFX Application Thread] DEBUG o.e.t.c.t.CreateTaskModalWindowController - createTaskButton.getScene() = javafx.scene.Scene@787c19d
+2026-09-20 15:07:15.470 [JavaFX Application Thread] DEBUG o.e.t.c.t.CreateTaskModalWindowController - createTaskButton.getScene().getWindow() = javafx.stage.Stage@42ee13e9
+2026-09-20 15:07:19.181 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 15:07:19.187 [Thread-13] DEBUG o.e.t.s.project.AsyncProjectService - createProjectLoader()
+2026-09-20 15:07:19.188 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 15:07:19.188 [Thread-13] DEBUG o.e.t.s.project.AsyncProjectService - Project: org.example.taskschedulerdesktop.models.Project@75483953, number of tasks = 0
+2026-09-20 15:07:19.188 [Thread-13] DEBUG o.e.t.s.project.ProjectCardService - createCard(org.example.taskschedulerdesktop.models.Project@75483953)
+2026-09-20 15:07:19.198 [Thread-13] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.initialize(), hashCode = 2095929258
+2026-09-20 15:07:19.199 [Thread-13] DEBUG o.e.t.c.p.ProjectCardController - context = null
+2026-09-20 15:07:19.199 [Thread-13] DEBUG o.e.t.s.project.ProjectCardService - Project: org.example.taskschedulerdesktop.models.Project@75483953, number of tasks = 0
+2026-09-20 15:07:19.199 [Thread-13] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.setContext: org.example.taskschedulerdesktop.models.Project@75483953, hashCode = 2095929258
+2026-09-20 15:07:19.199 [Thread-13] DEBUG o.e.t.c.p.ProjectCardController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-20 15:14:22.542 [JavaFX Application Thread] DEBUG o.e.t.database.DatabaseConnection - H2 TCP-server started on the port:9092 successful
+2026-09-20 15:14:22.558 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - createTableIfNotExists()
+2026-09-20 15:14:22.573 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - createIndexes()
+2026-09-20 15:14:22.959 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/review.fxml
+2026-09-20 15:14:23.409 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/review.fxml
+2026-09-20 15:14:25.044 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 15:14:25.061 [Thread-7] DEBUG o.e.t.s.project.AsyncProjectService - createProjectLoader()
+2026-09-20 15:14:25.063 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 15:14:25.066 [Thread-7] DEBUG o.e.t.s.project.AsyncProjectService - Project: org.example.taskschedulerdesktop.models.Project@3c63f0ae, number of tasks = 0
+2026-09-20 15:14:25.066 [Thread-7] DEBUG o.e.t.s.project.ProjectCardService - createCard(org.example.taskschedulerdesktop.models.Project@3c63f0ae)
+2026-09-20 15:14:25.077 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.initialize(), hashCode = 1171306654
+2026-09-20 15:14:25.077 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - context = null
+2026-09-20 15:14:25.077 [Thread-7] DEBUG o.e.t.s.project.ProjectCardService - Project: org.example.taskschedulerdesktop.models.Project@3c63f0ae, number of tasks = 0
+2026-09-20 15:14:25.078 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.setContext: org.example.taskschedulerdesktop.models.Project@3c63f0ae, hashCode = 1171306654
+2026-09-20 15:14:25.078 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-20 15:14:26.287 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectCardController - Click on the card, context = org.example.taskschedulerdesktop.models.Project@3c63f0ae
+2026-09-20 15:14:26.287 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/project_extended_page.fxml
+2026-09-20 15:14:26.318 [Thread-9] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(IN_PROGRESS)
+2026-09-20 15:14:26.318 [Thread-8] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(NEW)
+2026-09-20 15:14:26.318 [Thread-10] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(UNDER_REVIEW)
+2026-09-20 15:14:26.319 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectExtendedPageController - setContext: org.example.taskschedulerdesktop.models.Project@3c63f0ae
+2026-09-20 15:14:26.319 [Thread-11] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(COMPLETED)
+2026-09-20 15:14:26.319 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectExtendedPageController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-20 15:14:26.321 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/project_extended_page.fxml
+2026-09-20 15:14:37.977 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - save(org.example.taskschedulerdesktop.models.Task@14ae682a)
+2026-09-20 15:14:37.980 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - Task saved: id = 16
+2026-09-20 15:14:37.981 [JavaFX Application Thread] DEBUG o.e.t.service.task.TaskServiceImpl - Event TaskChangedEvent sent: projectName = 1
+2026-09-20 15:14:37.981 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Close Stage: Новая задача
+2026-09-20 15:14:37.999 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Toast is displayed: Задача сохранена
+2026-09-20 15:14:37.999 [JavaFX Application Thread] DEBUG o.e.t.c.t.CreateTaskModalWindowController - createTaskButton.getScene() = javafx.scene.Scene@51dc9b52
+2026-09-20 15:14:37.999 [JavaFX Application Thread] DEBUG o.e.t.c.t.CreateTaskModalWindowController - createTaskButton.getScene().getWindow() = javafx.stage.Stage@39746c54
+2026-09-20 15:14:41.683 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 15:14:41.688 [Thread-13] DEBUG o.e.t.s.project.AsyncProjectService - createProjectLoader()
+2026-09-20 15:14:41.689 [Thread-13] DEBUG o.e.t.s.project.AsyncProjectService - Project: org.example.taskschedulerdesktop.models.Project@4708285c, number of tasks = 0
+2026-09-20 15:14:41.689 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 15:14:41.689 [Thread-13] DEBUG o.e.t.s.project.ProjectCardService - createCard(org.example.taskschedulerdesktop.models.Project@4708285c)
+2026-09-20 15:14:41.697 [Thread-13] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.initialize(), hashCode = 1626390397
+2026-09-20 15:14:41.697 [Thread-13] DEBUG o.e.t.c.p.ProjectCardController - context = null
+2026-09-20 15:14:41.697 [Thread-13] DEBUG o.e.t.s.project.ProjectCardService - Project: org.example.taskschedulerdesktop.models.Project@4708285c, number of tasks = 0
+2026-09-20 15:14:41.697 [Thread-13] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.setContext: org.example.taskschedulerdesktop.models.Project@4708285c, hashCode = 1626390397
+2026-09-20 15:14:41.697 [Thread-13] DEBUG o.e.t.c.p.ProjectCardController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-20 15:23:00.352 [JavaFX Application Thread] DEBUG o.e.t.database.DatabaseConnection - H2 TCP-server started on the port:9092 successful
+2026-09-20 15:23:00.369 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - createTableIfNotExists()
+2026-09-20 15:23:00.380 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - createIndexes()
+2026-09-20 15:23:00.715 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/review.fxml
+2026-09-20 15:23:01.120 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/review.fxml
+2026-09-20 15:23:02.921 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 15:23:02.948 [Thread-7] DEBUG o.e.t.s.project.AsyncProjectService - createProjectLoader()
+2026-09-20 15:23:02.950 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 15:23:02.955 [Thread-7] DEBUG o.e.t.s.project.AsyncProjectService - Project: org.example.taskschedulerdesktop.models.Project@428d33be, number of tasks = 0
+2026-09-20 15:23:02.955 [Thread-7] DEBUG o.e.t.s.project.ProjectCardService - createCard(org.example.taskschedulerdesktop.models.Project@428d33be)
+2026-09-20 15:23:02.969 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.initialize(), hashCode = 1261519216
+2026-09-20 15:23:02.969 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - context = null
+2026-09-20 15:23:02.970 [Thread-7] DEBUG o.e.t.s.project.ProjectCardService - Project: org.example.taskschedulerdesktop.models.Project@428d33be, number of tasks = 0
+2026-09-20 15:23:02.970 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.setContext: org.example.taskschedulerdesktop.models.Project@428d33be, hashCode = 1261519216
+2026-09-20 15:23:02.970 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-20 15:23:05.816 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectCardController - Click on the card, context = org.example.taskschedulerdesktop.models.Project@428d33be
+2026-09-20 15:23:05.816 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/project_extended_page.fxml
+2026-09-20 15:23:05.856 [Thread-9] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(IN_PROGRESS)
+2026-09-20 15:23:05.856 [Thread-8] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(NEW)
+2026-09-20 15:23:05.857 [Thread-10] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(UNDER_REVIEW)
+2026-09-20 15:23:05.857 [Thread-11] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(COMPLETED)
+2026-09-20 15:23:05.857 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectExtendedPageController - setContext: org.example.taskschedulerdesktop.models.Project@428d33be
+2026-09-20 15:23:05.857 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectExtendedPageController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-20 15:23:05.860 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/project_extended_page.fxml
+2026-09-20 15:23:21.456 [JavaFX Application Thread] DEBUG o.e.t.service.task.TaskServiceImpl - save(org.example.taskschedulerdesktop.models.Task@4131ba38)
+2026-09-20 15:23:21.456 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - save(org.example.taskschedulerdesktop.models.Task@4131ba38)
+2026-09-20 15:23:21.460 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - Task saved: id = 17
+2026-09-20 15:23:21.460 [JavaFX Application Thread] DEBUG o.e.t.service.task.TaskServiceImpl - TaskChangedEvent: projectId=1, taskName=66666
+2026-09-20 15:23:21.465 [JavaFX Application Thread] DEBUG o.e.t.service.task.TaskServiceImpl - Event TaskChangedEvent sent: projectName = 1
+2026-09-20 15:23:21.465 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Close Stage: Новая задача
+2026-09-20 15:23:21.483 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Toast is displayed: Задача сохранена
+2026-09-20 15:23:21.484 [JavaFX Application Thread] DEBUG o.e.t.c.t.CreateTaskModalWindowController - createTaskButton.getScene() = javafx.scene.Scene@43fc2c66
+2026-09-20 15:23:21.484 [JavaFX Application Thread] DEBUG o.e.t.c.t.CreateTaskModalWindowController - createTaskButton.getScene().getWindow() = javafx.stage.Stage@5ba4fc02
+2026-09-20 15:23:25.383 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 15:23:25.389 [Thread-13] DEBUG o.e.t.s.project.AsyncProjectService - createProjectLoader()
+2026-09-20 15:23:25.390 [Thread-13] DEBUG o.e.t.s.project.AsyncProjectService - Project: org.example.taskschedulerdesktop.models.Project@37792df4, number of tasks = 0
+2026-09-20 15:23:25.390 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 15:23:25.390 [Thread-13] DEBUG o.e.t.s.project.ProjectCardService - createCard(org.example.taskschedulerdesktop.models.Project@37792df4)
+2026-09-20 15:23:25.397 [Thread-13] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.initialize(), hashCode = 368032503
+2026-09-20 15:23:25.397 [Thread-13] DEBUG o.e.t.c.p.ProjectCardController - context = null
+2026-09-20 15:23:25.398 [Thread-13] DEBUG o.e.t.s.project.ProjectCardService - Project: org.example.taskschedulerdesktop.models.Project@37792df4, number of tasks = 0
+2026-09-20 15:23:25.398 [Thread-13] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.setContext: org.example.taskschedulerdesktop.models.Project@37792df4, hashCode = 368032503
+2026-09-20 15:23:25.398 [Thread-13] DEBUG o.e.t.c.p.ProjectCardController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-20 15:29:16.261 [JavaFX Application Thread] DEBUG o.e.t.database.DatabaseConnection - H2 TCP-server started on the port:9092 successful
+2026-09-20 15:29:16.263 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - createTableIfNotExists()
+2026-09-20 15:29:16.275 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - createIndexes()
+2026-09-20 15:29:16.302 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - ProjectServiceImpl created
+2026-09-20 15:29:16.314 [JavaFX Application Thread] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 1359710977
+2026-09-20 15:29:16.315 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - Subscribe on TaskChangedEvent completed
+2026-09-20 15:29:16.570 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/review.fxml
+2026-09-20 15:29:16.988 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/review.fxml
+2026-09-20 15:29:19.765 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 15:29:19.782 [Thread-7] DEBUG o.e.t.s.project.AsyncProjectService - createProjectLoader()
+2026-09-20 15:29:19.784 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 15:29:19.786 [Thread-7] DEBUG o.e.t.s.project.AsyncProjectService - Project: org.example.taskschedulerdesktop.models.Project@5bd2a1e, number of tasks = 0
+2026-09-20 15:29:19.786 [Thread-7] DEBUG o.e.t.s.project.ProjectCardService - createCard(org.example.taskschedulerdesktop.models.Project@5bd2a1e)
+2026-09-20 15:29:19.798 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.initialize(), hashCode = 562164302
+2026-09-20 15:29:19.798 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - context = null
+2026-09-20 15:29:19.798 [Thread-7] DEBUG o.e.t.s.project.ProjectCardService - Project: org.example.taskschedulerdesktop.models.Project@5bd2a1e, number of tasks = 0
+2026-09-20 15:29:19.799 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.setContext: org.example.taskschedulerdesktop.models.Project@5bd2a1e, hashCode = 562164302
+2026-09-20 15:29:19.799 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-20 15:29:19.799 [Thread-7] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 887395538
+2026-09-20 15:29:21.939 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectCardController - Click on the card, context = org.example.taskschedulerdesktop.models.Project@5bd2a1e
+2026-09-20 15:29:21.939 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/project_extended_page.fxml
+2026-09-20 15:29:21.959 [Thread-5] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 223953977
+2026-09-20 15:29:21.962 [Thread-8] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(NEW)
+2026-09-20 15:29:21.963 [Thread-10] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(UNDER_REVIEW)
+2026-09-20 15:29:21.962 [Thread-9] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(IN_PROGRESS)
+2026-09-20 15:29:21.963 [Thread-11] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(COMPLETED)
+2026-09-20 15:29:21.963 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectExtendedPageController - setContext: org.example.taskschedulerdesktop.models.Project@5bd2a1e
+2026-09-20 15:29:21.963 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectExtendedPageController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-20 15:29:21.966 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/project_extended_page.fxml
+2026-09-20 15:29:36.702 [JavaFX Application Thread] DEBUG o.e.t.service.task.TaskServiceImpl - save(org.example.taskschedulerdesktop.models.Task@3f5229e2)
+2026-09-20 15:29:36.704 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - save(org.example.taskschedulerdesktop.models.Task@3f5229e2)
+2026-09-20 15:29:36.707 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - Task saved: id = 18
+2026-09-20 15:29:36.708 [JavaFX Application Thread] DEBUG o.e.t.service.task.TaskServiceImpl - TaskChangedEvent: projectId=1, taskName=777777
+2026-09-20 15:29:36.708 [JavaFX Application Thread] DEBUG o.e.t.listeners.EventBus - 📤 FIRE: TaskChangedEvent (subscribers: 0)
+2026-09-20 15:29:36.708 [JavaFX Application Thread] DEBUG o.e.t.service.task.TaskServiceImpl - Event TaskChangedEvent sent: projectName = 1
+2026-09-20 15:29:36.708 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Close Stage: Новая задача
+2026-09-20 15:29:36.728 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Toast is displayed: Задача сохранена
+2026-09-20 15:29:36.729 [JavaFX Application Thread] DEBUG o.e.t.c.t.CreateTaskModalWindowController - createTaskButton.getScene() = javafx.scene.Scene@100a071e
+2026-09-20 15:29:36.729 [JavaFX Application Thread] DEBUG o.e.t.c.t.CreateTaskModalWindowController - createTaskButton.getScene().getWindow() = javafx.stage.Stage@124b3008
+2026-09-20 15:29:41.543 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 15:29:41.550 [Thread-13] DEBUG o.e.t.s.project.AsyncProjectService - createProjectLoader()
+2026-09-20 15:29:41.550 [Thread-13] DEBUG o.e.t.s.project.AsyncProjectService - Project: org.example.taskschedulerdesktop.models.Project@b1d0fc9, number of tasks = 0
+2026-09-20 15:29:41.551 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 15:29:41.551 [Thread-13] DEBUG o.e.t.s.project.ProjectCardService - createCard(org.example.taskschedulerdesktop.models.Project@b1d0fc9)
+2026-09-20 15:29:41.563 [Thread-13] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.initialize(), hashCode = 1394500405
+2026-09-20 15:29:41.563 [Thread-13] DEBUG o.e.t.c.p.ProjectCardController - context = null
+2026-09-20 15:29:41.563 [Thread-13] DEBUG o.e.t.s.project.ProjectCardService - Project: org.example.taskschedulerdesktop.models.Project@b1d0fc9, number of tasks = 0
+2026-09-20 15:29:41.563 [Thread-13] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.setContext: org.example.taskschedulerdesktop.models.Project@b1d0fc9, hashCode = 1394500405
+2026-09-20 15:29:41.563 [Thread-13] DEBUG o.e.t.c.p.ProjectCardController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-20 15:29:41.563 [Thread-13] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 788592741
+2026-09-20 15:31:24.913 [JavaFX Application Thread] DEBUG o.e.t.database.DatabaseConnection - H2 TCP-server started on the port:9092 successful
+2026-09-20 15:31:24.915 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - createTableIfNotExists()
+2026-09-20 15:31:24.927 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - createIndexes()
+2026-09-20 15:31:24.937 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - ProjectServiceImpl created
+2026-09-20 15:31:24.950 [JavaFX Application Thread] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 1366494554
+2026-09-20 15:31:24.952 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - Subscribe on TaskChangedEvent completed
+2026-09-20 15:31:25.190 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/review.fxml
+2026-09-20 15:31:25.592 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/review.fxml
+2026-09-20 15:31:27.137 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 15:31:27.152 [Thread-7] DEBUG o.e.t.s.project.AsyncProjectService - createProjectLoader()
+2026-09-20 15:31:27.154 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 15:31:27.157 [Thread-7] DEBUG o.e.t.s.project.AsyncProjectService - Project: org.example.taskschedulerdesktop.models.Project@50c718e4, number of tasks = 0
+2026-09-20 15:31:27.157 [Thread-7] DEBUG o.e.t.s.project.ProjectCardService - createCard(org.example.taskschedulerdesktop.models.Project@50c718e4)
+2026-09-20 15:31:27.170 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.initialize(), hashCode = 1656063840
+2026-09-20 15:31:27.170 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - context = null
+2026-09-20 15:31:27.170 [Thread-7] DEBUG o.e.t.s.project.ProjectCardService - Project: org.example.taskschedulerdesktop.models.Project@50c718e4, number of tasks = 0
+2026-09-20 15:31:27.171 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.setContext: org.example.taskschedulerdesktop.models.Project@50c718e4, hashCode = 1656063840
+2026-09-20 15:31:27.171 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-20 15:31:27.172 [Thread-7] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 468810272
+2026-09-20 15:31:28.383 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectCardController - Click on the card, context = org.example.taskschedulerdesktop.models.Project@50c718e4
+2026-09-20 15:31:28.383 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/project_extended_page.fxml
+2026-09-20 15:31:28.407 [Thread-5] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 2022491159
+2026-09-20 15:31:28.411 [Thread-9] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(IN_PROGRESS)
+2026-09-20 15:31:28.411 [Thread-8] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(NEW)
+2026-09-20 15:31:28.411 [Thread-11] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(COMPLETED)
+2026-09-20 15:31:28.410 [Thread-10] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(UNDER_REVIEW)
+2026-09-20 15:31:28.411 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectExtendedPageController - setContext: org.example.taskschedulerdesktop.models.Project@50c718e4
+2026-09-20 15:31:28.411 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectExtendedPageController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-20 15:31:28.414 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/project_extended_page.fxml
+2026-09-20 15:31:40.319 [JavaFX Application Thread] DEBUG o.e.t.service.task.TaskServiceImpl - save(org.example.taskschedulerdesktop.models.Task@35da8587)
+2026-09-20 15:31:40.319 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - save(org.example.taskschedulerdesktop.models.Task@35da8587)
+2026-09-20 15:31:40.324 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - Task saved: id = 19
+2026-09-20 15:31:40.324 [JavaFX Application Thread] DEBUG o.e.t.service.task.TaskServiceImpl - TaskChangedEvent: projectId=1, taskName=88888
+2026-09-20 15:31:40.324 [JavaFX Application Thread] DEBUG o.e.t.listeners.EventBus - 📤 FIRE: TaskChangedEvent (subscribers: 3)
+2026-09-20 15:31:40.325 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - TaskChangedEvent received: projectId=1
+2026-09-20 15:31:40.326 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - Project found: Редизайн портала
+2026-09-20 15:31:40.329 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - Project updated: Редизайн портала
+2026-09-20 15:31:40.329 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectCardController - TaskChangedEvent received: projectId=1
+2026-09-20 15:31:40.329 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectCardController - refreshCard(), context = org.example.taskschedulerdesktop.models.Project@50c718e4
+2026-09-20 15:31:40.329 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectCardController - context.getId() = 1
+2026-09-20 15:31:40.331 [Thread-9] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(NEW)
+2026-09-20 15:31:40.331 [Thread-10] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(IN_PROGRESS)
+2026-09-20 15:31:40.331 [Thread-11] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(UNDER_REVIEW)
+2026-09-20 15:31:40.332 [Thread-8] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(COMPLETED)
+2026-09-20 15:31:40.333 [JavaFX Application Thread] DEBUG o.e.t.service.task.TaskServiceImpl - Event TaskChangedEvent sent: projectName = 1
+2026-09-20 15:31:40.333 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Close Stage: Новая задача
+2026-09-20 15:31:40.354 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Toast is displayed: Задача сохранена
+2026-09-20 15:31:40.355 [JavaFX Application Thread] DEBUG o.e.t.c.t.CreateTaskModalWindowController - createTaskButton.getScene() = javafx.scene.Scene@141bbc94
+2026-09-20 15:31:40.355 [JavaFX Application Thread] DEBUG o.e.t.c.t.CreateTaskModalWindowController - createTaskButton.getScene().getWindow() = javafx.stage.Stage@7afc0d78
+2026-09-20 15:31:43.493 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 15:31:43.499 [Thread-7] DEBUG o.e.t.s.project.AsyncProjectService - createProjectLoader()
+2026-09-20 15:31:43.500 [Thread-7] DEBUG o.e.t.s.project.AsyncProjectService - Project: org.example.taskschedulerdesktop.models.Project@36266b4d, number of tasks = 0
+2026-09-20 15:31:43.500 [Thread-7] DEBUG o.e.t.s.project.ProjectCardService - createCard(org.example.taskschedulerdesktop.models.Project@36266b4d)
+2026-09-20 15:31:43.500 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 15:31:43.506 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.initialize(), hashCode = 1810519519
+2026-09-20 15:31:43.506 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - context = null
+2026-09-20 15:31:43.506 [Thread-7] DEBUG o.e.t.s.project.ProjectCardService - Project: org.example.taskschedulerdesktop.models.Project@36266b4d, number of tasks = 0
+2026-09-20 15:31:43.506 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.setContext: org.example.taskschedulerdesktop.models.Project@36266b4d, hashCode = 1810519519
+2026-09-20 15:31:43.506 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-20 15:31:43.506 [Thread-7] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 944845329
+2026-09-20 15:33:14.184 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - save(org.example.taskschedulerdesktop.models.Project@76037f51)
+2026-09-20 15:33:14.184 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - countByProjectName(Редизайн портала)
+2026-09-20 15:33:14.190 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - countTasksByProjectName: 8
+2026-09-20 15:33:14.190 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - countByProjectNameAndStatus(Редизайн портала, COMPLETED)
+2026-09-20 15:33:14.191 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - Project: org.example.taskschedulerdesktop.models.Project@76037f51, number of tasks = 8, completed tasks = 0
+2026-09-20 15:33:14.192 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Close Stage: Новый проект
+2026-09-20 15:33:14.207 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Toast is displayed: Проект создан
+2026-09-20 15:33:14.207 [JavaFX Application Thread] DEBUG o.e.t.c.p.CreateProjectModalWindowController - createProjectButton.getScene() = javafx.scene.Scene@16b68cad
+2026-09-20 15:33:14.207 [JavaFX Application Thread] DEBUG o.e.t.c.p.CreateProjectModalWindowController - createProjectButton.getScene().getWindow() = javafx.stage.Stage@6e57bae8
+2026-09-20 15:33:18.763 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 15:33:18.768 [Thread-12] DEBUG o.e.t.s.project.AsyncProjectService - createProjectLoader()
+2026-09-20 15:33:18.768 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 15:33:18.769 [Thread-12] DEBUG o.e.t.s.project.AsyncProjectService - Project: org.example.taskschedulerdesktop.models.Project@405666c4, number of tasks = 0
+2026-09-20 15:33:18.769 [Thread-12] DEBUG o.e.t.s.project.ProjectCardService - createCard(org.example.taskschedulerdesktop.models.Project@405666c4)
+2026-09-20 15:33:18.775 [Thread-12] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.initialize(), hashCode = 616777954
+2026-09-20 15:33:18.775 [Thread-12] DEBUG o.e.t.c.p.ProjectCardController - context = null
+2026-09-20 15:33:18.775 [Thread-12] DEBUG o.e.t.s.project.ProjectCardService - Project: org.example.taskschedulerdesktop.models.Project@405666c4, number of tasks = 0
+2026-09-20 15:33:18.775 [Thread-12] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.setContext: org.example.taskschedulerdesktop.models.Project@405666c4, hashCode = 616777954
+2026-09-20 15:33:18.775 [Thread-12] DEBUG o.e.t.c.p.ProjectCardController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-20 15:33:18.775 [Thread-12] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 1082209746
+2026-09-20 15:33:18.775 [Thread-12] DEBUG o.e.t.s.project.ProjectCardService - createCard(org.example.taskschedulerdesktop.models.Project@54432dbd)
+2026-09-20 15:33:18.781 [Thread-12] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.initialize(), hashCode = 2060507090
+2026-09-20 15:33:18.781 [Thread-12] DEBUG o.e.t.c.p.ProjectCardController - context = null
+2026-09-20 15:33:18.781 [Thread-12] DEBUG o.e.t.s.project.ProjectCardService - Project: org.example.taskschedulerdesktop.models.Project@54432dbd, number of tasks = 8
+2026-09-20 15:33:18.781 [Thread-12] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.setContext: org.example.taskschedulerdesktop.models.Project@54432dbd, hashCode = 2060507090
+2026-09-20 15:33:18.781 [Thread-12] DEBUG o.e.t.c.p.ProjectCardController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-20 15:33:18.781 [Thread-12] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 756017051
+2026-09-20 15:47:25.206 [JavaFX Application Thread] DEBUG o.e.t.database.DatabaseConnection - H2 TCP-server started on the port:9092 successful
+2026-09-20 15:47:25.208 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - createTableIfNotExists()
+2026-09-20 15:47:25.221 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - createIndexes()
+2026-09-20 15:47:25.260 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - ProjectServiceImpl created
+2026-09-20 15:47:25.262 [JavaFX Application Thread] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 1366494554
+2026-09-20 15:47:25.263 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - Subscribe on TaskChangedEvent completed
+2026-09-20 15:47:25.512 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/review.fxml
+2026-09-20 15:47:25.937 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/review.fxml
+2026-09-20 15:47:27.564 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 15:47:27.579 [Thread-7] DEBUG o.e.t.s.project.AsyncProjectService - createProjectLoader()
+2026-09-20 15:47:27.580 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 15:47:27.585 [Thread-7] DEBUG o.e.t.s.project.AsyncProjectService - Project: org.example.taskschedulerdesktop.models.Project@1c13e445, number of tasks = 0
+2026-09-20 15:47:27.585 [Thread-7] DEBUG o.e.t.s.project.ProjectCardService - createCard(org.example.taskschedulerdesktop.models.Project@1c13e445)
+2026-09-20 15:47:27.598 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.initialize(), hashCode = 354823713
+2026-09-20 15:47:27.598 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - context = null
+2026-09-20 15:47:27.598 [Thread-7] DEBUG o.e.t.s.project.ProjectCardService - Project: org.example.taskschedulerdesktop.models.Project@1c13e445, number of tasks = 0
+2026-09-20 15:47:27.599 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.setContext: org.example.taskschedulerdesktop.models.Project@1c13e445, hashCode = 354823713
+2026-09-20 15:47:27.599 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-20 15:47:27.599 [Thread-7] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 1401608445
+2026-09-20 15:47:27.601 [Thread-7] DEBUG o.e.t.s.project.ProjectCardService - createCard(org.example.taskschedulerdesktop.models.Project@2d360113)
+2026-09-20 15:47:27.611 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.initialize(), hashCode = 1398307396
+2026-09-20 15:47:27.611 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - context = null
+2026-09-20 15:47:27.611 [Thread-7] DEBUG o.e.t.s.project.ProjectCardService - Project: org.example.taskschedulerdesktop.models.Project@2d360113, number of tasks = 8
+2026-09-20 15:47:27.611 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.setContext: org.example.taskschedulerdesktop.models.Project@2d360113, hashCode = 1398307396
+2026-09-20 15:47:27.611 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-20 15:47:27.611 [Thread-7] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 1266099690
+2026-09-20 15:47:30.427 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectCardController - Click on the card, context = org.example.taskschedulerdesktop.models.Project@2d360113
+2026-09-20 15:47:30.427 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/project_extended_page.fxml
+2026-09-20 15:47:30.448 [Thread-5] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 1836410695
+2026-09-20 15:47:30.451 [Thread-10] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(UNDER_REVIEW)
+2026-09-20 15:47:30.451 [Thread-9] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(IN_PROGRESS)
+2026-09-20 15:47:30.451 [Thread-8] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(NEW)
+2026-09-20 15:47:30.452 [Thread-11] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(COMPLETED)
+2026-09-20 15:47:30.452 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectExtendedPageController - setContext: org.example.taskschedulerdesktop.models.Project@2d360113
+2026-09-20 15:47:30.452 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectExtendedPageController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-20 15:47:30.459 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/project_extended_page.fxml
+2026-09-20 15:47:48.584 [JavaFX Application Thread] DEBUG o.e.t.service.task.TaskServiceImpl - save(org.example.taskschedulerdesktop.models.Task@2905f62c)
+2026-09-20 15:47:48.584 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - save(org.example.taskschedulerdesktop.models.Task@2905f62c)
+2026-09-20 15:47:48.589 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - Task saved: id = 20
+2026-09-20 15:47:48.589 [JavaFX Application Thread] DEBUG o.e.t.service.task.TaskServiceImpl - TaskChangedEvent: projectId=1, taskName=999999
+2026-09-20 15:47:48.589 [JavaFX Application Thread] DEBUG o.e.t.listeners.EventBus - 📤 FIRE: TaskChangedEvent (subscribers: 4)
+2026-09-20 15:47:48.590 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - TaskChangedEvent received: projectId=1
+2026-09-20 15:47:48.591 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - Project found: Редизайн портала
+2026-09-20 15:47:48.591 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - update(org.example.taskschedulerdesktop.models.Project@32ad9737)
+2026-09-20 15:47:48.591 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - countByProjectName(Редизайн портала)
+2026-09-20 15:47:48.594 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - countTasksByProjectName: 9
+2026-09-20 15:47:48.594 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - countByProjectNameAndStatus(Редизайн портала, COMPLETED)
+2026-09-20 15:47:48.595 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - Project: Редизайн портала, numberOfTasks = 9, completedTasks = 0
+2026-09-20 15:47:48.595 [JavaFX Application Thread] DEBUG o.e.t.r.project.H2ProjectRepository - UPDATE project: id=1, numberOfTasks=9, completedTasks=0
+2026-09-20 15:47:48.598 [JavaFX Application Thread] DEBUG o.e.t.r.project.H2ProjectRepository - Project updated in DB: Редизайн портала
+2026-09-20 15:47:48.598 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - Project updated: Редизайн портала
+2026-09-20 15:47:48.598 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectCardController - TaskChangedEvent received: projectId=1
+2026-09-20 15:47:48.598 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectCardController - refreshCard(), context = org.example.taskschedulerdesktop.models.Project@1c13e445
+2026-09-20 15:47:48.598 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectCardController - context.getId() = 1
+2026-09-20 15:47:48.599 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectCardController - TaskChangedEvent received: projectId=1
+2026-09-20 15:47:48.599 [JavaFX Application Thread] ERROR o.e.t.c.p.ProjectCardController - The event is not suitable
+2026-09-20 15:47:48.599 [JavaFX Application Thread] DEBUG o.e.t.service.task.TaskServiceImpl - Event TaskChangedEvent sent: projectName = 1
+2026-09-20 15:47:48.599 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Close Stage: Новая задача
+2026-09-20 15:47:48.616 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Toast is displayed: Задача сохранена
+2026-09-20 15:47:48.616 [JavaFX Application Thread] DEBUG o.e.t.c.t.CreateTaskModalWindowController - createTaskButton.getScene() = javafx.scene.Scene@24be8743
+2026-09-20 15:47:48.616 [JavaFX Application Thread] DEBUG o.e.t.c.t.CreateTaskModalWindowController - createTaskButton.getScene().getWindow() = javafx.stage.Stage@2907afbd
+2026-09-20 15:47:52.579 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 15:47:52.584 [Thread-14] DEBUG o.e.t.s.project.AsyncProjectService - createProjectLoader()
+2026-09-20 15:47:52.586 [Thread-14] DEBUG o.e.t.s.project.AsyncProjectService - Project: org.example.taskschedulerdesktop.models.Project@683ae9ee, number of tasks = 9
+2026-09-20 15:47:52.586 [Thread-14] DEBUG o.e.t.s.project.ProjectCardService - createCard(org.example.taskschedulerdesktop.models.Project@683ae9ee)
+2026-09-20 15:47:52.586 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 15:47:52.593 [Thread-14] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.initialize(), hashCode = 1658851617
+2026-09-20 15:47:52.594 [Thread-14] DEBUG o.e.t.c.p.ProjectCardController - context = null
+2026-09-20 15:47:52.594 [Thread-14] DEBUG o.e.t.s.project.ProjectCardService - Project: org.example.taskschedulerdesktop.models.Project@683ae9ee, number of tasks = 9
+2026-09-20 15:47:52.594 [Thread-14] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.setContext: org.example.taskschedulerdesktop.models.Project@683ae9ee, hashCode = 1658851617
+2026-09-20 15:47:52.594 [Thread-14] DEBUG o.e.t.c.p.ProjectCardController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-20 15:47:52.594 [Thread-14] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 837169342
+2026-09-20 15:47:52.594 [Thread-14] DEBUG o.e.t.s.project.ProjectCardService - createCard(org.example.taskschedulerdesktop.models.Project@78692fcc)
+2026-09-20 15:47:52.599 [Thread-14] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.initialize(), hashCode = 58948397
+2026-09-20 15:47:52.600 [Thread-14] DEBUG o.e.t.c.p.ProjectCardController - context = null
+2026-09-20 15:47:52.600 [Thread-14] DEBUG o.e.t.s.project.ProjectCardService - Project: org.example.taskschedulerdesktop.models.Project@78692fcc, number of tasks = 8
+2026-09-20 15:47:52.600 [Thread-14] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.setContext: org.example.taskschedulerdesktop.models.Project@78692fcc, hashCode = 58948397
+2026-09-20 15:47:52.600 [Thread-14] DEBUG o.e.t.c.p.ProjectCardController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-20 15:47:52.600 [Thread-14] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 1389177270
+2026-09-20 16:02:17.471 [JavaFX Application Thread] DEBUG o.e.t.database.DatabaseConnection - H2 TCP-server started on the port:9092 successful
+2026-09-20 16:02:17.488 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - createTableIfNotExists()
+2026-09-20 16:02:17.499 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - createIndexes()
+2026-09-20 16:02:17.533 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - ProjectServiceImpl created
+2026-09-20 16:02:17.535 [JavaFX Application Thread] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 1366494554
+2026-09-20 16:02:17.536 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - Subscribe on TaskChangedEvent completed
+2026-09-20 16:02:17.769 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/review.fxml
+2026-09-20 16:02:18.149 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/review.fxml
+2026-09-20 16:02:19.545 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 16:02:19.562 [Thread-7] DEBUG o.e.t.s.project.AsyncProjectService - createProjectLoader()
+2026-09-20 16:02:19.564 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 16:02:19.567 [Thread-7] DEBUG o.e.t.s.project.AsyncProjectService - Project: org.example.taskschedulerdesktop.models.Project@139c44d1, number of tasks = 9
+2026-09-20 16:02:19.567 [Thread-7] DEBUG o.e.t.s.project.ProjectCardService - createCard(org.example.taskschedulerdesktop.models.Project@139c44d1)
+2026-09-20 16:02:19.579 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.initialize(), hashCode = 2010369921
+2026-09-20 16:02:19.579 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - context = null
+2026-09-20 16:02:19.579 [Thread-7] DEBUG o.e.t.s.project.ProjectCardService - Project: org.example.taskschedulerdesktop.models.Project@139c44d1, number of tasks = 9
+2026-09-20 16:02:19.580 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.setContext: org.example.taskschedulerdesktop.models.Project@139c44d1, hashCode = 2010369921
+2026-09-20 16:02:19.580 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-20 16:02:19.581 [Thread-7] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 423790365
+2026-09-20 16:02:19.581 [Thread-7] DEBUG o.e.t.s.project.ProjectCardService - createCard(org.example.taskschedulerdesktop.models.Project@149068dc)
+2026-09-20 16:02:19.591 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.initialize(), hashCode = 1894449744
+2026-09-20 16:02:19.591 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - context = null
+2026-09-20 16:02:19.591 [Thread-7] DEBUG o.e.t.s.project.ProjectCardService - Project: org.example.taskschedulerdesktop.models.Project@149068dc, number of tasks = 8
+2026-09-20 16:02:19.591 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.setContext: org.example.taskschedulerdesktop.models.Project@149068dc, hashCode = 1894449744
+2026-09-20 16:02:19.591 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-20 16:02:19.591 [Thread-7] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 155460207
+2026-09-20 16:02:21.256 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectCardController - Click on the card, context = org.example.taskschedulerdesktop.models.Project@139c44d1
+2026-09-20 16:02:21.256 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/project_extended_page.fxml
+2026-09-20 16:02:21.275 [Thread-5] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 1475747574
+2026-09-20 16:02:21.279 [Thread-10] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(UNDER_REVIEW)
+2026-09-20 16:02:21.279 [Thread-8] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(NEW)
+2026-09-20 16:02:21.279 [Thread-9] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(IN_PROGRESS)
+2026-09-20 16:02:21.279 [Thread-11] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(COMPLETED)
+2026-09-20 16:02:21.279 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectExtendedPageController - setContext: org.example.taskschedulerdesktop.models.Project@139c44d1
+2026-09-20 16:02:21.279 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectExtendedPageController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-20 16:02:21.283 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/project_extended_page.fxml
+2026-09-20 16:02:38.283 [JavaFX Application Thread] DEBUG o.e.t.service.task.TaskServiceImpl - save(org.example.taskschedulerdesktop.models.Task@2d4b4913)
+2026-09-20 16:02:38.283 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - save(org.example.taskschedulerdesktop.models.Task@2d4b4913)
+2026-09-20 16:02:38.286 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - Task saved: id = 21
+2026-09-20 16:02:38.287 [JavaFX Application Thread] DEBUG o.e.t.service.task.TaskServiceImpl - TaskChangedEvent: projectId=1, taskName=1010101010
+2026-09-20 16:02:38.287 [JavaFX Application Thread] DEBUG o.e.t.listeners.EventBus - 📤 FIRE: TaskChangedEvent (subscribers: 4)
+2026-09-20 16:02:38.287 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - TaskChangedEvent received: projectId=1
+2026-09-20 16:02:38.287 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - Project found: Редизайн портала
+2026-09-20 16:02:38.287 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - update(org.example.taskschedulerdesktop.models.Project@33b723fc)
+2026-09-20 16:02:38.287 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - countByProjectName(1)
+2026-09-20 16:02:38.289 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - countTasksByProjectName: 10
+2026-09-20 16:02:38.290 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - countByProjectNameAndStatus(1, COMPLETED)
+2026-09-20 16:02:38.291 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - Project: Редизайн портала, numberOfTasks = 10, completedTasks = 0
+2026-09-20 16:02:38.291 [JavaFX Application Thread] DEBUG o.e.t.r.project.H2ProjectRepository - UPDATE project: id=1, numberOfTasks=10, completedTasks=0
+2026-09-20 16:02:38.293 [JavaFX Application Thread] DEBUG o.e.t.r.project.H2ProjectRepository - Project updated in DB: Редизайн портала
+2026-09-20 16:02:38.293 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - Project updated: Редизайн портала
+2026-09-20 16:02:38.293 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectCardController - TaskChangedEvent received: projectId=1
+2026-09-20 16:02:38.293 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectCardController - refreshCard(), context = org.example.taskschedulerdesktop.models.Project@139c44d1
+2026-09-20 16:02:38.294 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectCardController - context.getId() = 1
+2026-09-20 16:02:38.294 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectCardController - TaskChangedEvent received: projectId=1
+2026-09-20 16:02:38.295 [JavaFX Application Thread] ERROR o.e.t.c.p.ProjectCardController - The event is not suitable
+2026-09-20 16:02:38.296 [Thread-11] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(NEW)
+2026-09-20 16:02:38.296 [Thread-9] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(IN_PROGRESS)
+2026-09-20 16:02:38.296 [Thread-10] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(UNDER_REVIEW)
+2026-09-20 16:02:38.297 [Thread-8] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(COMPLETED)
+2026-09-20 16:02:38.297 [JavaFX Application Thread] DEBUG o.e.t.service.task.TaskServiceImpl - Event TaskChangedEvent sent: projectName = 1
+2026-09-20 16:02:38.297 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Close Stage: Новая задача
+2026-09-20 16:02:38.319 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Toast is displayed: Задача сохранена
+2026-09-20 16:02:38.319 [JavaFX Application Thread] DEBUG o.e.t.c.t.CreateTaskModalWindowController - createTaskButton.getScene() = javafx.scene.Scene@68be5cf7
+2026-09-20 16:02:38.320 [JavaFX Application Thread] DEBUG o.e.t.c.t.CreateTaskModalWindowController - createTaskButton.getScene().getWindow() = javafx.stage.Stage@27fd4b8d
+2026-09-20 16:02:44.471 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 16:02:44.478 [Thread-7] DEBUG o.e.t.s.project.AsyncProjectService - createProjectLoader()
+2026-09-20 16:02:44.479 [Thread-7] DEBUG o.e.t.s.project.AsyncProjectService - Project: org.example.taskschedulerdesktop.models.Project@3abfd40c, number of tasks = 10
+2026-09-20 16:02:44.479 [Thread-7] DEBUG o.e.t.s.project.ProjectCardService - createCard(org.example.taskschedulerdesktop.models.Project@3abfd40c)
+2026-09-20 16:02:44.479 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 16:02:44.485 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.initialize(), hashCode = 2033357058
+2026-09-20 16:02:44.486 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - context = null
+2026-09-20 16:02:44.486 [Thread-7] DEBUG o.e.t.s.project.ProjectCardService - Project: org.example.taskschedulerdesktop.models.Project@3abfd40c, number of tasks = 10
+2026-09-20 16:02:44.486 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.setContext: org.example.taskschedulerdesktop.models.Project@3abfd40c, hashCode = 2033357058
+2026-09-20 16:02:44.486 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-20 16:02:44.486 [Thread-7] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 376912367
+2026-09-20 16:02:44.486 [Thread-7] DEBUG o.e.t.s.project.ProjectCardService - createCard(org.example.taskschedulerdesktop.models.Project@420899bd)
+2026-09-20 16:02:44.493 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.initialize(), hashCode = 284566273
+2026-09-20 16:02:44.493 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - context = null
+2026-09-20 16:02:44.493 [Thread-7] DEBUG o.e.t.s.project.ProjectCardService - Project: org.example.taskschedulerdesktop.models.Project@420899bd, number of tasks = 8
+2026-09-20 16:02:44.493 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.setContext: org.example.taskschedulerdesktop.models.Project@420899bd, hashCode = 284566273
+2026-09-20 16:02:44.493 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-20 16:02:44.493 [Thread-7] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 464891640
+2026-09-20 16:02:46.327 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectCardController - Click on the card, context = org.example.taskschedulerdesktop.models.Project@420899bd
+2026-09-20 16:02:46.327 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/project_extended_page.fxml
+2026-09-20 16:02:46.335 [Thread-5] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 596744922
+2026-09-20 16:02:46.336 [Thread-8] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(UNDER_REVIEW)
+2026-09-20 16:02:46.336 [Thread-11] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(COMPLETED)
+2026-09-20 16:02:46.336 [Thread-9] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(IN_PROGRESS)
+2026-09-20 16:02:46.336 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectExtendedPageController - setContext: org.example.taskschedulerdesktop.models.Project@420899bd
+2026-09-20 16:02:46.336 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectExtendedPageController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-20 16:02:46.337 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/project_extended_page.fxml
+2026-09-20 16:02:47.988 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 16:02:47.993 [Thread-13] DEBUG o.e.t.s.project.AsyncProjectService - createProjectLoader()
+2026-09-20 16:02:47.994 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 16:02:49.765 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectCardController - Click on the card, context = org.example.taskschedulerdesktop.models.Project@3abfd40c
+2026-09-20 16:02:49.765 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/project_extended_page.fxml
+2026-09-20 16:02:49.773 [Thread-5] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 316009500
+2026-09-20 16:02:49.773 [Thread-9] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(IN_PROGRESS)
+2026-09-20 16:02:49.774 [Thread-10] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(UNDER_REVIEW)
+2026-09-20 16:02:49.774 [Thread-11] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(COMPLETED)
+2026-09-20 16:02:49.774 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectExtendedPageController - setContext: org.example.taskschedulerdesktop.models.Project@3abfd40c
+2026-09-20 16:02:49.774 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectExtendedPageController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-20 16:02:49.774 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/project_extended_page.fxml
+2026-09-20 16:03:03.017 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 16:03:03.021 [Thread-7] DEBUG o.e.t.s.project.AsyncProjectService - createProjectLoader()
+2026-09-20 16:03:03.022 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 16:03:04.868 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/review.fxml
+2026-09-20 16:03:04.889 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/review.fxml
+2026-09-20 16:03:13.018 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 16:03:13.023 [Thread-12] DEBUG o.e.t.s.project.AsyncProjectService - createProjectLoader()
+2026-09-20 16:03:13.023 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 16:03:18.107 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectCardController - Click on the card, context = org.example.taskschedulerdesktop.models.Project@3abfd40c
+2026-09-20 16:03:18.107 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/project_extended_page.fxml
+2026-09-20 16:03:18.114 [Thread-5] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 1274265245
+2026-09-20 16:03:18.115 [Thread-9] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(IN_PROGRESS)
+2026-09-20 16:03:18.115 [Thread-10] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(UNDER_REVIEW)
+2026-09-20 16:03:18.115 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectExtendedPageController - setContext: org.example.taskschedulerdesktop.models.Project@3abfd40c
+2026-09-20 16:03:18.115 [Thread-11] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(COMPLETED)
+2026-09-20 16:03:18.115 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectExtendedPageController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-20 16:03:18.116 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/project_extended_page.fxml
+2026-09-20 16:03:21.999 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 16:03:22.004 [Thread-14] DEBUG o.e.t.s.project.AsyncProjectService - createProjectLoader()
+2026-09-20 16:03:22.004 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 16:03:24.816 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectCardController - Click on the card, context = org.example.taskschedulerdesktop.models.Project@3abfd40c
+2026-09-20 16:03:24.816 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/project_extended_page.fxml
+2026-09-20 16:03:24.825 [Thread-5] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 856437374
+2026-09-20 16:03:24.826 [Thread-9] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(IN_PROGRESS)
+2026-09-20 16:03:24.826 [Thread-11] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(COMPLETED)
+2026-09-20 16:03:24.826 [Thread-10] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(UNDER_REVIEW)
+2026-09-20 16:03:24.826 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectExtendedPageController - setContext: org.example.taskschedulerdesktop.models.Project@3abfd40c
+2026-09-20 16:03:24.826 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectExtendedPageController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-20 16:03:24.828 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/project_extended_page.fxml
+2026-09-20 16:03:48.763 [JavaFX Application Thread] DEBUG o.e.t.service.task.TaskServiceImpl - save(org.example.taskschedulerdesktop.models.Task@23e5050c)
+2026-09-20 16:03:48.763 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - save(org.example.taskschedulerdesktop.models.Task@23e5050c)
+2026-09-20 16:03:48.765 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - Task saved: id = 22
+2026-09-20 16:03:48.765 [JavaFX Application Thread] DEBUG o.e.t.service.task.TaskServiceImpl - TaskChangedEvent: projectId=1, taskName=Test
+2026-09-20 16:03:48.765 [JavaFX Application Thread] DEBUG o.e.t.listeners.EventBus - 📤 FIRE: TaskChangedEvent (subscribers: 6)
+2026-09-20 16:03:48.765 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - TaskChangedEvent received: projectId=1
+2026-09-20 16:03:48.765 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - Project found: Редизайн портала
+2026-09-20 16:03:48.765 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - update(org.example.taskschedulerdesktop.models.Project@6a07d6d6)
+2026-09-20 16:03:48.765 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - countByProjectName(1)
+2026-09-20 16:03:48.765 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - countTasksByProjectName: 11
+2026-09-20 16:03:48.766 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - countByProjectNameAndStatus(1, COMPLETED)
+2026-09-20 16:03:48.766 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - Project: Редизайн портала, numberOfTasks = 11, completedTasks = 0
+2026-09-20 16:03:48.766 [JavaFX Application Thread] DEBUG o.e.t.r.project.H2ProjectRepository - UPDATE project: id=1, numberOfTasks=11, completedTasks=0
+2026-09-20 16:03:48.767 [JavaFX Application Thread] DEBUG o.e.t.r.project.H2ProjectRepository - Project updated in DB: Редизайн портала
+2026-09-20 16:03:48.767 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - Project updated: Редизайн портала
+2026-09-20 16:03:48.767 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectCardController - TaskChangedEvent received: projectId=1
+2026-09-20 16:03:48.767 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectCardController - refreshCard(), context = org.example.taskschedulerdesktop.models.Project@139c44d1
+2026-09-20 16:03:48.767 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectCardController - context.getId() = 1
+2026-09-20 16:03:48.767 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectCardController - TaskChangedEvent received: projectId=1
+2026-09-20 16:03:48.767 [JavaFX Application Thread] ERROR o.e.t.c.p.ProjectCardController - The event is not suitable
+2026-09-20 16:03:48.767 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectCardController - TaskChangedEvent received: projectId=1
+2026-09-20 16:03:48.767 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectCardController - refreshCard(), context = org.example.taskschedulerdesktop.models.Project@3abfd40c
+2026-09-20 16:03:48.767 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectCardController - context.getId() = 1
+2026-09-20 16:03:48.767 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectCardController - TaskChangedEvent received: projectId=1
+2026-09-20 16:03:48.767 [JavaFX Application Thread] ERROR o.e.t.c.p.ProjectCardController - The event is not suitable
+2026-09-20 16:03:48.768 [Thread-8] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(NEW)
+2026-09-20 16:03:48.768 [Thread-10] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(IN_PROGRESS)
+2026-09-20 16:03:48.768 [Thread-11] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(UNDER_REVIEW)
+2026-09-20 16:03:48.768 [JavaFX Application Thread] DEBUG o.e.t.service.task.TaskServiceImpl - Event TaskChangedEvent sent: projectName = 1
+2026-09-20 16:03:48.768 [Thread-9] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(COMPLETED)
+2026-09-20 16:03:48.768 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Close Stage: Новая задача
+2026-09-20 16:03:48.786 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Toast is displayed: Задача сохранена
+2026-09-20 16:03:48.786 [JavaFX Application Thread] DEBUG o.e.t.c.t.CreateTaskModalWindowController - createTaskButton.getScene() = javafx.scene.Scene@3c4d46aa
+2026-09-20 16:03:48.786 [JavaFX Application Thread] DEBUG o.e.t.c.t.CreateTaskModalWindowController - createTaskButton.getScene().getWindow() = javafx.stage.Stage@30744c6f
+2026-09-20 16:04:06.751 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_right_sidebar.fxml, context=org.example.taskschedulerdesktop.dto.TaskView@78e93ab3
+2026-09-20 16:04:06.784 [JavaFX Application Thread] INFO  o.e.t.c.t.TaskRightSidebarController - initialize()
+2026-09-20 16:04:06.786 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - sidebarController found, calling setContext()
+2026-09-20 16:04:06.786 [JavaFX Application Thread] INFO  o.e.t.c.t.TaskRightSidebarController - setContext()
+2026-09-20 16:04:06.786 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - context = org.example.taskschedulerdesktop.dto.TaskView@78e93ab3
+2026-09-20 16:04:06.786 [JavaFX Application Thread] INFO  o.e.t.c.t.TaskRightSidebarController - context saved: 3333333
+2026-09-20 16:04:06.786 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - updateUI()
+2026-09-20 16:04:06.786 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - projectName: 1
+2026-09-20 16:04:06.786 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - taskName: 3333333
+2026-09-20 16:04:06.786 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - status: NEW
+2026-09-20 16:04:06.786 [JavaFX Application Thread] INFO  o.e.t.c.t.TaskRightSidebarController - UI updated
+2026-09-20 16:04:08.891 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - Click on edit button
+2026-09-20 16:04:08.892 [JavaFX Application Thread] INFO  o.e.t.c.t.TaskRightSidebarController - Open edit sidebar for task: 3333333
+2026-09-20 16:04:08.892 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/edit_task_right_sidebar.fxml, context=org.example.taskschedulerdesktop.dto.TaskView@78e93ab3
+2026-09-20 16:04:08.910 [JavaFX Application Thread] INFO  o.e.t.c.t.EditTaskRightSidebarController - initialize()
+2026-09-20 16:04:08.910 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - sidebarController found, calling setContext()
+2026-09-20 17:11:02.081 [TaskSchedulerPool housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - TaskSchedulerPool - Thread starvation or clock leap detected (housekeeper delta=31m43s875ms68µs100ns).
+2026-09-20 17:48:56.123 [JavaFX Application Thread] DEBUG o.e.t.database.DatabaseConnection - H2 TCP-server started on the port:9092 successful
+2026-09-20 17:48:56.128 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - createTableIfNotExists()
+2026-09-20 17:48:56.155 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - createIndexes()
+2026-09-20 17:48:56.178 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - ProjectServiceImpl created
+2026-09-20 17:48:56.183 [JavaFX Application Thread] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 1366494554
+2026-09-20 17:48:56.185 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - Subscribe on TaskChangedEvent completed
+2026-09-20 17:48:56.831 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/review.fxml
+2026-09-20 17:48:57.623 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/review.fxml
+2026-09-20 17:50:09.029 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/team.fxml
+2026-09-20 17:50:09.247 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/team.fxml
+2026-09-20 17:50:09.407 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 17:50:09.430 [Thread-10] DEBUG o.e.t.s.project.AsyncProjectService - createProjectLoader()
+2026-09-20 17:50:09.432 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 17:50:09.438 [Thread-10] DEBUG o.e.t.s.project.AsyncProjectService - Project: org.example.taskschedulerdesktop.models.Project@73b13467, number of tasks = 11
+2026-09-20 17:50:09.439 [Thread-10] DEBUG o.e.t.s.project.ProjectCardService - createCard(org.example.taskschedulerdesktop.models.Project@73b13467)
+2026-09-20 17:50:09.463 [Thread-10] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.initialize(), hashCode = 448342165
+2026-09-20 17:50:09.464 [Thread-10] DEBUG o.e.t.c.p.ProjectCardController - context = null
+2026-09-20 17:50:09.464 [Thread-10] DEBUG o.e.t.s.project.ProjectCardService - Project: org.example.taskschedulerdesktop.models.Project@73b13467, number of tasks = 11
+2026-09-20 17:50:09.465 [Thread-10] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.setContext: org.example.taskschedulerdesktop.models.Project@73b13467, hashCode = 448342165
+2026-09-20 17:50:09.466 [Thread-10] DEBUG o.e.t.c.p.ProjectCardController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-20 17:50:09.472 [Thread-10] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 1809371858
+2026-09-20 17:50:10.720 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectCardController - Click on the card, context = org.example.taskschedulerdesktop.models.Project@73b13467
+2026-09-20 17:50:10.721 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/project_extended_page.fxml
+2026-09-20 17:50:10.765 [Thread-9] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 276767864
+2026-09-20 17:50:10.774 [Thread-11] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(NEW)
+2026-09-20 17:50:10.774 [Thread-12] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(IN_PROGRESS)
+2026-09-20 17:50:10.776 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectExtendedPageController - setContext: org.example.taskschedulerdesktop.models.Project@73b13467
+2026-09-20 17:50:10.776 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectExtendedPageController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-20 17:50:10.779 [Thread-13] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(UNDER_REVIEW)
+2026-09-20 17:50:10.780 [Thread-14] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(COMPLETED)
+2026-09-20 17:50:10.781 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/project_extended_page.fxml
+2026-09-20 17:50:14.382 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_right_sidebar.fxml, context=org.example.taskschedulerdesktop.dto.TaskView@4752f6ef
+2026-09-20 17:50:14.434 [JavaFX Application Thread] INFO  o.e.t.c.t.TaskRightSidebarController - initialize()
+2026-09-20 17:50:14.437 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - sidebarController found, calling setContext()
+2026-09-20 17:50:14.438 [JavaFX Application Thread] INFO  o.e.t.c.t.TaskRightSidebarController - setContext()
+2026-09-20 17:50:14.438 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - context = org.example.taskschedulerdesktop.dto.TaskView@4752f6ef
+2026-09-20 17:50:14.439 [JavaFX Application Thread] INFO  o.e.t.c.t.TaskRightSidebarController - context saved: 3333333
+2026-09-20 17:50:14.439 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - updateUI()
+2026-09-20 17:50:14.439 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - projectName: 1
+2026-09-20 17:50:14.439 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - taskName: 3333333
+2026-09-20 17:50:14.439 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - status: NEW
+2026-09-20 17:50:14.439 [JavaFX Application Thread] INFO  o.e.t.c.t.TaskRightSidebarController - UI updated
+2026-09-20 17:50:15.851 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - Click on edit button
+2026-09-20 17:50:15.851 [JavaFX Application Thread] INFO  o.e.t.c.t.TaskRightSidebarController - Open edit sidebar for task: 3333333
+2026-09-20 17:50:15.851 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/edit_task_right_sidebar.fxml, context=org.example.taskschedulerdesktop.dto.TaskView@4752f6ef
+2026-09-20 17:50:15.915 [JavaFX Application Thread] INFO  o.e.t.c.t.EditTaskRightSidebarController - initialize()
+2026-09-20 17:50:15.917 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - sidebarController found, calling setContext()
+2026-09-20 17:50:15.920 [Thread-13] DEBUG o.e.t.r.task.H2TaskRepository - findViewById(1)
+2026-09-20 17:50:15.922 [Thread-13] DEBUG o.e.t.r.task.H2TaskRepository - View not found
+2026-09-20 17:50:16.136 [JavaFX Application Thread] ERROR o.e.t.c.t.EditTaskRightSidebarController - java.lang.IllegalArgumentException
+2026-09-20 17:50:22.814 [Thread-12] DEBUG o.e.t.r.task.H2TaskRepository - update(org.example.taskschedulerdesktop.models.Task@2654f39)
+2026-09-20 17:50:22.818 [Thread-12] DEBUG o.e.t.r.task.H2TaskRepository - Task updated: id = 14
+2026-09-20 17:50:22.850 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Toast is displayed: Данные обновлены
+2026-09-20 17:50:27.600 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 17:50:27.612 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 17:50:27.613 [Thread-16] DEBUG o.e.t.s.project.AsyncProjectService - createProjectLoader()
+2026-09-20 17:50:29.158 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectCardController - Click on the card, context = org.example.taskschedulerdesktop.models.Project@73b13467
+2026-09-20 17:50:29.158 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/project_extended_page.fxml
+2026-09-20 17:50:29.178 [Thread-9] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 472558351
+2026-09-20 17:50:29.179 [Thread-14] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(IN_PROGRESS)
+2026-09-20 17:50:29.179 [Thread-13] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(UNDER_REVIEW)
+2026-09-20 17:50:29.180 [Thread-12] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(COMPLETED)
+2026-09-20 17:50:29.180 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectExtendedPageController - setContext: org.example.taskschedulerdesktop.models.Project@73b13467
+2026-09-20 17:50:29.180 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectExtendedPageController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-20 17:50:29.182 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/project_extended_page.fxml
+2026-09-20 17:50:32.490 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 17:50:32.498 [Thread-10] DEBUG o.e.t.s.project.AsyncProjectService - createProjectLoader()
+2026-09-20 17:50:32.500 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 17:50:59.316 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectCardController - Click on the card, context = org.example.taskschedulerdesktop.models.Project@73b13467
+2026-09-20 17:50:59.316 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/project_extended_page.fxml
+2026-09-20 17:50:59.336 [Thread-9] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 1192892036
+2026-09-20 17:50:59.337 [Thread-13] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(IN_PROGRESS)
+2026-09-20 17:50:59.337 [Thread-14] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(UNDER_REVIEW)
+2026-09-20 17:50:59.338 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectExtendedPageController - setContext: org.example.taskschedulerdesktop.models.Project@73b13467
+2026-09-20 17:50:59.338 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectExtendedPageController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-20 17:50:59.339 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/project_extended_page.fxml
+2026-09-20 17:52:40.796 [JavaFX Application Thread] DEBUG o.e.t.database.DatabaseConnection - H2 TCP-server started on the port:9092 successful
+2026-09-20 17:52:40.799 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - createTableIfNotExists()
+2026-09-20 17:52:40.821 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - createIndexes()
+2026-09-20 17:52:40.835 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - ProjectServiceImpl created
+2026-09-20 17:52:40.838 [JavaFX Application Thread] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 1476545531
+2026-09-20 17:52:40.840 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - Subscribe on TaskChangedEvent completed
+2026-09-20 17:52:41.307 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/review.fxml
+2026-09-20 17:52:42.109 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/review.fxml
+2026-09-20 17:52:43.200 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 17:52:43.231 [Thread-7] DEBUG o.e.t.s.project.AsyncProjectService - createProjectLoader()
+2026-09-20 17:52:43.236 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 17:52:43.241 [Thread-7] DEBUG o.e.t.s.project.AsyncProjectService - Project: org.example.taskschedulerdesktop.models.Project@6aee5d4f, number of tasks = 11
+2026-09-20 17:52:43.241 [Thread-7] DEBUG o.e.t.s.project.ProjectCardService - createCard(org.example.taskschedulerdesktop.models.Project@6aee5d4f)
+2026-09-20 17:52:43.271 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.initialize(), hashCode = 1859399573
+2026-09-20 17:52:43.271 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - context = null
+2026-09-20 17:52:43.271 [Thread-7] DEBUG o.e.t.s.project.ProjectCardService - Project: org.example.taskschedulerdesktop.models.Project@6aee5d4f, number of tasks = 11
+2026-09-20 17:52:43.273 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.setContext: org.example.taskschedulerdesktop.models.Project@6aee5d4f, hashCode = 1859399573
+2026-09-20 17:52:43.273 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-20 17:52:43.275 [Thread-7] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 1970782716
+2026-09-20 17:52:44.737 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectCardController - Click on the card, context = org.example.taskschedulerdesktop.models.Project@6aee5d4f
+2026-09-20 17:52:44.737 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/project_extended_page.fxml
+2026-09-20 17:52:44.772 [Thread-5] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 1239666170
+2026-09-20 17:52:44.777 [Thread-9] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(IN_PROGRESS)
+2026-09-20 17:52:44.777 [Thread-8] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(NEW)
+2026-09-20 17:52:44.778 [Thread-10] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(UNDER_REVIEW)
+2026-09-20 17:52:44.778 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectExtendedPageController - setContext: org.example.taskschedulerdesktop.models.Project@6aee5d4f
+2026-09-20 17:52:44.779 [Thread-11] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(COMPLETED)
+2026-09-20 17:52:44.779 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectExtendedPageController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-20 17:52:44.785 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/project_extended_page.fxml
+2026-09-20 17:52:47.845 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_right_sidebar.fxml, context=org.example.taskschedulerdesktop.dto.TaskView@3b4a0fe0
+2026-09-20 17:52:47.902 [JavaFX Application Thread] INFO  o.e.t.c.t.TaskRightSidebarController - initialize()
+2026-09-20 17:52:47.906 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - sidebarController found, calling setContext()
+2026-09-20 17:52:47.906 [JavaFX Application Thread] INFO  o.e.t.c.t.TaskRightSidebarController - setContext()
+2026-09-20 17:52:47.906 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - context = org.example.taskschedulerdesktop.dto.TaskView@3b4a0fe0
+2026-09-20 17:52:47.907 [JavaFX Application Thread] INFO  o.e.t.c.t.TaskRightSidebarController - context saved: 11111
+2026-09-20 17:52:47.907 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - updateUI()
+2026-09-20 17:52:47.907 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - projectName: 1
+2026-09-20 17:52:47.907 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - taskName: 11111
+2026-09-20 17:52:47.908 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - status: NEW
+2026-09-20 17:52:47.908 [JavaFX Application Thread] INFO  o.e.t.c.t.TaskRightSidebarController - UI updated
+2026-09-20 17:52:49.623 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - Click on edit button
+2026-09-20 17:52:49.623 [JavaFX Application Thread] INFO  o.e.t.c.t.TaskRightSidebarController - Open edit sidebar for task: 11111
+2026-09-20 17:52:49.624 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/edit_task_right_sidebar.fxml, context=org.example.taskschedulerdesktop.dto.TaskView@3b4a0fe0
+2026-09-20 17:52:49.683 [JavaFX Application Thread] INFO  o.e.t.c.t.EditTaskRightSidebarController - initialize()
+2026-09-20 17:52:49.684 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - sidebarController found, calling setContext()
+2026-09-20 17:52:49.687 [Thread-9] DEBUG o.e.t.r.task.H2TaskRepository - findViewById(1)
+2026-09-20 17:52:49.688 [Thread-9] DEBUG o.e.t.r.task.H2TaskRepository - View not found
+2026-09-20 17:52:49.885 [JavaFX Application Thread] ERROR o.e.t.c.t.EditTaskRightSidebarController - java.lang.IllegalArgumentException
+2026-09-20 17:52:57.512 [Thread-10] DEBUG o.e.t.r.task.H2TaskRepository - update(org.example.taskschedulerdesktop.models.Task@6eb7edbb)
+2026-09-20 17:52:57.517 [Thread-10] DEBUG o.e.t.r.task.H2TaskRepository - Task updated: id = 12
+2026-09-20 17:52:57.551 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Toast is displayed: Данные обновлены
+2026-09-20 17:52:57.552 [JavaFX Application Thread] DEBUG o.e.t.listeners.EventBus - 📤 FIRE: TaskChangedEvent (subscribers: 3)
+2026-09-20 17:52:57.552 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - TaskChangedEvent received: projectId=1
+2026-09-20 17:52:57.554 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - Project found: Редизайн портала
+2026-09-20 17:52:57.554 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - update(org.example.taskschedulerdesktop.models.Project@5e0ea69c)
+2026-09-20 17:52:57.554 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - countByProjectName(1)
+2026-09-20 17:52:57.560 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - countTasksByProjectName: 11
+2026-09-20 17:52:57.560 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - countByProjectNameAndStatus(1, COMPLETED)
+2026-09-20 17:52:57.562 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - Project: Редизайн портала, numberOfTasks = 11, completedTasks = 2
+2026-09-20 17:52:57.563 [JavaFX Application Thread] DEBUG o.e.t.r.project.H2ProjectRepository - UPDATE project: id=1, numberOfTasks=11, completedTasks=2
+2026-09-20 17:52:57.564 [JavaFX Application Thread] DEBUG o.e.t.r.project.H2ProjectRepository - Project updated in DB: Редизайн портала
+2026-09-20 17:52:57.565 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - Project updated: Редизайн портала
+2026-09-20 17:52:57.565 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectCardController - TaskChangedEvent received: projectId=1
+2026-09-20 17:52:57.566 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectCardController - refreshCard(), context = org.example.taskschedulerdesktop.models.Project@6aee5d4f
+2026-09-20 17:52:57.566 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectCardController - context.getId() = 1
+2026-09-20 17:52:57.569 [Thread-8] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(IN_PROGRESS)
+2026-09-20 17:52:57.569 [Thread-9] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(UNDER_REVIEW)
+2026-09-20 17:52:57.570 [Thread-10] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(COMPLETED)
+2026-09-20 17:53:20.714 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_right_sidebar.fxml, context=org.example.taskschedulerdesktop.dto.TaskView@689f25ee
+2026-09-20 17:53:20.739 [JavaFX Application Thread] INFO  o.e.t.c.t.TaskRightSidebarController - initialize()
+2026-09-20 17:53:20.740 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - sidebarController found, calling setContext()
+2026-09-20 17:53:20.740 [JavaFX Application Thread] INFO  o.e.t.c.t.TaskRightSidebarController - setContext()
+2026-09-20 17:53:20.740 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - context = org.example.taskschedulerdesktop.dto.TaskView@689f25ee
+2026-09-20 17:53:20.740 [JavaFX Application Thread] INFO  o.e.t.c.t.TaskRightSidebarController - context saved: 999999
+2026-09-20 17:53:20.740 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - updateUI()
+2026-09-20 17:53:20.740 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - projectName: 1
+2026-09-20 17:53:20.740 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - taskName: 999999
+2026-09-20 17:53:20.740 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - status: NEW
+2026-09-20 17:53:20.740 [JavaFX Application Thread] INFO  o.e.t.c.t.TaskRightSidebarController - UI updated
+2026-09-20 17:53:21.977 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - Click on edit button
+2026-09-20 17:53:21.977 [JavaFX Application Thread] INFO  o.e.t.c.t.TaskRightSidebarController - Open edit sidebar for task: 999999
+2026-09-20 17:53:21.977 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/edit_task_right_sidebar.fxml, context=org.example.taskschedulerdesktop.dto.TaskView@689f25ee
+2026-09-20 17:53:22.002 [JavaFX Application Thread] INFO  o.e.t.c.t.EditTaskRightSidebarController - initialize()
+2026-09-20 17:53:22.002 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - sidebarController found, calling setContext()
+2026-09-20 17:53:22.003 [Thread-11] DEBUG o.e.t.r.task.H2TaskRepository - findViewById(1)
+2026-09-20 17:53:22.005 [Thread-11] DEBUG o.e.t.r.task.H2TaskRepository - View not found
+2026-09-20 17:53:22.070 [JavaFX Application Thread] ERROR o.e.t.c.t.EditTaskRightSidebarController - java.lang.IllegalArgumentException
+2026-09-20 17:53:24.752 [Thread-9] DEBUG o.e.t.r.task.H2TaskRepository - update(org.example.taskschedulerdesktop.models.Task@490fc46c)
+2026-09-20 17:53:24.754 [Thread-9] DEBUG o.e.t.r.task.H2TaskRepository - Task updated: id = 20
+2026-09-20 17:53:24.779 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Toast is displayed: Данные обновлены
+2026-09-20 17:53:24.780 [JavaFX Application Thread] DEBUG o.e.t.listeners.EventBus - 📤 FIRE: TaskChangedEvent (subscribers: 3)
+2026-09-20 17:53:24.780 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - TaskChangedEvent received: projectId=1
+2026-09-20 17:53:24.780 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - Project found: Редизайн портала
+2026-09-20 17:53:24.781 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - update(org.example.taskschedulerdesktop.models.Project@3cd73ffa)
+2026-09-20 17:53:24.781 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - countByProjectName(1)
+2026-09-20 17:53:24.781 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - countTasksByProjectName: 11
+2026-09-20 17:53:24.782 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - countByProjectNameAndStatus(1, COMPLETED)
+2026-09-20 17:53:24.782 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - Project: Редизайн портала, numberOfTasks = 11, completedTasks = 2
+2026-09-20 17:53:24.782 [JavaFX Application Thread] DEBUG o.e.t.r.project.H2ProjectRepository - UPDATE project: id=1, numberOfTasks=11, completedTasks=2
+2026-09-20 17:53:24.783 [JavaFX Application Thread] DEBUG o.e.t.r.project.H2ProjectRepository - Project updated in DB: Редизайн портала
+2026-09-20 17:53:24.783 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - Project updated: Редизайн портала
+2026-09-20 17:53:24.783 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectCardController - TaskChangedEvent received: projectId=1
+2026-09-20 17:53:24.783 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectCardController - refreshCard(), context = org.example.taskschedulerdesktop.models.Project@6aee5d4f
+2026-09-20 17:53:24.784 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectCardController - context.getId() = 1
+2026-09-20 17:53:24.785 [Thread-10] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(IN_PROGRESS)
+2026-09-20 17:53:24.785 [Thread-11] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(UNDER_REVIEW)
+2026-09-20 17:55:15.298 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 17:55:15.308 [Thread-13] DEBUG o.e.t.s.project.AsyncProjectService - createProjectLoader()
+2026-09-20 17:55:15.311 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 17:55:19.341 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectCardController - Click on the card, context = org.example.taskschedulerdesktop.models.Project@6aee5d4f
+2026-09-20 17:55:19.341 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/project_extended_page.fxml
+2026-09-20 17:55:19.359 [Thread-5] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 1703822103
+2026-09-20 17:55:19.360 [Thread-11] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(UNDER_REVIEW)
+2026-09-20 17:55:19.360 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectExtendedPageController - setContext: org.example.taskschedulerdesktop.models.Project@6aee5d4f
+2026-09-20 17:55:19.360 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectExtendedPageController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-20 17:55:19.361 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/project_extended_page.fxml
+2026-09-20 18:08:36.214 [JavaFX Application Thread] DEBUG o.e.t.database.DatabaseConnection - H2 TCP-server started on the port:9092 successful
+2026-09-20 18:08:36.217 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - createTableIfNotExists()
+2026-09-20 18:08:36.242 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - createIndexes()
+2026-09-20 18:08:36.363 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - ProjectServiceImpl created
+2026-09-20 18:08:36.365 [JavaFX Application Thread] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 1359710977
+2026-09-20 18:08:36.368 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - Subscribe on TaskChangedEvent completed
+2026-09-20 18:08:36.829 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/review.fxml
+2026-09-20 18:08:37.604 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/review.fxml
+2026-09-20 18:08:40.309 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 18:08:40.338 [Thread-7] DEBUG o.e.t.s.project.AsyncProjectService - createProjectLoader()
+2026-09-20 18:08:40.341 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 18:08:40.346 [Thread-7] DEBUG o.e.t.s.project.AsyncProjectService - Project: org.example.taskschedulerdesktop.models.Project@62f3ec03, number of tasks = 11
+2026-09-20 18:08:40.347 [Thread-7] DEBUG o.e.t.s.project.ProjectCardService - createCard(org.example.taskschedulerdesktop.models.Project@62f3ec03)
+2026-09-20 18:08:40.371 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.initialize(), hashCode = 2135534986
+2026-09-20 18:08:40.371 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - context = null
+2026-09-20 18:08:40.372 [Thread-7] DEBUG o.e.t.s.project.ProjectCardService - Project: org.example.taskschedulerdesktop.models.Project@62f3ec03, number of tasks = 11
+2026-09-20 18:08:40.372 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.setContext: org.example.taskschedulerdesktop.models.Project@62f3ec03, hashCode = 2135534986
+2026-09-20 18:08:40.373 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-20 18:08:40.374 [Thread-7] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 151277328
+2026-09-20 18:08:43.408 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectCardController - Click on the card, context = org.example.taskschedulerdesktop.models.Project@62f3ec03
+2026-09-20 18:08:43.409 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/project_extended_page.fxml
+2026-09-20 18:08:43.445 [Thread-5] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 947568638
+2026-09-20 18:08:43.473 [Thread-8] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(NEW)
+2026-09-20 18:08:43.473 [Thread-9] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(IN_PROGRESS)
+2026-09-20 18:08:43.474 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectExtendedPageController - setContext: org.example.taskschedulerdesktop.models.Project@62f3ec03
+2026-09-20 18:08:43.475 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectExtendedPageController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-20 18:08:43.476 [Thread-10] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(UNDER_REVIEW)
+2026-09-20 18:08:43.477 [Thread-11] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(COMPLETED)
+2026-09-20 18:08:43.480 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/project_extended_page.fxml
+2026-09-20 18:15:05.911 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 18:15:05.921 [Thread-13] DEBUG o.e.t.s.project.AsyncProjectService - createProjectLoader()
+2026-09-20 18:15:05.926 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 18:16:04.095 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectCardController - Click on the card, context = org.example.taskschedulerdesktop.models.Project@62f3ec03
+2026-09-20 18:16:04.095 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/project_extended_page.fxml
+2026-09-20 18:16:04.125 [Thread-5] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 1066138193
+2026-09-20 18:16:04.126 [Thread-11] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(UNDER_REVIEW)
+2026-09-20 18:16:04.127 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectExtendedPageController - setContext: org.example.taskschedulerdesktop.models.Project@62f3ec03
+2026-09-20 18:16:04.127 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectExtendedPageController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-20 18:16:04.129 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/project_extended_page.fxml
+2026-09-20 18:22:32.891 [JavaFX Application Thread] DEBUG o.e.t.database.DatabaseConnection - H2 TCP-server started on the port:9092 successful
+2026-09-20 18:22:32.896 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - createTableIfNotExists()
+2026-09-20 18:22:32.916 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - createIndexes()
+2026-09-20 18:22:32.934 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - ProjectServiceImpl created
+2026-09-20 18:22:32.938 [JavaFX Application Thread] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 1366494554
+2026-09-20 18:22:32.942 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - Subscribe on TaskChangedEvent completed
+2026-09-20 18:22:33.383 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/review.fxml
+2026-09-20 18:22:34.177 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/review.fxml
+2026-09-20 18:22:35.083 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 18:22:35.110 [Thread-7] DEBUG o.e.t.s.project.AsyncProjectService - createProjectLoader()
+2026-09-20 18:22:35.114 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 18:22:35.119 [Thread-7] DEBUG o.e.t.s.project.AsyncProjectService - Project: org.example.taskschedulerdesktop.models.Project@7e0a87c8, number of tasks = 11
+2026-09-20 18:22:35.119 [Thread-7] DEBUG o.e.t.s.project.ProjectCardService - createCard(org.example.taskschedulerdesktop.models.Project@7e0a87c8)
+2026-09-20 18:22:35.147 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.initialize(), hashCode = 916677519
+2026-09-20 18:22:35.148 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - context = null
+2026-09-20 18:22:35.148 [Thread-7] DEBUG o.e.t.s.project.ProjectCardService - Project: org.example.taskschedulerdesktop.models.Project@7e0a87c8, number of tasks = 11
+2026-09-20 18:22:35.150 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.setContext: org.example.taskschedulerdesktop.models.Project@7e0a87c8, hashCode = 916677519
+2026-09-20 18:22:35.150 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-20 18:22:35.151 [Thread-7] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 324914068
+2026-09-20 18:22:36.295 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectCardController - Click on the card, context = org.example.taskschedulerdesktop.models.Project@7e0a87c8
+2026-09-20 18:22:36.295 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/project_extended_page.fxml
+2026-09-20 18:22:36.330 [Thread-5] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 925627664
+2026-09-20 18:22:36.335 [Thread-9] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(IN_PROGRESS)
+2026-09-20 18:22:36.335 [Thread-8] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(NEW)
+2026-09-20 18:22:36.335 [Thread-10] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(UNDER_REVIEW)
+2026-09-20 18:22:36.336 [Thread-11] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(COMPLETED)
+2026-09-20 18:22:36.336 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectExtendedPageController - setContext: org.example.taskschedulerdesktop.models.Project@7e0a87c8
+2026-09-20 18:22:36.336 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectExtendedPageController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-20 18:22:36.341 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/project_extended_page.fxml
+2026-09-20 18:23:41.013 [JavaFX Application Thread] DEBUG o.e.t.database.DatabaseConnection - H2 TCP-server started on the port:9092 successful
+2026-09-20 18:23:41.016 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - createTableIfNotExists()
+2026-09-20 18:23:41.043 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - createIndexes()
+2026-09-20 18:23:41.061 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - ProjectServiceImpl created
+2026-09-20 18:23:41.064 [JavaFX Application Thread] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 520945829
+2026-09-20 18:23:41.066 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - Subscribe on TaskChangedEvent completed
+2026-09-20 18:23:41.587 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/review.fxml
+2026-09-20 18:23:42.340 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/review.fxml
+2026-09-20 18:23:43.867 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 18:23:43.898 [Thread-7] DEBUG o.e.t.s.project.AsyncProjectService - createProjectLoader()
+2026-09-20 18:23:43.902 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 18:23:43.907 [Thread-7] DEBUG o.e.t.s.project.AsyncProjectService - Project: org.example.taskschedulerdesktop.models.Project@62f3ec03, number of tasks = 11
+2026-09-20 18:23:43.907 [Thread-7] DEBUG o.e.t.s.project.ProjectCardService - createCard(org.example.taskschedulerdesktop.models.Project@62f3ec03)
+2026-09-20 18:23:43.932 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.initialize(), hashCode = 2135534986
+2026-09-20 18:23:43.933 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - context = null
+2026-09-20 18:23:43.933 [Thread-7] DEBUG o.e.t.s.project.ProjectCardService - Project: org.example.taskschedulerdesktop.models.Project@62f3ec03, number of tasks = 11
+2026-09-20 18:23:43.934 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.setContext: org.example.taskschedulerdesktop.models.Project@62f3ec03, hashCode = 2135534986
+2026-09-20 18:23:43.934 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-20 18:23:43.935 [Thread-7] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 151277328
+2026-09-20 18:23:45.256 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectCardController - Click on the card, context = org.example.taskschedulerdesktop.models.Project@62f3ec03
+2026-09-20 18:23:45.257 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/project_extended_page.fxml
+2026-09-20 18:23:45.316 [Thread-5] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 746126867
+2026-09-20 18:23:45.321 [Thread-8] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(NEW)
+2026-09-20 18:23:45.321 [Thread-9] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(IN_PROGRESS)
+2026-09-20 18:23:45.321 [Thread-10] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(UNDER_REVIEW)
+2026-09-20 18:23:45.322 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectExtendedPageController - setContext: org.example.taskschedulerdesktop.models.Project@62f3ec03
+2026-09-20 18:23:45.323 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectExtendedPageController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-20 18:23:45.323 [Thread-11] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(COMPLETED)
+2026-09-20 18:23:45.328 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/project_extended_page.fxml
+2026-09-20 18:27:42.659 [JavaFX Application Thread] DEBUG o.e.t.database.DatabaseConnection - H2 TCP-server started on the port:9092 successful
+2026-09-20 18:27:42.663 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - createTableIfNotExists()
+2026-09-20 18:27:42.689 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - createIndexes()
+2026-09-20 18:27:42.706 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - ProjectServiceImpl created
+2026-09-20 18:27:42.710 [JavaFX Application Thread] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 1366494554
+2026-09-20 18:27:42.712 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - Subscribe on TaskChangedEvent completed
+2026-09-20 18:27:43.255 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/review.fxml
+2026-09-20 18:27:44.051 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/review.fxml
+2026-09-20 18:27:45.468 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 18:27:45.503 [Thread-7] DEBUG o.e.t.s.project.AsyncProjectService - createProjectLoader()
+2026-09-20 18:27:45.506 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 18:27:45.512 [Thread-7] DEBUG o.e.t.s.project.AsyncProjectService - Project: org.example.taskschedulerdesktop.models.Project@6aee5d4f, number of tasks = 11
+2026-09-20 18:27:45.512 [Thread-7] DEBUG o.e.t.s.project.ProjectCardService - createCard(org.example.taskschedulerdesktop.models.Project@6aee5d4f)
+2026-09-20 18:27:45.541 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.initialize(), hashCode = 1859399573
+2026-09-20 18:27:45.541 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - context = null
+2026-09-20 18:27:45.541 [Thread-7] DEBUG o.e.t.s.project.ProjectCardService - Project: org.example.taskschedulerdesktop.models.Project@6aee5d4f, number of tasks = 11
+2026-09-20 18:27:45.542 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.setContext: org.example.taskschedulerdesktop.models.Project@6aee5d4f, hashCode = 1859399573
+2026-09-20 18:27:45.543 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-20 18:27:45.545 [Thread-7] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 1970782716
+2026-09-20 18:27:46.487 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectCardController - Click on the card, context = org.example.taskschedulerdesktop.models.Project@6aee5d4f
+2026-09-20 18:27:46.487 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/project_extended_page.fxml
+2026-09-20 18:27:46.549 [Thread-5] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 1797264316
+2026-09-20 18:27:46.554 [Thread-8] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(NEW)
+2026-09-20 18:27:46.554 [Thread-9] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(IN_PROGRESS)
+2026-09-20 18:27:46.555 [Thread-10] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(UNDER_REVIEW)
+2026-09-20 18:27:46.556 [Thread-11] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(COMPLETED)
+2026-09-20 18:27:46.556 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectExtendedPageController - setContext: org.example.taskschedulerdesktop.models.Project@6aee5d4f
+2026-09-20 18:27:46.556 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectExtendedPageController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-20 18:27:46.561 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/project_extended_page.fxml
+2026-09-20 18:31:51.212 [JavaFX Application Thread] DEBUG o.e.t.database.DatabaseConnection - H2 TCP-server started on the port:9092 successful
+2026-09-20 18:31:51.216 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - createTableIfNotExists()
+2026-09-20 18:31:51.241 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - createIndexes()
+2026-09-20 18:31:51.259 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - ProjectServiceImpl created
+2026-09-20 18:31:51.263 [JavaFX Application Thread] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 1359710977
+2026-09-20 18:31:51.266 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - Subscribe on TaskChangedEvent completed
+2026-09-20 18:31:51.790 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/review.fxml
+2026-09-20 18:31:52.547 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/review.fxml
+2026-09-20 18:31:54.190 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 18:31:54.223 [Thread-7] DEBUG o.e.t.s.project.AsyncProjectService - createProjectLoader()
+2026-09-20 18:31:54.227 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 18:31:54.233 [Thread-7] DEBUG o.e.t.s.project.AsyncProjectService - Project: org.example.taskschedulerdesktop.models.Project@6aee5d4f, number of tasks = 11
+2026-09-20 18:31:54.233 [Thread-7] DEBUG o.e.t.s.project.ProjectCardService - createCard(org.example.taskschedulerdesktop.models.Project@6aee5d4f)
+2026-09-20 18:31:54.260 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.initialize(), hashCode = 1859399573
+2026-09-20 18:31:54.260 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - context = null
+2026-09-20 18:31:54.260 [Thread-7] DEBUG o.e.t.s.project.ProjectCardService - Project: org.example.taskschedulerdesktop.models.Project@6aee5d4f, number of tasks = 11
+2026-09-20 18:31:54.263 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.setContext: org.example.taskschedulerdesktop.models.Project@6aee5d4f, hashCode = 1859399573
+2026-09-20 18:31:54.263 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-20 18:31:54.264 [Thread-7] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 1970782716
+2026-09-20 18:31:55.090 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectCardController - Click on the card, context = org.example.taskschedulerdesktop.models.Project@6aee5d4f
+2026-09-20 18:31:55.090 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/project_extended_page.fxml
+2026-09-20 18:31:55.150 [Thread-5] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 947568638
+2026-09-20 18:31:55.156 [Thread-9] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(IN_PROGRESS)
+2026-09-20 18:31:55.156 [Thread-8] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(NEW)
+2026-09-20 18:31:55.157 [Thread-10] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(UNDER_REVIEW)
+2026-09-20 18:31:55.157 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectExtendedPageController - setContext: org.example.taskschedulerdesktop.models.Project@6aee5d4f
+2026-09-20 18:31:55.158 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectExtendedPageController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-20 18:31:55.158 [Thread-11] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(COMPLETED)
+2026-09-20 18:31:55.163 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/project_extended_page.fxml
+2026-09-20 18:34:59.657 [JavaFX Application Thread] DEBUG o.e.t.database.DatabaseConnection - H2 TCP-server started on the port:9092 successful
+2026-09-20 18:34:59.660 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - createTableIfNotExists()
+2026-09-20 18:34:59.683 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - createIndexes()
+2026-09-20 18:34:59.699 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - ProjectServiceImpl created
+2026-09-20 18:34:59.702 [JavaFX Application Thread] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 1359710977
+2026-09-20 18:34:59.704 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - Subscribe on TaskChangedEvent completed
+2026-09-20 18:35:00.166 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/review.fxml
+2026-09-20 18:35:00.926 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/review.fxml
+2026-09-20 18:35:02.458 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 18:35:02.492 [Thread-7] DEBUG o.e.t.s.project.AsyncProjectService - createProjectLoader()
+2026-09-20 18:35:02.496 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 18:35:02.501 [Thread-7] DEBUG o.e.t.s.project.AsyncProjectService - Project: org.example.taskschedulerdesktop.models.Project@247e8b88, number of tasks = 11
+2026-09-20 18:35:02.501 [Thread-7] DEBUG o.e.t.s.project.ProjectCardService - createCard(org.example.taskschedulerdesktop.models.Project@247e8b88)
+2026-09-20 18:35:02.529 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.initialize(), hashCode = 160576924
+2026-09-20 18:35:02.531 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - context = null
+2026-09-20 18:35:02.531 [Thread-7] DEBUG o.e.t.s.project.ProjectCardService - Project: org.example.taskschedulerdesktop.models.Project@247e8b88, number of tasks = 11
+2026-09-20 18:35:02.533 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.setContext: org.example.taskschedulerdesktop.models.Project@247e8b88, hashCode = 160576924
+2026-09-20 18:35:02.533 [Thread-7] DEBUG o.e.t.c.p.ProjectCardController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-20 18:35:02.534 [Thread-7] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 1991531795
+2026-09-20 18:35:03.172 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectCardController - Click on the card, context = org.example.taskschedulerdesktop.models.Project@247e8b88
+2026-09-20 18:35:03.172 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/project_extended_page.fxml
+2026-09-20 18:35:03.211 [Thread-5] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 947568638
+2026-09-20 18:35:03.217 [Thread-8] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(NEW)
+2026-09-20 18:35:03.217 [Thread-9] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(IN_PROGRESS)
+2026-09-20 18:35:03.219 [Thread-10] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(UNDER_REVIEW)
+2026-09-20 18:35:03.219 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectExtendedPageController - setContext: org.example.taskschedulerdesktop.models.Project@247e8b88
+2026-09-20 18:35:03.219 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectExtendedPageController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-20 18:35:03.220 [Thread-11] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(COMPLETED)
+2026-09-20 18:35:03.224 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/project_extended_page.fxml
+2026-09-20 18:35:10.705 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_right_sidebar.fxml, context=org.example.taskschedulerdesktop.dto.TaskView@4bc29b75
+2026-09-20 18:35:10.763 [JavaFX Application Thread] INFO  o.e.t.c.t.TaskRightSidebarController - initialize()
+2026-09-20 18:35:10.766 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - sidebarController found, calling setContext()
+2026-09-20 18:35:10.766 [JavaFX Application Thread] INFO  o.e.t.c.t.TaskRightSidebarController - setContext()
+2026-09-20 18:35:10.766 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - context = org.example.taskschedulerdesktop.dto.TaskView@4bc29b75
+2026-09-20 18:35:10.767 [JavaFX Application Thread] INFO  o.e.t.c.t.TaskRightSidebarController - context saved: 44444
+2026-09-20 18:35:10.767 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - updateUI()
+2026-09-20 18:35:10.767 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - projectName: 1
+2026-09-20 18:35:10.767 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - taskName: 44444
+2026-09-20 18:35:10.768 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - status: NEW
+2026-09-20 18:35:10.768 [JavaFX Application Thread] INFO  o.e.t.c.t.TaskRightSidebarController - UI updated
+2026-09-20 18:35:12.248 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - Click on edit button
+2026-09-20 18:35:12.248 [JavaFX Application Thread] INFO  o.e.t.c.t.TaskRightSidebarController - Open edit sidebar for task: 44444
+2026-09-20 18:35:12.248 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/edit_task_right_sidebar.fxml, context=org.example.taskschedulerdesktop.dto.TaskView@4bc29b75
+2026-09-20 18:35:12.320 [JavaFX Application Thread] INFO  o.e.t.c.t.EditTaskRightSidebarController - initialize()
+2026-09-20 18:35:12.321 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - sidebarController found, calling setContext()
+2026-09-20 18:35:12.322 [Thread-10] DEBUG o.e.t.r.task.H2TaskRepository - findViewById(1)
+2026-09-20 18:35:12.324 [Thread-10] DEBUG o.e.t.r.task.H2TaskRepository - View not found
+2026-09-20 18:35:12.537 [JavaFX Application Thread] ERROR o.e.t.c.t.EditTaskRightSidebarController - java.lang.IllegalArgumentException
+2026-09-20 18:35:20.303 [Thread-9] DEBUG o.e.t.r.task.H2TaskRepository - update(org.example.taskschedulerdesktop.models.Task@7c0e9d80)
+2026-09-20 18:35:20.312 [Thread-9] DEBUG o.e.t.r.task.H2TaskRepository - Task updated: id = 15
+2026-09-20 18:35:20.313 [JavaFX Application Thread] DEBUG o.e.t.listeners.EventBus - 📤 FIRE: TaskChangedEvent (subscribers: 3)
+2026-09-20 18:35:20.313 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - TaskChangedEvent received: projectId=1
+2026-09-20 18:35:20.315 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - Project found: Редизайн портала
+2026-09-20 18:35:20.316 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - update(org.example.taskschedulerdesktop.models.Project@38454466)
+2026-09-20 18:35:20.316 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - countByProjectName(1)
+2026-09-20 18:35:20.321 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - countTasksByProjectName: 11
+2026-09-20 18:35:20.321 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - countByProjectNameAndStatus(1, COMPLETED)
+2026-09-20 18:35:20.323 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - Project: Редизайн портала, numberOfTasks = 11, completedTasks = 2
+2026-09-20 18:35:20.323 [JavaFX Application Thread] DEBUG o.e.t.r.project.H2ProjectRepository - UPDATE project: id=1, numberOfTasks=11, completedTasks=2
+2026-09-20 18:35:20.325 [JavaFX Application Thread] DEBUG o.e.t.r.project.H2ProjectRepository - Project updated in DB: Редизайн портала
+2026-09-20 18:35:20.326 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - Project updated: Редизайн портала
+2026-09-20 18:35:20.326 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectCardController - TaskChangedEvent received: projectId=1
+2026-09-20 18:35:20.326 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectCardController - refreshCard(), context = org.example.taskschedulerdesktop.models.Project@247e8b88
+2026-09-20 18:35:20.326 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectCardController - context.getId() = 1
+2026-09-20 18:35:20.331 [Thread-11] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(NEW)
+2026-09-20 18:35:20.331 [Thread-8] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(IN_PROGRESS)
+2026-09-20 18:35:20.331 [Thread-10] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(UNDER_REVIEW)
+2026-09-20 18:35:20.331 [Thread-9] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(COMPLETED)
+2026-09-20 18:35:20.370 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Toast is displayed: Данные обновлены
+2026-09-20 18:35:35.457 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/tasks.fxml
+2026-09-20 18:35:35.510 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/tasks.fxml
+2026-09-20 18:35:36.551 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 18:35:36.558 [Thread-7] DEBUG o.e.t.s.project.AsyncProjectService - createProjectLoader()
+2026-09-20 18:35:36.559 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 18:35:39.090 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/tasks.fxml
+2026-09-20 18:35:39.114 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/tasks.fxml
+2026-09-20 18:36:01.794 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/review.fxml
+2026-09-20 18:36:01.847 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/review.fxml
+2026-09-20 18:36:09.263 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 18:36:09.275 [Thread-12] DEBUG o.e.t.s.project.AsyncProjectService - createProjectLoader()
+2026-09-20 18:36:09.277 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 18:36:11.412 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/tasks.fxml
+2026-09-20 18:36:11.440 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/tasks.fxml
+2026-09-20 18:36:12.268 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/review.fxml
+2026-09-20 18:36:12.314 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/review.fxml
+2026-09-20 18:36:13.176 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/team.fxml
+2026-09-20 18:36:13.251 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/team.fxml
+2026-09-20 18:36:13.642 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 18:36:13.648 [Thread-13] DEBUG o.e.t.s.project.AsyncProjectService - createProjectLoader()
+2026-09-20 18:36:13.648 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 18:36:14.855 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/team.fxml
+2026-09-20 18:36:14.901 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/team.fxml
+2026-09-20 18:36:17.308 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/tasks.fxml
+2026-09-20 18:36:17.324 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/tasks.fxml
+2026-09-20 18:36:18.240 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 18:36:18.247 [Thread-14] DEBUG o.e.t.s.project.AsyncProjectService - createProjectLoader()
+2026-09-20 18:36:18.248 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 18:36:20.842 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/review.fxml
+2026-09-20 18:36:20.879 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/review.fxml
+2026-09-20 22:22:40.695 [TaskSchedulerPool housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - TaskSchedulerPool - Thread starvation or clock leap detected (housekeeper delta=3h34m15s701ms760µs600ns).
+2026-09-20 22:22:49.590 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 22:22:49.625 [Thread-7] DEBUG o.e.t.s.project.AsyncProjectService - createProjectLoader()
+2026-09-20 22:22:49.626 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 22:22:52.482 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectCardController - Click on the card, context = org.example.taskschedulerdesktop.models.Project@247e8b88
+2026-09-20 22:22:52.483 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/project_extended_page.fxml
+2026-09-20 22:22:52.509 [Thread-6] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 1577070248
+2026-09-20 22:22:52.513 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectExtendedPageController - setContext: org.example.taskschedulerdesktop.models.Project@247e8b88
+2026-09-20 22:22:52.513 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectExtendedPageController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-20 22:22:52.514 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/project_extended_page.fxml
+2026-09-20 22:23:01.777 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_right_sidebar.fxml, context=org.example.taskschedulerdesktop.dto.TaskView@646926b1
+2026-09-20 22:23:01.802 [JavaFX Application Thread] INFO  o.e.t.c.t.TaskRightSidebarController - initialize()
+2026-09-20 22:23:01.802 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - sidebarController found, calling setContext()
+2026-09-20 22:23:01.802 [JavaFX Application Thread] INFO  o.e.t.c.t.TaskRightSidebarController - setContext()
+2026-09-20 22:23:01.802 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - context = org.example.taskschedulerdesktop.dto.TaskView@646926b1
+2026-09-20 22:23:01.802 [JavaFX Application Thread] INFO  o.e.t.c.t.TaskRightSidebarController - context saved: 1010101010
+2026-09-20 22:23:01.802 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - updateUI()
+2026-09-20 22:23:01.802 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - projectName: 1
+2026-09-20 22:23:01.802 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - taskName: 1010101010
+2026-09-20 22:23:01.802 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - status: NEW
+2026-09-20 22:23:01.802 [JavaFX Application Thread] INFO  o.e.t.c.t.TaskRightSidebarController - UI updated
+2026-09-20 22:23:10.201 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_right_sidebar.fxml, context=org.example.taskschedulerdesktop.dto.TaskView@646926b1
+2026-09-20 22:23:10.212 [JavaFX Application Thread] INFO  o.e.t.c.t.TaskRightSidebarController - initialize()
+2026-09-20 22:23:10.212 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - sidebarController found, calling setContext()
+2026-09-20 22:23:10.212 [JavaFX Application Thread] INFO  o.e.t.c.t.TaskRightSidebarController - setContext()
+2026-09-20 22:23:10.212 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - context = org.example.taskschedulerdesktop.dto.TaskView@646926b1
+2026-09-20 22:23:10.212 [JavaFX Application Thread] INFO  o.e.t.c.t.TaskRightSidebarController - context saved: 1010101010
+2026-09-20 22:23:10.212 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - updateUI()
+2026-09-20 22:23:10.212 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - projectName: 1
+2026-09-20 22:23:10.212 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - taskName: 1010101010
+2026-09-20 22:23:10.213 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - status: NEW
+2026-09-20 22:23:10.213 [JavaFX Application Thread] INFO  o.e.t.c.t.TaskRightSidebarController - UI updated
+2026-09-20 22:23:11.432 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - Click on delete button
+2026-09-20 22:23:11.433 [JavaFX Application Thread] INFO  o.e.t.c.t.TaskRightSidebarController - Open delete panel for task: 1010101010
+2026-09-20 22:23:13.093 [Thread-10] DEBUG o.e.t.r.task.H2TaskRepository - delete(21)
+2026-09-20 22:23:13.095 [Thread-10] DEBUG o.e.t.r.task.H2TaskRepository - Task deleted: id = 21
+2026-09-20 22:23:13.095 [JavaFX Application Thread] DEBUG o.e.t.listeners.EventBus - 📤 FIRE: TaskChangedEvent (subscribers: 3)
+2026-09-20 22:23:13.095 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - TaskChangedEvent received: projectId=1
+2026-09-20 22:23:13.096 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - Project found: Редизайн портала
+2026-09-20 22:23:13.096 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - update(org.example.taskschedulerdesktop.models.Project@44da6bb9)
+2026-09-20 22:23:13.096 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - countByProjectName(1)
+2026-09-20 22:23:13.097 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - countTasksByProjectName: 10
+2026-09-20 22:23:13.097 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - countByProjectNameAndStatus(1, COMPLETED)
+2026-09-20 22:23:13.098 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - Project: Редизайн портала, numberOfTasks = 10, completedTasks = 2
+2026-09-20 22:23:13.098 [JavaFX Application Thread] DEBUG o.e.t.r.project.H2ProjectRepository - UPDATE project: id=1, numberOfTasks=10, completedTasks=2
+2026-09-20 22:23:13.099 [JavaFX Application Thread] DEBUG o.e.t.r.project.H2ProjectRepository - Project updated in DB: Редизайн портала
+2026-09-20 22:23:13.099 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - Project updated: Редизайн портала
+2026-09-20 22:23:13.099 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectCardController - TaskChangedEvent received: projectId=1
+2026-09-20 22:23:13.099 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectCardController - refreshCard(), context = org.example.taskschedulerdesktop.models.Project@247e8b88
+2026-09-20 22:23:13.099 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectCardController - context.getId() = 1
+2026-09-20 22:23:13.100 [Thread-8] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(NEW)
+2026-09-20 22:23:20.028 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/tasks.fxml
+2026-09-20 22:23:20.045 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/tasks.fxml
+2026-09-20 22:23:25.546 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/review.fxml
+2026-09-20 22:23:25.577 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/review.fxml
+2026-09-20 22:23:39.389 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/team.fxml
+2026-09-20 22:23:39.427 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/team.fxml
+2026-09-20 22:23:40.843 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 22:23:40.848 [Thread-7] DEBUG o.e.t.s.project.AsyncProjectService - createProjectLoader()
+2026-09-20 22:23:40.848 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 22:23:41.527 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/tasks.fxml
+2026-09-20 22:23:41.538 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/tasks.fxml
+2026-09-20 22:23:42.028 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/review.fxml
+2026-09-20 22:23:42.054 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/review.fxml
+2026-09-20 22:23:44.630 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/team.fxml
+2026-09-20 22:23:44.661 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/team.fxml
+2026-09-20 22:23:47.881 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 22:23:47.887 [Thread-12] DEBUG o.e.t.s.project.AsyncProjectService - createProjectLoader()
+2026-09-20 22:23:47.887 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-20 23:52:00.367 [TaskSchedulerPool housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - TaskSchedulerPool - Thread starvation or clock leap detected (housekeeper delta=57m49s296ms120µs).

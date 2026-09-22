@@ -20,7 +20,7 @@ public class EventBus {
 
     public static EventBus getInstance() {
         if (instance == null) {
-            return new EventBus();
+            instance = new EventBus();
         }
         return instance;
     }
@@ -30,8 +30,9 @@ public class EventBus {
      */
     @SuppressWarnings("unchecked")
     public <T> void subscribe(Class<T> eventType, Consumer<T> listener) {
-        subscribers
-                .computeIfAbsent(eventType, k -> new ArrayList<>())
+        log.debug("SUBSCRIBE: {} -> {}", eventType.getSimpleName(), listener.hashCode());
+
+        subscribers.computeIfAbsent(eventType, k -> new ArrayList<>())
                 .add((Consumer<Object>) listener);
     }
 
@@ -51,6 +52,10 @@ public class EventBus {
      */
     @SuppressWarnings("unchecked")
     public <T> void fire(T event) {
+        log.debug("📤 FIRE: {} (subscribers: {})",
+                event.getClass().getSimpleName(),
+                subscribers.getOrDefault(event.getClass(), List.of()).size());
+
         Class<?> eventType = event.getClass();
         List<Consumer<Object>> listeners = subscribers.get(eventType);
 

@@ -49,7 +49,7 @@ public class Project {
         return numberOfTasks;
     }
 
-    public void setNumberOfTasks(Integer numberOfTasks) {
+    public void setNumberOfTasks(int numberOfTasks) {
         this.numberOfTasks = numberOfTasks;
     }
 
@@ -57,7 +57,7 @@ public class Project {
         return completedTasks;
     }
 
-    public void setCompletedTasks(Integer completedTasks) {
+    public void setCompletedTasks(int completedTasks) {
         this.completedTasks = completedTasks;
     }
 
@@ -65,7 +65,7 @@ public class Project {
         return remainingTasks;
     }
 
-    public void setRemainingTasks(Integer remainingTasks) {
+    public void setRemainingTasks(int remainingTasks) {
         this.remainingTasks = remainingTasks;
     }
 
@@ -73,7 +73,7 @@ public class Project {
         return percentOfCompletion;
     }
 
-    public void setPercentOfCompletion(Integer percentOfCompletion) {
+    public void setPercentOfCompletion(int percentOfCompletion) {
         this.percentOfCompletion = percentOfCompletion;
     }
 

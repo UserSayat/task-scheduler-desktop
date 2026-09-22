@@ -88,10 +88,11 @@ public class CreateTaskModalWindowController {
 
         createTaskButton.setOnAction(event -> {
             if (taskNameTextField.getText().isEmpty() ||
-                    selectedProject != null ||
-                    selectedExecutor != null ||
-                    selectedDate != null) {
+                    selectedProject == null ||
+                    selectedExecutor == null ||
+                    selectedDate == null) {
                 NavigationManager.showToast("Заполните пустые поля", "info");
+                return;
             }
 
             //TODO может быть стоит использовать AsyncTaskService

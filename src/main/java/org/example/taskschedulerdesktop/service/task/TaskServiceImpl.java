@@ -5,8 +5,10 @@ import org.example.taskschedulerdesktop.dto.TaskView;
 import org.example.taskschedulerdesktop.exeptions.NotFoundException;
 import org.example.taskschedulerdesktop.listeners.EventBus;
 import org.example.taskschedulerdesktop.listeners.TaskChangedEvent;
+import org.example.taskschedulerdesktop.models.Project;
 import org.example.taskschedulerdesktop.models.Task;
 import org.example.taskschedulerdesktop.repository.task.TaskRepository;
+import org.example.taskschedulerdesktop.service.project.ProjectService;
 import org.example.taskschedulerdesktop.utils.TaskStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,6 +42,8 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public void save(Task task) {
+        log.debug("save({})", task);
+
         if (task.getTaskName() == null || task.getTaskName().isEmpty()) {
             log.warn("The name of the task should not be empty");
         }
@@ -51,7 +55,10 @@ public class TaskServiceImpl implements TaskService {
         repository.save(task);
 
         AppConfig.getInstance().getAsyncProjectService().invalidateCache();
+        AppConfig.getInstance().getAsyncTaskService().invalidateCache(task.getStatus());
 
+        log.debug("TaskChangedEvent: projectId={}, taskName={}",
+                task.getProjectId(), task.getTaskName());
         EventBus.getInstance().fire(new TaskChangedEvent(task.getProjectId(), task.getTaskName()));
 
         log.debug("Event TaskChangedEvent sent: projectName = {}", task.getProjectId());
@@ -71,13 +78,13 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public int countTasksByProjectNameAndStatus(String projectName, TaskStatus status) {
-        return repository.countByProjectNameAndStatus(projectName, status);
+    public int countTasksByProjectIdAndStatus(long projectId, TaskStatus status) {
+        return repository.countByProjectIdAndStatus(projectId, status);
     }
 
     @Override
-    public int countTasksByProjectName(String projectName) {
-        return repository.countByProjectName(projectName);
+    public int countTasksByProjectId(long projectId) {
+        return repository.countByProjectId(projectId);
     }
 
     @Override

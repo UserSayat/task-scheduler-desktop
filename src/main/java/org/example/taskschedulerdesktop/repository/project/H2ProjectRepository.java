@@ -2,6 +2,8 @@ package org.example.taskschedulerdesktop.repository.project;
 
 import org.example.taskschedulerdesktop.database.DatabaseConnection;
 import org.example.taskschedulerdesktop.models.Project;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -11,6 +13,7 @@ import java.util.Optional;
 public class H2ProjectRepository implements ProjectRepository {
 
     private final DatabaseConnection db;
+    private static final Logger log = LoggerFactory.getLogger(H2ProjectRepository.class);
 
     public H2ProjectRepository(DatabaseConnection db) {
         this.db = db;
@@ -97,6 +100,9 @@ public class H2ProjectRepository implements ProjectRepository {
 
     @Override
     public void update(Project project) {
+        log.debug("UPDATE project: id={}, numberOfTasks={}, completedTasks={}",
+                project.getId(), project.getNumberOfTasks(), project.getCompletedTasks());
+
         String sql = """
             UPDATE projects SET name = ?, supervisor = ?, numberOfTasks = ?, completedTasks = ?,
             remainingTasks = ?, percentOfCompletion = ?, synced = ? WHERE id = ?
@@ -115,6 +121,7 @@ public class H2ProjectRepository implements ProjectRepository {
             pstmt.setLong(8, project.getId());
             pstmt.executeUpdate();
 
+            log.debug("Project updated in DB: {}", project.getName());
         } catch (SQLException e) {
             e.printStackTrace();
         }

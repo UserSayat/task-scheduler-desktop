@@ -1,4 +1,4 @@
-package org.example.taskschedulerdesktop.controllers.review;
+package org.example.taskschedulerdesktop.controllers.tasks;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,9 +10,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-public class ReviewController {
+public class TasksController {
 
-    private static final Logger log = LoggerFactory.getLogger(ReviewController.class);
+    private static final Logger log = LoggerFactory.getLogger(TasksController.class);
 
     @FXML private VBox taskTableContainerVBox;
 

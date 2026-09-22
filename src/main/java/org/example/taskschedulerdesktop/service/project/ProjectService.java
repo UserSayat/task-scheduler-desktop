@@ -12,6 +12,6 @@ public interface ProjectService {
     void update(Project project);
     void delete(long id);
     Project findById(long id);
-    int countTasksByProjectNameAndStatus(String projectName, TaskStatus status);
-    int countTasksByProjectName(String projectName);
+    int countTasksByProjectIdAndStatus(long projectId, TaskStatus status);
+    int countTasksByProjectId(long projectId);
 }

@@ -4,15 +4,15 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 
-<TableView maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="200.0" minWidth="0.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<TableView fx:id="taskTable" styleClass="task-table" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="200.0" minWidth="0.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.taskschedulerdesktop.controllers.tasks.TaskTableController">
    <columns>
-      <TableColumn maxWidth="40.0" minWidth="40.0" prefWidth="40.0" text="#" />
-      <TableColumn prefWidth="75.0" text="Задача" />
-      <TableColumn prefWidth="75.0" text="Проект" />
-      <TableColumn prefWidth="75.0" text="Исполнитель" />
-      <TableColumn prefWidth="75.0" text="Приоритет" />
-      <TableColumn prefWidth="75.0" text="Статус" />
-      <TableColumn prefWidth="75.0" text="Срок" />
+      <TableColumn fx:id="idColumn" prefWidth="30" text="#" />
+      <TableColumn fx:id="taskNameColumn" prefWidth="200" text="Задача" />
+      <TableColumn fx:id="projectNameColumn" prefWidth="150" text="Проект" />
+      <TableColumn fx:id="executorColumn" prefWidth="150" text="Исполнитель" />
+      <TableColumn fx:id="priorityColumn" prefWidth="100" text="Приоритет" />
+      <TableColumn fx:id="statusColumn" prefWidth="100" text="Статус" />
+      <TableColumn fx:id="deadlineColumn" prefWidth="100" text="Дедлайн" />
    </columns>
    <styleClass>
       <String fx:value="table-view" />

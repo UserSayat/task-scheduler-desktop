@@ -13,8 +13,8 @@ public interface TaskService {
     void save(Task task);
     void update(Task task);
     void delete(long id);
-    int countTasksByProjectNameAndStatus(String projectName, TaskStatus status);
-    int countTasksByProjectName(String projectName);
+    int countTasksByProjectIdAndStatus(long projectId, TaskStatus status);
+    int countTasksByProjectId(long projectId);
     String getProjectNameById(long id);
 }
 

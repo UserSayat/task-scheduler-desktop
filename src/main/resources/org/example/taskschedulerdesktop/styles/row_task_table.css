@@ -1,0 +1,62 @@
+.status-new {
+    -fx-text-fill: #1a3a8f;
+    -fx-background-color: #e8edf8;
+    -fx-background-radius: 12px;
+    -fx-padding: 4px 12px;
+    -fx-font-size: 12px;
+    -fx-font-weight: 500;
+}
+
+.status-in-progress {
+    -fx-text-fill: #92400e;
+    -fx-background-color: #fffbeb;
+    -fx-background-radius: 12px;
+    -fx-padding: 4px 12px;
+    -fx-font-size: 12px;
+    -fx-font-weight: 500;
+}
+
+.status-completed {
+    -fx-text-fill: #14532d;
+    -fx-background-color: #f0fdf4;
+    -fx-background-radius: 12px;
+    -fx-padding: 4px 12px;
+    -fx-font-size: 12px;
+    -fx-font-weight: 500;
+}
+
+.priority-high {
+    -fx-text-fill: #b91c1c;
+    -fx-background-color: #fef2f2;
+    -fx-background-radius: 12px;
+    -fx-padding: 4px 12px;
+    -fx-font-size: 12px;
+    -fx-font-weight: 600;
+}
+
+.priority-middle {
+    -fx-text-fill: #92400e;
+    -fx-background-color: #fffbeb;
+    -fx-background-radius: 12px;
+    -fx-padding: 4px 12px;
+    -fx-font-size: 12px;
+    -fx-font-weight: 500;
+}
+
+.priority-low {
+    -fx-text-fill: #14532d;
+    -fx-background-color: #f0fdf4;
+    -fx-background-radius: 12px;
+    -fx-padding: 4px 12px;
+    -fx-font-size: 12px;
+    -fx-font-weight: 400;
+}
+
+.deadline-overdue {
+    -fx-text-fill: #b91c1c;
+    -fx-font-weight: 600;
+}
+
+.deadline-normal {
+    -fx-text-fill: #5a5a56;
+}

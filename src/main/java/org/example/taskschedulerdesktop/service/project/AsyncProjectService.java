@@ -45,11 +45,14 @@ public class AsyncProjectService {
                 return new Task<>(){
                     @Override
                     protected List<Node> call() throws Exception {
+                        log.debug("createProjectLoader()");
+
                         if (!isCacheDirty && !cachedProjectCards.isEmpty()) {
                             return new java.util.ArrayList<>(cachedProjectCards);
                         }
 
                         List<Project> projects = delegate.findAll();
+                        log.debug("Project: {}, number of tasks = {}", projects.getFirst(), projects.getFirst().getNumberOfTasks());
                         List<Node> newCards = projectCardService.createCards(projects);
 
                         cachedProjectCards.clear();

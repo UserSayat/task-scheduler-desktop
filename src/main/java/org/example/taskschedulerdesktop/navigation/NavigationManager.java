@@ -137,10 +137,8 @@ public class NavigationManager {
                 Parent page = loader.getRoot();
                 Object newController = loader.getController();
 
-                if (currentController instanceof Shutdownable shutdownableController) {
-                    // Java сама проверяет тип, компилятор гарантирует наличие метода,
-                    // и код выполняется с максимальной скоростью!
-                    shutdownableController.shutdown();
+                if (currentController instanceof Shutdownable shutdownable) {
+                    shutdownable.shutdown();
                 }
 
                 currentController = newController;

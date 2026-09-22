@@ -4,12 +4,9 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.example.taskschedulerdesktop.controllers.projects.CreateProjectModalWindowController;
 import org.example.taskschedulerdesktop.controllers.projects.ProjectCardController;
-import org.example.taskschedulerdesktop.controllers.projects.ProjectController;
+import org.example.taskschedulerdesktop.controllers.projects.ProjectsController;
 import org.example.taskschedulerdesktop.controllers.projects.ProjectExtendedPageController;
-import org.example.taskschedulerdesktop.controllers.tasks.CreateTaskModalWindowController;
-import org.example.taskschedulerdesktop.controllers.tasks.EditTaskRightSidebarController;
-import org.example.taskschedulerdesktop.controllers.tasks.TaskController;
-import org.example.taskschedulerdesktop.controllers.tasks.TaskRightSidebarController;
+import org.example.taskschedulerdesktop.controllers.tasks.*;
 import org.example.taskschedulerdesktop.database.DatabaseConnection;
 import org.example.taskschedulerdesktop.repository.project.H2ProjectRepository;
 import org.example.taskschedulerdesktop.repository.project.ProjectRepository;
@@ -56,11 +53,11 @@ public class AppConfig {
 
 
         this.controllerFactory = clazz -> {
-            if (clazz == TaskController.class) {
-                return new TaskController(taskService);
+            if (clazz == TaskTableController.class) {
+                return new TaskTableController(asyncTaskService);
             }
             if (clazz == ProjectExtendedPageController.class) {
-                return new ProjectExtendedPageController(asyncTaskService);
+                return new ProjectExtendedPageController(asyncTaskService, asyncProjectService);
             }
             if (clazz == CreateTaskModalWindowController.class) {
                 return new CreateTaskModalWindowController(taskService);
@@ -71,8 +68,8 @@ public class AppConfig {
             if (clazz == EditTaskRightSidebarController.class) {
                 return new EditTaskRightSidebarController(asyncTaskService);
             }
-            if (clazz == ProjectController.class) {
-                return new ProjectController(asyncProjectService);
+            if (clazz == ProjectsController.class) {
+                return new ProjectsController(asyncProjectService);
             }
             if (clazz == CreateProjectModalWindowController.class) {
                 return new CreateProjectModalWindowController(projectService);
@@ -109,6 +106,10 @@ public class AppConfig {
 
     public DatabaseConnection getDatabaseConnection() {
         return databaseConnection;
+    }
+
+    public AsyncTaskService getAsyncTaskService() {
+        return asyncTaskService;
     }
 
     public AsyncProjectService getAsyncProjectService() {

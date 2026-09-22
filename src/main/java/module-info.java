@@ -5,6 +5,7 @@ module org.example.taskschedulerdesktop {
     requires javafx.fxml;
     requires com.zaxxer.hikari;
     requires java.sql;
+    requires com.h2database;
 
 
     opens org.example.taskschedulerdesktop to javafx.fxml;

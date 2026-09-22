@@ -27,6 +27,8 @@ public class ProjectCardService {
 
     public Node createCard(Project project) {
         try {
+            log.debug("createCard({})", project);
+
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource(Routes.PROJECT_CARD)
             );
@@ -39,6 +41,7 @@ public class ProjectCardService {
             controller.setProjectNameLabel(project.getName());
             controller.setProjectSupervisorLabel(project.getSupervisor());
             controller.setNumberOfTasksLabel(project.getNumberOfTasks());
+            log.debug("Project: {}, number of tasks = {}", project, project.getNumberOfTasks());
             controller.setRemainingTasksLabel(project.getRemainingTasks());
             controller.setCompletedTasksLabel(project.getCompletedTasks());
             controller.setPercentOfCompletionLabel(project.getPercentOfCompletion());

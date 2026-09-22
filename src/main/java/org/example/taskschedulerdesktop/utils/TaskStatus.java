@@ -1,7 +1,7 @@
 package org.example.taskschedulerdesktop.utils;
 
 public enum TaskStatus {
-    NEW("Новая"),
+    NEW("К выполнению"),
     IN_PROGRESS("В работе"),
     UNDER_REVIEW("На проверке"),
     COMPLETED("Завершена");

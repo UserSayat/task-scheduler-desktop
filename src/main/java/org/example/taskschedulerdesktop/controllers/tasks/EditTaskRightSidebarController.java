@@ -4,6 +4,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import org.example.taskschedulerdesktop.controllers.sidebar.RightSidebarController;
+import org.example.taskschedulerdesktop.dto.TaskView;
+import org.example.taskschedulerdesktop.listeners.EventBus;
+import org.example.taskschedulerdesktop.listeners.TaskChangedEvent;
 import org.example.taskschedulerdesktop.models.Task;
 import org.example.taskschedulerdesktop.navigation.NavigationManager;
 import org.example.taskschedulerdesktop.service.task.AsyncTaskService;
@@ -31,7 +34,7 @@ public class EditTaskRightSidebarController implements RightSidebarController {
     @FXML private Button saveTheTaskButton;
     @FXML private Button cancelButton;
 
-    private Task contextTask;
+    private TaskView contextTask;
 
     public EditTaskRightSidebarController(AsyncTaskService taskService) {
         this.taskService = taskService;
@@ -67,8 +70,8 @@ public class EditTaskRightSidebarController implements RightSidebarController {
             contextTask.setDescription(taskDescriptionTextArea.getText());
 
             taskService.updateTask(
-                    contextTask,
-                    () -> NavigationManager.showToast("Данные обновлены", "success"),
+                    toTask(contextTask),
+                    () ->NavigationManager.showToast("Данные обновлены", "success"),
                     error -> {
                         NavigationManager.showToast("Возникла ошибка при обновлении данных", "error");
                     });
@@ -77,11 +80,11 @@ public class EditTaskRightSidebarController implements RightSidebarController {
 
     @Override
     public void setContext(Object context) {
-        if (!(context instanceof Task)) {
+        if (!(context instanceof TaskView)) {
             throw new IllegalArgumentException();
         }
 
-        this.contextTask = (Task) context;
+        this.contextTask = (TaskView) context;
 
         updateUI();
     }
@@ -107,6 +110,19 @@ public class EditTaskRightSidebarController implements RightSidebarController {
 
     public void loadExecutors() {
 
+    }
+
+    private Task toTask(TaskView taskView) {
+        return new Task(taskView.getId(),
+                taskView.getTaskName(),
+                taskView.getProjectId(),
+                taskView.getExecutor(),
+                taskView.getType(),
+                taskView.getStatus(),
+                taskView.getPriority(),
+                taskView.getDeadline(),
+                taskView.getDescription(),
+                taskView.isSynced());
     }
 }
 

@@ -1,0 +1,89 @@
+.root {
+    -fx-font-family: "Inter 18pt", "Segoe UI", Arial, sans-serif;
+    -fx-font-size: 13px;
+    -fx-background-color: #ffffff;
+    -fx-text-fill: #111110;
+}
+
+.font-display {
+    -fx-font-family: "Lora", Georgia, serif;
+}
+
+.font-sans {
+    -fx-font-family: "Inter 18pt", "Segoe UI", Arial, sans-serif;
+}
+
+.font-mono {
+    -fx-font-family: "JetBrains Mono", monospace;
+}
+
+/* ===== ЦВЕТА ТЕКСТА ===== */
+.text-ink {
+    -fx-text-fill: #111110;
+}
+
+.text-ink-secondary {
+    -fx-text-fill: #5a5a56;
+}
+
+.text-ink-muted {
+    -fx-text-fill: #9b9b95;
+}
+
+.text-accent {
+    -fx-text-fill: #1a3a8f;
+}
+
+.text-danger {
+    -fx-text-fill: #b91c1c;
+}
+
+.text-warning {
+    -fx-text-fill: #92400e;
+}
+
+.text-success {
+    -fx-text-fill: #14532d;
+}
+
+.bg-surface {
+    -fx-background-color: #ffffff;
+}
+
+.bg-surface-soft {
+    -fx-background-color: #f6f6f4;
+}
+
+.bg-surface-hover {
+    -fx-background-color: #f0f0ec;
+}
+
+.bg-accent {
+    -fx-background-color: #1a3a8f;
+}
+
+.bg-accent-light {
+    -fx-background-color: #e8edf8;
+}
+
+.bg-danger-light {
+    -fx-background-color: #fef2f2;
+}
+
+.bg-warning-light {
+    -fx-background-color: #fffbeb;
+}
+
+.bg-success-light {
+    -fx-background-color: #f0fdf4;
+}
+
+.border {
+    -fx-border-color: #e2e2dc;
+    -fx-border-width: 1px;
+}
+
+.border-strong {
+    -fx-border-color: #c8c8c0;
+    -fx-border-width: 1px;
+}

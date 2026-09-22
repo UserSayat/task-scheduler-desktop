@@ -245,17 +245,16 @@ public class H2TaskRepository implements TaskRepository {
         return views;
     }
 
-    @Override
-    public int countByProjectNameAndStatus(String projectName, TaskStatus status) {
-        log.debug("countByProjectNameAndStatus({}, {})", projectName, status);
+    public int countByProjectIdAndStatus(long projectId, TaskStatus status) {
+        log.debug("countByProjectNameAndStatus({}, {})", projectId, status);
 
-        String sql = "SELECT COUNT(1) FROM tasks t LEFT JOIN projects p ON t.project_id = p.id WHERE p.name = ? AND t.status = ?";
+        String sql = "SELECT COUNT(1) FROM tasks WHERE project_id = ? AND status = ?";
 
         try (Connection conn = db.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setString(1, projectName);
-            stmt.setString(2, status.getDisplayName());
+            stmt.setLong(1, projectId);
+            stmt.setString(2, status.name());
 
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
@@ -263,29 +262,30 @@ public class H2TaskRepository implements TaskRepository {
                 }
             }
         } catch (SQLException e) {
-            log.error("Error finding views by {} and {}", projectName, status);
+            log.error("Error finding views by {} and {}", projectId, status);
         }
         return 0;
     }
 
     @Override
-    public int countByProjectName(String projectName) {
-        log.debug("countByProjectName({})", projectName);
+    public int countByProjectId(long projectId) {
+        log.debug("countByProjectName({})", projectId);
 
-        String sql = "SELECT COUNT(1) FROM tasks t LEFT JOIN projects p ON t.project_id = p.id WHERE p.name = ?";
+        String sql = "SELECT COUNT(1) FROM tasks WHERE project_id = ?";
 
         try (Connection conn = db.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setString(1, projectName);
+            stmt.setLong(1, projectId);
 
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
+                    log.debug("countTasksByProjectName: {}", rs.getInt(1));
                     return rs.getInt(1);
                 }
             }
         } catch (SQLException e) {
-            log.error("Error finding views by {}", projectName);
+            log.error("Error finding views by {}", projectId);
         }
         return 0;
     }
@@ -356,7 +356,7 @@ public class H2TaskRepository implements TaskRepository {
         return new TaskView(rs.getLong("id"),
         rs.getString("name"),
         rs.getLong("project_id"),
-        rs.getString("project_name"), // 👈 из JOIN
+        rs.getString("project_name"), // JOIN
         rs.getString("executor"),
         rs.getString("type"),
         TaskStatus.fromString(rs.getString("status")),

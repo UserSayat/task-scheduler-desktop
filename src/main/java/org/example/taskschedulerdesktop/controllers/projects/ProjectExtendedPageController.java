@@ -4,14 +4,16 @@ import javafx.concurrent.Service;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.VBox;
 import org.example.taskschedulerdesktop.controllers.Shutdownable;
 import org.example.taskschedulerdesktop.dto.TaskView;
-import org.example.taskschedulerdesktop.listeners.TaskUpdateListener;
+import org.example.taskschedulerdesktop.listeners.EventBus;
+import org.example.taskschedulerdesktop.listeners.TaskChangedEvent;
 import org.example.taskschedulerdesktop.models.Project;
-import org.example.taskschedulerdesktop.models.Task;
 import org.example.taskschedulerdesktop.navigation.ContextAware;
+import org.example.taskschedulerdesktop.service.project.AsyncProjectService;
 import org.example.taskschedulerdesktop.service.task.AsyncTaskService;
 import org.example.taskschedulerdesktop.utils.TaskStatus;
 import org.slf4j.Logger;
@@ -23,6 +25,7 @@ import java.util.function.Consumer;
 public class ProjectExtendedPageController implements Shutdownable, ContextAware {
 
     private AsyncTaskService asyncTaskService;
+    private AsyncProjectService asyncProjectService;
     private static final Logger log = LoggerFactory.getLogger(ProjectExtendedPageController.class);
 
     @FXML private Label projectNameLabel;
@@ -31,6 +34,7 @@ public class ProjectExtendedPageController implements Shutdownable, ContextAware
     @FXML private Label completedTasksLabel;
     @FXML private Label remainingTasksLabel;
     @FXML private Label percentOfCompletionLabel;
+    @FXML private ProgressBar progressBar;
 
     @FXML private VBox newTasksVBox;
     @FXML private VBox tasksInProgressVBox;
@@ -49,21 +53,25 @@ public class ProjectExtendedPageController implements Shutdownable, ContextAware
 
     private Project context;
 
-    private final Consumer<TaskView> taskUpdateListener = changedTask -> {
+    private final Consumer<TaskChangedEvent> taskUpdateListener = event -> {
+        if (context != null && event.getProjectId().equals(context.getId())) {
+            refreshAllContainers();
 
-        asyncTaskService.invalidateCache(changedTask.getStatus());
-
-        switch (changedTask.getStatus()) {
-            case NEW -> refreshNewTasks();
-            case IN_PROGRESS -> refreshInProgressTasks();
-            case UNDER_REVIEW -> refreshUnderReviewTasks();
-            case COMPLETED -> refreshCompletedTasks();
+            asyncProjectService.findProjectById(
+                    context.getId(),
+                    project -> {
+                        this.context = project;
+                        updateUI();
+                    },
+                    error -> log.error("Error updating project's data", error)
+            );
         }
     };
 
 
-    public ProjectExtendedPageController(AsyncTaskService taskService) {
+    public ProjectExtendedPageController(AsyncTaskService taskService, AsyncProjectService projectService) {
         this.asyncTaskService = taskService;
+        this.asyncProjectService = projectService;
     }
 
     private Service<List<Node>> setupLoaderService(TaskStatus status, VBox container, ProgressIndicator indicator) {
@@ -110,7 +118,7 @@ public class ProjectExtendedPageController implements Shutdownable, ContextAware
 
     @FXML
     public void initialize() {
-        TaskUpdateListener.subscribe(taskUpdateListener);
+        EventBus.getInstance().subscribe(TaskChangedEvent.class, taskUpdateListener);
 
         newTasksLoader = setupLoaderService(TaskStatus.NEW, newTasksVBox, newTasksLoadingIndicator);
         inProgressLoader = setupLoaderService(TaskStatus.IN_PROGRESS, tasksInProgressVBox, tasksInProgressLoadingIndicator);
@@ -127,7 +135,15 @@ public class ProjectExtendedPageController implements Shutdownable, ContextAware
 
         if (context instanceof Project projectCard) {
             this.context = projectCard;
-            updateUI();
+
+            asyncProjectService.findProjectById(
+                    projectCard.getId(),
+                    project -> {
+                        this.context = project;
+                        updateUI();
+                    },
+                    error -> log.error("Ошибка загрузки проекта", error)
+            );
         } else {
             log.error("Context isn't an instance of Project");
         }
@@ -145,11 +161,12 @@ public class ProjectExtendedPageController implements Shutdownable, ContextAware
         this.completedTasksLabel.setText(String.valueOf(context.getCompletedTasks()));
         this.remainingTasksLabel.setText(String.valueOf(context.getRemainingTasks()));
         this.percentOfCompletionLabel.setText(context.getPercentOfCompletion() + "%");
+        this.progressBar.setProgress(context.getPercentOfCompletion() / 100.0);
     }
 
     @Override
     public void shutdown() {
-        TaskUpdateListener.unsubscribe(taskUpdateListener);
+        EventBus.getInstance().unsubscribe(TaskChangedEvent.class, taskUpdateListener);
 
         unregisterLoaderService(newTasksLoader);
         unregisterLoaderService(inProgressLoader);

@@ -1,0 +1,106 @@
+/* ============================================================
+   КАРТОЧКА ПРОЕКТА
+   ============================================================ */
+
+.project-card {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #e2e2dc;
+    -fx-border-width: 1px;
+    -fx-padding: 24px;
+    -fx-spacing: 16px;
+    -fx-cursor: hand;
+}
+
+.project-card:hover {
+    -fx-border-color: #c8c8c0;
+}
+
+/* ===== ЗАГОЛОВОК ===== */
+.project-card-title {
+    -fx-font-family: "Lora", Georgia, serif;  /* 👈 ТОЧНОЕ ИМЯ */
+    -fx-font-size: 24px;
+    -fx-text-fill: #111110;
+}
+
+.project-card-lead {
+    -fx-font-family: "Inter 18pt";  /* 👈 ТОЧНОЕ ИМЯ */
+    -fx-font-size: 13px;
+    -fx-text-fill: #9b9b95;
+}
+
+.project-card-percent {
+    -fx-font-family: "Lora", Georgia, serif;  /* 👈 ТОЧНОЕ ИМЯ */
+    -fx-font-size: 24px;
+    -fx-text-fill: #111110;
+}
+
+.project-card-percent-label {
+    -fx-font-family: "Inter 18pt SemiBold";
+    -fx-font-size: 12px;
+    -fx-text-fill: #9b9b95;
+}
+
+/* ===== ЦВЕТНАЯ ТОЧКА ===== */
+.project-card-dot {
+    -fx-min-width: 10px;
+    -fx-min-height: 10px;
+    -fx-max-width: 10px;
+    -fx-max-height: 10px;
+    -fx-background-radius: 5px;
+}
+
+/* ===== ПРОГРЕСС-БАР ===== */
+.project-card-progress {
+    -fx-pref-height: 2px;
+    -fx-min-height: 2px;
+    -fx-max-height: 2px;
+    -fx-background-color: #f0f0ec;
+}
+
+.project-card-progress .bar {
+    -fx-background-color: #1a3a8f;
+    -fx-background-radius: 0;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+/* ===== СТАТИСТИКА ===== */
+.project-card-stat-label {
+    -fx-font-family: "Inter 18pt";
+    -fx-font-size: 13px;
+    -fx-text-fill: #9b9b95;
+}
+
+.project-card-stat-value {
+    -fx-font-family: "Inter 18pt"
+    -fx-font-size: 16px;
+    -fx-text-fill: #111110;
+}
+
+/* ===== СПИСОК ЗАДАЧ ===== */
+.project-card-task {
+    -fx-font-family: "Inter 18pt";
+    -fx-font-size: 14px;
+    -fx-text-fill: #5a5a56;
+}
+
+.project-card-task-due {
+    -fx-font-family: "JetBrains Mono Regular";  /* 👈 ТОЧНОЕ ИМЯ */
+    -fx-font-size: 12px;
+    -fx-text-fill: #9b9b95;
+}
+
+.project-card-task-dot {
+    -fx-min-width: 4px;
+    -fx-min-height: 4px;
+    -fx-max-width: 4px;
+    -fx-max-height: 4px;
+    -fx-background-radius: 2px;
+}
+
+/* ===== ССЫЛКА "ОТКРЫТЬ" ===== */
+.project-card-link {
+    -fx-font-family: "JetBrains Mono Regular";  /* 👈 ТОЧНОЕ ИМЯ */
+    -fx-font-size: 12px;
+    -fx-text-fill: #9b9b95;
+}

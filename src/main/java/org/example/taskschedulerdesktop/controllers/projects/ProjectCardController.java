@@ -1,8 +1,8 @@
 package org.example.taskschedulerdesktop.controllers.projects;
 
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.VBox;
 import org.example.taskschedulerdesktop.config.AppConfig;
 import org.example.taskschedulerdesktop.controllers.Shutdownable;
@@ -24,47 +24,25 @@ public class ProjectCardController implements ContextAware, Shutdownable {
     private static final Logger log = LoggerFactory.getLogger(ProjectCardController.class);
     private final AsyncProjectService projectService;
 
-    @FXML
-    private VBox rootVBox;
+    @FXML private VBox rootVBox;
 
-    @FXML
-    private Label projectNameLabel;
+    @FXML private Label projectNameLabel;
 
-    @FXML
-    private Label projectSupervisorLabel;
+    @FXML private Label projectSupervisorLabel;
 
-    @FXML
-    private Label percentOfCompletionLabel;
+    @FXML private Label percentOfCompletionLabel;
 
-    @FXML
-    private Label numberOfTasksLabel;
+    @FXML private ProgressBar taskCompletionProgressBar;
 
-    @FXML
-    private Label completedTasksLabel;
+    @FXML private Label numberOfTasksLabel;
 
-    @FXML
-    private Label remainingTasksLabel;
+    @FXML private Label completedTasksLabel;
+
+    @FXML private Label remainingTasksLabel;
 
     private Project context;
     private Consumer<TaskChangedEvent> taskChangedListener;
 
-//    @FXML
-//    private Label firstTaskDescriptionLabel;
-//
-//    @FXML
-//    private Label firstTaskDeadlineLabel;
-//
-//    @FXML
-//    private Label secondTaskDescriptionLabel;
-//
-//    @FXML
-//    private Label secondTaskDeadlineLabel;
-//
-//    @FXML
-//    private Label thirdTaskDescriptionLabel;
-//
-//    @FXML
-//    private Label thirdTaskDeadlineLabel;
 
 
     public ProjectCardController(AsyncProjectService projectService) {
@@ -75,22 +53,6 @@ public class ProjectCardController implements ContextAware, Shutdownable {
     public void initialize() {
         log.debug("ProjectCardController.initialize(), hashCode = {}", this.hashCode());
         log.debug("context = {}", context);
-
-        taskChangedListener = event -> {
-            log.debug("TaskChangedEvent received: projectId={}", event.getProjectId());
-            log.debug("context = {}", context);
-            log.debug("context.getId() = {}", context != null ? context.getId() : "null");
-
-            if (context != null && Objects.equals(event.getProjectId(), context.getId())) {
-                log.debug("The event is coming up, updating the card");
-                log.debug("The task has changed, updating the project card");
-                refreshCard();
-            } else {
-                log.error("The event is not suitable");
-            }
-        };
-
-        EventBus.getInstance().subscribe(TaskChangedEvent.class, taskChangedListener);
     }
 
     @Override
@@ -100,6 +62,20 @@ public class ProjectCardController implements ContextAware, Shutdownable {
 
         if (context instanceof Project projectContext) {
             this.context = projectContext;
+
+            updateUI(projectContext);
+
+            taskChangedListener = event -> {
+                log.debug("TaskChangedEvent received: projectId={}", event.getProjectId());
+
+                if (Objects.equals(event.getProjectId(), projectContext.getId())) {
+                    refreshCard();
+                } else {
+                    log.error("The event is not suitable");
+                }
+            };
+
+            EventBus.getInstance().subscribe(TaskChangedEvent.class, taskChangedListener);
 
             rootVBox.setOnMouseClicked(event -> {
                 log.debug("Click on the card, context = {}", context);
@@ -112,11 +88,11 @@ public class ProjectCardController implements ContextAware, Shutdownable {
     }
 
     private void refreshCard() {
-        log.debug("refreshCard() called");
-        log.debug("context = {}", context);
+        log.debug("refreshCard(), context = {}", context);
 
         if (context == null) {
             log.error("context is null, unable to update the card");
+            return;
         }
 
         log.debug("context.getId() = {}", context.getId());
@@ -135,11 +111,15 @@ public class ProjectCardController implements ContextAware, Shutdownable {
         completedTasksLabel.setText(String.valueOf(project.getCompletedTasks()));
         remainingTasksLabel.setText(String.valueOf(project.getRemainingTasks()));
         percentOfCompletionLabel.setText(project.getPercentOfCompletion() + "%");
+        taskCompletionProgressBar.setProgress(project.getPercentOfCompletion() / 100.0);
     }
 
     @Override
     public void shutdown() {
-        EventBus.getInstance().unsubscribe(TaskChangedEvent.class, taskChangedListener);
+        if (taskChangedListener != null) {
+            EventBus.getInstance().unsubscribe(TaskChangedEvent.class, taskChangedListener);
+            log.debug("Unsubscribed from TaskChangedEvent");
+        }
     }
 
     public Label getProjectNameLabel() {

@@ -15,7 +15,7 @@
    <children>
       <VBox minWidth="0.0">
          <children>
-            <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="720.0" stylesheets="@../styles/style.css" VBox.vgrow="ALWAYS">
+            <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="720.0" VBox.vgrow="ALWAYS">
                <VBox.margin>
                   <Insets />
                </VBox.margin>
@@ -79,35 +79,35 @@
                                     </VBox>
                                  </children>
                               </HBox>
-                              <ProgressBar maxWidth="1.7976931348623157E308" progress="0.0" />
+                              <ProgressBar fx:id="progressBar" maxWidth="1.7976931348623157E308" minHeight="20.0" progress="0.75" />
                            </children>
                         </VBox>
                         <HBox>
                            <children>
                               <VBox>
                                  <children>
-                                    <HBox spacing="10.0">
+                                    <HBox spacing="20.0">
                                        <children>
                                           <Label text="В РАБОТЕ" />
                                           <ProgressIndicator fx:id="tasksInProgressLoadingIndicator" prefHeight="15.0" prefWidth="15.0" visible="false" />
                                        </children>
                                     </HBox>
                                     <VBox fx:id="tasksInProgressVBox" />
-                                    <HBox spacing="10.0">
+                                    <HBox spacing="20.0">
                                        <children>
                                           <Label text="НА ПРОВЕРКЕ" />
                                           <ProgressIndicator fx:id="tasksUnderReviewLoadingIndicator" prefHeight="15.0" prefWidth="15.0" visible="false" />
                                        </children>
                                     </HBox>
                                     <VBox fx:id="tasksUnderReviewVBox" />
-                                    <HBox spacing="10.0">
+                                    <HBox spacing="20.0">
                                        <children>
                                           <Label text="ЗАВЕРШЕНО" />
                                           <ProgressIndicator fx:id="completedTasksLoadingIndicator" prefHeight="15.0" prefWidth="15.0" visible="false" />
                                        </children>
                                     </HBox>
                                     <VBox fx:id="completedTasksVBox" />
-                                    <HBox spacing="10.0">
+                                    <HBox spacing="20.0">
                                        <children>
                                           <Label text="К ВЫПОЛНЕНИЮ" />
                                           <ProgressIndicator fx:id="newTasksLoadingIndicator" prefHeight="15.0" prefWidth="15.0" visible="false" />

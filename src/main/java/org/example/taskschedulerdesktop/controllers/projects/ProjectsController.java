@@ -15,7 +15,7 @@ import org.example.taskschedulerdesktop.service.project.AsyncProjectService;
 
 import java.util.List;
 
-public class ProjectController implements Shutdownable {
+public class ProjectsController implements Shutdownable {
 
     private final AsyncProjectService projectService;
     private final Service<List<Node>> projectsLoader;
@@ -25,7 +25,7 @@ public class ProjectController implements Shutdownable {
     @FXML private FlowPane projectsFlowPane;
     @FXML private ProgressIndicator projectsLoadingIndicator;
 
-    public ProjectController(AsyncProjectService projectService) {
+    public ProjectsController(AsyncProjectService projectService) {
         this.projectService = projectService;
         projectsLoader = projectService.createProjectsLoader();
 

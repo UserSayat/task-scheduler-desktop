@@ -3,6 +3,8 @@ package org.example.taskschedulerdesktop.service.task;
 import javafx.concurrent.Service;
 import javafx.scene.Node;
 import org.example.taskschedulerdesktop.dto.TaskView;
+import org.example.taskschedulerdesktop.listeners.EventBus;
+import org.example.taskschedulerdesktop.listeners.TaskChangedEvent;
 import org.example.taskschedulerdesktop.models.Task;
 import org.example.taskschedulerdesktop.utils.TaskStatus;
 import org.slf4j.Logger;
@@ -64,7 +66,7 @@ public class AsyncTaskService {
                         }
 
                         List<TaskView> tasks = delegate.findViewByStatus(status);
-                        List<Node> newCards = taskCardService.createCards(tasks);
+                        List<Node> newCards = taskCardService.createCardsForProjectExtendedPage(tasks);
 
                         cachedCards.clear();
                         cachedCards.addAll(newCards);
@@ -104,6 +106,31 @@ public class AsyncTaskService {
         executor.submit(task);
     }
 
+    public void findAllTasksView(Consumer<List<TaskView>> onSuccess, Consumer<Throwable> onError) {
+        javafx.concurrent.Task<List<TaskView>> task = new javafx.concurrent.Task<>() {
+            @Override
+            protected List<TaskView> call() throws Exception {
+                return delegate.findAllViews();
+            }
+        };
+
+        if (onSuccess != null) {
+            task.setOnSucceeded(event -> {
+                log.debug("onSucceeded returned: {} tasks", task.getValue().size());
+                onSuccess.accept(task.getValue());
+            });
+        }
+
+        if (onError != null) {
+            task.setOnFailed(event -> {
+                log.error("onFailed: {}", task.getException().getMessage());
+                onError.accept(task.getException());
+            });
+        }
+
+        executor.submit(task);
+    }
+
     /**
      * Фоновое обновление параметров или статуса задачи в БД.
      */
@@ -117,7 +144,8 @@ public class AsyncTaskService {
         };
 
         if (onSuccess != null) task.setOnSucceeded(event -> {
-            invalidateCache(taskToUpdate.getStatus());
+            invalidateAllCache();
+            EventBus.getInstance().fire(new TaskChangedEvent(taskToUpdate.getProjectId(), taskToUpdate.getTaskName()));
             onSuccess.run();
         });
         if (onError != null) task.setOnFailed(e -> onError.accept(task.getException()));
