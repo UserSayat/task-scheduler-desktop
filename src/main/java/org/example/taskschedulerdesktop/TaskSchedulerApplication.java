@@ -19,6 +19,7 @@ public class TaskSchedulerApplication extends Application {
     private static final Logger log = LoggerFactory.getLogger(TaskSchedulerApplication.class);
 
     private static final String[] STYLES = {
+            "/org/example/taskschedulerdesktop/styles/style.css",
             "/org/example/taskschedulerdesktop/styles/base.css",
             "/org/example/taskschedulerdesktop/styles/project-card.css",
             "/org/example/taskschedulerdesktop/styles/row_task_table.css",

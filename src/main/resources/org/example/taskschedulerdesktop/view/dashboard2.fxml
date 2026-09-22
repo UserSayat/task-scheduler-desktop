@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<ScrollPane fitToWidth="true" styleClass="scroll-pane-clean"
+            fx:controller="com.taskflow.controller.DashboardController"
+            xmlns:fx="http://javafx.com/fxml/1">
+    <VBox spacing="16" styleClass="content-area">
+
+        <!-- Статистика -->
+        <GridPane hgap="12" vgap="0">
+            <columnConstraints>
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="25"/>
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="25"/>
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="25"/>
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="25"/>
+            </columnConstraints>
+
+            <!-- Всего -->
+            <StackPane GridPane.columnIndex="0" styleClass="card">
+                <VBox spacing="4">
+                    <Label text="010" styleClass="stat-mono" style="-fx-alignment:TOP_RIGHT;"/>
+                    <Label fx:id="statAll" text="10" styleClass="stat-number"/>
+                    <Label text="Всего задач"   styleClass="stat-label"/>
+                    <Label text="активных проектов: 4" styleClass="stat-sub"/>
+                </VBox>
+            </StackPane>
+
+            <!-- В работе -->
+            <StackPane GridPane.columnIndex="1" styleClass="card">
+                <VBox spacing="4">
+                    <Label text="002" styleClass="stat-mono"/>
+                    <Label fx:id="statInProgress" text="3" styleClass="stat-number"/>
+                    <Label text="В работе"        styleClass="stat-label"/>
+                    <Label text="требуют внимания" styleClass="stat-sub"/>
+                </VBox>
+            </StackPane>
+
+            <!-- На проверке -->
+            <StackPane GridPane.columnIndex="2" styleClass="card">
+                <VBox spacing="4">
+                    <Label text="003" styleClass="stat-mono"/>
+                    <Label fx:id="statReview" text="2" styleClass="stat-number"/>
+                    <Label text="На проверке"     styleClass="stat-label"/>
+                    <Label text="ожидают решения" styleClass="stat-sub"/>
+                </VBox>
+            </StackPane>
+
+            <!-- Завершено -->
+            <StackPane GridPane.columnIndex="3" styleClass="card">
+                <VBox spacing="4">
+                    <Label text="004" styleClass="stat-mono"/>
+                    <Label fx:id="statDone" text="2" styleClass="stat-number"/>
+                    <Label text="Завершено"        styleClass="stat-label"/>
+                    <Label text="за текущий спринт" styleClass="stat-sub"/>
+                </VBox>
+            </StackPane>
+        </GridPane>
+
+        <!-- Прогресс проектов + дедлайны -->
+        <GridPane hgap="12">
+            <columnConstraints>
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="67"/>
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="33"/>
+            </columnConstraints>
+
+            <!-- Прогресс проектов -->
+            <VBox GridPane.columnIndex="0" styleClass="card" spacing="0">
+                <HBox alignment="CENTER_LEFT" spacing="8" style="-fx-padding: 0 0 16 0;">
+                    <Label text="Проекты" styleClass="card-title" HBox.hgrow="ALWAYS"/>
+                    <Label text="прогресс выполнения" styleClass="section-mono"/>
+                </HBox>
+
+                <!-- Редизайн портала -->
+                <VBox spacing="6" style="-fx-padding: 0 0 14 0;">
+                    <HBox alignment="CENTER_LEFT" spacing="8">
+                        <Region styleClass="dot-blue" HBox.hgrow="NEVER"/>
+                        <Label text="Редизайн портала" style="-fx-font-weight:600;-fx-font-size:13px;" HBox.hgrow="ALWAYS"/>
+                        <Label text="/А.К." styleClass="section-mono"/>
+                        <Label text="13/18 задач" style="-fx-font-size:11px;-fx-text-fill:#9b9b95;"/>
+                        <Label text="72%" style="-fx-font-family:'Courier New';-fx-font-size:11px;"/>
+                    </HBox>
+                    <ProgressBar progress="0.72" maxWidth="Infinity" styleClass="progress-thin"
+                                 style="-fx-accent:#1a3a8f;"/>
+                </VBox>
+
+                <!-- Миграция CRM -->
+                <VBox spacing="6" style="-fx-padding: 0 0 14 0;">
+                    <HBox alignment="CENTER_LEFT" spacing="8">
+                        <Region styleClass="dot-violet" HBox.hgrow="NEVER"/>
+                        <Label text="Миграция CRM" style="-fx-font-weight:600;-fx-font-size:13px;" HBox.hgrow="ALWAYS"/>
+                        <Label text="/М.В." styleClass="section-mono"/>
+                        <Label text="10/24 задач" style="-fx-font-size:11px;-fx-text-fill:#9b9b95;"/>
+                        <Label text="41%" style="-fx-font-family:'Courier New';-fx-font-size:11px;"/>
+                    </HBox>
+                    <ProgressBar progress="0.41" maxWidth="Infinity" styleClass="progress-thin"
+                                 style="-fx-accent:#7c3aed;"/>
+                </VBox>
+
+                <!-- Мобильное приложение -->
+                <VBox spacing="6" style="-fx-padding: 0 0 14 0;">
+                    <HBox alignment="CENTER_LEFT" spacing="8">
+                        <Region styleClass="dot-teal" HBox.hgrow="NEVER"/>
+                        <Label text="Мобильное приложение" style="-fx-font-weight:600;-fx-font-size:13px;" HBox.hgrow="ALWAYS"/>
+                        <Label text="/Е.Н." styleClass="section-mono"/>
+                        <Label text="27/31 задач" style="-fx-font-size:11px;-fx-text-fill:#9b9b95;"/>
+                        <Label text="88%" style="-fx-font-family:'Courier New';-fx-font-size:11px;"/>
+                    </HBox>
+                    <ProgressBar progress="0.88" maxWidth="Infinity" styleClass="progress-thin"
+                                 style="-fx-accent:#0f766e;"/>
+                </VBox>
+
+                <!-- Отчётность Q3 -->
+                <VBox spacing="6">
+                    <HBox alignment="CENTER_LEFT" spacing="8">
+                        <Region styleClass="dot-amber" HBox.hgrow="NEVER"/>
+                        <Label text="Отчётность Q3" style="-fx-font-weight:600;-fx-font-size:13px;" HBox.hgrow="ALWAYS"/>
+                        <Label text="/П.С." styleClass="section-mono"/>
+                        <Label text="2/12 задач" style="-fx-font-size:11px;-fx-text-fill:#9b9b95;"/>
+                        <Label text="15%" style="-fx-font-family:'Courier New';-fx-font-size:11px;"/>
+                    </HBox>
+                    <ProgressBar progress="0.15" maxWidth="Infinity" styleClass="progress-thin"
+                                 style="-fx-accent:#92400e;"/>
+                </VBox>
+            </VBox>
+
+            <!-- Дедлайны -->
+            <VBox GridPane.columnIndex="1" styleClass="card" spacing="0">
+                <HBox alignment="CENTER_LEFT" style="-fx-padding: 0 0 14 0;">
+                    <Label text="Дедлайны" styleClass="card-title" HBox.hgrow="ALWAYS"/>
+                    <Label text="ближайшие" styleClass="section-mono"/>
+                </HBox>
+
+                <VBox fx:id="deadlinesList" spacing="0">
+                    <!-- Элементы добавляются контроллером -->
+                    <HBox styleClass="deadline-row" spacing="10" alignment="CENTER_LEFT">
+                        <StackPane styleClass="avatar-box">
+                            <Label text="АК" styleClass="avatar-text"/>
+                        </StackPane>
+                        <VBox HBox.hgrow="ALWAYS" spacing="2">
+                            <Label text="Утвердить макеты" styleClass="deadline-title" wrapText="true"/>
+                            <Label text="03 авг" styleClass="deadline-date"/>
+                        </VBox>
+                    </HBox>
+                    <HBox styleClass="deadline-row" spacing="10" alignment="CENTER_LEFT">
+                        <StackPane styleClass="avatar-box">
+                            <Label text="МВ" styleClass="avatar-text"/>
+                        </StackPane>
+                        <VBox HBox.hgrow="ALWAYS" spacing="2">
+                            <Label text="Интеграция с 1С" styleClass="deadline-title" wrapText="true"/>
+                            <Label text="05 авг" styleClass="deadline-date"/>
+                        </VBox>
+                    </HBox>
+                    <HBox styleClass="deadline-row" spacing="10" alignment="CENTER_LEFT">
+                        <StackPane styleClass="avatar-box">
+                            <Label text="ЕН" styleClass="avatar-text"/>
+                        </StackPane>
+                        <VBox HBox.hgrow="ALWAYS" spacing="2">
+                            <Label text="Push-уведомления" styleClass="deadline-title" wrapText="true"/>
+                            <Label text="04 авг" styleClass="deadline-date"/>
+                        </VBox>
+                    </HBox>
+                    <HBox styleClass="deadline-row" spacing="10" alignment="CENTER_LEFT">
+                        <StackPane styleClass="avatar-box">
+                            <Label text="ПС" styleClass="avatar-text"/>
+                        </StackPane>
+                        <VBox HBox.hgrow="ALWAYS" spacing="2">
+                            <Label text="Данные по выручке" styleClass="deadline-title" wrapText="true"/>
+                            <Label text="10 авг" styleClass="deadline-date"/>
+                        </VBox>
+                    </HBox>
+                    <HBox styleClass="deadline-row" spacing="10" alignment="CENTER_LEFT">
+                        <StackPane styleClass="avatar-box">
+                            <Label text="АК" styleClass="avatar-text"/>
+                        </StackPane>
+                        <VBox HBox.hgrow="ALWAYS" spacing="2">
+                            <Label text="Оптимизация изображений" styleClass="deadline-title" wrapText="true"/>
+                            <Label text="06 авг" styleClass="deadline-date"/>
+                        </VBox>
+                    </HBox>
+                </VBox>
+            </VBox>
+        </GridPane>
+
+        <!-- Таблица последних задач -->
+        <VBox styleClass="card" spacing="0">
+            <HBox alignment="CENTER_LEFT" style="-fx-padding:0 0 12 0;">
+                <Label text="Последние задачи" styleClass="card-title" HBox.hgrow="ALWAYS"/>
+                <Label text="6 из 10" styleClass="section-mono"/>
+            </HBox>
+            <TableView fx:id="dashTable" styleClass="task-table" prefHeight="280">
+                <columns>
+                    <TableColumn text="#"           prefWidth="46"  fx:id="colDashIdx"/>
+                    <TableColumn text="ЗАДАЧА"      prefWidth="300" fx:id="colDashTitle"/>
+                    <TableColumn text="ИСПОЛНИТЕЛЬ" prefWidth="130" fx:id="colDashAssignee"/>
+                    <TableColumn text="ПРИОРИТЕТ"   prefWidth="100" fx:id="colDashPriority"/>
+                    <TableColumn text="СТАТУС"      prefWidth="120" fx:id="colDashStatus"/>
+                    <TableColumn text="СРОК"        prefWidth="80"  fx:id="colDashDue"/>
+                </columns>
+            </TableView>
+        </VBox>
+
+    </VBox>
+</ScrollPane>

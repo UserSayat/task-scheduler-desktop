@@ -1,73 +1,91 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Region?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<StackPane fx:id="globalStackPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="600.0" minWidth="900.0" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.taskschedulerdesktop.controllers.MainController">
-   <children>
-      <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
-         <left>
-            <VBox maxWidth="-Infinity" minWidth="200.0" prefWidth="200.0" style="-fx-background-color: #000;" BorderPane.alignment="CENTER">
-               <children>
-                  <VBox fx:id="navigationMenu" prefHeight="200.0" prefWidth="100.0">
-                     <children>
-                        <Button fx:id="reviewButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Обзор" />
-                        <Button fx:id="tasksButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Задачи" />
-                        <Button fx:id="projectsButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Проекты" />
-                        <Button fx:id="teamButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Команда" />
-                     </children>
-                  </VBox>
-               </children>
+<StackPane fx:id="globalStackPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+           minHeight="600.0" minWidth="900.0" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="org.example.taskschedulerdesktop.controllers.MainController">
+    <BorderPane>
+        <left>
+            <VBox styleClass="sidebar">
+                <!-- Логотип -->
+                <VBox styleClass="sidebar-logo-box">
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <StackPane styleClass="logo-icon">
+                            <Label text="TF" style="-fx-text-fill:white;-fx-font-size:10px;-fx-font-weight:bold;"/>
+                        </StackPane>
+                        <VBox spacing="2">
+                            <Label text="TaskFlow" styleClass="logo-text"/>
+                            <Label text="КОРПОРАТИВНЫЙ ПОРТАЛ" styleClass="logo-sub"/>
+                        </VBox>
+                    </HBox>
+                </VBox>
+
+                <!-- Навигация -->
+                <VBox VBox.vgrow="ALWAYS">
+                    <Label text="НАВИГАЦИЯ" styleClass="nav-section-label"/>
+                    <Button fx:id="reviewButton" text="Обзор" maxWidth="Infinity"
+                            styleClass="nav-btn, nav-btn-active"/>
+                    <Button fx:id="tasksButton" text="Задачи" maxWidth="Infinity"
+                            styleClass="nav-btn"/>
+                    <Button fx:id="projectsButton" text="Проекты" maxWidth="Infinity"
+                            styleClass="nav-btn"/>
+                    <Button fx:id="teamButton" text="Команда" maxWidth="Infinity"
+                            styleClass="nav-btn"/>
+
+                    <Label text="ПРОЕКТЫ" styleClass="nav-section-label"/>
+                    <Button text="● Редизайн портала"
+                            maxWidth="Infinity" styleClass="nav-project-btn"/>
+                    <!--                                onAction="#showProjects"/>-->
+                    <Button text="● Миграция CRM"
+                            maxWidth="Infinity" styleClass="nav-project-btn"/>
+                    <!--                                onAction="#showProjects"/>-->
+                    <Button text="● Мобильное приложение"
+                            maxWidth="Infinity" styleClass="nav-project-btn"/>
+                    <!--                                onAction="#showProjects"/>-->
+                    <Button text="● Отчётность Q3"
+                            maxWidth="Infinity" styleClass="nav-project-btn"/>
+                    <!--                                onAction="#showProjects"/>-->
+                    <Region VBox.vgrow="ALWAYS"/>
+                </VBox>
+
+                <!-- Пользователь -->
+                <HBox styleClass="sidebar-user-box" spacing="10" alignment="CENTER_LEFT">
+                    <StackPane styleClass="avatar-box-rm">
+                        <Label text="РМ" styleClass="avatar-text"/>
+                    </StackPane>
+                    <VBox spacing="2">
+                        <Label text="Роман Михайлов" styleClass="user-name"/>
+                        <Label text="Руководитель" styleClass="user-role"/>
+                    </VBox>
+                </HBox>
             </VBox>
-         </left>
-         <center>
-            <StackPane fx:id="contentArea" prefWidth="1040.0" BorderPane.alignment="CENTER" />
-         </center>
-         <top>
-            <HBox alignment="CENTER_LEFT" prefHeight="80.0" spacing="10.0" style="-fx-background-color: #ffffff;" BorderPane.alignment="CENTER">
-               <children>
-                  <Region prefWidth="200.0" style="-fx-background-color: #000;" />
-                  <Region />
-                  <Button fx:id="backButton" mnemonicParsing="false" text="&lt;- Назад" />
-                  <VBox alignment="CENTER_LEFT">
-                     <children>
-                        <Label fx:id="pageTitleLabel" text="Обзор">
-                           <font>
-                              <Font name="Times New Roman" size="25.0" />
-                           </font>
-                        </Label>
-                        <Label text="воскресенье, 2 августа 2026 г.">
-                           <font>
-                              <Font name="Arial" size="12.0" />
-                           </font>
-                        </Label>
-                     </children>
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                  </VBox>
-                  <Region HBox.hgrow="ALWAYS" />
-                  <Button fx:id="createTaskButton" mnemonicParsing="false" text="+ Новая задача" />
-                  <TextField text="Поиск задач..." />
-               </children>
-               <BorderPane.margin>
-                  <Insets />
-               </BorderPane.margin>
-               <padding>
-                  <Insets right="20.0" />
-               </padding>
-            </HBox>
-         </top>
-      </BorderPane>
-   </children>
+        </left>
+
+        <center>
+            <VBox>
+                <!-- Хедер -->
+                <HBox styleClass="topbar" spacing="12" alignment="CENTER_LEFT">
+                    <Button fx:id="backButton" mnemonicParsing="false" text="&lt;- Назад"/>
+                    <VBox spacing="2" HBox.hgrow="ALWAYS">
+                        <Label fx:id="pageTitleLabel" text="Обзор" styleClass="page-title"/>
+                        <!--                            <Label fx:id="pageDate"  styleClass="page-date"/>-->
+                    </VBox>
+                    <Button fx:id="createTaskButton" text="+ Новая задача"
+                            styleClass="btn-secondary"/>
+                    <!--                        <TextField fx:id="searchField" promptText="Поиск задач..."-->
+                    <!--                                   styleClass="search-field"/>-->
+                </HBox>
+
+                <!-- Динамическая область -->
+                <StackPane fx:id="contentArea" VBox.vgrow="ALWAYS"
+                           style="-fx-background-color:#f6f6f4;"/>
+            </VBox>
+        </center>
+    </BorderPane>
 </StackPane>
-
-

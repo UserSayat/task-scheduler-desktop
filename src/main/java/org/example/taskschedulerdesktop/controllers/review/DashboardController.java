@@ -10,9 +10,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-public class ReviewController {
+public class DashboardController {
 
-    private static final Logger log = LoggerFactory.getLogger(ReviewController.class);
+    private static final Logger log = LoggerFactory.getLogger(DashboardController.class);
 
     @FXML private VBox taskTableContainerVBox;
 
