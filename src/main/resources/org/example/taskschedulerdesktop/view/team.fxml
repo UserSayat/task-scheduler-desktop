@@ -1,22 +1,243 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.layout.FlowPane?>
-<?import javafx.scene.layout.VBox?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<VBox minWidth="0.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.taskschedulerdesktop.controllers.team.TeamController">
-   <children>
-      <ScrollPane fitToWidth="true" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="720.0" VBox.vgrow="ALWAYS">
-         <content>
-            <FlowPane fx:id="teamFlowPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
-               <padding>
-                  <Insets bottom="30.0" left="40.0" right="40.0" top="30.0" />
-               </padding></FlowPane>
-         </content>
-         <VBox.margin>
-            <Insets />
-         </VBox.margin>
-      </ScrollPane>
-   </children>
-</VBox>
+<ScrollPane fitToWidth="true" styleClass="scroll-pane-clean"
+            fx:controller="org.example.taskschedulerdesktop.controllers.team.TeamController"
+            xmlns:fx="http://javafx.com/fxml/1">
+    <TilePane styleClass="content-area"
+              hgap="12"
+              vgap="12"
+              prefTileWidth="300"
+              prefTileHeight="200"
+              alignment="CENTER">
+        <!-- Алексей Козлов -->
+        <VBox styleClass="team-card" spacing="12">
+            <HBox spacing="12" alignment="CENTER_LEFT">
+                <StackPane>
+                    <StackPane styleClass="avatar-box-lg">
+                        <Label text="АК" styleClass="avatar-text-lg"/>
+                    </StackPane>
+                    <Region styleClass="online-dot" StackPane.alignment="BOTTOM_RIGHT"
+                            style="-fx-translate-x:2; -fx-translate-y:2;"/>
+                </StackPane>
+                <VBox spacing="2">
+                    <Label text="Алексей Козлов"        styleClass="team-name"/>
+                    <Label text="Фронтенд-разработчик"  styleClass="team-role"/>
+                </VBox>
+            </HBox>
+            <GridPane hgap="8">
+                <columnConstraints>
+                    <ColumnConstraints hgrow="ALWAYS" percentWidth="50"/>
+                    <ColumnConstraints hgrow="ALWAYS" percentWidth="50"/>
+                </columnConstraints>
+                <VBox GridPane.columnIndex="0" styleClass="mini-stat-box" alignment="CENTER" spacing="2">
+                    <Label text="2" styleClass="mini-stat-val"/>
+                    <Label text="задач" styleClass="mini-stat-lbl"/>
+                </VBox>
+                <VBox GridPane.columnIndex="1" styleClass="mini-stat-box" alignment="CENTER" spacing="2">
+                    <Label text="0" styleClass="mini-stat-val"/>
+                    <Label text="готово" styleClass="mini-stat-lbl"/>
+                </VBox>
+            </GridPane>
+            <VBox spacing="5">
+                <HBox spacing="6" alignment="CENTER_LEFT">
+                    <Region style="-fx-background-color:#b91c1c;-fx-min-width:6;-fx-min-height:6;-fx-max-width:6;-fx-max-height:6;-fx-background-radius:3;"/>
+                    <Label text="Утвердить макеты" style="-fx-font-size:11px;-fx-text-fill:#5a5a56;" wrapText="true"/>
+                </HBox>
+                <HBox spacing="6" alignment="CENTER_LEFT">
+                    <Region style="-fx-background-color:#92400e;-fx-min-width:6;-fx-min-height:6;-fx-max-width:6;-fx-max-height:6;-fx-background-radius:3;"/>
+                    <Label text="Оптимизация изображений" style="-fx-font-size:11px;-fx-text-fill:#5a5a56;" wrapText="true"/>
+                </HBox>
+            </VBox>
+        </VBox>
+        <!-- Мария Волкова -->
+        <VBox styleClass="team-card" spacing="12">
+            <HBox spacing="12" alignment="CENTER_LEFT">
+                <StackPane styleClass="avatar-box-lg">
+                    <Label text="МВ" styleClass="avatar-text-lg"/>
+                </StackPane>
+                <VBox spacing="2">
+                    <Label text="Мария Волкова"      styleClass="team-name"/>
+                    <Label text="Backend-разработчик" styleClass="team-role"/>
+                </VBox>
+            </HBox>
+            <GridPane hgap="8">
+                <columnConstraints>
+                    <ColumnConstraints hgrow="ALWAYS" percentWidth="50"/>
+                    <ColumnConstraints hgrow="ALWAYS" percentWidth="50"/>
+                </columnConstraints>
+                <VBox GridPane.columnIndex="0" styleClass="mini-stat-box" alignment="CENTER" spacing="2">
+                    <Label text="2" styleClass="mini-stat-val"/>
+                    <Label text="задач" styleClass="mini-stat-lbl"/>
+                </VBox>
+                <VBox GridPane.columnIndex="1" styleClass="mini-stat-box" alignment="CENTER" spacing="2">
+                    <Label text="0" styleClass="mini-stat-val"/>
+                    <Label text="готово" styleClass="mini-stat-lbl"/>
+                </VBox>
+            </GridPane>
+            <VBox spacing="5">
+                <HBox spacing="6" alignment="CENTER_LEFT">
+                    <Region style="-fx-background-color:#b91c1c;-fx-min-width:6;-fx-min-height:6;-fx-max-width:6;-fx-max-height:6;-fx-background-radius:3;"/>
+                    <Label text="Интеграция с 1С" style="-fx-font-size:11px;-fx-text-fill:#5a5a56;"/>
+                </HBox>
+                <HBox spacing="6" alignment="CENTER_LEFT">
+                    <Region style="-fx-background-color:#92400e;-fx-min-width:6;-fx-min-height:6;-fx-max-width:6;-fx-max-height:6;-fx-background-radius:3;"/>
+                    <Label text="Документация API" style="-fx-font-size:11px;-fx-text-fill:#5a5a56;"/>
+                </HBox>
+            </VBox>
+        </VBox>
+        <!-- Елена Никитина -->
+        <VBox styleClass="team-card" spacing="12">
+            <HBox spacing="12" alignment="CENTER_LEFT">
+                <StackPane styleClass="avatar-box-lg">
+                    <Label text="ЕН" styleClass="avatar-text-lg"/>
+                </StackPane>
+                <VBox spacing="2">
+                    <Label text="Елена Никитина" styleClass="team-name"/>
+                    <Label text="QA-инженер"     styleClass="team-role"/>
+                </VBox>
+            </HBox>
+            <GridPane hgap="8">
+                <columnConstraints>
+                    <ColumnConstraints hgrow="ALWAYS" percentWidth="50"/>
+                    <ColumnConstraints hgrow="ALWAYS" percentWidth="50"/>
+                </columnConstraints>
+                <VBox GridPane.columnIndex="0" styleClass="mini-stat-box" alignment="CENTER" spacing="2">
+                    <Label text="2" styleClass="mini-stat-val"/>
+                    <Label text="задач" styleClass="mini-stat-lbl"/>
+                </VBox>
+                <VBox GridPane.columnIndex="1" styleClass="mini-stat-box" alignment="CENTER" spacing="2">
+                    <Label text="1" styleClass="mini-stat-val"/>
+                    <Label text="готово" styleClass="mini-stat-lbl"/>
+                </VBox>
+            </GridPane>
+            <VBox spacing="5">
+                <HBox spacing="6" alignment="CENTER_LEFT">
+                    <Region style="-fx-background-color:#92400e;-fx-min-width:6;-fx-min-height:6;-fx-max-width:6;-fx-max-height:6;-fx-background-radius:3;"/>
+                    <Label text="Push-уведомления" style="-fx-font-size:11px;-fx-text-fill:#5a5a56;"/>
+                </HBox>
+                <HBox spacing="6" alignment="CENTER_LEFT">
+                    <Region style="-fx-background-color:#14532d;-fx-min-width:6;-fx-min-height:6;-fx-max-width:6;-fx-max-height:6;-fx-background-radius:3;"/>
+                    <Label text="Релиз бета-версии 2.1" style="-fx-font-size:11px;-fx-text-fill:#5a5a56;"/>
+                </HBox>
+            </VBox>
+        </VBox>
+        <!-- Павел Сорокин -->
+        <VBox styleClass="team-card" spacing="12">
+            <HBox spacing="12" alignment="CENTER_LEFT">
+                <StackPane>
+                    <StackPane styleClass="avatar-box-lg">
+                        <Label text="ПС" styleClass="avatar-text-lg"/>
+                    </StackPane>
+                    <Region styleClass="online-dot" StackPane.alignment="BOTTOM_RIGHT"
+                            style="-fx-translate-x:2; -fx-translate-y:2;"/>
+                </StackPane>
+                <VBox spacing="2">
+                    <Label text="Павел Сорокин"    styleClass="team-name"/>
+                    <Label text="Аналитик данных"  styleClass="team-role"/>
+                </VBox>
+            </HBox>
+            <GridPane hgap="8">
+                <columnConstraints>
+                    <ColumnConstraints hgrow="ALWAYS" percentWidth="50"/>
+                    <ColumnConstraints hgrow="ALWAYS" percentWidth="50"/>
+                </columnConstraints>
+                <VBox GridPane.columnIndex="0" styleClass="mini-stat-box" alignment="CENTER" spacing="2">
+                    <Label text="2" styleClass="mini-stat-val"/>
+                    <Label text="задач" styleClass="mini-stat-lbl"/>
+                </VBox>
+                <VBox GridPane.columnIndex="1" styleClass="mini-stat-box" alignment="CENTER" spacing="2">
+                    <Label text="0" styleClass="mini-stat-val"/>
+                    <Label text="готово" styleClass="mini-stat-lbl"/>
+                </VBox>
+            </GridPane>
+            <VBox spacing="5">
+                <HBox spacing="6" alignment="CENTER_LEFT">
+                    <Region style="-fx-background-color:#b91c1c;-fx-min-width:6;-fx-min-height:6;-fx-max-width:6;-fx-max-height:6;-fx-background-radius:3;"/>
+                    <Label text="Данные по выручке" style="-fx-font-size:11px;-fx-text-fill:#5a5a56;"/>
+                </HBox>
+                <HBox spacing="6" alignment="CENTER_LEFT">
+                    <Region style="-fx-background-color:#14532d;-fx-min-width:6;-fx-min-height:6;-fx-max-width:6;-fx-max-height:6;-fx-background-radius:3;"/>
+                    <Label text="Согласовать KPI" style="-fx-font-size:11px;-fx-text-fill:#5a5a56;"/>
+                </HBox>
+            </VBox>
+        </VBox>
+        <!-- Дмитрий Лебедев -->
+        <VBox styleClass="team-card" spacing="12">
+            <HBox spacing="12" alignment="CENTER_LEFT">
+                <StackPane styleClass="avatar-box-lg">
+                    <Label text="ДЛ" styleClass="avatar-text-lg"/>
+                </StackPane>
+                <VBox spacing="2">
+                    <Label text="Дмитрий Лебедев"    styleClass="team-name"/>
+                    <Label text="Backend-разработчик" styleClass="team-role"/>
+                </VBox>
+            </HBox>
+            <GridPane hgap="8">
+                <columnConstraints>
+                    <ColumnConstraints hgrow="ALWAYS" percentWidth="50"/>
+                    <ColumnConstraints hgrow="ALWAYS" percentWidth="50"/>
+                </columnConstraints>
+                <VBox GridPane.columnIndex="0" styleClass="mini-stat-box" alignment="CENTER" spacing="2">
+                    <Label text="2" styleClass="mini-stat-val"/>
+                    <Label text="задач" styleClass="mini-stat-lbl"/>
+                </VBox>
+                <VBox GridPane.columnIndex="1" styleClass="mini-stat-box" alignment="CENTER" spacing="2">
+                    <Label text="0" styleClass="mini-stat-val"/>
+                    <Label text="готово" styleClass="mini-stat-lbl"/>
+                </VBox>
+            </GridPane>
+            <VBox spacing="5">
+                <HBox spacing="6" alignment="CENTER_LEFT">
+                    <Region style="-fx-background-color:#b91c1c;-fx-min-width:6;-fx-min-height:6;-fx-max-width:6;-fx-max-height:6;-fx-background-radius:3;"/>
+                    <Label text="Перенос базы клиентов" style="-fx-font-size:11px;-fx-text-fill:#5a5a56;"/>
+                </HBox>
+                <HBox spacing="6" alignment="CENTER_LEFT">
+                    <Region style="-fx-background-color:#92400e;-fx-min-width:6;-fx-min-height:6;-fx-max-width:6;-fx-max-height:6;-fx-background-radius:3;"/>
+                    <Label text="Документация API" style="-fx-font-size:11px;-fx-text-fill:#5a5a56;"/>
+                </HBox>
+            </VBox>
+        </VBox>
+        <!-- Ирина Фёдорова -->
+        <VBox styleClass="team-card" spacing="12">
+            <HBox spacing="12" alignment="CENTER_LEFT">
+                <StackPane>
+                    <StackPane styleClass="avatar-box-lg">
+                        <Label text="ИФ" styleClass="avatar-text-lg"/>
+                    </StackPane>
+                    <Region styleClass="online-dot" StackPane.alignment="BOTTOM_RIGHT"
+                            style="-fx-translate-x:2; -fx-translate-y:2;"/>
+                </StackPane>
+                <VBox spacing="2">
+                    <Label text="Ирина Фёдорова" styleClass="team-name"/>
+                    <Label text="UI/UX Дизайнер" styleClass="team-role"/>
+                </VBox>
+            </HBox>
+            <GridPane hgap="8">
+                <columnConstraints>
+                    <ColumnConstraints hgrow="ALWAYS" percentWidth="50"/>
+                    <ColumnConstraints hgrow="ALWAYS" percentWidth="50"/>
+                </columnConstraints>
+                <VBox GridPane.columnIndex="0" styleClass="mini-stat-box" alignment="CENTER" spacing="2">
+                    <Label text="1" styleClass="mini-stat-val"/>
+                    <Label text="задач" styleClass="mini-stat-lbl"/>
+                </VBox>
+                <VBox GridPane.columnIndex="1" styleClass="mini-stat-box" alignment="CENTER" spacing="2">
+                    <Label text="1" styleClass="mini-stat-val"/>
+                    <Label text="готово" styleClass="mini-stat-lbl"/>
+                </VBox>
+            </GridPane>
+            <VBox spacing="5">
+                <HBox spacing="6" alignment="CENTER_LEFT">
+                    <Region style="-fx-background-color:#14532d;-fx-min-width:6;-fx-min-height:6;-fx-max-width:6;-fx-max-height:6;-fx-background-radius:3;"/>
+                    <Label text="Навигационное меню" style="-fx-font-size:11px;-fx-text-fill:#5a5a56;"/>
+                </HBox>
+            </VBox>
+        </VBox>
+    </TilePane>
+</ScrollPane>

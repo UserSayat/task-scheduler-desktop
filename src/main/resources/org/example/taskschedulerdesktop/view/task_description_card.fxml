@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 
-<HBox alignment="CENTER_LEFT" spacing="10.0" style="-fx-padding:10 16; -fx-border-color:#f0f0ec; -fx-border-width:0 0 1 0;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.taskschedulerdesktop.controllers.tasks.TaskDescriptionCardController">
+<HBox alignment="CENTER_LEFT" spacing="10.0" style="-fx-padding:10 16; -fx-border-color:#f0f0ec; -fx-border-width:0 0 1 0;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.taskschedulerdesktop.controllers.tasks.TaskDescriptionCardController">
    <Label fx:id="taskSequenceNumberLabel" style="-fx-min-width:20;" styleClass="table-mono" text="02" />
    <Label fx:id="taskNameLabel" style="-fx-font-size:13px;-fx-text-fill:#111110;" text="Настроить интеграцию с 1С" HBox.hgrow="ALWAYS" />
    <Label fx:id="taskTypeLabel" styleClass="tag-chip" text="backend" />
