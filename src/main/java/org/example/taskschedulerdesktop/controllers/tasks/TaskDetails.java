@@ -5,7 +5,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import org.example.taskschedulerdesktop.controllers.sidebar.RightSidebarController;
+import org.example.taskschedulerdesktop.controllers.sidebar.RightSidebar;
 import org.example.taskschedulerdesktop.dto.TaskView;
 import org.example.taskschedulerdesktop.listeners.EventBus;
 import org.example.taskschedulerdesktop.listeners.TaskChangedEvent;
@@ -17,9 +17,9 @@ import org.example.taskschedulerdesktop.utils.TaskStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class TaskDetailsController implements RightSidebarController {
+public class TaskDetails implements RightSidebar {
 
-    private static final Logger log = LoggerFactory.getLogger(TaskDetailsController.class);
+    private static final Logger log = LoggerFactory.getLogger(TaskDetails.class);
     private final AsyncTaskService taskService;
 
     @FXML private Label projectNameLabel;
@@ -65,7 +65,7 @@ public class TaskDetailsController implements RightSidebarController {
     private TaskView contextTask;
     private boolean editMode = false;
 
-    public TaskDetailsController(AsyncTaskService taskService) {
+    public TaskDetails(AsyncTaskService taskService) {
         this.taskService = taskService;
     }
 

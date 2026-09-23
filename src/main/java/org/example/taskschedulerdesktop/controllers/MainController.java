@@ -61,12 +61,12 @@ public class MainController {
                 "Новая задача",
                 AppConfig.getInstance().getPrimaryStage()));
 
-        reviewButton.setOnAction(event -> NavigationManager.navigateTo(Routes.REVIEW, "Обзор"));
+        reviewButton.setOnAction(event -> NavigationManager.navigateTo(Routes.DASHBOARD, "Обзор"));
         tasksButton.setOnAction(event -> NavigationManager.navigateTo(Routes.TASKS, "Задачи"));
         projectsButton.setOnAction(event -> NavigationManager.navigateTo(Routes.PROJECTS, "Проекты"));
         teamButton.setOnAction(event -> NavigationManager.navigateTo(Routes.TEAM, "Команда"));
 
-        NavigationManager.navigateTo(Routes.REVIEW);
+        NavigationManager.navigateTo(Routes.DASHBOARD);
     }
 
     public void updateBackButtonState() {

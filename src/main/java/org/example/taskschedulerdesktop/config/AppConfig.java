@@ -62,8 +62,8 @@ public class AppConfig {
             if (clazz == CreateTaskController.class) {
                 return new CreateTaskController(taskService);
             }
-            if (clazz == TaskDetailsController.class) {
-                return new TaskDetailsController(asyncTaskService);
+            if (clazz == TaskDetails.class) {
+                return new TaskDetails(asyncTaskService);
             }
             if (clazz == ProjectsController.class) {
                 return new ProjectsController(asyncProjectService);

@@ -19,7 +19,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.Duration;
 import org.example.taskschedulerdesktop.config.AppConfig;
-import org.example.taskschedulerdesktop.controllers.sidebar.RightSidebarController;
+import org.example.taskschedulerdesktop.controllers.sidebar.RightSidebar;
 import org.example.taskschedulerdesktop.controllers.Shutdownable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -146,7 +146,7 @@ public class NavigationManager {
                 if (newController instanceof ContextAware aware) {
                     aware.setContext(context);
                 }
-                if (newController instanceof RightSidebarController sidebarController) {
+                if (newController instanceof RightSidebar sidebarController) {
                     sidebarController.setContext(context);
                 }
 
@@ -323,12 +323,12 @@ public class NavigationManager {
 
             Object controller = loader.getController();
 
-            if (controller instanceof RightSidebarController sidebarController) {
+            if (controller instanceof RightSidebar sidebarController) {
                 log.debug("sidebarController found, calling setContext()");
                 sidebarController.setContext(context);
             } else {
                 log.warn("\n" +
-                        "The controller does not implement RightSidebarController: {}", controller);
+                        "The controller does not implement RightSidebar: {}", controller);
             }
 
             rightSidebar = sidebar;

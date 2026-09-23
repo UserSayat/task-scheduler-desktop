@@ -32,10 +32,7 @@ public class TaskCardService {
             // Клик по карточке
             card.setOnMouseClicked(event -> {
                 if (event.getButton() == MouseButton.PRIMARY) {
-                    NavigationManager.openRightSidebar(
-                            "/org/example/taskschedulerdesktop/view/task-details.fxml",
-                            task
-                    );
+                    NavigationManager.openRightSidebar(Routes.TASK_DETAILS, task);
                     event.consume();
                 }
             });
