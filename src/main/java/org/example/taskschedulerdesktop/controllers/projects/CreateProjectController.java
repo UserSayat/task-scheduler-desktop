@@ -2,7 +2,7 @@ package org.example.taskschedulerdesktop.controllers.projects;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.example.taskschedulerdesktop.models.Project;
@@ -11,32 +11,32 @@ import org.example.taskschedulerdesktop.service.project.ProjectService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class CreateProjectModalWindowController {
+public class CreateProjectController {
 
-    private final Logger log = LoggerFactory.getLogger(CreateProjectModalWindowController.class);
+    private final Logger log = LoggerFactory.getLogger(CreateProjectController.class);
 
     private final ProjectService projectService;
 
     @FXML private TextField projectNameTextField;
 
-    @FXML private ChoiceBox<String> supervisorChoiceBox;
+    @FXML private ComboBox<String> supervisorComboBox;
     private String selectedSupervisor;
 
     @FXML private Button createProjectButton;
     @FXML private Button cancelButton;
 
-    public CreateProjectModalWindowController(ProjectService projectService) {
+    public CreateProjectController(ProjectService projectService) {
         this.projectService = projectService;
     }
 
     @FXML
     public void initialize() {
 
-        supervisorChoiceBox.getItems().addAll("Алексей Козлов", "Мария Волкова", "Елена Никитина",
+        supervisorComboBox.getItems().addAll("Алексей Козлов", "Мария Волкова", "Елена Никитина",
                 "Павел Сорокин", "Дмитрий Лебедев", "Ирина Фёдорова");
 
-        supervisorChoiceBox.setOnAction(event -> {
-            this.selectedSupervisor = supervisorChoiceBox.getValue();
+        supervisorComboBox.setOnAction(event -> {
+            this.selectedSupervisor = supervisorComboBox.getValue();
         });
 
         createProjectButton.setOnAction(event -> {

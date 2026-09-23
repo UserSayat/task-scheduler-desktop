@@ -2,7 +2,7 @@ package org.example.taskschedulerdesktop.config;
 
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import org.example.taskschedulerdesktop.controllers.projects.CreateProjectModalWindowController;
+import org.example.taskschedulerdesktop.controllers.projects.CreateProjectController;
 import org.example.taskschedulerdesktop.controllers.projects.ProjectCardController;
 import org.example.taskschedulerdesktop.controllers.projects.ProjectsController;
 import org.example.taskschedulerdesktop.controllers.projects.ProjectDetailsController;
@@ -71,8 +71,8 @@ public class AppConfig {
             if (clazz == ProjectsController.class) {
                 return new ProjectsController(asyncProjectService);
             }
-            if (clazz == CreateProjectModalWindowController.class) {
-                return new CreateProjectModalWindowController(projectService);
+            if (clazz == CreateProjectController.class) {
+                return new CreateProjectController(projectService);
             }
             if (clazz == ProjectCardController.class) {
                 return new ProjectCardController(asyncProjectService);

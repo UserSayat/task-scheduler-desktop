@@ -11,7 +11,7 @@ public final class Routes {
     public static final String CREATE_TASK = "/org/example/taskschedulerdesktop/view/create_task.fxml";
     public static final String TASK_DESCRIPTION_CARD = "/org/example/taskschedulerdesktop/view/task_description_card.fxml";
     public static final String EDIT_TASK_RIGHT_SIDEBAR = "/org/example/taskschedulerdesktop/view/edit_task_right_sidebar.fxml";
-    public static final String CREATE_PROJECT = "/org/example/taskschedulerdesktop/view/create_project_modal_window.fxml";
+    public static final String CREATE_PROJECT = "/org/example/taskschedulerdesktop/view/create_project.fxml";
     public static final String PROJECT_CARD = "/org/example/taskschedulerdesktop/view/project_card.fxml";
 
 }

@@ -2638,3 +2638,96 @@
 2026-09-23 23:36:08.906 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Close Stage: Новая задача
 2026-09-23 23:36:10.617 [JavaFX Application Thread] INFO  o.e.t.database.DatabaseConnection - HikariCP connection pool closed
 2026-09-23 23:36:10.618 [JavaFX Application Thread] INFO  o.e.t.database.DatabaseConnection - H2 TCP-sever closed
+2026-09-23 23:39:17.784 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Inter 18pt Regular'
+2026-09-23 23:39:17.786 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Inter 18pt'
+2026-09-23 23:39:17.786 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-09-23 23:39:17.786 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Inter_18pt-Regular.ttf → 'Inter 18pt'
+2026-09-23 23:39:17.800 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Inter 18pt Medium'
+2026-09-23 23:39:17.800 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Inter 18pt Medium'
+2026-09-23 23:39:17.800 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-09-23 23:39:17.800 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Inter_18pt-Medium.ttf → 'Inter 18pt Medium'
+2026-09-23 23:39:17.812 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Inter 18pt SemiBold'
+2026-09-23 23:39:17.812 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Inter 18pt SemiBold'
+2026-09-23 23:39:17.813 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-09-23 23:39:17.813 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Inter_18pt-SemiBold.ttf → 'Inter 18pt SemiBold'
+2026-09-23 23:39:17.822 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Lora Regular'
+2026-09-23 23:39:17.822 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Lora'
+2026-09-23 23:39:17.822 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-09-23 23:39:17.822 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Lora-Regular.ttf → 'Lora'
+2026-09-23 23:39:17.835 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'JetBrains Mono Regular'
+2026-09-23 23:39:17.835 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'JetBrains Mono'
+2026-09-23 23:39:17.835 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-09-23 23:39:17.836 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/JetBrainsMono-Regular.ttf → 'JetBrains Mono'
+2026-09-23 23:39:18.135 [JavaFX Application Thread] DEBUG o.e.t.database.DatabaseConnection - H2 TCP-server started on the port:9092 successful
+2026-09-23 23:39:18.136 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - createTableIfNotExists()
+2026-09-23 23:39:18.148 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - createIndexes()
+2026-09-23 23:39:18.159 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - ProjectServiceImpl created
+2026-09-23 23:39:18.161 [JavaFX Application Thread] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 1487721249
+2026-09-23 23:39:18.161 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - Subscribe on TaskChangedEvent completed
+2026-09-23 23:39:18.365 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/dashboard.fxml
+2026-09-23 23:39:18.484 [JavaFX Application Thread] DEBUG o.e.t.TaskSchedulerApplication - CSS: /org/example/taskschedulerdesktop/styles/style.css
+2026-09-23 23:39:18.485 [JavaFX Application Thread] DEBUG o.e.t.TaskSchedulerApplication - CSS: /org/example/taskschedulerdesktop/styles/base.css
+2026-09-23 23:39:18.486 [JavaFX Application Thread] DEBUG o.e.t.TaskSchedulerApplication - CSS: /org/example/taskschedulerdesktop/styles/project-card.css
+2026-09-23 23:39:18.487 [JavaFX Application Thread] DEBUG o.e.t.TaskSchedulerApplication - CSS: /org/example/taskschedulerdesktop/styles/row_task_table.css
+2026-09-23 23:39:18.487 [JavaFX Application Thread] DEBUG o.e.t.TaskSchedulerApplication - CSS: /org/example/taskschedulerdesktop/styles/task_table_view.css
+2026-09-23 23:39:18.543 [Thread-6] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 1120069913
+2026-09-23 23:39:18.545 [Thread-6] DEBUG o.e.t.c.review.DashboardController - Task table loaded successfully
+2026-09-23 23:39:18.545 [Thread-7] DEBUG o.e.t.r.task.H2TaskRepository - findAllViews()
+2026-09-23 23:39:18.554 [Thread-7] DEBUG o.e.t.r.task.H2TaskRepository - Found 11 views
+2026-09-23 23:39:18.851 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/dashboard.fxml
+2026-09-23 23:39:18.852 [JavaFX Application Thread] DEBUG o.e.t.service.task.AsyncTaskService - onSucceeded returned: 11 tasks
+2026-09-23 23:39:18.852 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskTableController - onSuccess: received 11 tasks
+2026-09-23 23:39:18.853 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskTableController - onSuccess: first task: 3333333
+2026-09-23 23:39:18.853 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskTableController - Table has: 11 tasks
+2026-09-23 23:49:59.523 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Inter 18pt Regular'
+2026-09-23 23:49:59.525 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Inter 18pt'
+2026-09-23 23:49:59.525 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-09-23 23:49:59.526 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Inter_18pt-Regular.ttf → 'Inter 18pt'
+2026-09-23 23:49:59.539 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Inter 18pt Medium'
+2026-09-23 23:49:59.539 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Inter 18pt Medium'
+2026-09-23 23:49:59.539 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-09-23 23:49:59.539 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Inter_18pt-Medium.ttf → 'Inter 18pt Medium'
+2026-09-23 23:49:59.555 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Inter 18pt SemiBold'
+2026-09-23 23:49:59.556 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Inter 18pt SemiBold'
+2026-09-23 23:49:59.556 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-09-23 23:49:59.556 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Inter_18pt-SemiBold.ttf → 'Inter 18pt SemiBold'
+2026-09-23 23:49:59.568 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Lora Regular'
+2026-09-23 23:49:59.568 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Lora'
+2026-09-23 23:49:59.568 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-09-23 23:49:59.568 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Lora-Regular.ttf → 'Lora'
+2026-09-23 23:49:59.582 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'JetBrains Mono Regular'
+2026-09-23 23:49:59.582 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'JetBrains Mono'
+2026-09-23 23:49:59.582 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-09-23 23:49:59.583 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/JetBrainsMono-Regular.ttf → 'JetBrains Mono'
+2026-09-23 23:49:59.892 [JavaFX Application Thread] DEBUG o.e.t.database.DatabaseConnection - H2 TCP-server started on the port:9092 successful
+2026-09-23 23:49:59.894 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - createTableIfNotExists()
+2026-09-23 23:49:59.905 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - createIndexes()
+2026-09-23 23:49:59.914 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - ProjectServiceImpl created
+2026-09-23 23:49:59.916 [JavaFX Application Thread] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 1201505949
+2026-09-23 23:49:59.917 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - Subscribe on TaskChangedEvent completed
+2026-09-23 23:50:00.132 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/dashboard.fxml
+2026-09-23 23:50:00.219 [JavaFX Application Thread] DEBUG o.e.t.TaskSchedulerApplication - CSS: /org/example/taskschedulerdesktop/styles/style.css
+2026-09-23 23:50:00.220 [JavaFX Application Thread] DEBUG o.e.t.TaskSchedulerApplication - CSS: /org/example/taskschedulerdesktop/styles/base.css
+2026-09-23 23:50:00.220 [JavaFX Application Thread] DEBUG o.e.t.TaskSchedulerApplication - CSS: /org/example/taskschedulerdesktop/styles/project-card.css
+2026-09-23 23:50:00.221 [JavaFX Application Thread] DEBUG o.e.t.TaskSchedulerApplication - CSS: /org/example/taskschedulerdesktop/styles/row_task_table.css
+2026-09-23 23:50:00.221 [JavaFX Application Thread] DEBUG o.e.t.TaskSchedulerApplication - CSS: /org/example/taskschedulerdesktop/styles/task_table_view.css
+2026-09-23 23:50:00.356 [Thread-6] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 1357727853
+2026-09-23 23:50:00.357 [Thread-7] DEBUG o.e.t.r.task.H2TaskRepository - findAllViews()
+2026-09-23 23:50:00.357 [Thread-6] DEBUG o.e.t.c.review.DashboardController - Task table loaded successfully
+2026-09-23 23:50:00.369 [Thread-7] DEBUG o.e.t.r.task.H2TaskRepository - Found 11 views
+2026-09-23 23:50:00.601 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/dashboard.fxml
+2026-09-23 23:50:00.602 [JavaFX Application Thread] DEBUG o.e.t.service.task.AsyncTaskService - onSucceeded returned: 11 tasks
+2026-09-23 23:50:00.603 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskTableController - onSuccess: received 11 tasks
+2026-09-23 23:50:00.603 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskTableController - onSuccess: first task: 3333333
+2026-09-23 23:50:00.603 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskTableController - Table has: 11 tasks
+2026-09-23 23:50:03.662 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-23 23:50:03.695 [Thread-9] DEBUG o.e.t.s.project.AsyncProjectService - createProjectLoader()
+2026-09-23 23:50:03.697 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-23 23:50:03.698 [Thread-9] DEBUG o.e.t.s.project.AsyncProjectService - Project: org.example.taskschedulerdesktop.models.Project@1968632a, number of tasks = 11
+2026-09-23 23:50:03.698 [Thread-9] DEBUG o.e.t.s.project.ProjectCardService - createCard(org.example.taskschedulerdesktop.models.Project@1968632a)
+2026-09-23 23:50:03.714 [Thread-9] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.initialize(), hashCode = 1735759462
+2026-09-23 23:50:03.714 [Thread-9] DEBUG o.e.t.c.p.ProjectCardController - context = null
+2026-09-23 23:50:03.714 [Thread-9] DEBUG o.e.t.s.project.ProjectCardService - Project: org.example.taskschedulerdesktop.models.Project@1968632a, number of tasks = 11
+2026-09-23 23:50:03.715 [Thread-9] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.setContext: org.example.taskschedulerdesktop.models.Project@1968632a, hashCode = 1735759462
+2026-09-23 23:50:03.715 [Thread-9] DEBUG o.e.t.c.p.ProjectCardController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-23 23:50:03.715 [Thread-9] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 699293841

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox styleClass="modal-root" prefWidth="420"
+      fx:controller="org.example.taskschedulerdesktop.controllers.projects.CreateProjectController"
+      xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1">
+
+<!--    TODO добавить этот блок когда создание проекта будет происходить не в диалоге, а на текущем экране (Верхний слой StackPane)-->
+<!--    <VBox styleClass="modal-header" spacing="3">-->
+<!--        <HBox alignment="CENTER_LEFT">-->
+<!--            <Label fx:id="formSup" text="СОЗДАНИЕ" styleClass="modal-sup" HBox.hgrow="ALWAYS"/>-->
+<!--            <Button fx:id="exitButton" text="×"-->
+<!--                    style="-fx-background-color:transparent;-fx-text-fill:#9b9b95;-->
+<!--                           -fx-font-size:18px;-fx-cursor:hand;-fx-border-width:0;"/>-->
+<!--        </HBox>-->
+<!--        <Label fx:id="formTitle" text="Новый проект" styleClass="modal-title"/>-->
+<!--    </VBox>-->
+
+    <VBox styleClass="modal-body">
+        <Label text="НАЗВАНИЕ *" styleClass="field-label"/>
+        <TextField fx:id="projectNameTextField" promptText="Название проекта"
+                   styleClass="text-field-styled"/>
+
+        <Label text="РУКОВОДИТЕЛЬ" styleClass="field-label"/>
+        <ComboBox fx:id="supervisorComboBox" maxWidth="Infinity"
+                  styleClass="combo-box-styled" promptText="Выбрать"/>
+
+        <Label text="ЦВЕТ" styleClass="field-label"/>
+        <HBox spacing="8">
+            <ToggleButton fx:id="c1" styleClass="toggle-high"
+                          style="-fx-background-color:#1a3a8f;-fx-text-fill:transparent;
+                                 -fx-min-width:28;-fx-min-height:28;-fx-max-width:28;-fx-max-height:28;"/>
+            <ToggleButton fx:id="c2"
+                          style="-fx-background-color:#7c3aed;-fx-text-fill:transparent;
+                                 -fx-min-width:28;-fx-min-height:28;-fx-max-width:28;-fx-max-height:28;
+                                 -fx-border-width:0;"/>
+            <ToggleButton fx:id="c3"
+                          style="-fx-background-color:#0f766e;-fx-text-fill:transparent;
+                                 -fx-min-width:28;-fx-min-height:28;-fx-max-width:28;-fx-max-height:28;
+                                 -fx-border-width:0;"/>
+            <ToggleButton fx:id="c4"
+                          style="-fx-background-color:#92400e;-fx-text-fill:transparent;
+                                 -fx-min-width:28;-fx-min-height:28;-fx-max-width:28;-fx-max-height:28;
+                                 -fx-border-width:0;"/>
+            <ToggleButton fx:id="c5"
+                          style="-fx-background-color:#be185d;-fx-text-fill:transparent;
+                                 -fx-min-width:28;-fx-min-height:28;-fx-max-width:28;-fx-max-height:28;
+                                 -fx-border-width:0;"/>
+            <ToggleButton fx:id="c6"
+                          style="-fx-background-color:#0369a1;-fx-text-fill:transparent;
+                                 -fx-min-width:28;-fx-min-height:28;-fx-max-width:28;-fx-max-height:28;
+                                 -fx-border-width:0;"/>
+            <ToggleButton fx:id="c7"
+                          style="-fx-background-color:#15803d;-fx-text-fill:transparent;
+                                 -fx-min-width:28;-fx-min-height:28;-fx-max-width:28;-fx-max-height:28;
+                                 -fx-border-width:0;"/>
+            <ToggleButton fx:id="c8"
+                          style="-fx-background-color:#b45309;-fx-text-fill:transparent;
+                                 -fx-min-width:28;-fx-min-height:28;-fx-max-width:28;-fx-max-height:28;
+                                 -fx-border-width:0;"/>
+        </HBox>
+
+        <HBox spacing="8" style="-fx-padding:6 0 0 0;">
+            <Button fx:id="createProjectButton" text="Создать проект" styleClass="btn-primary"
+                    HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+            <Button fx:id="cancelButton" text="Отмена" styleClass="btn-secondary"/>
+        </HBox>
+    </VBox>
+</VBox>
