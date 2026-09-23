@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox styleClass="detail-root"
+      fx:controller="org.example.taskschedulerdesktop.controllers.tasks.TaskDetailsController"
+      xmlns="http://javafx.com/javafx/25"
+      xmlns:fx="http://javafx.com/fxml/1">
+
+    <!-- Шапка -->
+    <VBox styleClass="detail-header" spacing="6">
+        <HBox alignment="TOP_RIGHT">
+            <Label fx:id="projectNameLabel" text="РЕДИЗАЙН ПОРТАЛА"
+                   styleClass="detail-project" HBox.hgrow="ALWAYS"/>
+            <Button fx:id="closeButton" text="×"
+                    style="-fx-background-color:transparent;-fx-text-fill:#9b9b95;
+                           -fx-font-size:20px;-fx-cursor:hand;-fx-border-width:0;"/>
+        </HBox>
+        <!-- Режим просмотра -->
+        <Label fx:id="taskNameLabel"
+               text="Утвердить макеты главной страницы"
+               styleClass="detail-title" wrapText="true"/>
+        <!-- Режим редактирования -->
+        <TextField fx:id="newTaskNameLabel"
+                   styleClass="text-field-styled"
+                   visible="false" managed="false"/>
+    </VBox>
+
+    <!-- Тело -->
+    <ScrollPane fitToWidth="true" styleClass="scroll-pane-clean" VBox.vgrow="ALWAYS">
+        <VBox styleClass="detail-body">
+
+            <!-- Статус + Приоритет -->
+            <GridPane hgap="16">
+                <columnConstraints>
+                    <ColumnConstraints hgrow="ALWAYS" percentWidth="50"/>
+                    <ColumnConstraints hgrow="ALWAYS" percentWidth="50"/>
+                </columnConstraints>
+
+                <VBox GridPane.columnIndex="0" spacing="6">
+                    <Label text="СТАТУС" styleClass="detail-field-label"/>
+                    <!-- Просмотр -->
+                    <Label fx:id="statusLabel" text="На проверке"
+                           styleClass="badge-review"/>
+                    <!-- Редактирование -->
+                    <ComboBox fx:id="statusEditComboBox" maxWidth="Infinity"
+                              styleClass="combo-box-styled"
+                              visible="false" managed="false"/>
+                </VBox>
+
+                <VBox GridPane.columnIndex="1" spacing="6">
+                    <Label text="ПРИОРИТЕТ" styleClass="detail-field-label"/>
+                    <Label fx:id="priorityLabel" text="Высокий"
+                           styleClass="badge-high"/>
+                    <ComboBox fx:id="priorityEditComboBox" maxWidth="Infinity"
+                              styleClass="combo-box-styled"
+                              visible="false" managed="false"/>
+                </VBox>
+            </GridPane>
+
+            <!-- Исполнитель -->
+            <VBox spacing="6">
+                <Label text="ИСПОЛНИТЕЛЬ" styleClass="detail-field-label"/>
+                <HBox spacing="10" alignment="CENTER_LEFT" fx:id="assigneeView">
+                    <StackPane styleClass="avatar-box">
+                        <Label fx:id="executorAvatarLabel" text="АК" styleClass="avatar-text"/>
+                    </StackPane>
+                    <Label fx:id="executorNameLabel" text="Алексей Козлов"
+                           style="-fx-font-size:13px;-fx-text-fill:#111110;"/>
+                </HBox>
+                <ComboBox fx:id="executorComboBox" maxWidth="Infinity"
+                          styleClass="combo-box-styled"
+                          visible="false" managed="false"/>
+            </VBox>
+
+            <!-- Дедлайн -->
+            <VBox spacing="6">
+                <Label text="ДЕДЛАЙН" styleClass="detail-field-label"/>
+                <Label fx:id="deadlineLabel" text="03 авг"
+                       style="-fx-font-family:'Courier New';-fx-font-size:13px;-fx-text-fill:#111110;"/>
+                <DatePicker fx:id="deadlineDatePicker"
+                           visible="false" managed="false"/>
+            </VBox>
+
+            <!-- Теги -->
+            <VBox spacing="6">
+                <Label text="ТЕГИ" styleClass="detail-field-label"/>
+                <HBox fx:id="tagsHBox" spacing="6">
+                    <Label text="дизайн"       styleClass="tag-chip"/>
+                    <Label text="согласование" styleClass="tag-chip"/>
+                </HBox>
+                <TextField fx:id="tagsTextField" styleClass="text-field-styled"
+                           visible="false" managed="false"/>
+            </VBox>
+
+            <!-- Описание -->
+            <VBox spacing="6">
+                <Label text="ОПИСАНИЕ" styleClass="detail-field-label"/>
+                <VBox styleClass="detail-desc-box">
+                    <Label fx:id="taskDescriptionLabel" wrapText="true" styleClass="detail-desc"
+                           text="Задача в рамках проекта «Редизайн портала». Требует координации с командой и соответствия установленным срокам. Приоритет: высокий."/>
+                </VBox>
+            </VBox>
+
+            <!-- Кнопки действий — режим просмотра -->
+            <HBox fx:id="viewActionsHBox" spacing="8" visible="true" managed="true">
+                <Button fx:id="acceptButton" text="Взять в работу" styleClass="btn-primary"
+                        HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+                <Button text="Изменить" fx:id="editButton"
+                        styleClass="btn-secondary"/>
+            </HBox>
+
+            <!-- Кнопки — режим редактирования -->
+            <HBox fx:id="editActionsHBox" spacing="8" visible="false" managed="false">
+                <Button fx:id="saveTheTaskButton" text="Сохранить"
+                        styleClass="btn-primary" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+                <Button fx:id="cancelEditButton" text="Отмена"
+                        styleClass="btn-secondary"/>
+            </HBox>
+
+            <!-- Удаление -->
+            <VBox spacing="6">
+                <Button fx:id="deleteButton" text="Удалить задачу"
+                        styleClass="btn-ghost-danger"/>
+                <VBox fx:id="confirmDeletePanelVBox" styleClass="confirm-delete-box"
+                      spacing="8" visible="false" managed="false">
+                    <Label text="Удалить задачу безвозвратно?"
+                           styleClass="confirm-delete-text"/>
+                    <HBox spacing="8">
+                        <Button fx:id="confirmDeleteButton" text="Да, удалить"
+                                styleClass="btn-danger" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+                        <Button fx:id="cancelDeleteButton" text="Отмена"
+                                styleClass="btn-secondary"/>
+                    </HBox>
+                </VBox>
+            </VBox>
+
+        </VBox>
+    </ScrollPane>
+</VBox>

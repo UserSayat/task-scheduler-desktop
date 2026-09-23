@@ -33,7 +33,7 @@ public class TaskCardService {
             card.setOnMouseClicked(event -> {
                 if (event.getButton() == MouseButton.PRIMARY) {
                     NavigationManager.openRightSidebar(
-                            "/org/example/taskschedulerdesktop/view/task_right_sidebar.fxml",
+                            "/org/example/taskschedulerdesktop/view/task-details.fxml",
                             task
                     );
                     event.consume();
