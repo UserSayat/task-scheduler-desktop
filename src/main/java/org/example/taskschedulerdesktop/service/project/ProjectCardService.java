@@ -48,7 +48,7 @@ public class ProjectCardService {
 
             card.setOnMouseClicked(event -> {
                 if (event.getButton() == MouseButton.PRIMARY) {
-                    NavigationManager.navigateTo("/org/example/taskschedulerdesktop/view/project_extended_page.fxml");
+                    NavigationManager.navigateTo("/org/example/taskschedulerdesktop/view/project_details.fxml");
                 }
             });
 

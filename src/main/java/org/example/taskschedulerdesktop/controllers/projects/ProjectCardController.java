@@ -80,7 +80,7 @@ public class ProjectCardController implements ContextAware, Shutdownable {
             rootVBox.setOnMouseClicked(event -> {
                 log.debug("Click on the card, context = {}", context);
                 NavigationManager
-                        .navigateTo("/org/example/taskschedulerdesktop/view/project_extended_page.fxml", null, context);
+                        .navigateTo("/org/example/taskschedulerdesktop/view/project_details.fxml", null, context);
             });
         } else {
             log.error("Context isn't an instance of Project");

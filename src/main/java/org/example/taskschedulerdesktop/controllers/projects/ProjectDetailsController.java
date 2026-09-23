@@ -8,7 +8,6 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.VBox;
 import org.example.taskschedulerdesktop.controllers.Shutdownable;
-import org.example.taskschedulerdesktop.dto.TaskView;
 import org.example.taskschedulerdesktop.listeners.EventBus;
 import org.example.taskschedulerdesktop.listeners.TaskChangedEvent;
 import org.example.taskschedulerdesktop.models.Project;
@@ -22,11 +21,11 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class ProjectExtendedPageController implements Shutdownable, ContextAware {
+public class ProjectDetailsController implements Shutdownable, ContextAware {
 
     private AsyncTaskService asyncTaskService;
     private AsyncProjectService asyncProjectService;
-    private static final Logger log = LoggerFactory.getLogger(ProjectExtendedPageController.class);
+    private static final Logger log = LoggerFactory.getLogger(ProjectDetailsController.class);
 
     @FXML private Label projectNameLabel;
     @FXML private Label projectSupervisorLabel;
@@ -69,7 +68,7 @@ public class ProjectExtendedPageController implements Shutdownable, ContextAware
     };
 
 
-    public ProjectExtendedPageController(AsyncTaskService taskService, AsyncProjectService projectService) {
+    public ProjectDetailsController(AsyncTaskService taskService, AsyncProjectService projectService) {
         this.asyncTaskService = taskService;
         this.asyncProjectService = projectService;
     }

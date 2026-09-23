@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<ScrollPane fitToWidth="true" styleClass="scroll-pane-clean" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.taskschedulerdesktop.controllers.projects.ProjectDetailsController">
+    <VBox spacing="14" styleClass="content-area">
+<!--TODO Не загружается project_details.fxml поднастроить этот файл подогнать под project_extended_page.fxml-->
+        <!-- Шапка проекта -->
+        <VBox spacing="0" styleClass="card">
+            <HBox alignment="CENTER_LEFT" spacing="16" style="-fx-padding:0 0 16 0;">
+                <HBox alignment="CENTER_LEFT" spacing="10" HBox.hgrow="ALWAYS">
+                    <Region fx:id="projectDot" style="-fx-background-color:#1a3a8f;-fx-min-width:12;-fx-min-height:12;-fx-max-width:12;-fx-max-height:12;-fx-background-radius:6;" />
+                    <VBox spacing="3">
+                        <Label fx:id="projectNameLabel" style="-fx-font-family:'Georgia',serif;-fx-font-size:22px;-fx-text-fill:#111110;" text="Редизайн портала" />
+                        <Label fx:id="projectSupervisorLabel" styleClass="section-mono" text="Руководитель: А.К." />
+                    </VBox>
+                </HBox>
+                <HBox spacing="32">
+                    <VBox alignment="CENTER" spacing="2">
+                        <Label fx:id="numberOfTasksLabel" styleClass="proj-detail-stat-val" text="18" />
+                        <Label styleClass="proj-detail-stat-lbl" text="Задач" />
+                    </VBox>
+                    <VBox alignment="CENTER" spacing="2">
+                        <Label fx:id="completedTasksLabel" styleClass="proj-detail-stat-val" text="13" />
+                        <Label styleClass="proj-detail-stat-lbl" text="Завершено" />
+                    </VBox>
+                    <VBox alignment="CENTER" spacing="2">
+                        <Label fx:id="remainingTasksLabel" styleClass="proj-detail-stat-val" text="5" />
+                        <Label styleClass="proj-detail-stat-lbl" text="Осталось" />
+                    </VBox>
+                    <VBox alignment="CENTER" spacing="2">
+                        <Label fx:id="percentOfCompletionLabel" styleClass="proj-detail-stat-val" text="72%" />
+                        <Label styleClass="proj-detail-stat-lbl" text="Прогресс" />
+                    </VBox>
+                </HBox>
+            </HBox>
+
+            <ProgressBar fx:id="progressBar" maxWidth="Infinity" progress="0.72" style="-fx-accent:#1a3a8f;" styleClass="progress-thin" />
+
+            <!-- Кнопки управления -->
+            <HBox alignment="CENTER_LEFT" spacing="8" style="-fx-padding:14 0 0 0;             -fx-border-color:#f0f0ec; -fx-border-width:1 0 0 0;">
+                <Button fx:id="editProjectButton" styleClass="btn-secondary" text="Редактировать" />
+                <Region HBox.hgrow="ALWAYS" />
+                <VBox fx:id="confirmDeleteBox" alignment="CENTER_RIGHT" managed="false" spacing="8" visible="false">
+                    <Label style="-fx-text-fill:#b91c1c;-fx-font-size:12px;" text="Удалить проект и все его задачи?" />
+                    <HBox spacing="8">
+                        <Button styleClass="btn-danger" text="Да, удалить" />
+                        <Button styleClass="btn-secondary" text="Отмена" />
+                    </HBox>
+                </VBox>
+                <Button fx:id="deleteProjectButton" styleClass="btn-ghost-danger" text="Удалить проект" />
+            </HBox>
+        </VBox>
+
+        <!-- Задачи + боковая панель -->
+        <HBox spacing="20.0">
+            <!-- Задачи по статусам -->
+            <VBox HBox.hgrow="ALWAYS">
+                <!-- В работе -->
+                <VBox spacing="6">
+                    <HBox alignment="CENTER_LEFT" spacing="8">
+                        <Label style="-fx-text-fill:#1a3a8f;-fx-font-size:10px;                          -fx-font-family:'Courier New',monospace;" text="В РАБОТЕ" />
+                        <Label styleClass="section-mono" text="2" />
+                        <ProgressIndicator fx:id="tasksInProgressLoadingIndicator" prefHeight="15.0" prefWidth="15.0" visible="false" />
+                    </HBox>
+                    <VBox fx:id="tasksInProgressVBox" styleClass="card">
+                    </VBox>
+                </VBox>
+
+                <!-- На проверке -->
+                <VBox spacing="6">
+                    <HBox alignment="CENTER_LEFT" spacing="8">
+                        <Label style="-fx-text-fill:#7c3aed;-fx-font-size:10px;                          -fx-font-family:'Courier New',monospace;" text="НА ПРОВЕРКЕ" />
+                        <Label styleClass="section-mono" text="1" />
+                        <ProgressIndicator fx:id="tasksUnderReviewLoadingIndicator" prefHeight="15.0" prefWidth="15.0" visible="false" />
+                    </HBox>
+                    <VBox fx:id="tasksUnderReviewVBox" styleClass="card">
+                    </VBox>
+                </VBox>
+
+                <!-- К выполнению -->
+                <VBox spacing="6">
+                    <HBox alignment="CENTER_LEFT" spacing="8">
+                        <Label style="-fx-text-fill:#5a5a56;-fx-font-size:10px;                          -fx-font-family:'Courier New',monospace;" text="К ВЫПОЛНЕНИЮ" />
+                        <Label styleClass="section-mono" text="1" />
+                        <ProgressIndicator fx:id="newTasksLoadingIndicator" prefHeight="15.0" prefWidth="15.0" visible="false" />
+                    </HBox>
+                    <VBox fx:id="newTasksVBox" styleClass="card">
+                    </VBox>
+                </VBox>
+
+                <!-- Завершено -->
+                <VBox spacing="6">
+                    <HBox alignment="CENTER_LEFT" spacing="8">
+                        <Label style="-fx-text-fill:#14532d;-fx-font-size:10px;                          -fx-font-family:'Courier New',monospace;" text="ЗАВЕРШЕНО" />
+                        <Label styleClass="section-mono" text="1" />
+                        <ProgressIndicator fx:id="completedTasksLoadingIndicator" prefHeight="15.0" prefWidth="15.0" visible="false" />
+                    </HBox>
+                    <VBox fx:id="completedTasksVBox" styleClass="card">
+                    </VBox>
+                </VBox>
+            </VBox>
+
+            <!-- Боковая панель -->
+            <VBox>
+                <!-- Участники -->
+                <VBox prefWidth="200.0" spacing="12" styleClass="card">
+                    <Label styleClass="section-mono" text="УЧАСТНИКИ" />
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <StackPane styleClass="avatar-box">
+                            <Label styleClass="avatar-text" text="АК" />
+                        </StackPane>
+                        <VBox spacing="1">
+                            <Label style="-fx-font-size:12px;-fx-font-weight:600;-fx-text-fill:#111110;" text="Алексей" />
+                            <Label style="-fx-font-size:10px;-fx-text-fill:#9b9b95;" text="2 задачи" />
+                        </VBox>
+                        <Region style="-fx-background-color:#22c55e;-fx-min-width:8;-fx-min-height:8;                            -fx-max-width:8;-fx-max-height:8;-fx-background-radius:4;" />
+                    </HBox>
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <StackPane styleClass="avatar-box">
+                            <Label styleClass="avatar-text" text="ИФ" />
+                        </StackPane>
+                        <VBox spacing="1">
+                            <Label style="-fx-font-size:12px;-fx-font-weight:600;-fx-text-fill:#111110;" text="Ирина" />
+                            <Label style="-fx-font-size:10px;-fx-text-fill:#9b9b95;" text="1 задача" />
+                        </VBox>
+                        <Region style="-fx-background-color:#22c55e;-fx-min-width:8;-fx-min-height:8;                            -fx-max-width:8;-fx-max-height:8;-fx-background-radius:4;" />
+                    </HBox>
+                </VBox>
+
+                <!-- По статусам -->
+                <VBox prefWidth="200.0" spacing="10" styleClass="card">
+                    <Label styleClass="section-mono" text="ПО СТАТУСАМ" />
+                    <HBox alignment="CENTER_LEFT" spacing="8">
+                        <Region style="-fx-background-color:#1a3a8f;-fx-min-width:6;-fx-min-height:6;-fx-max-width:6;-fx-max-height:6;-fx-background-radius:3;" />
+                        <Label style="-fx-font-size:12px;-fx-text-fill:#5a5a56;" text="В работе" HBox.hgrow="ALWAYS" />
+                        <Label style="-fx-font-family:'Courier New';-fx-font-size:12px;-fx-text-fill:#111110;" text="2" />
+                    </HBox>
+                    <HBox alignment="CENTER_LEFT" spacing="8">
+                        <Region style="-fx-background-color:#7c3aed;-fx-min-width:6;-fx-min-height:6;-fx-max-width:6;-fx-max-height:6;-fx-background-radius:3;" />
+                        <Label style="-fx-font-size:12px;-fx-text-fill:#5a5a56;" text="На проверке" HBox.hgrow="ALWAYS" />
+                        <Label style="-fx-font-family:'Courier New';-fx-font-size:12px;-fx-text-fill:#111110;" text="1" />
+                    </HBox>
+                    <HBox alignment="CENTER_LEFT" spacing="8">
+                        <Region style="-fx-background-color:#5a5a56;-fx-min-width:6;-fx-min-height:6;-fx-max-width:6;-fx-max-height:6;-fx-background-radius:3;" />
+                        <Label style="-fx-font-size:12px;-fx-text-fill:#5a5a56;" text="К выполнению" HBox.hgrow="ALWAYS" />
+                        <Label style="-fx-font-family:'Courier New';-fx-font-size:12px;-fx-text-fill:#111110;" text="1" />
+                    </HBox>
+                    <HBox alignment="CENTER_LEFT" spacing="8">
+                        <Region style="-fx-background-color:#14532d;-fx-min-width:6;-fx-min-height:6;-fx-max-width:6;-fx-max-height:6;-fx-background-radius:3;" />
+                        <Label style="-fx-font-size:12px;-fx-text-fill:#5a5a56;" text="Завершено" HBox.hgrow="ALWAYS" />
+                        <Label style="-fx-font-family:'Courier New';-fx-font-size:12px;-fx-text-fill:#111110;" text="1" />
+                    </HBox>
+                </VBox>
+
+                <!-- По приоритету -->
+                <VBox prefWidth="200.0" spacing="10" styleClass="card">
+                    <Label styleClass="section-mono" text="ПО ПРИОРИТЕТУ" />
+                    <HBox alignment="CENTER_LEFT" spacing="8">
+                        <Region style="-fx-background-color:#b91c1c;-fx-min-width:6;-fx-min-height:6;-fx-max-width:6;-fx-max-height:6;-fx-background-radius:3;" />
+                        <Label style="-fx-font-size:12px;-fx-text-fill:#5a5a56;" text="Высокий" HBox.hgrow="ALWAYS" />
+                        <Label style="-fx-font-family:'Courier New';-fx-font-size:12px;-fx-text-fill:#111110;" text="2" />
+                    </HBox>
+                    <HBox alignment="CENTER_LEFT" spacing="8">
+                        <Region style="-fx-background-color:#92400e;-fx-min-width:6;-fx-min-height:6;-fx-max-width:6;-fx-max-height:6;-fx-background-radius:3;" />
+                        <Label style="-fx-font-size:12px;-fx-text-fill:#5a5a56;" text="Средний" HBox.hgrow="ALWAYS" />
+                        <Label style="-fx-font-family:'Courier New';-fx-font-size:12px;-fx-text-fill:#111110;" text="1" />
+                    </HBox>
+                    <HBox alignment="CENTER_LEFT" spacing="8">
+                        <Region style="-fx-background-color:#14532d;-fx-min-width:6;-fx-min-height:6;-fx-max-width:6;-fx-max-height:6;-fx-background-radius:3;" />
+                        <Label style="-fx-font-size:12px;-fx-text-fill:#5a5a56;" text="Низкий" HBox.hgrow="ALWAYS" />
+                        <Label style="-fx-font-family:'Courier New';-fx-font-size:12px;-fx-text-fill:#111110;" text="2" />
+                    </HBox>
+                </VBox>
+            </VBox>
+        </HBox>
+
+    </VBox>
+</ScrollPane>

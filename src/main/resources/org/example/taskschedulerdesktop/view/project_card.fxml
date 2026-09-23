@@ -1,63 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.geometry.Insets?>
 
-<VBox xmlns="http://javafx.com/javafx/21"
-      fx:id="rootVBox"
-      xmlns:fx="http://javafx.com/fxml/1"
+
+<VBox fx:id="rootVBox"
+      xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
       fx:controller="org.example.taskschedulerdesktop.controllers.projects.ProjectCardController"
-      styleClass="project-card"
-      prefWidth="400"
-      spacing="16">
-
-   <HBox spacing="12">
-      <VBox spacing="4" HBox.hgrow="ALWAYS">
-         <HBox spacing="8" alignment="CENTER_LEFT">
-            <Region fx:id="colorDot" styleClass="project-card-dot"/>
-            <Label fx:id="projectNameLabel"
-                   text="Редизайн портала"
-                   styleClass="project-card-title"/>
-         </HBox>
-         <Label fx:id="projectSupervisorLabel"
-                text="Руководитель: А.К."
-                styleClass="project-card-lead"/>
-      </VBox>
-
-      <VBox alignment="TOP_RIGHT" spacing="2">
-         <Label fx:id="percentOfCompletionLabel"
-                text="72%"
-                styleClass="project-card-percent"/>
-         <Label text="выполнено"
-                styleClass="project-card-percent-label"/>
-      </VBox>
-   </HBox>
-
-   <ProgressBar fx:id="taskCompletionProgressBar"
-                progress="0.72"
-                maxWidth="Infinity"
-                styleClass="project-card-progress"/>
-
-   <HBox spacing="24">
-      <VBox spacing="2">
-         <Label text="Задач" styleClass="project-card-stat-label"/>
-         <Label fx:id="numberOfTasksLabel" text="18" styleClass="project-card-stat-value"/>
-      </VBox>
-      <VBox spacing="2">
-         <Label text="Завершено" styleClass="project-card-stat-label"/>
-         <Label fx:id="completedTasksLabel" text="13" styleClass="project-card-stat-value"/>
-      </VBox>
-      <VBox spacing="2">
-         <Label text="Осталось" styleClass="project-card-stat-label"/>
-         <Label fx:id="remainingTasksLabel" text="5" styleClass="project-card-stat-value"/>
-      </VBox>
-   </HBox>
-
-   <VBox fx:id="tasksList" spacing="6">
-      <!-- Заполняется из контроллера -->
-   </VBox>
-
-   <Label text="Открыть проект →"
-          styleClass="project-card-link"/>
+      styleClass="card">
+    <HBox alignment="CENTER_LEFT" spacing="8" style="-fx-padding:0 0 14 0;">
+        <VBox HBox.hgrow="ALWAYS" spacing="3">
+            <HBox spacing="8" alignment="CENTER_LEFT">
+                <Region styleClass="dot-blue"/>
+                <Label fx:id="projectNameLabel" text="Редизайн портала"
+                       style="-fx-font-family:'Georgia',serif;-fx-font-size:17px;-fx-text-fill:#111110;"/>
+            </HBox>
+            <Label fx:id="projectSupervisorLabel" text="Руководитель: А.К." styleClass="section-mono"/>
+        </VBox>
+        <VBox alignment="CENTER_RIGHT" spacing="1">
+            <Label fx:id="percentOfCompletionLabel" text="72%" style="-fx-font-family:'Georgia',serif;-fx-font-size:22px;-fx-text-fill:#111110;"/>
+            <Label text="выполнено" styleClass="section-mono"/>
+        </VBox>
+    </HBox>
+    <ProgressBar fx:id="taskCompletionProgressBar" progress="0.72" maxWidth="Infinity" styleClass="progress-thin"
+                 style="-fx-accent:#1a3a8f;"/>
+    <HBox spacing="24" style="-fx-padding:14 0 12 0;">
+        <VBox spacing="2">
+            <Label text="Задач"     styleClass="section-mono"/>
+            <Label fx:id="numberOfTasksLabel" text="18"        style="-fx-font-weight:600;"/>
+        </VBox>
+        <VBox spacing="2">
+            <Label text="Завершено" styleClass="section-mono"/>
+            <Label fx:id="completedTasksLabel" text="13"        style="-fx-font-weight:600;"/>
+        </VBox>
+        <VBox spacing="2">
+            <Label text="Осталось"  styleClass="section-mono"/>
+            <Label fx:id="remainingTasksLabel" text="5"         style="-fx-font-weight:600;"/>
+        </VBox>
+    </HBox>
+    <VBox spacing="6">
+        <HBox spacing="6" alignment="CENTER_LEFT">
+            <Region style="-fx-background-color:#7c3aed;-fx-min-width:6;-fx-min-height:6;-fx-max-width:6;-fx-max-height:6;-fx-background-radius:3;"/>
+            <Label text="Утвердить макеты главной страницы"
+                   style="-fx-font-size:12px;-fx-text-fill:#5a5a56;" HBox.hgrow="ALWAYS"/>
+            <Label text="03 авг" styleClass="section-mono"/>
+        </HBox>
+        <HBox spacing="6" alignment="CENTER_LEFT">
+            <Region style="-fx-background-color:#1a3a8f;-fx-min-width:6;-fx-min-height:6;-fx-max-width:6;-fx-max-height:6;-fx-background-radius:3;"/>
+            <Label text="Оптимизация загрузки изображений"
+                   style="-fx-font-size:12px;-fx-text-fill:#5a5a56;" HBox.hgrow="ALWAYS"/>
+            <Label text="06 авг" styleClass="section-mono"/>
+        </HBox>
+        <HBox spacing="6" alignment="CENTER_LEFT">
+            <Region style="-fx-background-color:#14532d;-fx-min-width:6;-fx-min-height:6;-fx-max-width:6;-fx-max-height:6;-fx-background-radius:3;"/>
+            <Label text="Компонент навигационного меню"
+                   style="-fx-font-size:12px;-fx-text-fill:#5a5a56;" HBox.hgrow="ALWAYS"/>
+            <Label text="31 июл" styleClass="section-mono"/>
+        </HBox>
+    </VBox>
+    <Label text="Открыть проект →" styleClass="section-mono"
+           style="-fx-padding:12 0 0 0; -fx-cursor:hand;"/>
 </VBox>

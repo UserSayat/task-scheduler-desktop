@@ -5,7 +5,7 @@ import javafx.util.Callback;
 import org.example.taskschedulerdesktop.controllers.projects.CreateProjectModalWindowController;
 import org.example.taskschedulerdesktop.controllers.projects.ProjectCardController;
 import org.example.taskschedulerdesktop.controllers.projects.ProjectsController;
-import org.example.taskschedulerdesktop.controllers.projects.ProjectExtendedPageController;
+import org.example.taskschedulerdesktop.controllers.projects.ProjectDetailsController;
 import org.example.taskschedulerdesktop.controllers.tasks.*;
 import org.example.taskschedulerdesktop.database.DatabaseConnection;
 import org.example.taskschedulerdesktop.repository.project.H2ProjectRepository;
@@ -56,8 +56,8 @@ public class AppConfig {
             if (clazz == TaskTableController.class) {
                 return new TaskTableController(asyncTaskService);
             }
-            if (clazz == ProjectExtendedPageController.class) {
-                return new ProjectExtendedPageController(asyncTaskService, asyncProjectService);
+            if (clazz == ProjectDetailsController.class) {
+                return new ProjectDetailsController(asyncTaskService, asyncProjectService);
             }
             if (clazz == CreateTaskModalWindowController.class) {
                 return new CreateTaskModalWindowController(taskService);
