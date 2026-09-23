@@ -59,8 +59,8 @@ public class AppConfig {
             if (clazz == ProjectDetailsController.class) {
                 return new ProjectDetailsController(asyncTaskService, asyncProjectService);
             }
-            if (clazz == CreateTaskModalWindowController.class) {
-                return new CreateTaskModalWindowController(taskService);
+            if (clazz == CreateTaskController.class) {
+                return new CreateTaskController(taskService);
             }
             if (clazz == TaskRightSidebarController.class) {
                 return new TaskRightSidebarController(asyncTaskService);

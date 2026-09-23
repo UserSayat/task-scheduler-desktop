@@ -15,23 +15,23 @@ import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
 
-public class CreateTaskModalWindowController {
+public class CreateTaskController {
 
-    private static final Logger log = LoggerFactory.getLogger(CreateTaskModalWindowController.class);
+    private static final Logger log = LoggerFactory.getLogger(CreateTaskController.class);
 
     private final TaskService taskService;
 
     @FXML private TextField taskNameTextField;
 
-    @FXML private ChoiceBox<Project> projectChoiceBox;
+    @FXML private ComboBox<Project> projectComboBox;
     private Long selectedProject;
 
-    @FXML private ChoiceBox<String>executorChoiceBox;
+    @FXML private ComboBox<String> executorComboBox;
     private String selectedExecutor;
 
-    @FXML private Button highPriorityButton;
-    @FXML private Button middlePriorityButton;
-    @FXML private Button lowPriorityButton;
+    @FXML private ToggleButton tHigh;
+    @FXML private ToggleButton tMedium;
+    @FXML private ToggleButton tLow;
     private TaskPriority currentPriority = TaskPriority.LOW;
 
     @FXML private DatePicker deadlineDatePicker;
@@ -42,7 +42,7 @@ public class CreateTaskModalWindowController {
     @FXML private Button createTaskButton;
     @FXML private Button cancelButton;
 
-    public CreateTaskModalWindowController(TaskService taskService) {
+    public CreateTaskController(TaskService taskService) {
         this.taskService = taskService;
     }
 
@@ -51,34 +51,34 @@ public class CreateTaskModalWindowController {
 
         //TODO Сделать загрузку данных с бд
         //TODO Добавлять объекты Task, а не строки (нужен javafx.util.StringConverter<Task>)
-        projectChoiceBox.setConverter(new ProjectStringConverter());
+        projectComboBox.setConverter(new ProjectStringConverter());
 
-        projectChoiceBox.getItems().addAll(new Project(1L, "Редизайн портала", "Алексей Козлов",
+        projectComboBox.getItems().addAll(new Project(1L, "Редизайн портала", "Алексей Козлов",
                         null, null, null, null, false),
                 new Project(2L, "Миграция CRM", "", null, null, null, null, false),
                 new Project(3L, "Мобильное приложение", "", null, null, null, null, false),
                 new Project(4L, "Отчетность Q3", "", null, null, null, null, false));
 
-        executorChoiceBox.getItems().addAll("Алексей Козлов", "Мария Волкова", "Елена Никитина",
+        executorComboBox.getItems().addAll("Алексей Козлов", "Мария Волкова", "Елена Никитина",
                 "Павел Сорокин", "Дмитрий Лебедев", "Ирина Фёдорова");
 
-        projectChoiceBox.setOnAction(event -> {
-            selectedProject = projectChoiceBox.getValue().getId();
+        projectComboBox.setOnAction(event -> {
+            selectedProject = projectComboBox.getValue().getId();
         });
 
-        executorChoiceBox.setOnAction(event -> {
-            selectedExecutor = executorChoiceBox.getValue();
+        executorComboBox.setOnAction(event -> {
+            selectedExecutor = executorComboBox.getValue();
         });
 
-        highPriorityButton.setOnAction(event -> {
+        tHigh.setOnAction(event -> {
             this.currentPriority = TaskPriority.HIGH;
         });
 
-        middlePriorityButton.setOnAction(event -> {
+        tMedium.setOnAction(event -> {
             this.currentPriority = TaskPriority.MIDDLE;
         });
 
-        lowPriorityButton.setOnAction(event -> {
+        tLow.setOnAction(event -> {
             this.currentPriority = TaskPriority.LOW;
         });
 

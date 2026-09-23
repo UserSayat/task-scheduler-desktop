@@ -248,7 +248,13 @@ public class NavigationManager {
             dialogStage.setTitle(title);
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(owner);
-            dialogStage.setScene(new Scene(root));
+
+            Scene scene = new Scene(root);
+            scene.getStylesheets().addAll(
+                    NavigationManager.class.getResource("/org/example/taskschedulerdesktop/styles/style.css").toExternalForm()
+            );
+
+            dialogStage.setScene(scene);
             dialogStage.showAndWait();
             return dialogStage;
 
