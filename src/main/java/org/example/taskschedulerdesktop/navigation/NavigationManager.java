@@ -11,6 +11,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
@@ -77,6 +78,21 @@ public class NavigationManager {
         NavigationManager.globalStackPane = globalStackPane;
         NavigationManager.contentArea = contentArea;
         NavigationManager.controllerFactory = controllerFactory;
+
+        globalStackPane.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
+            if (rightSidebar == null || !rightSidebar.isVisible()) {
+                return;
+            }
+
+            Node clicked = (Node) event.getTarget();
+
+            if (isChildOf(clicked, rightSidebar)) {
+                return;
+            }
+
+            log.debug("Click outside sidebar, closing");
+            closeRightSidebar();
+        });
     }
 
     // ============================================================
@@ -341,16 +357,6 @@ public class NavigationManager {
             StackPane.setAlignment(rightSidebar, Pos.CENTER_RIGHT);
 
             globalStackPane.getChildren().add(rightSidebar);
-
-            globalStackPane.setOnMouseClicked(event -> {
-                Node clickedNode = (Node) event.getTarget();
-
-                if (clickedNode == rightSidebar || isChildOf(clickedNode, rightSidebar)) {
-                    return;
-                }
-
-                closeRightSidebar();
-            });
 
             TranslateTransition animate = new TranslateTransition(Duration.millis(200), rightSidebar);
 
