@@ -52,7 +52,7 @@ public class EventBus {
      */
     @SuppressWarnings("unchecked")
     public <T> void fire(T event) {
-        log.debug("📤 FIRE: {} (subscribers: {})",
+        log.debug("FIRE: {} (subscribers: {})",
                 event.getClass().getSimpleName(),
                 subscribers.getOrDefault(event.getClass(), List.of()).size());
 

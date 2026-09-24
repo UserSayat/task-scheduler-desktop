@@ -6,24 +6,36 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
-import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.TilePane;
 import org.example.taskschedulerdesktop.config.AppConfig;
 import org.example.taskschedulerdesktop.controllers.Shutdownable;
+import org.example.taskschedulerdesktop.listeners.EventBus;
+import org.example.taskschedulerdesktop.listeners.ProjectChangedEvent;
 import org.example.taskschedulerdesktop.navigation.NavigationManager;
 import org.example.taskschedulerdesktop.navigation.Routes;
 import org.example.taskschedulerdesktop.service.project.AsyncProjectService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 public class ProjectsController implements Shutdownable {
+
+    private static final Logger log = LoggerFactory.getLogger(ProjectsController.class);
 
     private final AsyncProjectService projectService;
     private final Service<List<Node>> projectsLoader;
 
     @FXML private Button createProjectButton;
 
-    @FXML private FlowPane projectsFlowPane;
+    @FXML private TilePane projectsTilePane;
     @FXML private ProgressIndicator projectsLoadingIndicator;
+
+    private final Consumer<ProjectChangedEvent> projectChangedListener = event -> {
+        log.debug("ProjectChangedEvent received");
+        refreshProjects();
+    };
 
     public ProjectsController(AsyncProjectService projectService) {
         this.projectService = projectService;
@@ -33,22 +45,24 @@ public class ProjectsController implements Shutdownable {
 
     @FXML
     public void initialize() {
+        EventBus.getInstance().subscribe(ProjectChangedEvent.class, projectChangedListener);
+
         projectsLoadingIndicator.visibleProperty().bind(projectsLoader.runningProperty());
 
         projectsLoader.setOnSucceeded(event -> {
-            projectsFlowPane.getChildren().clear();
+            projectsTilePane.getChildren().clear();
             List<Node> projects = projectsLoader.getValue();
 
             if (projects.isEmpty()) {
-                projectsFlowPane.getChildren().add(new Label("У вас еще нет созданных проектов"));
+                projectsTilePane.getChildren().add(new Label("У вас еще нет созданных проектов"));
             } else {
-                projectsFlowPane.getChildren().addAll(projects);
+                projectsTilePane.getChildren().addAll(projects);
             }
         });
 
         projectsLoader.setOnFailed(event -> {
-            projectsFlowPane.getChildren().clear();
-            projectsFlowPane.getChildren().add(new Label("Ошибка загрузки данных из базы"));
+            projectsTilePane.getChildren().clear();
+            projectsTilePane.getChildren().add(new Label("Ошибка загрузки данных из базы"));
 
             Throwable error = projectsLoader.getException();
             if (error != null) error.printStackTrace();
@@ -61,7 +75,6 @@ public class ProjectsController implements Shutdownable {
                     Routes.CREATE_PROJECT,
                     "Новый проект",
                     AppConfig.getInstance().getPrimaryStage());
-            projectService.invalidateCache();
         });
 
         refreshProjects();
@@ -78,5 +91,7 @@ public class ProjectsController implements Shutdownable {
             projectsLoader.setOnSucceeded(null);
             projectsLoader.setOnFailed(null);
         }
+
+        EventBus.getInstance().unsubscribe(ProjectChangedEvent.class, projectChangedListener);
     }
 }

@@ -1,7 +1,9 @@
 package org.example.taskschedulerdesktop.service.project;
 
+import org.example.taskschedulerdesktop.config.AppConfig;
 import org.example.taskschedulerdesktop.exeptions.NotFoundException;
 import org.example.taskschedulerdesktop.listeners.EventBus;
+import org.example.taskschedulerdesktop.listeners.ProjectChangedEvent;
 import org.example.taskschedulerdesktop.listeners.TaskChangedEvent;
 import org.example.taskschedulerdesktop.models.Project;
 import org.example.taskschedulerdesktop.repository.project.ProjectRepository;
@@ -52,20 +54,6 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public void save(Project project) {
         log.debug("save({})", project);
-
-        int numberOfTasks = countTasksByProjectId(project.getId());
-        int completedTasks = countTasksByProjectIdAndStatus(project.getId(), TaskStatus.COMPLETED);
-        int remainingTasks = numberOfTasks - completedTasks;
-        int percentOfCompletion = numberOfTasks > 0 ? (completedTasks / numberOfTasks) * 100 : 0;
-
-        project.setNumberOfTasks(numberOfTasks);
-        project.setCompletedTasks(completedTasks);
-        project.setRemainingTasks(remainingTasks);
-        project.setPercentOfCompletion(percentOfCompletion);
-
-        log.debug("Project: {}, number of tasks = {}, completed tasks = {}",
-                project, project.getNumberOfTasks(), project.getCompletedTasks());
-
 
         projectRepository.save(project);
     }

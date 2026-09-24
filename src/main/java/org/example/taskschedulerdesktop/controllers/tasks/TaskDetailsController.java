@@ -17,9 +17,9 @@ import org.example.taskschedulerdesktop.utils.TaskStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class TaskDetails implements RightSidebar {
+public class TaskDetailsController implements RightSidebar {
 
-    private static final Logger log = LoggerFactory.getLogger(TaskDetails.class);
+    private static final Logger log = LoggerFactory.getLogger(TaskDetailsController.class);
     private final AsyncTaskService taskService;
 
     @FXML private Label projectNameLabel;
@@ -65,7 +65,7 @@ public class TaskDetails implements RightSidebar {
     private TaskView contextTask;
     private boolean editMode = false;
 
-    public TaskDetails(AsyncTaskService taskService) {
+    public TaskDetailsController(AsyncTaskService taskService) {
         this.taskService = taskService;
     }
 
@@ -100,6 +100,7 @@ public class TaskDetails implements RightSidebar {
         });
 
         saveTheTaskButton.setOnAction(event -> {
+            contextTask.setTaskName(taskNameLabel.getText());
             contextTask.setStatus(TaskStatus.fromString(statusEditComboBox.getValue()));
             contextTask.setPriority(TaskPriority.fromString(priorityEditComboBox.getValue()));
             if (deadlineDatePicker.getValue() != null) {
@@ -251,7 +252,6 @@ public class TaskDetails implements RightSidebar {
     private void exitEditMode() {
         editMode = false;
 
-        // 👇 Показываем просмотр
         taskNameLabel.setVisible(true);
         taskNameLabel.setManaged(true);
         statusLabel.setVisible(true);

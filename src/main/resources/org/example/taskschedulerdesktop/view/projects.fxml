@@ -4,23 +4,27 @@
 <?import javafx.scene.control.*?>
 <?import javafx.geometry.*?>
 
-<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" styleClass="content-area"
-      fx:controller="org.example.taskschedulerdesktop.controllers.projects.ProjectsController">
-    <ScrollPane fitToWidth="true" styleClass="scroll-pane-clean">
-        <VBox spacing="14">
+<ScrollPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.example.taskschedulerdesktop.controllers.projects.ProjectsController"
+            fitToWidth="true" fitToHeight="true" hbarPolicy="NEVER" styleClass="scroll-pane-clean">
+    <VBox spacing="14" styleClass="content-area">
 
-            <HBox alignment="CENTER_RIGHT">
-                <Button fx:id="createProjectButton" text="+ Новый проект"
-                        styleClass="btn-secondary"/>
-            </HBox>
+        <HBox alignment="CENTER_RIGHT">
+            <Button fx:id="createProjectButton" text="+ Новый проект"
+                    styleClass="btn-secondary"/>
+        </HBox>
 
-            <FlowPane fx:id="projectsFlowPane" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
-                <padding>
-                    <Insets bottom="30.0" left="40.0" right="40.0" top="30.0" />
-                </padding>
-                    <ProgressIndicator fx:id="projectsLoadingIndicator" />
-            </FlowPane>
+        <TilePane fx:id="projectsTilePane" styleClass="content-area"
+                  hgap="20"
+                  vgap="20"
+                  prefTileWidth="450"
+                  prefTileHeight="250"
+                  alignment="CENTER">
+            <padding>
+                <Insets bottom="30.0" left="40.0" right="40.0" top="30.0" />
+            </padding>
+                <ProgressIndicator fx:id="projectsLoadingIndicator" />
+        </TilePane>
 
-        </VBox>
-    </ScrollPane>
-</VBox>
+    </VBox>
+</ScrollPane>

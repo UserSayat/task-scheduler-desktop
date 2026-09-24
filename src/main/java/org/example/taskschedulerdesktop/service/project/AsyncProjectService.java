@@ -3,6 +3,8 @@ package org.example.taskschedulerdesktop.service.project;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.scene.Node;
+import org.example.taskschedulerdesktop.listeners.EventBus;
+import org.example.taskschedulerdesktop.listeners.ProjectChangedEvent;
 import org.example.taskschedulerdesktop.models.Project;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,13 +76,16 @@ public class AsyncProjectService {
             @Override
             protected Void call() throws Exception {
                 delegate.save(project);
-                invalidateCache();
                 log.debug("Project saved: {}", project.getName());
                 return null;
             }
         };
 
-        task.setOnSucceeded(event -> onSuccess.run());
+        task.setOnSucceeded(event -> {
+            invalidateCache();
+            EventBus.getInstance().fire(new ProjectChangedEvent());
+            onSuccess.run();
+        });
         task.setOnFailed(event -> onError.accept(task.getException()));
 
         executor.submit(task);
@@ -91,13 +96,16 @@ public class AsyncProjectService {
             @Override
             protected Void call() throws Exception {
                 delegate.update(project);
-                invalidateCache();
                 log.debug("Project updated: {}", project.getName());
                 return null;
             }
         };
 
-        task.setOnSucceeded(event -> onSuccess.run());
+        task.setOnSucceeded(event -> {
+            invalidateCache();
+            EventBus.getInstance().fire(new ProjectChangedEvent());
+            onSuccess.run();
+        });
         task.setOnFailed(event -> onError.accept(task.getException()));
 
         executor.submit(task);
@@ -108,13 +116,17 @@ public class AsyncProjectService {
             @Override
             protected Void call() throws Exception {
                 delegate.delete(projectId);
-                invalidateCache();
                 log.debug("Project deleted id = {}", projectId);
                 return null;
             }
         };
 
-        task.setOnSucceeded(event -> onSuccess.run());
+        task.setOnSucceeded(event -> {
+            invalidateCache();
+            //TODO В будущем при обновлении проекта обновлять только карточку проекта
+            EventBus.getInstance().fire(new ProjectChangedEvent());
+            onSuccess.run();
+        });
         task.setOnFailed(event -> onError.accept(task.getException()));
 
         executor.submit(task);
