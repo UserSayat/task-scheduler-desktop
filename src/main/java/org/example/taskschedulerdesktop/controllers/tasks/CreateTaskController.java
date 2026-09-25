@@ -6,7 +6,8 @@ import javafx.stage.Stage;
 import org.example.taskschedulerdesktop.models.Project;
 import org.example.taskschedulerdesktop.models.Task;
 import org.example.taskschedulerdesktop.navigation.NavigationManager;
-import org.example.taskschedulerdesktop.service.task.TaskService;
+import org.example.taskschedulerdesktop.service.project.AsyncProjectService;
+import org.example.taskschedulerdesktop.service.task.AsyncTaskService;
 import org.example.taskschedulerdesktop.utils.ProjectStringConverter;
 import org.example.taskschedulerdesktop.utils.TaskPriority;
 import org.example.taskschedulerdesktop.utils.TaskStatus;
@@ -19,7 +20,8 @@ public class CreateTaskController {
 
     private static final Logger log = LoggerFactory.getLogger(CreateTaskController.class);
 
-    private final TaskService taskService;
+    private final AsyncTaskService taskService;
+    private final AsyncProjectService projectService;
 
     @FXML private TextField taskNameTextField;
 
@@ -42,25 +44,26 @@ public class CreateTaskController {
     @FXML private Button createTaskButton;
     @FXML private Button cancelButton;
 
-    public CreateTaskController(TaskService taskService) {
+    public CreateTaskController(AsyncTaskService taskService, AsyncProjectService projectService) {
         this.taskService = taskService;
+        this.projectService = projectService;
     }
 
     @FXML
     public void initialize() {
-
-        //TODO Сделать загрузку данных с бд
-        //TODO Добавлять объекты Task, а не строки (нужен javafx.util.StringConverter<Task>)
-        projectComboBox.setConverter(new ProjectStringConverter());
-
-        projectComboBox.getItems().addAll(new Project(1L, "Редизайн портала", "Алексей Козлов",
-                        null, null, null, null, false),
-                new Project(2L, "Миграция CRM", "", null, null, null, null, false),
-                new Project(3L, "Мобильное приложение", "", null, null, null, null, false),
-                new Project(4L, "Отчетность Q3", "", null, null, null, null, false));
-
         executorComboBox.getItems().addAll("Алексей Козлов", "Мария Волкова", "Елена Никитина",
                 "Павел Сорокин", "Дмитрий Лебедев", "Ирина Фёдорова");
+
+        projectService.findAllProjects(
+                projects -> {
+                    projectComboBox.setConverter(new ProjectStringConverter());
+                    projectComboBox.getItems().setAll(projects);
+                },
+                error -> {
+                    log.error("Ошибка загрузки проектов", error);
+                    NavigationManager.showToast("Ошибка загрузки проектов", "error");
+                }
+        );
 
         projectComboBox.setOnAction(event -> {
             selectedProject = projectComboBox.getValue().getId();
@@ -96,7 +99,7 @@ public class CreateTaskController {
             }
 
             //TODO может быть стоит использовать AsyncTaskService
-            taskService.save(new Task(null,
+            taskService.createTask(new Task(null,
                     taskNameTextField.getText(),
                     selectedProject,
                     selectedExecutor,
@@ -105,13 +108,16 @@ public class CreateTaskController {
                     currentPriority,
                     deadlineDatePicker.getValue(),
                     null,
-                    false));
-
-            Stage stage = (Stage) createTaskButton.getScene().getWindow();
-            if (stage != null) {
-                NavigationManager.closeDialog(stage);
-                NavigationManager.showToast("Задача сохранена", "success");
-            }
+                    false),
+                    () -> {
+                        Stage stage = (Stage) createTaskButton.getScene().getWindow();
+                        if (stage != null) {
+                            NavigationManager.closeDialog(stage);
+                            NavigationManager.showToast("Задача сохранена", "success");
+                        }
+                    },
+                    error -> NavigationManager.showToast("Ошибка создания задачи", "error")
+            );
 
             log.debug("createTaskButton.getScene() = {}", createTaskButton.getScene());
             log.debug("createTaskButton.getScene().getWindow() = {}", createTaskButton.getScene().getWindow());
