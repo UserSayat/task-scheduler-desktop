@@ -92,8 +92,6 @@
                 <FlowPane fx:id="tagsFlowPane"
                           hgap="6"
                           vgap="6"/>
-                    <Label text="дизайн"       styleClass="tag-chip"/>
-                    <Label text="согласование" styleClass="tag-chip"/>
                 <TextField fx:id="tagsTextField" styleClass="text-field-styled"
                            visible="false" managed="false"/>
             </VBox>

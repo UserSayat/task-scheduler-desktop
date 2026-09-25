@@ -17,6 +17,8 @@ import org.example.taskschedulerdesktop.utils.TaskStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.LocalDate;
+
 import static org.example.taskschedulerdesktop.utils.DateFormatter.formatFull;
 
 public class TaskDetailsController implements RightSidebar {
@@ -117,7 +119,12 @@ public class TaskDetailsController implements RightSidebar {
             contextTask.setPriority(TaskPriority.fromString(priorityComboBox.getValue()));
             contextTask.setExecutor(executorComboBox.getValue());
             if (deadlineDatePicker.getValue() != null) {
-                contextTask.setDeadline(deadlineDatePicker.getValue());
+                if (deadlineDatePicker.getValue().isAfter(LocalDate.now())) {
+                    contextTask.setDeadline(deadlineDatePicker.getValue());
+                } else {
+                    NavigationManager.showToast("Дедлайн истек! Выберете корректную дату!", "info");
+                    return;
+                }
             } else {
                 NavigationManager.showToast("Выберите дату!", "info");
                 return;

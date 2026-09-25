@@ -48,14 +48,12 @@
             <HBox alignment="CENTER_LEFT" spacing="8" style="-fx-padding:14 0 0 0;             -fx-border-color:#f0f0ec; -fx-border-width:1 0 0 0;">
                 <Button fx:id="editProjectButton" styleClass="btn-secondary" text="Редактировать" />
                 <Region HBox.hgrow="ALWAYS" />
-                <VBox fx:id="confirmDeleteBox" alignment="CENTER_RIGHT" managed="false" spacing="8" visible="false">
-                    <Label style="-fx-text-fill:#b91c1c;-fx-font-size:12px;" text="Удалить проект и все его задачи?" />
-                    <HBox spacing="8">
-                        <Button styleClass="btn-danger" text="Да, удалить" />
-                        <Button styleClass="btn-secondary" text="Отмена" />
-                    </HBox>
-                </VBox>
                 <Button fx:id="deleteProjectButton" styleClass="btn-ghost-danger" text="Удалить проект" />
+                <HBox fx:id="confirmDeleteVBox" alignment="CENTER_RIGHT" managed="false" spacing="8" visible="false">
+                    <Label style="-fx-text-fill:#b91c1c;-fx-font-size:12px;" text="Удалить проект и все его задачи?" />
+                    <Button fx:id="confirmDeleteButton" styleClass="btn-danger" text="Да, удалить" />
+                    <Button fx:id="cancelDeleteButton" styleClass="btn-secondary" text="Отмена" />
+                </HBox>
             </HBox>
         </VBox>
 

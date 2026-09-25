@@ -3,6 +3,7 @@ package org.example.taskschedulerdesktop.service.project;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.scene.Node;
+import org.example.taskschedulerdesktop.listeners.ChangeType;
 import org.example.taskschedulerdesktop.listeners.EventBus;
 import org.example.taskschedulerdesktop.listeners.ProjectChangedEvent;
 import org.example.taskschedulerdesktop.models.Project;
@@ -69,7 +70,7 @@ public class AsyncProjectService {
         };
 
         task.setOnSucceeded(event -> {
-            EventBus.getInstance().fire(new ProjectChangedEvent(project.getId()));
+            EventBus.getInstance().fire(new ProjectChangedEvent(project.getId(), ChangeType.DELETED));
             onSuccess.run();
         });
         task.setOnFailed(event -> onError.accept(task.getException()));
@@ -88,7 +89,7 @@ public class AsyncProjectService {
         };
 
         task.setOnSucceeded(event -> {
-            EventBus.getInstance().fire(new ProjectChangedEvent(project.getId()));
+            EventBus.getInstance().fire(new ProjectChangedEvent(project.getId(), ChangeType.UPDATED));
             onSuccess.run();
         });
         task.setOnFailed(event -> onError.accept(task.getException()));
@@ -108,7 +109,7 @@ public class AsyncProjectService {
 
         task.setOnSucceeded(event -> {
             //TODO В будущем при обновлении проекта обновлять только карточку проекта
-            EventBus.getInstance().fire(new ProjectChangedEvent(projectId));
+            EventBus.getInstance().fire(new ProjectChangedEvent(projectId, ChangeType.DELETED));
             onSuccess.run();
         });
         task.setOnFailed(event -> onError.accept(task.getException()));

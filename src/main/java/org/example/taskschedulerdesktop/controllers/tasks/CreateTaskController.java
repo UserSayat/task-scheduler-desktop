@@ -98,6 +98,11 @@ public class CreateTaskController {
                 return;
             }
 
+            if (deadlineDatePicker.getValue().isBefore(LocalDate.now())) {
+                NavigationManager.showToast("Дедлайн истек! Выберете корректную дату!", "info");
+                return;
+            }
+
             //TODO может быть стоит использовать AsyncTaskService
             taskService.createTask(new Task(null,
                     taskNameTextField.getText(),

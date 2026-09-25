@@ -7,9 +7,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ProgressIndicator;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.example.taskschedulerdesktop.config.AppConfig;
 import org.example.taskschedulerdesktop.controllers.Shutdownable;
+import org.example.taskschedulerdesktop.listeners.ChangeType;
 import org.example.taskschedulerdesktop.listeners.EventBus;
 import org.example.taskschedulerdesktop.listeners.ProjectChangedEvent;
 import org.example.taskschedulerdesktop.listeners.TaskChangedEvent;
@@ -41,6 +43,10 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
     @FXML private ProgressBar progressBar;
 
     @FXML private Button editProjectButton;
+    @FXML private Button deleteProjectButton;
+    @FXML private HBox confirmDeleteVBox;
+    @FXML private Button confirmDeleteButton;
+    @FXML private Button cancelDeleteButton;
 
     @FXML private VBox newTasksVBox;
     @FXML private VBox tasksInProgressVBox;
@@ -79,16 +85,24 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
     private final Consumer<ProjectChangedEvent> projectUpdateListener = event -> {
         log.debug("ProjectDetailsController: ProjectChangedEvent received: projectId={}", event.getProjectId());
 
-        if (context != null && event.getProjectId().equals(context.getId())) {
-            asyncProjectService.findProjectById(
-                    context.getId(),
-                    project -> {
-                        this.context = project;
-                        updateUI();
-                    },
-                    error -> log.error("Error updating project's data", error)
-            );
+        if (context == null && !event.getProjectId().equals(context.getId())) {
+            return;
         }
+
+        if (event.getChangeType() == ChangeType.DELETED) {
+            log.debug("Project deleted, navigating back to projects list");
+            NavigationManager.navigateTo(Routes.PROJECTS);
+            return;
+        }
+
+        asyncProjectService.findProjectById(
+                context.getId(),
+                project -> {
+                    this.context = project;
+                    updateUI();
+                },
+                error -> log.error("Error updating project's data", error)
+        );
     };
 
     public ProjectDetailsController(AsyncTaskService taskService, AsyncProjectService projectService) {
@@ -179,6 +193,31 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
                         AppConfig.getInstance().getPrimaryStage(),
                         context);
             });
+
+            deleteProjectButton.setOnAction(event -> {
+                log.debug("Click on delete button");
+
+                log.info("Open delete panel for project: {}", projectCard.getId());
+                deleteProjectButton.setVisible(false);
+                deleteProjectButton.setManaged(false);
+
+                confirmDeleteVBox.setVisible(true);
+                confirmDeleteVBox.setManaged(true);
+            });
+
+            confirmDeleteButton.setOnAction(event -> {
+                asyncProjectService.deleteProject(
+                        projectCard.getId(),
+                        () -> {
+                            NavigationManager.showToast("Проект удален", "info");
+                        },
+                        error -> NavigationManager.showToast("Не удалось удалить", "error")
+                );
+            });
+
+            cancelDeleteButton.setOnAction(event -> {
+                resetDeleteUI();
+            });
         } else {
             log.error("Context isn't an instance of Project");
         }
@@ -197,6 +236,14 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
         this.remainingTasksLabel.setText(String.valueOf(context.getRemainingTasks()));
         this.percentOfCompletionLabel.setText(context.getPercentOfCompletion() + "%");
         this.progressBar.setProgress(context.getPercentOfCompletion() / 100.0);
+    }
+
+    private void resetDeleteUI() {
+        confirmDeleteVBox.setVisible(false);
+        confirmDeleteVBox.setManaged(false);
+
+        deleteProjectButton.setVisible(true);
+        deleteProjectButton.setManaged(true);
     }
 
     @Override
