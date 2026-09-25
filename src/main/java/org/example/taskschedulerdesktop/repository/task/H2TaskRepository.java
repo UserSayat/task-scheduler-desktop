@@ -217,13 +217,13 @@ public class H2TaskRepository implements TaskRepository {
     }
 
     @Override
-    public List<TaskView> findViewsByStatus(TaskStatus status) {
-        log.debug("findViewsByStatus({})", status);
+    public List<TaskView> findViewsByProjectIdAndStatus(long projectId, TaskStatus status) {
+        log.debug("findViewsByProjectIdAndStatus({}, {})", projectId, status);
 
         String sql = """
             SELECT t.id, t.name, t.project_id, p.name AS project_name, t.executor, t.type, t.status, t.priority,
              t.deadline, t.description, t.synced FROM tasks t LEFT JOIN projects p ON t.project_id = p.id
-             WHERE t.status = ? ORDER BY t.deadline
+             WHERE t.project_id = ? AND t.status = ? ORDER BY t.deadline
         """;
 
         List<TaskView> views = new ArrayList<>();
@@ -231,15 +231,15 @@ public class H2TaskRepository implements TaskRepository {
         try (Connection conn = db.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setString(1, status.name());
+            pstmt.setLong(1, projectId);
+            pstmt.setString(2, status.name());
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
                 views.add(mapRowToTaskView(rs));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-            log.error("Error finding views by status: status = {}", status);
+            log.error("Error finding views by project id and status: project id = {},  status = {}", projectId, status, e);
         }
 
         return views;

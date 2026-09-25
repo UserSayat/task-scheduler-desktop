@@ -13,6 +13,7 @@ public final class Routes {
 
     public static final String PROJECTS = "/org/example/taskschedulerdesktop/view/projects.fxml";
     public static final String CREATE_PROJECT = "/org/example/taskschedulerdesktop/view/create_project.fxml";
+    public static final String EDIT_PROJECT = "/org/example/taskschedulerdesktop/view/edit_project.fxml";
     public static final String PROJECT_CARD = "/org/example/taskschedulerdesktop/view/project_card.fxml";
     public static final String PROJECT_DETAILS = "/org/example/taskschedulerdesktop/view/project_details.fxml";
 

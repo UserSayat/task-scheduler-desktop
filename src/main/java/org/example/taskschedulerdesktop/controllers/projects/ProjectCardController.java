@@ -11,6 +11,7 @@ import org.example.taskschedulerdesktop.listeners.TaskChangedEvent;
 import org.example.taskschedulerdesktop.models.Project;
 import org.example.taskschedulerdesktop.navigation.ContextAware;
 import org.example.taskschedulerdesktop.navigation.NavigationManager;
+import org.example.taskschedulerdesktop.navigation.Routes;
 import org.example.taskschedulerdesktop.service.project.AsyncProjectService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -80,7 +81,7 @@ public class ProjectCardController implements ContextAware, Shutdownable {
             rootVBox.setOnMouseClicked(event -> {
                 log.debug("Click on the card, context = {}", context);
                 NavigationManager
-                        .navigateTo("/org/example/taskschedulerdesktop/view/project_details.fxml", null, context);
+                        .navigateTo(Routes.PROJECT_DETAILS, null, context);
             });
         } else {
             log.error("Context isn't an instance of Project");

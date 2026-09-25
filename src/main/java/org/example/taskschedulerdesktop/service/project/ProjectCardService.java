@@ -19,10 +19,7 @@ public class ProjectCardService {
 
     private static final Logger log = LoggerFactory.getLogger(ProjectCardService.class);
 
-    private final ProjectService projectService;
-
-    public ProjectCardService(ProjectService projectService) {
-        this.projectService = projectService;
+    public ProjectCardService() {
     }
 
     public Node createCard(Project project) {

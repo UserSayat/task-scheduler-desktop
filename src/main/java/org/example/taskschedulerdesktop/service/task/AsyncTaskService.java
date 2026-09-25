@@ -11,8 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
@@ -35,7 +33,7 @@ public class AsyncTaskService {
         this.taskCardService = taskCardService;
     }
 
-    public Service<List<Node>> createLoaderService(TaskStatus status) {
+    public Service<List<Node>> createLoaderService(long projectId, TaskStatus status) {
         Service<List<Node>> service = new Service<>() {
             @Override
             protected javafx.concurrent.Task<List<Node>> createTask() {
@@ -45,7 +43,7 @@ public class AsyncTaskService {
                         //TODO добавить в качестве параметра поиска название проекта
                         // чтобы не выводились задачи со всех проектов, а только с текущего
 
-                        List<TaskView> tasks = delegate.findViewByStatus(status);
+                        List<TaskView> tasks = delegate.findViewByProjectIdAndStatus(projectId, status);
                         return taskCardService.createCardsForProjectExtendedPage(tasks);
                     }
                 };

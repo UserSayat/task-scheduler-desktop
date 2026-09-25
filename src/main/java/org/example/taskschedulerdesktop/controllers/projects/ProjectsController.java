@@ -53,7 +53,7 @@ public class ProjectsController implements Shutdownable {
             projectsTilePane.getChildren().clear();
             List<Node> projects = projectsLoader.getValue();
 
-            if (projects.isEmpty()) {
+            if (projects == null || projects.isEmpty()) {
                 projectsTilePane.getChildren().add(new Label("У вас еще нет созданных проектов"));
             } else {
                 projectsTilePane.getChildren().addAll(projects);

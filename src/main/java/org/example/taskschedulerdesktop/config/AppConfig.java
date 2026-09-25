@@ -2,10 +2,7 @@ package org.example.taskschedulerdesktop.config;
 
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import org.example.taskschedulerdesktop.controllers.projects.CreateProjectController;
-import org.example.taskschedulerdesktop.controllers.projects.ProjectCardController;
-import org.example.taskschedulerdesktop.controllers.projects.ProjectsController;
-import org.example.taskschedulerdesktop.controllers.projects.ProjectDetailsController;
+import org.example.taskschedulerdesktop.controllers.projects.*;
 import org.example.taskschedulerdesktop.controllers.tasks.*;
 import org.example.taskschedulerdesktop.database.DatabaseConnection;
 import org.example.taskschedulerdesktop.repository.project.H2ProjectRepository;
@@ -47,7 +44,7 @@ public class AppConfig {
         this.taskCardService = new TaskCardService();
         this.asyncTaskService = new AsyncTaskService(taskService, taskCardService);
         this.projectService = new ProjectServiceImpl(projectRepository, taskService);
-        this.projectCardService = new ProjectCardService(projectService);
+        this.projectCardService = new ProjectCardService();
         this.asyncProjectService = new AsyncProjectService(projectService, projectCardService);
 
 
@@ -70,6 +67,9 @@ public class AppConfig {
             }
             if (clazz == CreateProjectController.class) {
                 return new CreateProjectController(asyncProjectService);
+            }
+            if (clazz == EditProjectController.class) {
+                return new EditProjectController(asyncProjectService);
             }
             if (clazz == ProjectCardController.class) {
                 return new ProjectCardController(asyncProjectService);

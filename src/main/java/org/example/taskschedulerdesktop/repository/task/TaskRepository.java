@@ -15,7 +15,7 @@ public interface TaskRepository {
     Optional<Task> findById(long id);
     List<TaskView> findAllViews();
     Optional<TaskView> findViewById(long id);
-    List<TaskView> findViewsByStatus(TaskStatus status);
+    List<TaskView> findViewsByProjectIdAndStatus(long projectId, TaskStatus status);
     List<Task> findUnsynced();
     void markAsSynced(long id);
     int countByProjectIdAndStatus(long projectId, TaskStatus status);

@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface TaskService {
     List<TaskView> findAllViews();
-    List<TaskView> findViewByStatus(TaskStatus status);
+    List<TaskView> findViewByProjectIdAndStatus(long projectId, TaskStatus status);
     TaskView findViewById(long id);
     void save(Task task);
     void update(Task task);

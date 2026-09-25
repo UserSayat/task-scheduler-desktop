@@ -1,14 +1,11 @@
 package org.example.taskschedulerdesktop.service.task;
 
-import org.example.taskschedulerdesktop.config.AppConfig;
 import org.example.taskschedulerdesktop.dto.TaskView;
 import org.example.taskschedulerdesktop.exeptions.NotFoundException;
 import org.example.taskschedulerdesktop.listeners.EventBus;
 import org.example.taskschedulerdesktop.listeners.TaskChangedEvent;
-import org.example.taskschedulerdesktop.models.Project;
 import org.example.taskschedulerdesktop.models.Task;
 import org.example.taskschedulerdesktop.repository.task.TaskRepository;
-import org.example.taskschedulerdesktop.service.project.ProjectService;
 import org.example.taskschedulerdesktop.utils.TaskStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,8 +27,8 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<TaskView> findViewByStatus(TaskStatus status) {
-        return repository.findViewsByStatus(status);
+    public List<TaskView> findViewByProjectIdAndStatus(long projectId, TaskStatus status) {
+        return repository.findViewsByProjectIdAndStatus(projectId, status);
     }
 
     @Override

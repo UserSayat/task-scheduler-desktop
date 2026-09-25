@@ -42,6 +42,11 @@ public class AsyncProjectService {
                         log.debug("createProjectLoader()");
 
                         List<Project> projects = delegate.findAll();
+
+                        if (projects.isEmpty()) {
+                            return null;
+                        }
+
                         log.debug("Project: {}, number of tasks = {}", projects.getFirst(), projects.getFirst().getNumberOfTasks());
                         return projectCardService.createCards(projects);
                     }
@@ -64,7 +69,7 @@ public class AsyncProjectService {
         };
 
         task.setOnSucceeded(event -> {
-            EventBus.getInstance().fire(new ProjectChangedEvent());
+            EventBus.getInstance().fire(new ProjectChangedEvent(project.getId()));
             onSuccess.run();
         });
         task.setOnFailed(event -> onError.accept(task.getException()));
@@ -83,7 +88,7 @@ public class AsyncProjectService {
         };
 
         task.setOnSucceeded(event -> {
-            EventBus.getInstance().fire(new ProjectChangedEvent());
+            EventBus.getInstance().fire(new ProjectChangedEvent(project.getId()));
             onSuccess.run();
         });
         task.setOnFailed(event -> onError.accept(task.getException()));
@@ -103,7 +108,7 @@ public class AsyncProjectService {
 
         task.setOnSucceeded(event -> {
             //TODO В будущем при обновлении проекта обновлять только карточку проекта
-            EventBus.getInstance().fire(new ProjectChangedEvent());
+            EventBus.getInstance().fire(new ProjectChangedEvent(projectId));
             onSuccess.run();
         });
         task.setOnFailed(event -> onError.accept(task.getException()));

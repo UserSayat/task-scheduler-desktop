@@ -3,15 +3,20 @@ package org.example.taskschedulerdesktop.controllers.projects;
 import javafx.concurrent.Service;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.VBox;
+import org.example.taskschedulerdesktop.config.AppConfig;
 import org.example.taskschedulerdesktop.controllers.Shutdownable;
 import org.example.taskschedulerdesktop.listeners.EventBus;
+import org.example.taskschedulerdesktop.listeners.ProjectChangedEvent;
 import org.example.taskschedulerdesktop.listeners.TaskChangedEvent;
 import org.example.taskschedulerdesktop.models.Project;
 import org.example.taskschedulerdesktop.navigation.ContextAware;
+import org.example.taskschedulerdesktop.navigation.NavigationManager;
+import org.example.taskschedulerdesktop.navigation.Routes;
 import org.example.taskschedulerdesktop.service.project.AsyncProjectService;
 import org.example.taskschedulerdesktop.service.task.AsyncTaskService;
 import org.example.taskschedulerdesktop.utils.TaskStatus;
@@ -34,6 +39,8 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
     @FXML private Label remainingTasksLabel;
     @FXML private Label percentOfCompletionLabel;
     @FXML private ProgressBar progressBar;
+
+    @FXML private Button editProjectButton;
 
     @FXML private VBox newTasksVBox;
     @FXML private VBox tasksInProgressVBox;
@@ -69,6 +76,20 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
         }
     };
 
+    private final Consumer<ProjectChangedEvent> projectUpdateListener = event -> {
+        log.debug("ProjectDetailsController: ProjectChangedEvent received: projectId={}", event.getProjectId());
+
+        if (context != null && event.getProjectId().equals(context.getId())) {
+            asyncProjectService.findProjectById(
+                    context.getId(),
+                    project -> {
+                        this.context = project;
+                        updateUI();
+                    },
+                    error -> log.error("Error updating project's data", error)
+            );
+        }
+    };
 
     public ProjectDetailsController(AsyncTaskService taskService, AsyncProjectService projectService) {
         this.asyncTaskService = taskService;
@@ -77,7 +98,11 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
 
     private Service<List<Node>> setupLoaderService(TaskStatus status, VBox container, ProgressIndicator indicator) {
 
-        Service<List<Node>> loaderService = asyncTaskService.createLoaderService(status);
+        if (context == null) {
+            log.error("Context is null");
+        }
+
+        Service<List<Node>> loaderService = asyncTaskService.createLoaderService(context.getId(), status);
 
         indicator.visibleProperty().bind(loaderService.runningProperty());
 
@@ -120,13 +145,7 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
     @FXML
     public void initialize() {
         EventBus.getInstance().subscribe(TaskChangedEvent.class, taskUpdateListener);
-
-        newTasksLoader = setupLoaderService(TaskStatus.NEW, newTasksVBox, newTasksLoadingIndicator);
-        inProgressLoader = setupLoaderService(TaskStatus.IN_PROGRESS, tasksInProgressVBox, tasksInProgressLoadingIndicator);
-        underReviewLoader = setupLoaderService(TaskStatus.UNDER_REVIEW, tasksUnderReviewVBox, tasksUnderReviewLoadingIndicator);
-        completedLoader = setupLoaderService(TaskStatus.COMPLETED, completedTasksVBox, completedTasksLoadingIndicator);
-
-        refreshAllContainers();
+        EventBus.getInstance().subscribe(ProjectChangedEvent.class, projectUpdateListener);
     }
 
     @Override
@@ -136,6 +155,14 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
 
         if (context instanceof Project projectCard) {
             this.context = projectCard;
+            updateUI();
+
+            newTasksLoader = setupLoaderService(TaskStatus.NEW, newTasksVBox, newTasksLoadingIndicator);
+            inProgressLoader = setupLoaderService(TaskStatus.IN_PROGRESS, tasksInProgressVBox, tasksInProgressLoadingIndicator);
+            underReviewLoader = setupLoaderService(TaskStatus.UNDER_REVIEW, tasksUnderReviewVBox, tasksUnderReviewLoadingIndicator);
+            completedLoader = setupLoaderService(TaskStatus.COMPLETED, completedTasksVBox, completedTasksLoadingIndicator);
+
+            refreshAllContainers();
 
             asyncProjectService.findProjectById(
                     projectCard.getId(),
@@ -145,6 +172,13 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
                     },
                     error -> log.error("Ошибка загрузки проекта", error)
             );
+
+            editProjectButton.setOnAction(event -> {
+                NavigationManager.openDialog(Routes.EDIT_PROJECT,
+                        "РЕДАКТИРОВАНИЕ",
+                        AppConfig.getInstance().getPrimaryStage(),
+                        context);
+            });
         } else {
             log.error("Context isn't an instance of Project");
         }
@@ -169,6 +203,7 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
     public void shutdown() {
         log.debug("ProjectDetailsController: shutdown()");
         EventBus.getInstance().unsubscribe(TaskChangedEvent.class, taskUpdateListener);
+        EventBus.getInstance().unsubscribe(ProjectChangedEvent.class, projectUpdateListener);
 
         unregisterLoaderService(newTasksLoader);
         unregisterLoaderService(inProgressLoader);

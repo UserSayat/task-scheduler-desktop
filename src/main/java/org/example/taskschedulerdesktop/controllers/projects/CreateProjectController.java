@@ -45,6 +45,7 @@ public class CreateProjectController {
         createProjectButton.setOnAction(event -> {
             if (projectNameTextField.getText().isEmpty() || selectedSupervisor == null) {
                 NavigationManager.showToast("Заполните пустые поля", "info");
+                return;
             }
 
             projectService.saveProject(new Project(
