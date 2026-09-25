@@ -22,6 +22,8 @@ import javafx.util.Duration;
 import org.example.taskschedulerdesktop.config.AppConfig;
 import org.example.taskschedulerdesktop.controllers.sidebar.RightSidebar;
 import org.example.taskschedulerdesktop.controllers.Shutdownable;
+import org.example.taskschedulerdesktop.listeners.EventBus;
+import org.example.taskschedulerdesktop.listeners.PageTitleChangedEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,11 +51,18 @@ public class NavigationManager {
     private static final double RIGHT_SIDEBAR_WIDTH = 400.0;
 
     // История переходов
-    private static final Stack<String> history = new Stack<>();
+    private static class PageInfo {
+        final String fxmlPath;
+        final String title;
+
+        public PageInfo(String fxmlPath, String title) {
+            this.fxmlPath = fxmlPath;
+            this.title = title;
+        }
+    }
+    private static final Stack<PageInfo> history = new Stack<>();
     private static String currentPage = null;
     private static String currentTitle = "";
-
-    private static final List<Runnable> listeners = new ArrayList<>();
 
     private static boolean isBackNavigation = false;
 
@@ -95,30 +104,6 @@ public class NavigationManager {
         });
     }
 
-    // ============================================================
-    // РЕГИСТРАЦИЯ СЛУШАТЕЛЕЙ
-    // ============================================================
-
-    public static void addListener(Runnable listener) {
-        if (!listeners.contains(listener)) {
-            listeners.add(listener);
-        }
-    }
-
-    public static void removeListener(Runnable listener) {
-        listeners.remove(listener);
-    }
-
-    private static void notifyListeners() {
-        for (Runnable listener : listeners) {
-            listener.run();
-        }
-    }
-
-    // ============================================================
-    // НАВИГАЦИЯ ПО СТРАНИЦАМ
-    // ============================================================
-
     public static void navigateTo(String fxmlPath) {
         navigateTo(fxmlPath, null);
     }
@@ -130,7 +115,7 @@ public class NavigationManager {
     public static void navigateTo(String fxmlPath, String title, Object context) {
         // Сохраняем текущую страницу в историю (если есть)
         if (!isBackNavigation && currentPage != null && !fxmlPath.equals(currentPage)) {
-            history.push(currentPage);
+            history.push(new PageInfo(currentPage, currentTitle));
         }
 
         log.debug("Start async loading page: {}", fxmlPath);
@@ -173,7 +158,7 @@ public class NavigationManager {
                     currentTitle = title;
                 }
 
-                notifyListeners();
+                EventBus.getInstance().fire(new PageTitleChangedEvent(currentTitle));
                 log.debug("Page displayed successfully: {}", fxmlPath);
 
             } catch (Exception e) {
@@ -199,10 +184,10 @@ public class NavigationManager {
      */
     public static void goBack() {
         if (!history.isEmpty()) {
-            String previousPage = history.pop();
+            PageInfo previousPage = history.pop();
             isBackNavigation = true;
             // При возврате контекст не передаем
-            navigateTo(previousPage, null, null);
+            navigateTo(previousPage.fxmlPath, previousPage.title, null);
             isBackNavigation = false;
         } else {
             log.info("History is empty, nowhere to go");
@@ -232,7 +217,7 @@ public class NavigationManager {
 
     public static void setCurrentTitle(String title) {
         currentTitle = title;
-        notifyListeners();
+        EventBus.getInstance().fire(new PageTitleChangedEvent(title));
     }
 
     public static String getCurrentTitle() {
@@ -283,9 +268,7 @@ public class NavigationManager {
     public static void closeDialog(Stage stage) {
         if (stage != null) {
             log.debug("Close Stage: {}", stage.getTitle());
-            Platform.runLater(() -> {
-                stage.close();
-            });
+            Platform.runLater(stage::close);
         } else {
             log.debug("Stage is null");
         }

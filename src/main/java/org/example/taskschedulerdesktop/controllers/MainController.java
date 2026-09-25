@@ -5,13 +5,16 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import org.example.taskschedulerdesktop.config.AppConfig;
+import org.example.taskschedulerdesktop.listeners.EventBus;
+import org.example.taskschedulerdesktop.listeners.PageTitleChangedEvent;
 import org.example.taskschedulerdesktop.navigation.NavigationManager;
 import org.example.taskschedulerdesktop.navigation.Routes;
 import org.example.taskschedulerdesktop.utils.DateFormatter;
 
 import java.time.LocalDate;
+import java.util.function.Consumer;
 
-public class MainController {
+public class MainController implements Shutdownable {
 
     private final AppConfig appConfig = AppConfig.getInstance();
 
@@ -30,8 +33,8 @@ public class MainController {
 
     @FXML private Button createTaskButton;
 
-    private final Runnable titleUpdateListener = () -> {
-        pageTitleLabel.setText(NavigationManager.getCurrentTitle());
+    private final Consumer<PageTitleChangedEvent> titleUpdateListener = event -> {
+        pageTitleLabel.setText(event.getPageTitle());
         updateBackButtonState();
     };
 
@@ -42,7 +45,7 @@ public class MainController {
                 contentArea,
                 appConfig.getControllerFactory());
 
-        NavigationManager.addListener(titleUpdateListener);
+        EventBus.getInstance().subscribe(PageTitleChangedEvent.class, titleUpdateListener);
 
         backButton.setOnAction(event -> NavigationManager.goBack());
         updateBackButtonState(); // начальное состояние
@@ -59,7 +62,7 @@ public class MainController {
         projectsButton.setOnAction(event -> NavigationManager.navigateTo(Routes.PROJECTS, "Проекты"));
         teamButton.setOnAction(event -> NavigationManager.navigateTo(Routes.TEAM, "Команда"));
 
-        NavigationManager.navigateTo(Routes.DASHBOARD);
+        NavigationManager.navigateTo(Routes.DASHBOARD, "Обзор");
     }
 
     public void updateBackButtonState() {
@@ -68,7 +71,8 @@ public class MainController {
         backButton.setManaged(canGoBack);
     }
 
+    @Override
     public void shutdown() {
-        NavigationManager.removeListener(titleUpdateListener);
+        EventBus.getInstance().unsubscribe(PageTitleChangedEvent.class, titleUpdateListener);
     }
 }
