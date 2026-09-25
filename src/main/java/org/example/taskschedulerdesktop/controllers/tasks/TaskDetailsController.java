@@ -79,6 +79,9 @@ public class TaskDetailsController implements RightSidebar {
             priorityEditComboBox.getItems().add(priority.getDisplayName());
         }
 
+        executorComboBox.getItems().addAll("Алексей Козлов", "Мария Волкова", "Елена Никитина",
+                "Павел Сорокин", "Дмитрий Лебедев", "Ирина Фёдорова");
+
         closeButton.setOnAction(event -> {
             log.debug("Close right sidebar");
             NavigationManager.closeRightSidebar();

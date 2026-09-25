@@ -38,14 +38,6 @@ public class ProjectCardService {
             Node card = loader.load();
             ProjectCardController controller = loader.getController();
 
-            controller.setProjectNameLabel(project.getName());
-            controller.setProjectSupervisorLabel(project.getSupervisor());
-            controller.setNumberOfTasksLabel(project.getNumberOfTasks());
-            log.debug("Project: {}, number of tasks = {}", project, project.getNumberOfTasks());
-            controller.setRemainingTasksLabel(project.getRemainingTasks());
-            controller.setCompletedTasksLabel(project.getCompletedTasks());
-            controller.setPercentOfCompletionLabel(project.getPercentOfCompletion());
-
             card.setOnMouseClicked(event -> {
                 if (event.getButton() == MouseButton.PRIMARY) {
                     NavigationManager.navigateTo(Routes.PROJECT_DETAILS);

@@ -106,7 +106,7 @@ public class ProjectCardController implements ContextAware, Shutdownable {
 
     private void updateUI(Project project) {
         projectNameLabel.setText(project.getName());
-        projectSupervisorLabel.setText(project.getSupervisor());
+        projectSupervisorLabel.setText("Руководитель: " + project.getSupervisor());
         numberOfTasksLabel.setText(String.valueOf(project.getNumberOfTasks()));
         completedTasksLabel.setText(String.valueOf(project.getCompletedTasks()));
         remainingTasksLabel.setText(String.valueOf(project.getRemainingTasks()));
@@ -135,7 +135,7 @@ public class ProjectCardController implements ContextAware, Shutdownable {
     }
 
     public void setProjectSupervisorLabel(String projectSupervisor) {
-        this.projectSupervisorLabel.setText(projectSupervisor);
+        this.projectSupervisorLabel.setText("Руководитель:" + projectSupervisor);
     }
 
     public Label getPercentOfCompletionLabel() {
