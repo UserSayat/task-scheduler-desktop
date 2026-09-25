@@ -89,10 +89,11 @@
             <!-- Теги -->
             <VBox spacing="6">
                 <Label text="ТЕГИ" styleClass="detail-field-label"/>
-                <HBox fx:id="tagsHBox" spacing="6">
+                <FlowPane fx:id="tagsFlowPane"
+                          hgap="6"
+                          vgap="6"/>
                     <Label text="дизайн"       styleClass="tag-chip"/>
                     <Label text="согласование" styleClass="tag-chip"/>
-                </HBox>
                 <TextField fx:id="tagsTextField" styleClass="text-field-styled"
                            visible="false" managed="false"/>
             </VBox>

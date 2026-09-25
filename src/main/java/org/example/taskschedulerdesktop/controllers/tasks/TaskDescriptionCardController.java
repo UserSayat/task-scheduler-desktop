@@ -2,6 +2,7 @@ package org.example.taskschedulerdesktop.controllers.tasks;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.layout.FlowPane;
 import org.example.taskschedulerdesktop.controllers.Shutdownable;
 import org.example.taskschedulerdesktop.dto.TaskView;
 import org.example.taskschedulerdesktop.navigation.ContextAware;
@@ -14,7 +15,7 @@ public class TaskDescriptionCardController implements ContextAware, Shutdownable
 
     @FXML private Label taskSequenceNumberLabel;
     @FXML private Label taskNameLabel;
-    @FXML private Label taskTypeLabel;
+    @FXML private FlowPane tagsFlowPane;
     @FXML private Label taskDeadlineLabel;
     @FXML private Label executorInitialsLabel;
     @FXML private Label priorityLabel;
@@ -30,8 +31,13 @@ public class TaskDescriptionCardController implements ContextAware, Shutdownable
     }
 
     private void updateUI() {
+        if (contextTask == null) {
+            log.error("Context task is null");
+            return;
+        }
+
        taskNameLabel.setText(contextTask.getTaskName());
-       taskTypeLabel.setText(contextTask.getType());
+       updateTags();
        taskDeadlineLabel.setText(contextTask.getDeadline().toString());
        executorInitialsLabel.setText(getInitials(contextTask.getExecutor()));
        priorityLabel.setText(contextTask.getPriority().getDisplayName());
@@ -53,38 +59,6 @@ public class TaskDescriptionCardController implements ContextAware, Shutdownable
         this.taskNameLabel.setText(taskName);
     }
 
-    public Label getTaskTypeLabel() {
-        return taskTypeLabel;
-    }
-
-    public void setTaskTypeLabel(String taskType) {
-        this.taskTypeLabel.setText(taskType);
-    }
-
-    public Label getTaskDeadlineLabel() {
-        return taskDeadlineLabel;
-    }
-
-    public void setTaskDeadlineLabel(String taskDeadline) {
-        this.taskDeadlineLabel.setText(taskDeadline);
-    }
-
-    public Label getExecutorInitialsLabel() {
-        return executorInitialsLabel;
-    }
-
-    public void setExecutorInitialsLabel(String executorInitials) {
-        this.executorInitialsLabel.setText(executorInitials);
-    }
-
-    public Label getPriorityLabel() {
-        return priorityLabel;
-    }
-
-    public void setPriorityLabel(String priority) {
-        this.priorityLabel.setText(priority);
-    }
-
     private String getInitials(String fullName) {
         if (fullName == null || fullName.isBlank()) {
             throw new IllegalArgumentException("Имя не может быть пустым");
@@ -99,6 +73,33 @@ public class TaskDescriptionCardController implements ContextAware, Shutdownable
         }
 
         return initials.toString().toUpperCase();
+    }
+
+    private void updateTags() {
+        tagsFlowPane.getChildren().clear();
+
+        String type = contextTask.getType();
+        if (type == null || type.isBlank()) {
+            tagsFlowPane.setVisible(false);
+            tagsFlowPane.setManaged(false);
+            return;
+        }
+
+        String[] tags = type.split(",");
+        boolean hasValidTags = false;
+
+        for (String tag : tags) {
+            String trimmed = tag.trim();
+            if (!trimmed.isEmpty()) {
+                Label tagLabel = new Label(trimmed);
+                tagLabel.getStyleClass().add("tag-chip");
+                tagsFlowPane.getChildren().add(tagLabel);
+                hasValidTags = true;
+            }
+        }
+
+        tagsFlowPane.setVisible(hasValidTags);
+        tagsFlowPane.setManaged(hasValidTags);
     }
 
     @Override

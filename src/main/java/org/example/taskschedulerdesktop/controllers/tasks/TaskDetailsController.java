@@ -2,6 +2,7 @@ package org.example.taskschedulerdesktop.controllers.tasks;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.example.taskschedulerdesktop.controllers.sidebar.RightSidebar;
@@ -40,7 +41,7 @@ public class TaskDetailsController implements RightSidebar {
     @FXML private Label deadlineLabel;
     @FXML private DatePicker deadlineDatePicker;
 
-    @FXML private HBox tagsHBox;
+    @FXML private FlowPane tagsFlowPane;
     @FXML private TextField tagsTextField;
 
     @FXML private Label taskDescriptionLabel;
@@ -201,15 +202,40 @@ public class TaskDetailsController implements RightSidebar {
         executorAvatarLabel.setText("AK");
         executorNameLabel.setText(contextTask.getExecutor());
         deadlineLabel.setText(contextTask.getDeadline().toString());
-        Label tag = new Label(contextTask.getType());
-        tag.getStyleClass().add("tag-chip");
-        tagsHBox.getChildren().add(tag);
+        updateTags();
         taskDescriptionLabel.setText(contextTask.getDescription());
 
         log.info("UI updated");
     }
 
-    public void resetDeleteUI() {
+    private void updateTags() {
+        tagsFlowPane.getChildren().clear();
+
+        String type = contextTask.getType();
+        if (type == null || type.isBlank()) {
+            tagsFlowPane.setVisible(false);
+            tagsFlowPane.setManaged(false);
+            return;
+        }
+
+        String[] tags = type.split(",");
+        boolean hasValidTags = false;
+
+        for (String tag : tags) {
+            String trimmed = tag.trim();
+            if (!trimmed.isEmpty()) {
+                Label tagLabel = new Label(trimmed);
+                tagLabel.getStyleClass().add("tag-chip");
+                tagsFlowPane.getChildren().add(tagLabel);
+                hasValidTags = true;
+            }
+        }
+
+        tagsFlowPane.setVisible(hasValidTags);
+        tagsFlowPane.setManaged(hasValidTags);
+    }
+
+    private void resetDeleteUI() {
         confirmDeletePanelVBox.setVisible(false);
         confirmDeletePanelVBox.setManaged(false);
 
@@ -232,8 +258,8 @@ public class TaskDetailsController implements RightSidebar {
         executorAvatarLabel.setManaged(false);
         executorNameLabel.setVisible(false);
         executorNameLabel.setManaged(false);
-        tagsHBox.setVisible(false);
-        tagsHBox.setManaged(false);
+        tagsFlowPane.setVisible(false);
+        tagsFlowPane.setManaged(false);
         viewActionsHBox.setVisible(false);
         viewActionsHBox.setManaged(false);
 
@@ -275,8 +301,8 @@ public class TaskDetailsController implements RightSidebar {
         executorAvatarLabel.setManaged(true);
         executorNameLabel.setVisible(true);
         executorNameLabel.setManaged(true);
-        tagsHBox.setVisible(true);
-        tagsHBox.setManaged(true);
+        tagsFlowPane.setVisible(true);
+        tagsFlowPane.setManaged(true);
         viewActionsHBox.setVisible(true);
         viewActionsHBox.setManaged(true);
 
