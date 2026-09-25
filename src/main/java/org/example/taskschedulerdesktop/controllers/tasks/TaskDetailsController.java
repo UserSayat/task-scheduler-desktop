@@ -28,10 +28,10 @@ public class TaskDetailsController implements RightSidebar {
     @FXML private TextField newTaskNameLabel;
 
     @FXML private Label statusLabel;
-    @FXML private ComboBox<String> statusEditComboBox;
+    @FXML private ComboBox<String> statusComboBox;
 
     @FXML private Label priorityLabel;
-    @FXML private ComboBox<String> priorityEditComboBox;
+    @FXML private ComboBox<String> priorityComboBox;
 
     @FXML private Label executorAvatarLabel;
     @FXML private Label executorNameLabel;
@@ -72,11 +72,11 @@ public class TaskDetailsController implements RightSidebar {
         log.info("initialize()");
 
         for (TaskStatus status : TaskStatus.values()) {
-            statusEditComboBox.getItems().add(status.getDisplayName());
+            statusComboBox.getItems().add(status.getDisplayName());
         }
 
         for (TaskPriority priority : TaskPriority.values()) {
-            priorityEditComboBox.getItems().add(priority.getDisplayName());
+            priorityComboBox.getItems().add(priority.getDisplayName());
         }
 
         executorComboBox.getItems().addAll("Алексей Козлов", "Мария Волкова", "Елена Никитина",
@@ -110,8 +110,9 @@ public class TaskDetailsController implements RightSidebar {
 
         saveEditedTaskButton.setOnAction(event -> {
             contextTask.setTaskName(taskNameLabel.getText());
-            contextTask.setStatus(TaskStatus.fromString(statusEditComboBox.getValue()));
-            contextTask.setPriority(TaskPriority.fromString(priorityEditComboBox.getValue()));
+            contextTask.setStatus(TaskStatus.fromString(statusComboBox.getValue()));
+            contextTask.setPriority(TaskPriority.fromString(priorityComboBox.getValue()));
+            contextTask.setExecutor(executorComboBox.getValue());
             if (deadlineDatePicker.getValue() != null) {
                 contextTask.setDeadline(deadlineDatePicker.getValue());
             } else {
@@ -238,10 +239,10 @@ public class TaskDetailsController implements RightSidebar {
 
         newTaskNameLabel.setVisible(true);
         newTaskNameLabel.setManaged(true);
-        statusEditComboBox.setVisible(true);
-        statusEditComboBox.setManaged(true);
-        priorityEditComboBox.setVisible(true);
-        priorityEditComboBox.setManaged(true);
+        statusComboBox.setVisible(true);
+        statusComboBox.setManaged(true);
+        priorityComboBox.setVisible(true);
+        priorityComboBox.setManaged(true);
         deadlineDatePicker.setVisible(true);
         deadlineDatePicker.setManaged(true);
         executorComboBox.setVisible(true);
@@ -252,8 +253,8 @@ public class TaskDetailsController implements RightSidebar {
         editActionsHBox.setManaged(true);
 
         newTaskNameLabel.setText(contextTask.getTaskName());
-        statusEditComboBox.setValue(contextTask.getStatus().getDisplayName());
-        priorityEditComboBox.setValue(contextTask.getPriority().getDisplayName());
+        statusComboBox.setValue(contextTask.getStatus().getDisplayName());
+        priorityComboBox.setValue(contextTask.getPriority().getDisplayName());
         deadlineDatePicker.setValue(contextTask.getDeadline());
         executorComboBox.setValue(contextTask.getExecutor());
         tagsTextField.setText(contextTask.getType());
@@ -281,10 +282,10 @@ public class TaskDetailsController implements RightSidebar {
 
         newTaskNameLabel.setVisible(false);
         newTaskNameLabel.setManaged(false);
-        statusEditComboBox.setVisible(false);
-        statusEditComboBox.setManaged(false);
-        priorityEditComboBox.setVisible(false);
-        priorityEditComboBox.setManaged(false);
+        statusComboBox.setVisible(false);
+        statusComboBox.setManaged(false);
+        priorityComboBox.setVisible(false);
+        priorityComboBox.setManaged(false);
         deadlineDatePicker.setVisible(false);
         deadlineDatePicker.setManaged(false);
         executorComboBox.setVisible(false);

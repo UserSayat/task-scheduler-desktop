@@ -22,6 +22,8 @@ public class TaskCardService {
             Node card = loader.load();
             TaskDescriptionCardController controller = loader.getController();
 
+            controller.setTaskSequenceNumberLabel(sequenceNumber);
+
             controller.setContext(task);
 
             // Клик по карточке

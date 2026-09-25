@@ -97,7 +97,7 @@ public class TaskDescriptionCardController implements ContextAware, Shutdownable
         for (int i = 0; i < count; i++) {
             initials.append(parts[i].charAt(0));
         }
-        
+
         return initials.toString().toUpperCase();
     }
 

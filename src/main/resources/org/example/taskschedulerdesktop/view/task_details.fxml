@@ -47,7 +47,7 @@
                     <Label fx:id="statusLabel" text="На проверке"
                            styleClass="badge-review"/>
                     <!-- Редактирование -->
-                    <ComboBox fx:id="statusEditComboBox" maxWidth="Infinity"
+                    <ComboBox fx:id="statusComboBox" maxWidth="Infinity"
                               styleClass="combo-box-styled"
                               visible="false" managed="false"/>
                 </VBox>
@@ -56,7 +56,7 @@
                     <Label text="ПРИОРИТЕТ" styleClass="detail-field-label"/>
                     <Label fx:id="priorityLabel" text="Высокий"
                            styleClass="badge-high"/>
-                    <ComboBox fx:id="priorityEditComboBox" maxWidth="Infinity"
+                    <ComboBox fx:id="priorityComboBox" maxWidth="Infinity"
                               styleClass="combo-box-styled"
                               visible="false" managed="false"/>
                 </VBox>
