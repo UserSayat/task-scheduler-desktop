@@ -4,14 +4,13 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import org.example.taskschedulerdesktop.controllers.Shutdownable;
 import org.example.taskschedulerdesktop.dto.TaskView;
-import org.example.taskschedulerdesktop.listeners.EventBus;
-import org.example.taskschedulerdesktop.listeners.TaskChangedEvent;
 import org.example.taskschedulerdesktop.navigation.ContextAware;
-
-import java.util.Objects;
-import java.util.function.Consumer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class TaskDescriptionCardController implements ContextAware, Shutdownable {
+
+    private static final Logger log = LoggerFactory.getLogger(TaskDescriptionCardController.class);
 
     @FXML private Label taskSequenceNumberLabel;
     @FXML private Label taskNameLabel;
@@ -34,7 +33,7 @@ public class TaskDescriptionCardController implements ContextAware, Shutdownable
        taskNameLabel.setText(contextTask.getTaskName());
        taskTypeLabel.setText(contextTask.getType());
        taskDeadlineLabel.setText(contextTask.getDeadline().toString());
-       executorInitialsLabel.setText(contextTask.getExecutor());
+       executorInitialsLabel.setText(getInitials(contextTask.getExecutor()));
        priorityLabel.setText(contextTask.getPriority().getDisplayName());
     }
 
@@ -84,6 +83,22 @@ public class TaskDescriptionCardController implements ContextAware, Shutdownable
 
     public void setPriorityLabel(String priority) {
         this.priorityLabel.setText(priority);
+    }
+
+    private String getInitials(String fullName) {
+        if (fullName == null || fullName.isBlank()) {
+            throw new IllegalArgumentException("Имя не может быть пустым");
+        }
+
+        String[] parts = fullName.trim().split("\\s+");
+        StringBuilder initials = new StringBuilder();
+
+        int count = Math.min(parts.length, 2);
+        for (int i = 0; i < count; i++) {
+            initials.append(parts[i].charAt(0));
+        }
+        
+        return initials.toString().toUpperCase();
     }
 
     @Override

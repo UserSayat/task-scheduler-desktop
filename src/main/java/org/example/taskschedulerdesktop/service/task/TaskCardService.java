@@ -22,13 +22,6 @@ public class TaskCardService {
             Node card = loader.load();
             TaskDescriptionCardController controller = loader.getController();
 
-//            controller.setTaskSequenceNumberLabel(sequenceNumber);
-//            controller.setTaskNameLabel(task.getTaskName());
-//            controller.setTaskTypeLabel(task.getType());
-//            controller.setTaskDeadlineLabel(task.getDeadline().toString());
-//            controller.setExecutorInitialsLabel(task.getExecutor());
-//            controller.setPriorityLabel(task.getPriority().getDisplayName());
-
             controller.setContext(task);
 
             // Клик по карточке
@@ -58,5 +51,4 @@ public class TaskCardService {
 
         return cards;
     }
-
 }
