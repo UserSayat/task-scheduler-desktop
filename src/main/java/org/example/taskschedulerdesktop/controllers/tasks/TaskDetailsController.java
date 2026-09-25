@@ -17,6 +17,8 @@ import org.example.taskschedulerdesktop.utils.TaskStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static org.example.taskschedulerdesktop.utils.DateFormatter.formatFull;
+
 public class TaskDetailsController implements RightSidebar {
 
     private static final Logger log = LoggerFactory.getLogger(TaskDetailsController.class);
@@ -201,7 +203,7 @@ public class TaskDetailsController implements RightSidebar {
         priorityLabel.setText(contextTask.getPriority().getDisplayName());
         executorAvatarLabel.setText("AK");
         executorNameLabel.setText(contextTask.getExecutor());
-        deadlineLabel.setText(contextTask.getDeadline().toString());
+        deadlineLabel.setText(formatFull(contextTask.getDeadline()));
         updateTags();
         taskDescriptionLabel.setText(contextTask.getDescription());
 

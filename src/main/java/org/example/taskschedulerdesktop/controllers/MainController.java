@@ -4,40 +4,31 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import org.example.taskschedulerdesktop.config.AppConfig;
 import org.example.taskschedulerdesktop.navigation.NavigationManager;
 import org.example.taskschedulerdesktop.navigation.Routes;
+import org.example.taskschedulerdesktop.utils.DateFormatter;
+
+import java.time.LocalDate;
 
 public class MainController {
 
     private final AppConfig appConfig = AppConfig.getInstance();
 
-    @FXML
-    private StackPane globalStackPane;
+    @FXML private StackPane globalStackPane;
+    @FXML private StackPane contentArea;
 
-    @FXML
-    private StackPane contentArea;
+    @FXML private Button reviewButton;
+    @FXML private Button tasksButton;
+    @FXML private Button projectsButton;
+    @FXML private Button teamButton;
 
-    @FXML
-    private VBox navigationMenu;
-    @FXML
-    private Button reviewButton;
-    @FXML
-    private Button tasksButton;
-    @FXML
-    private Button projectsButton;
-    @FXML
-    private Button teamButton;
+    @FXML private Button backButton;
 
-    @FXML
-    private Button backButton;
+    @FXML private Label pageTitleLabel;
+    @FXML private Label pageDate;
 
-    @FXML
-    private Label pageTitleLabel;
-
-    @FXML
-    private Button createTaskButton;
+    @FXML private Button createTaskButton;
 
     private final Runnable titleUpdateListener = () -> {
         pageTitleLabel.setText(NavigationManager.getCurrentTitle());
@@ -55,6 +46,8 @@ public class MainController {
 
         backButton.setOnAction(event -> NavigationManager.goBack());
         updateBackButtonState(); // начальное состояние
+
+        pageDate.setText(DateFormatter.formatFullWithDay(LocalDate.now()));
 
         createTaskButton.setOnAction(event -> NavigationManager.openDialog(
                 Routes.CREATE_TASK,

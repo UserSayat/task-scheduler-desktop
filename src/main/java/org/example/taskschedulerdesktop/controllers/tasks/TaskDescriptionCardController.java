@@ -9,6 +9,8 @@ import org.example.taskschedulerdesktop.navigation.ContextAware;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static org.example.taskschedulerdesktop.utils.DateFormatter.formatShort;
+
 public class TaskDescriptionCardController implements ContextAware, Shutdownable {
 
     private static final Logger log = LoggerFactory.getLogger(TaskDescriptionCardController.class);
@@ -38,7 +40,7 @@ public class TaskDescriptionCardController implements ContextAware, Shutdownable
 
        taskNameLabel.setText(contextTask.getTaskName());
        updateTags();
-       taskDeadlineLabel.setText(contextTask.getDeadline().toString());
+       taskDeadlineLabel.setText(formatShort(contextTask.getDeadline()));
        executorInitialsLabel.setText(getInitials(contextTask.getExecutor()));
        priorityLabel.setText(contextTask.getPriority().getDisplayName());
     }

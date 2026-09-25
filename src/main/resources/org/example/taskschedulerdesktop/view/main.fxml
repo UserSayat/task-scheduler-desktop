@@ -74,7 +74,7 @@
                     <Button fx:id="backButton" mnemonicParsing="false" text="&lt;- Назад"/>
                     <VBox spacing="2" HBox.hgrow="ALWAYS">
                         <Label fx:id="pageTitleLabel" text="Обзор" styleClass="page-title"/>
-                        <!--                            <Label fx:id="pageDate"  styleClass="page-date"/>-->
+                        <Label fx:id="pageDate"  styleClass="page-date"/>
                     </VBox>
                     <Button fx:id="createTaskButton" text="+ Новая задача"
                             styleClass="btn-secondary"/>
