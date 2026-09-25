@@ -24,9 +24,6 @@ public class AsyncTaskService {
     private final TaskService delegate;
     private final TaskCardService taskCardService;
 
-    private final Map<TaskStatus, List<Node>> taskCache = new ConcurrentHashMap<>();
-    private final Map<TaskStatus, Boolean> dirtyFlags = new ConcurrentHashMap<>();
-
     private final ExecutorService executor = Executors.newFixedThreadPool(4, runnable -> {
         Thread thread = new Thread(runnable);
         thread.setDaemon(true);
@@ -38,16 +35,6 @@ public class AsyncTaskService {
         this.taskCardService = taskCardService;
     }
 
-    public void invalidateCache(TaskStatus status) {
-        dirtyFlags.put(status, true);
-    }
-
-    public void invalidateAllCache() {
-        for (TaskStatus status : TaskStatus.values()) {
-            dirtyFlags.put(status, true);
-        }
-    }
-
     public Service<List<Node>> createLoaderService(TaskStatus status) {
         Service<List<Node>> service = new Service<>() {
             @Override
@@ -57,22 +44,9 @@ public class AsyncTaskService {
                     protected List<Node> call() throws Exception {
                         //TODO добавить в качестве параметра поиска название проекта
                         // чтобы не выводились задачи со всех проектов, а только с текущего
-                        boolean isDirty = dirtyFlags.getOrDefault(status, true);
-
-                        List<Node> cachedCards = taskCache.computeIfAbsent(status, k -> new java.util.concurrent.CopyOnWriteArrayList<>());
-
-                        if (!isDirty && !cachedCards.isEmpty()) {
-                            return cachedCards;
-                        }
 
                         List<TaskView> tasks = delegate.findViewByStatus(status);
-                        List<Node> newCards = taskCardService.createCardsForProjectExtendedPage(tasks);
-
-                        cachedCards.clear();
-                        cachedCards.addAll(newCards);
-                        dirtyFlags.put(status, false);
-
-                        return cachedCards;
+                        return taskCardService.createCardsForProjectExtendedPage(tasks);
                     }
                 };
             }
@@ -98,7 +72,6 @@ public class AsyncTaskService {
         };
 
         if (onSuccess != null) task.setOnSucceeded(event -> {
-            invalidateCache(newTask.getStatus());
             onSuccess.run();
         });
         if (onError != null) task.setOnFailed(event -> onError.accept(task.getException()));
@@ -144,7 +117,6 @@ public class AsyncTaskService {
         };
 
         if (onSuccess != null) task.setOnSucceeded(event -> {
-            invalidateAllCache();
             EventBus.getInstance().fire(new TaskChangedEvent(taskToUpdate.getProjectId(), taskToUpdate.getTaskName()));
             onSuccess.run();
         });
@@ -166,7 +138,6 @@ public class AsyncTaskService {
         };
 
         if (onSuccess != null) task.setOnSucceeded(event -> {
-            invalidateCache(taskToDelete.getStatus());
             onSuccess.run();
         });
         if (onError != null) task.setOnFailed(e -> onError.accept(task.getException()));

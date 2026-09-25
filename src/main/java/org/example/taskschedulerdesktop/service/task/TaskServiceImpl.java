@@ -54,9 +54,6 @@ public class TaskServiceImpl implements TaskService {
 
         repository.save(task);
 
-        AppConfig.getInstance().getAsyncProjectService().invalidateCache();
-        AppConfig.getInstance().getAsyncTaskService().invalidateCache(task.getStatus());
-
         log.debug("TaskChangedEvent: projectId={}, taskName={}",
                 task.getProjectId(), task.getTaskName());
         EventBus.getInstance().fire(new TaskChangedEvent(task.getProjectId(), task.getTaskName()));

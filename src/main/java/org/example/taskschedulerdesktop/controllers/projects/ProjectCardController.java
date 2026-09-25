@@ -71,7 +71,7 @@ public class ProjectCardController implements ContextAware, Shutdownable {
                 if (Objects.equals(event.getProjectId(), projectContext.getId())) {
                     refreshCard();
                 } else {
-                    log.error("The event is not suitable");
+                    log.debug("The event is not suitable");
                 }
             };
 

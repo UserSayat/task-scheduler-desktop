@@ -22,9 +22,6 @@ public class AsyncProjectService {
     private final ProjectService delegate;
     private final ProjectCardService projectCardService;
 
-    private final List<Node> cachedProjectCards = new CopyOnWriteArrayList<>();
-    private boolean isCacheDirty = true;
-
     private final ExecutorService executor = Executors.newFixedThreadPool(4, runnable -> {
         Thread thread = new Thread(runnable);
         thread.setDaemon(true);
@@ -36,10 +33,6 @@ public class AsyncProjectService {
         this.projectCardService = projectCardService;
     }
 
-    public void invalidateCache() {
-        this.isCacheDirty = true;
-    }
-
     public Service<List<Node>> createProjectsLoader() {
         Service<List<Node>> service = new Service<>() {
             @Override
@@ -49,19 +42,9 @@ public class AsyncProjectService {
                     protected List<Node> call() throws Exception {
                         log.debug("createProjectLoader()");
 
-                        if (!isCacheDirty && !cachedProjectCards.isEmpty()) {
-                            return new java.util.ArrayList<>(cachedProjectCards);
-                        }
-
                         List<Project> projects = delegate.findAll();
                         log.debug("Project: {}, number of tasks = {}", projects.getFirst(), projects.getFirst().getNumberOfTasks());
-                        List<Node> newCards = projectCardService.createCards(projects);
-
-                        cachedProjectCards.clear();
-                        cachedProjectCards.addAll(newCards);
-                        isCacheDirty = false;
-
-                        return cachedProjectCards;
+                        return projectCardService.createCards(projects);
                     }
                 };
             }
@@ -82,7 +65,6 @@ public class AsyncProjectService {
         };
 
         task.setOnSucceeded(event -> {
-            invalidateCache();
             EventBus.getInstance().fire(new ProjectChangedEvent());
             onSuccess.run();
         });
@@ -102,7 +84,6 @@ public class AsyncProjectService {
         };
 
         task.setOnSucceeded(event -> {
-            invalidateCache();
             EventBus.getInstance().fire(new ProjectChangedEvent());
             onSuccess.run();
         });
@@ -122,7 +103,6 @@ public class AsyncProjectService {
         };
 
         task.setOnSucceeded(event -> {
-            invalidateCache();
             //TODO В будущем при обновлении проекта обновлять только карточку проекта
             EventBus.getInstance().fire(new ProjectChangedEvent());
             onSuccess.run();

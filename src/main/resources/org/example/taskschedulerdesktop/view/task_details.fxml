@@ -116,7 +116,7 @@
 
             <!-- Кнопки — режим редактирования -->
             <HBox fx:id="editActionsHBox" spacing="8" visible="false" managed="false">
-                <Button fx:id="saveTheTaskButton" text="Сохранить"
+                <Button fx:id="saveEditedTaskButton" text="Сохранить"
                         styleClass="btn-primary" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
                 <Button fx:id="cancelEditButton" text="Отмена"
                         styleClass="btn-secondary"/>

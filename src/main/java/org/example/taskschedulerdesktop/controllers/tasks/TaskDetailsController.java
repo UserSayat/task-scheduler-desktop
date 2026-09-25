@@ -3,7 +3,6 @@ package org.example.taskschedulerdesktop.controllers.tasks;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import org.example.taskschedulerdesktop.controllers.sidebar.RightSidebar;
 import org.example.taskschedulerdesktop.dto.TaskView;
@@ -53,10 +52,9 @@ public class TaskDetailsController implements RightSidebar {
 
     @FXML private Button editButton;
     @FXML private HBox editActionsHBox;
-    @FXML private Button saveTheTaskButton;
+    @FXML private Button saveEditedTaskButton;
     @FXML private Button cancelEditButton;
 
-    @FXML private StackPane deletingStackPane;
     @FXML private Button deleteButton;
     @FXML private VBox confirmDeletePanelVBox;
     @FXML private Button confirmDeleteButton;
@@ -72,6 +70,14 @@ public class TaskDetailsController implements RightSidebar {
     @FXML
     public void initialize() {
         log.info("initialize()");
+
+        for (TaskStatus status : TaskStatus.values()) {
+            statusEditComboBox.getItems().add(status.getDisplayName());
+        }
+
+        for (TaskPriority priority : TaskPriority.values()) {
+            priorityEditComboBox.getItems().add(priority.getDisplayName());
+        }
 
         closeButton.setOnAction(event -> {
             log.debug("Close right sidebar");
@@ -99,7 +105,7 @@ public class TaskDetailsController implements RightSidebar {
 //            NavigationManager.openRightSidebar(Routes.EDIT_TASK_RIGHT_SIDEBAR, contextTask);
         });
 
-        saveTheTaskButton.setOnAction(event -> {
+        saveEditedTaskButton.setOnAction(event -> {
             contextTask.setTaskName(taskNameLabel.getText());
             contextTask.setStatus(TaskStatus.fromString(statusEditComboBox.getValue()));
             contextTask.setPriority(TaskPriority.fromString(priorityEditComboBox.getValue()));
@@ -183,6 +189,7 @@ public class TaskDetailsController implements RightSidebar {
         log.debug("projectName: {}", contextTask.getProjectId());
         log.debug("taskName: {}", contextTask.getTaskName());
         log.debug("status: {}", contextTask.getStatus());
+        log.debug("priority: {}", contextTask.getPriority().getDisplayName());
         projectNameLabel.setText(contextTask.getProjectName());
         taskNameLabel.setText(contextTask.getTaskName());
         statusLabel.setText(contextTask.getStatus().getDisplayName());

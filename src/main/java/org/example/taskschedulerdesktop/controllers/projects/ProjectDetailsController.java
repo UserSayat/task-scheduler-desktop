@@ -53,6 +53,8 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
     private Project context;
 
     private final Consumer<TaskChangedEvent> taskUpdateListener = event -> {
+        log.debug("ProjectDetailsController: TaskChangedEvent received: projectId={}", event.getProjectId());
+
         if (context != null && event.getProjectId().equals(context.getId())) {
             refreshAllContainers();
 
@@ -165,6 +167,7 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
 
     @Override
     public void shutdown() {
+        log.debug("ProjectDetailsController: shutdown()");
         EventBus.getInstance().unsubscribe(TaskChangedEvent.class, taskUpdateListener);
 
         unregisterLoaderService(newTasksLoader);

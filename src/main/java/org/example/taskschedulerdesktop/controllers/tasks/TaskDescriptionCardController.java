@@ -2,26 +2,41 @@ package org.example.taskschedulerdesktop.controllers.tasks;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import org.example.taskschedulerdesktop.controllers.Shutdownable;
+import org.example.taskschedulerdesktop.dto.TaskView;
+import org.example.taskschedulerdesktop.listeners.EventBus;
+import org.example.taskschedulerdesktop.listeners.TaskChangedEvent;
+import org.example.taskschedulerdesktop.navigation.ContextAware;
 
-public class TaskDescriptionCardController {
+import java.util.Objects;
+import java.util.function.Consumer;
 
-    @FXML
-    private Label taskSequenceNumberLabel;
+public class TaskDescriptionCardController implements ContextAware, Shutdownable {
 
-    @FXML
-    private Label taskNameLabel;
+    @FXML private Label taskSequenceNumberLabel;
+    @FXML private Label taskNameLabel;
+    @FXML private Label taskTypeLabel;
+    @FXML private Label taskDeadlineLabel;
+    @FXML private Label executorInitialsLabel;
+    @FXML private Label priorityLabel;
 
-    @FXML
-    private Label taskTypeLabel;
+    private TaskView contextTask;
 
-    @FXML
-    private Label taskDeadlineLabel;
+    @Override
+    public void setContext(Object context) {
+        if (context instanceof TaskView taskView) {
+            this.contextTask = taskView;
+            updateUI();
+        }
+    }
 
-    @FXML
-    private Label executorInitialsLabel;
-
-    @FXML
-    private Label priorityLabel;
+    private void updateUI() {
+       taskNameLabel.setText(contextTask.getTaskName());
+       taskTypeLabel.setText(contextTask.getType());
+       taskDeadlineLabel.setText(contextTask.getDeadline().toString());
+       executorInitialsLabel.setText(contextTask.getExecutor());
+       priorityLabel.setText(contextTask.getPriority().getDisplayName());
+    }
 
     public Label getTaskSequenceNumberLabel() {
         return taskSequenceNumberLabel;
@@ -69,5 +84,9 @@ public class TaskDescriptionCardController {
 
     public void setPriorityLabel(String priority) {
         this.priorityLabel.setText(priority);
+    }
+
+    @Override
+    public void shutdown() {
     }
 }

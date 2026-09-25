@@ -339,8 +339,8 @@ public class H2TaskRepository implements TaskRepository {
                 rs.getLong("project_id"),
                 rs.getString("executor"),
                 rs.getString("type"),
-                TaskStatus.fromString(rs.getString("status")),
-                TaskPriority.fromString(rs.getString("priority")),
+                TaskStatus.valueOf(rs.getString("status")),
+                TaskPriority.valueOf(rs.getString("priority")),
                 deadline.toLocalDate(),
                 rs.getString("description"),
                 rs.getBoolean("synced"));
@@ -359,8 +359,8 @@ public class H2TaskRepository implements TaskRepository {
         rs.getString("project_name"), // JOIN
         rs.getString("executor"),
         rs.getString("type"),
-        TaskStatus.fromString(rs.getString("status")),
-        TaskPriority.fromString(rs.getString("priority")),
+        TaskStatus.valueOf(rs.getString("status")),
+        TaskPriority.valueOf(rs.getString("priority")),
         deadline.toLocalDate(),
         rs.getString("description"),
         rs.getBoolean("synced"));
