@@ -90,20 +90,22 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
             return;
         }
 
-        if (event.getChangeType() == ChangeType.DELETED) {
-            log.debug("Project deleted, navigating back to projects list");
-            NavigationManager.navigateTo(Routes.PROJECTS);
+        if (event.getChangeType() == ChangeType.UPDATED) {
+            asyncProjectService.findProjectById(
+                    context.getId(),
+                    project -> {
+                        this.context = project;
+                        updateUI();
+                    },
+                    error -> log.error("Error updating project's data", error)
+            );
             return;
         }
 
-        asyncProjectService.findProjectById(
-                context.getId(),
-                project -> {
-                    this.context = project;
-                    updateUI();
-                },
-                error -> log.error("Error updating project's data", error)
-        );
+        if (event.getChangeType() == ChangeType.DELETED) {
+            log.debug("Project deleted, navigating back to projects list");
+            NavigationManager.navigateTo(Routes.PROJECTS);
+        }
     };
 
     public ProjectDetailsController(AsyncTaskService taskService, AsyncProjectService projectService) {
