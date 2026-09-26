@@ -2,6 +2,7 @@ package org.example.taskschedulerdesktop.repository.task;
 
 import org.example.taskschedulerdesktop.dto.tasks.TaskView;
 import org.example.taskschedulerdesktop.models.Task;
+import org.example.taskschedulerdesktop.utils.TaskPriority;
 import org.example.taskschedulerdesktop.utils.TaskStatus;
 
 import java.util.List;
@@ -20,5 +21,6 @@ public interface TaskRepository {
     void markAsSynced(long id);
     int countByProjectIdAndStatus(long projectId, TaskStatus status);
     int countByStatus(TaskStatus status);
+    int countByProjectIdAndPriority(long projectId, TaskPriority priority);
     int countByProjectId(long projectId);
 }

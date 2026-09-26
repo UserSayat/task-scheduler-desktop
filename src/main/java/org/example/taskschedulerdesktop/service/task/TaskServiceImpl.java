@@ -6,6 +6,7 @@ import org.example.taskschedulerdesktop.listeners.EventBus;
 import org.example.taskschedulerdesktop.listeners.TaskChangedEvent;
 import org.example.taskschedulerdesktop.models.Task;
 import org.example.taskschedulerdesktop.repository.task.TaskRepository;
+import org.example.taskschedulerdesktop.utils.TaskPriority;
 import org.example.taskschedulerdesktop.utils.TaskStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -79,6 +80,11 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public int countTasksByStatus(TaskStatus status) {
         return repository.countByStatus(status);
+    }
+
+    @Override
+    public int countTasksByProjectIdAndPriority(long projectId, TaskPriority priority) {
+        return repository.countByProjectIdAndPriority(projectId, priority);
     }
 
     @Override

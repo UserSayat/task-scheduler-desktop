@@ -245,6 +245,7 @@ public class H2TaskRepository implements TaskRepository {
         return views;
     }
 
+    @Override
     public int countByProjectIdAndStatus(long projectId, TaskStatus status) {
         log.debug("countByProjectNameAndStatus({}, {})", projectId, status);
 
@@ -283,6 +284,29 @@ public class H2TaskRepository implements TaskRepository {
             }
         } catch (SQLException e) {
             log.error("Error finding views by status {}", status, e);
+        }
+        return 0;
+    }
+
+    @Override
+    public int countByProjectIdAndPriority(long projectId, TaskPriority priority) {
+        log.debug("countByProjectNameAndPriority({}, {})", projectId, priority);
+
+        String sql = "SELECT COUNT(1) FROM tasks WHERE project_id = ? AND priority = ?";
+
+        try (Connection conn = db.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setLong(1, projectId);
+            stmt.setString(2, priority.name());
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            log.error("Error finding views by {} and {}", projectId, priority, e);
         }
         return 0;
     }

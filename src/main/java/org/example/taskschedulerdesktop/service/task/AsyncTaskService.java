@@ -6,6 +6,7 @@ import org.example.taskschedulerdesktop.dto.tasks.TaskView;
 import org.example.taskschedulerdesktop.listeners.EventBus;
 import org.example.taskschedulerdesktop.listeners.TaskChangedEvent;
 import org.example.taskschedulerdesktop.models.Task;
+import org.example.taskschedulerdesktop.utils.TaskPriority;
 import org.example.taskschedulerdesktop.utils.TaskStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -70,6 +71,7 @@ public class AsyncTaskService {
         };
 
         if (onSuccess != null) task.setOnSucceeded(event -> {
+            EventBus.getInstance().fire(new TaskChangedEvent(newTask.getProjectId(), newTask.getTaskName()));
             onSuccess.run();
         });
         if (onError != null) task.setOnFailed(event -> onError.accept(task.getException()));
@@ -143,11 +145,39 @@ public class AsyncTaskService {
         executor.submit(task);
     }
 
+    public void countTasksByProjectIdAndStatus(long projectId, TaskStatus status, Consumer<Integer> onSuccess, Consumer<Throwable> onError) {
+        javafx.concurrent.Task<Integer> task = new javafx.concurrent.Task<>() {
+            @Override
+            protected Integer call() throws Exception {
+                return delegate.countTasksByProjectIdAndStatus(projectId, status);
+            }
+        };
+
+        task.setOnSucceeded(event -> onSuccess.accept(task.getValue()));
+        task.setOnFailed(event -> onError.accept(task.getException()));
+
+        executor.submit(task);
+    }
+
     public void countTasksByStatus(TaskStatus status, Consumer<Integer> onSuccess, Consumer<Throwable> onError) {
         javafx.concurrent.Task<Integer> task = new javafx.concurrent.Task() {
             @Override
-            protected Object call() throws Exception {
+            protected Integer call() throws Exception {
                 return delegate.countTasksByStatus(status);
+            }
+        };
+
+        task.setOnSucceeded(event -> onSuccess.accept(task.getValue()));
+        task.setOnFailed(event -> onError.accept(task.getException()));
+
+        executor.submit(task);
+    }
+
+    public void countTasksByProjectIdAndPriority(long projectId, TaskPriority priority, Consumer<Integer> onSuccess, Consumer<Throwable> onError) {
+        javafx.concurrent.Task<Integer> task = new javafx.concurrent.Task<>() {
+            @Override
+            protected Integer call() throws Exception {
+                return delegate.countTasksByProjectIdAndPriority(projectId, priority);
             }
         };
 

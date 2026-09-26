@@ -21,6 +21,7 @@ import org.example.taskschedulerdesktop.navigation.NavigationManager;
 import org.example.taskschedulerdesktop.navigation.Routes;
 import org.example.taskschedulerdesktop.service.project.AsyncProjectService;
 import org.example.taskschedulerdesktop.service.task.AsyncTaskService;
+import org.example.taskschedulerdesktop.utils.TaskPriority;
 import org.example.taskschedulerdesktop.utils.TaskStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,14 +64,40 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
     private Service<List<Node>> underReviewLoader;
     private Service<List<Node>> completedLoader;
 
+    @FXML private Label amountOfTasksInProgressLabel;
+    @FXML private Label amountOfTasksUnderReviewLabel;
+    @FXML private Label amountOfNewTasksLabel;
+    @FXML private Label amountOfCompletedTasksLabel;
+
+    @FXML private Label amountOfTasksInProgressLabelSidePanel;
+    @FXML private Label amountOfTasksUnderReviewLabelSidePanel;
+    @FXML private Label amountOfNewTasksLabelSidePanel;
+    @FXML private Label amountOfCompletedTasksLabelSidePanel;
+
+    private int amountOfTasksInProgress = 0;
+    private int amountOfTasksUnderReview = 0;
+    private int amountOfNewTasks = 0;
+    private int amountOfCompletedTasks = 0;
+
+    @FXML private Label amountOfHighPriorityTasksLabel;
+    @FXML private Label amountOfMediumPriorityTasksLabel;
+    @FXML private Label amountOfLowPriorityTasksLabel;
+
+    private int amountOfHighPriorityTasks = 0;
+    private int amountOfMediumPriorityTasks = 0;
+    private int amountOfLowPriorityTasks = 0;
+
     private Project context;
 
     private final Consumer<TaskChangedEvent> taskUpdateListener = event -> {
         log.debug("ProjectDetailsController: TaskChangedEvent received: projectId={}", event.getProjectId());
 
         if (context != null && event.getProjectId().equals(context.getId())) {
-            //TODO обновлять одну задачу, а не весь контейнер
+            //TODO обновлять одну задачу, а не весь контейнер event.getTaskId();
             refreshAllContainers();
+
+            loadTasksStatisticByStatus();
+            loadTasksStatisticByPriority();
 
             asyncProjectService.findProjectById(
                     context.getId(),
@@ -99,6 +126,7 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
                     },
                     error -> log.error("Error updating project's data", error)
             );
+
             return;
         }
 
@@ -117,6 +145,7 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
 
         if (context == null) {
             log.error("Context is null");
+            throw new RuntimeException("Context is null");
         }
 
         Service<List<Node>> loaderService = asyncTaskService.createLoaderService(context.getId(), status);
@@ -187,7 +216,7 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
                         this.context = project;
                         updateUI();
                     },
-                    error -> log.error("Ошибка загрузки проекта", error)
+                    error -> log.error("Project loading error", error)
             );
 
             editProjectButton.setOnAction(event -> {
@@ -221,9 +250,109 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
             cancelDeleteButton.setOnAction(event -> {
                 resetDeleteUI();
             });
+
+            loadTasksStatisticByStatus();
+            loadTasksStatisticByPriority();
         } else {
             log.error("Context isn't an instance of Project");
         }
+    }
+
+    private void loadTasksStatisticByStatus() {
+
+        if (context == null) {
+            log.error("Context is null");
+            throw new RuntimeException("Context is null");
+        }
+
+        asyncTaskService.countTasksByProjectIdAndStatus(context.getId(), TaskStatus.IN_PROGRESS,
+                amount -> {
+                    this.amountOfTasksInProgress = amount;
+                    amountOfTasksInProgressLabelSidePanel.setText(String.valueOf(amountOfTasksInProgress));
+                    amountOfTasksInProgressLabel.setText(String.valueOf(amountOfTasksInProgress));
+                },
+                error -> {
+                    log.error("Tasks loading error", error);
+                    NavigationManager.showToast("Не удалось загрузить задачи!", "warn");
+                }
+        );
+
+        asyncTaskService.countTasksByProjectIdAndStatus(context.getId(), TaskStatus.UNDER_REVIEW,
+                amount -> {
+                    this.amountOfTasksUnderReview = amount;
+                    amountOfTasksUnderReviewLabelSidePanel.setText(String.valueOf(amountOfTasksUnderReview));
+                    amountOfTasksUnderReviewLabel.setText(String.valueOf(amountOfTasksUnderReview));
+                },
+                error -> {
+                    log.error("Tasks loading error", error);
+                    NavigationManager.showToast("Не удалось загрузить задачи!", "warn");
+                }
+        );
+
+        asyncTaskService.countTasksByProjectIdAndStatus(context.getId(), TaskStatus.NEW,
+                amount -> {
+                    amountOfNewTasks = amount;
+                    amountOfNewTasksLabelSidePanel.setText(String.valueOf(amountOfNewTasks));
+                    amountOfNewTasksLabel.setText(String.valueOf(amountOfNewTasks));
+                },
+                error -> {
+                    log.error("Tasks loading error", error);
+                    NavigationManager.showToast("Не удалось загрузить задачи!", "warn");
+                }
+        );
+
+        asyncTaskService.countTasksByProjectIdAndStatus(context.getId(), TaskStatus.COMPLETED,
+                amount -> {
+                    amountOfCompletedTasks = amount;
+                    amountOfCompletedTasksLabelSidePanel.setText(String.valueOf(amountOfCompletedTasks));
+                    amountOfCompletedTasksLabel.setText(String.valueOf(amountOfCompletedTasks));
+                },
+                error -> {
+                    log.error("Tasks loading error", error);
+                    NavigationManager.showToast("Не удалось загрузить задачи!", "warn");
+                }
+        );
+    }
+
+    private void loadTasksStatisticByPriority() {
+
+        if (context == null) {
+            log.error("Context is null");
+            throw new RuntimeException("Context is null");
+        }
+
+        asyncTaskService.countTasksByProjectIdAndPriority(context.getId(), TaskPriority.HIGH,
+                amount -> {
+                    amountOfHighPriorityTasks = amount;
+                    amountOfHighPriorityTasksLabel.setText(String.valueOf(amountOfHighPriorityTasks));
+                },
+                error -> {
+                    log.error("Tasks loading error", error);
+                    NavigationManager.showToast("Не удалось загрузить задачи!", "warn");
+                }
+        );
+
+        asyncTaskService.countTasksByProjectIdAndPriority(context.getId(), TaskPriority.MIDDLE,
+                amount -> {
+                    amountOfMediumPriorityTasks = amount;
+                    amountOfMediumPriorityTasksLabel.setText(String.valueOf(amountOfMediumPriorityTasks));
+                },
+                error -> {
+                    log.error("Tasks loading error", error);
+                    NavigationManager.showToast("Не удалось загрузить задачи!", "warn");
+                }
+        );
+
+        asyncTaskService.countTasksByProjectIdAndPriority(context.getId(), TaskPriority.LOW,
+                amount -> {
+                    amountOfLowPriorityTasks = amount;
+                    amountOfLowPriorityTasksLabel.setText(String.valueOf(amountOfLowPriorityTasks));
+                },
+                error -> {
+                    log.error("Tasks loading error", error);
+                    NavigationManager.showToast("Не удалось загрузить задачи!", "warn");
+                }
+        );
     }
 
     private void updateUI() {
@@ -245,6 +374,14 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
         this.remainingTasksLabel.setText(String.valueOf(context.getRemainingTasks()));
         this.percentOfCompletionLabel.setText(context.getPercentOfCompletion() + "%");
         this.progressBar.setProgress(context.getPercentOfCompletion() / 100.0);
+        this.amountOfTasksInProgressLabelSidePanel.setText(String.valueOf(amountOfTasksInProgress));
+        this.amountOfTasksUnderReviewLabelSidePanel.setText(String.valueOf(amountOfTasksUnderReview));
+        this.amountOfNewTasksLabelSidePanel.setText(String.valueOf(amountOfNewTasks));
+        this.amountOfCompletedTasksLabelSidePanel.setText(String.valueOf(amountOfCompletedTasks));
+        this.amountOfHighPriorityTasksLabel.setText(String.valueOf(amountOfHighPriorityTasks));
+        this.amountOfMediumPriorityTasksLabel.setText(String.valueOf(amountOfMediumPriorityTasks));
+        this.amountOfLowPriorityTasksLabel.setText(String.valueOf(amountOfLowPriorityTasks));
+
     }
 
     private void resetDeleteUI() {
