@@ -22,4 +22,5 @@ module org.example.taskschedulerdesktop {
     opens org.example.taskschedulerdesktop.controllers.sidebar to javafx.fxml;
     exports org.example.taskschedulerdesktop.controllers.team;
     opens org.example.taskschedulerdesktop.controllers.team to javafx.fxml;
+    opens org.example.taskschedulerdesktop.dto.projects to javafx.fxml;
 }

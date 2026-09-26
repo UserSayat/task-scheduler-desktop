@@ -1,4 +1,4 @@
-package org.example.taskschedulerdesktop.dto;
+package org.example.taskschedulerdesktop.dto.tasks;
 
 public class TaskForProjectExtendedPage {
     private String taskName;

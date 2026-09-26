@@ -2,7 +2,7 @@ package org.example.taskschedulerdesktop.service.task;
 
 import javafx.concurrent.Service;
 import javafx.scene.Node;
-import org.example.taskschedulerdesktop.dto.TaskView;
+import org.example.taskschedulerdesktop.dto.tasks.TaskView;
 import org.example.taskschedulerdesktop.listeners.EventBus;
 import org.example.taskschedulerdesktop.listeners.TaskChangedEvent;
 import org.example.taskschedulerdesktop.models.Task;
@@ -139,6 +139,20 @@ public class AsyncTaskService {
             onSuccess.run();
         });
         if (onError != null) task.setOnFailed(e -> onError.accept(task.getException()));
+
+        executor.submit(task);
+    }
+
+    public void countTasksByStatus(TaskStatus status, Consumer<Integer> onSuccess, Consumer<Throwable> onError) {
+        javafx.concurrent.Task<Integer> task = new javafx.concurrent.Task() {
+            @Override
+            protected Object call() throws Exception {
+                return delegate.countTasksByStatus(status);
+            }
+        };
+
+        task.setOnSucceeded(event -> onSuccess.accept(task.getValue()));
+        task.setOnFailed(event -> onError.accept(task.getException()));
 
         executor.submit(task);
     }

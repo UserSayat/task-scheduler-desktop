@@ -6,11 +6,11 @@
 2026-09-21 10:40:43.295 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectExtendedPageController - setContext: org.example.taskschedulerdesktop.models.Project@247e8b88
 2026-09-21 10:40:43.296 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectExtendedPageController - class = org.example.taskschedulerdesktop.models.Project
 2026-09-21 10:40:43.298 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/project_extended_page.fxml
-2026-09-21 10:40:47.270 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_right_sidebar.fxml, context=org.example.taskschedulerdesktop.dto.TaskView@5f0714d1
+2026-09-21 10:40:47.270 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_right_sidebar.fxml, context=org.example.taskschedulerdesktop.dto.tasks.TaskView@5f0714d1
 2026-09-21 10:40:47.294 [JavaFX Application Thread] INFO  o.e.t.c.t.TaskRightSidebarController - initialize()
 2026-09-21 10:40:47.295 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - sidebarController found, calling setContext()
 2026-09-21 10:40:47.295 [JavaFX Application Thread] INFO  o.e.t.c.t.TaskRightSidebarController - setContext()
-2026-09-21 10:40:47.295 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - context = org.example.taskschedulerdesktop.dto.TaskView@5f0714d1
+2026-09-21 10:40:47.295 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - context = org.example.taskschedulerdesktop.dto.tasks.TaskView@5f0714d1
 2026-09-21 10:40:47.295 [JavaFX Application Thread] INFO  o.e.t.c.t.TaskRightSidebarController - context saved: 66666
 2026-09-21 10:40:47.295 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - updateUI()
 2026-09-21 10:40:47.295 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - projectName: 1
@@ -19,11 +19,11 @@
 2026-09-21 10:40:47.295 [JavaFX Application Thread] INFO  o.e.t.c.t.TaskRightSidebarController - UI updated
 2026-09-21 10:40:48.324 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - Click on delete button
 2026-09-21 10:40:48.324 [JavaFX Application Thread] INFO  o.e.t.c.t.TaskRightSidebarController - Open delete panel for task: 66666
-2026-09-21 10:40:52.444 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_right_sidebar.fxml, context=org.example.taskschedulerdesktop.dto.TaskView@5f0714d1
+2026-09-21 10:40:52.444 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_right_sidebar.fxml, context=org.example.taskschedulerdesktop.dto.tasks.TaskView@5f0714d1
 2026-09-21 10:40:52.457 [JavaFX Application Thread] INFO  o.e.t.c.t.TaskRightSidebarController - initialize()
 2026-09-21 10:40:52.457 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - sidebarController found, calling setContext()
 2026-09-21 10:40:52.457 [JavaFX Application Thread] INFO  o.e.t.c.t.TaskRightSidebarController - setContext()
-2026-09-21 10:40:52.457 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - context = org.example.taskschedulerdesktop.dto.TaskView@5f0714d1
+2026-09-21 10:40:52.457 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - context = org.example.taskschedulerdesktop.dto.tasks.TaskView@5f0714d1
 2026-09-21 10:40:52.457 [JavaFX Application Thread] INFO  o.e.t.c.t.TaskRightSidebarController - context saved: 66666
 2026-09-21 10:40:52.457 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - updateUI()
 2026-09-21 10:40:52.457 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - projectName: 1

@@ -1,4 +1,4 @@
-package org.example.taskschedulerdesktop.dto;
+package org.example.taskschedulerdesktop.dto.tasks;
 
 import org.example.taskschedulerdesktop.utils.TaskPriority;
 import org.example.taskschedulerdesktop.utils.TaskStatus;

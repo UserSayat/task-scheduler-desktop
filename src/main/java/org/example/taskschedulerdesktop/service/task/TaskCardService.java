@@ -4,7 +4,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.input.MouseButton;
 import org.example.taskschedulerdesktop.controllers.tasks.TaskDescriptionCardController;
-import org.example.taskschedulerdesktop.dto.TaskView;
+import org.example.taskschedulerdesktop.dto.tasks.TaskView;
 import org.example.taskschedulerdesktop.navigation.NavigationManager;
 import org.example.taskschedulerdesktop.navigation.Routes;
 

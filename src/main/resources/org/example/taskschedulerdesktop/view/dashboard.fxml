@@ -12,6 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 
 
+<?import javafx.scene.control.ListView?>
 <VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="org.example.taskschedulerdesktop.controllers.review.DashboardController">
     <ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="scroll-pane-clean">
@@ -78,72 +79,15 @@
                 </columnConstraints>
 
                 <!-- Прогресс проектов -->
-                <VBox spacing="0" styleClass="card" GridPane.columnIndex="0">
+                <VBox styleClass="card" GridPane.columnIndex="0">
                     <HBox alignment="CENTER_LEFT" spacing="8" style="-fx-padding: 0 0 16 0;">
                         <Label styleClass="card-title" text="Проекты" HBox.hgrow="ALWAYS"/>
                         <Region HBox.hgrow="ALWAYS"/>
                         <Label styleClass="section-mono" text="прогресс выполнения"/>
                     </HBox>
 
-                    <!-- Редизайн портала -->
-                    <VBox spacing="6" style="-fx-padding: 0 0 14 0;">
-                        <HBox alignment="CENTER_LEFT" spacing="8">
-                            <Region styleClass="dot-blue" HBox.hgrow="NEVER"/>
-                            <Label style="-fx-font-weight:600;-fx-font-size:13px;" text="Редизайн портала"
-                                   HBox.hgrow="ALWAYS"/>
-                            <Label styleClass="section-mono" text="/А.К."/>
-                            <Label style="-fx-font-size:11px;-fx-text-fill:#9b9b95;" text="13/18 задач"/>
-                            <Region HBox.hgrow="ALWAYS"/>
-                            <Label style="-fx-font-family:'Courier New';-fx-font-size:11px;" text="72%"/>
-                        </HBox>
-                        <ProgressBar maxWidth="Infinity" progress="0.72" style="-fx-accent:#1a3a8f;"
-                                     styleClass="progress-thin"/>
-                    </VBox>
-
-                    <!-- Миграция CRM -->
-                    <VBox spacing="6" style="-fx-padding: 0 0 14 0;">
-                        <HBox alignment="CENTER_LEFT" spacing="8">
-                            <Region styleClass="dot-violet" HBox.hgrow="NEVER"/>
-                            <Label style="-fx-font-weight:600;-fx-font-size:13px;" text="Миграция CRM"
-                                   HBox.hgrow="ALWAYS"/>
-                            <Label styleClass="section-mono" text="/М.В."/>
-                            <Label style="-fx-font-size:11px;-fx-text-fill:#9b9b95;" text="10/24 задач"/>
-                            <Region HBox.hgrow="ALWAYS"/>
-                            <Label style="-fx-font-family:'Courier New';-fx-font-size:11px;" text="41%"/>
-                        </HBox>
-                        <ProgressBar maxWidth="Infinity" progress="0.41" style="-fx-accent:#7c3aed;"
-                                     styleClass="progress-thin"/>
-                    </VBox>
-
-                    <!-- Мобильное приложение -->
-                    <VBox spacing="6" style="-fx-padding: 0 0 14 0;">
-                        <HBox alignment="CENTER_LEFT" spacing="8">
-                            <Region styleClass="dot-teal" HBox.hgrow="NEVER"/>
-                            <Label style="-fx-font-weight:600;-fx-font-size:13px;" text="Мобильное приложение"
-                                   HBox.hgrow="ALWAYS"/>
-                            <Label styleClass="section-mono" text="/Е.Н."/>
-                            <Label style="-fx-font-size:11px;-fx-text-fill:#9b9b95;" text="27/31 задач"/>
-                            <Region HBox.hgrow="ALWAYS"/>
-                            <Label style="-fx-font-family:'Courier New';-fx-font-size:11px;" text="88%"/>
-                        </HBox>
-                        <ProgressBar maxWidth="Infinity" progress="0.88" style="-fx-accent:#0f766e;"
-                                     styleClass="progress-thin"/>
-                    </VBox>
-
-                    <!-- Отчётность Q3 -->
-                    <VBox spacing="6">
-                        <HBox alignment="CENTER_LEFT" spacing="8">
-                            <Region styleClass="dot-amber" HBox.hgrow="NEVER"/>
-                            <Label style="-fx-font-weight:600;-fx-font-size:13px;" text="Отчётность Q3"
-                                   HBox.hgrow="ALWAYS"/>
-                            <Label styleClass="section-mono" text="/П.С."/>
-                            <Label style="-fx-font-size:11px;-fx-text-fill:#9b9b95;" text="2/12 задач"/>
-                            <Region HBox.hgrow="ALWAYS"/>
-                            <Label style="-fx-font-family:'Courier New';-fx-font-size:11px;" text="15%"/>
-                        </HBox>
-                        <ProgressBar maxWidth="Infinity" progress="0.15" style="-fx-accent:#92400e;"
-                                     styleClass="progress-thin"/>
-                    </VBox>
+                    <ListView fx:id="projectListView" styleClass="project-list-view">
+                    </ListView>
                 </VBox>
 
                 <!-- Дедлайны -->

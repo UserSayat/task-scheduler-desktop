@@ -1,6 +1,6 @@
 package org.example.taskschedulerdesktop.service.task;
 
-import org.example.taskschedulerdesktop.dto.TaskView;
+import org.example.taskschedulerdesktop.dto.tasks.TaskView;
 import org.example.taskschedulerdesktop.exeptions.NotFoundException;
 import org.example.taskschedulerdesktop.listeners.EventBus;
 import org.example.taskschedulerdesktop.listeners.TaskChangedEvent;
@@ -74,6 +74,11 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public int countTasksByProjectIdAndStatus(long projectId, TaskStatus status) {
         return repository.countByProjectIdAndStatus(projectId, status);
+    }
+
+    @Override
+    public int countTasksByStatus(TaskStatus status) {
+        return repository.countByStatus(status);
     }
 
     @Override

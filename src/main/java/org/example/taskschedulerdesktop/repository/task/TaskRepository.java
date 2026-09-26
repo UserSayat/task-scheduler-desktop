@@ -1,6 +1,6 @@
 package org.example.taskschedulerdesktop.repository.task;
 
-import org.example.taskschedulerdesktop.dto.TaskView;
+import org.example.taskschedulerdesktop.dto.tasks.TaskView;
 import org.example.taskschedulerdesktop.models.Task;
 import org.example.taskschedulerdesktop.utils.TaskStatus;
 
@@ -19,5 +19,6 @@ public interface TaskRepository {
     List<Task> findUnsynced();
     void markAsSynced(long id);
     int countByProjectIdAndStatus(long projectId, TaskStatus status);
+    int countByStatus(TaskStatus status);
     int countByProjectId(long projectId);
 }

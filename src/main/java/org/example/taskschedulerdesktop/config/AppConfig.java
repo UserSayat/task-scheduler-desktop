@@ -3,6 +3,7 @@ package org.example.taskschedulerdesktop.config;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.example.taskschedulerdesktop.controllers.projects.*;
+import org.example.taskschedulerdesktop.controllers.review.DashboardController;
 import org.example.taskschedulerdesktop.controllers.tasks.*;
 import org.example.taskschedulerdesktop.database.DatabaseConnection;
 import org.example.taskschedulerdesktop.repository.project.H2ProjectRepository;
@@ -50,6 +51,9 @@ public class AppConfig {
 
 
         this.controllerFactory = clazz -> {
+            if (clazz == DashboardController.class) {
+                return new DashboardController(asyncProjectService, asyncTaskService);
+            }
             if (clazz == TaskTableController.class) {
                 return new TaskTableController(asyncTaskService);
             }

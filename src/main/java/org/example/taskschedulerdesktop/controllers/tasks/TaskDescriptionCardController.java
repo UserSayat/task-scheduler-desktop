@@ -4,7 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import org.example.taskschedulerdesktop.controllers.Shutdownable;
-import org.example.taskschedulerdesktop.dto.TaskView;
+import org.example.taskschedulerdesktop.dto.tasks.TaskView;
 import org.example.taskschedulerdesktop.navigation.ContextAware;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

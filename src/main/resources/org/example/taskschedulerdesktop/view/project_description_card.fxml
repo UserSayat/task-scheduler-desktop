@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox fx:id="root" spacing="6" style="-fx-padding: 0 0 14 0;"
+      xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml">
+    <HBox alignment="CENTER_LEFT" spacing="8">
+        <Region styleClass="dot-blue" HBox.hgrow="NEVER"/>
+        <Label fx:id="projectNameLabel" styleClass="project-name-label " text="Редизайн портала"
+               HBox.hgrow="ALWAYS"/>
+        <Label fx:id="supervisorInitialsLabel" styleClass="section-mono" text="/А.К."/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Label fx:id="ratioOfCompletedToAllLabel" style="-fx-font-size:11px;-fx-text-fill:#9b9b95;" text="13/18 задач"/>
+        <Label fx:id="percentOfCompletionLabel" styleClass="percent-of-completion-label" text="72%"/>
+    </HBox>
+    <ProgressBar fx:id="progressBar" maxWidth="Infinity" progress="0.72" style="-fx-accent:#1a3a8f;"
+                 styleClass="progress-thin"/>
+</VBox>

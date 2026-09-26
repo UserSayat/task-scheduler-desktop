@@ -1,7 +1,7 @@
 package org.example.taskschedulerdesktop.repository.task;
 
 import org.example.taskschedulerdesktop.database.DatabaseConnection;
-import org.example.taskschedulerdesktop.dto.TaskView;
+import org.example.taskschedulerdesktop.dto.tasks.TaskView;
 import org.example.taskschedulerdesktop.models.Task;
 import org.example.taskschedulerdesktop.utils.TaskPriority;
 import org.example.taskschedulerdesktop.utils.TaskStatus;
@@ -263,6 +263,26 @@ public class H2TaskRepository implements TaskRepository {
             }
         } catch (SQLException e) {
             log.error("Error finding views by {} and {}", projectId, status);
+        }
+        return 0;
+    }
+
+    @Override
+    public int countByStatus(TaskStatus status) {
+        String sql = "SELECT COUNT(1) FROM tasks WHERE status = ?";
+
+        try (Connection conn = db.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, status.name());
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            log.error("Error finding views by status {}", status, e);
         }
         return 0;
     }

@@ -6,7 +6,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.example.taskschedulerdesktop.controllers.sidebar.RightSidebar;
-import org.example.taskschedulerdesktop.dto.TaskView;
+import org.example.taskschedulerdesktop.dto.tasks.TaskView;
 import org.example.taskschedulerdesktop.listeners.EventBus;
 import org.example.taskschedulerdesktop.listeners.TaskChangedEvent;
 import org.example.taskschedulerdesktop.models.Task;
@@ -208,13 +208,29 @@ public class TaskDetailsController implements RightSidebar {
         taskNameLabel.setText(contextTask.getTaskName());
         statusLabel.setText(contextTask.getStatus().getDisplayName());
         priorityLabel.setText(contextTask.getPriority().getDisplayName());
-        executorAvatarLabel.setText("AK");
+        executorAvatarLabel.setText(getInitials(contextTask.getExecutor()));
         executorNameLabel.setText(contextTask.getExecutor());
         deadlineLabel.setText(formatFull(contextTask.getDeadline()));
         updateTags();
         taskDescriptionLabel.setText(contextTask.getDescription());
 
         log.info("UI updated");
+    }
+
+    private String getInitials(String fullName) {
+        if (fullName == null || fullName.isBlank()) {
+            throw new IllegalArgumentException("Имя не может быть пустым");
+        }
+
+        String[] parts = fullName.trim().split("\\s+");
+        StringBuilder initials = new StringBuilder();
+
+        int count = Math.min(parts.length, 2);
+        for (int i = 0; i < count; i++) {
+            initials.append(parts[i].charAt(0));
+        }
+
+        return initials.toString().toUpperCase();
     }
 
     private void updateTags() {

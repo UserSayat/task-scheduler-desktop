@@ -62,7 +62,7 @@
 2026-09-24 00:28:09.256 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectDetailsController - setContext: org.example.taskschedulerdesktop.models.Project@4c10ff9c
 2026-09-24 00:28:09.257 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectDetailsController - class = org.example.taskschedulerdesktop.models.Project
 2026-09-24 00:28:09.259 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/project_details.fxml
-2026-09-24 00:28:10.381 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_right_sidebar.fxml, context=org.example.taskschedulerdesktop.dto.TaskView@4f37e34b
+2026-09-24 00:28:10.381 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_right_sidebar.fxml, context=org.example.taskschedulerdesktop.dto.tasks.TaskView@4f37e34b
 2026-09-24 00:28:10.408 [JavaFX Application Thread] ERROR o.e.t.navigation.NavigationManager - Sidebar loading error
 javafx.fxml.LoadException: 
 /C:/Users/Саят/IdeaProjects/task-scheduler-desktop/target/classes/org/example/taskschedulerdesktop/view/task_right_sidebar.fxml:85
@@ -180,7 +180,7 @@ Caused by: java.lang.IllegalArgumentException: Can not set javafx.scene.layout.H
 2026-09-24 00:29:00.433 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectDetailsController - setContext: org.example.taskschedulerdesktop.models.Project@3eef234b
 2026-09-24 00:29:00.433 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectDetailsController - class = org.example.taskschedulerdesktop.models.Project
 2026-09-24 00:29:00.436 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/project_details.fxml
-2026-09-24 00:29:01.983 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_details.fxml, context=org.example.taskschedulerdesktop.dto.TaskView@571f44dc
+2026-09-24 00:29:01.983 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_details.fxml, context=org.example.taskschedulerdesktop.dto.tasks.TaskView@571f44dc
 2026-09-24 00:29:40.112 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Inter 18pt Regular'
 2026-09-24 00:29:40.113 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Inter 18pt'
 2026-09-24 00:29:40.114 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
@@ -243,11 +243,11 @@ Caused by: java.lang.IllegalArgumentException: Can not set javafx.scene.layout.H
 2026-09-24 00:29:42.866 [Thread-12] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(UNDER_REVIEW)
 2026-09-24 00:29:42.866 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectDetailsController - class = org.example.taskschedulerdesktop.models.Project
 2026-09-24 00:29:42.869 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/project_details.fxml
-2026-09-24 00:29:43.567 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task-details.fxml, context=org.example.taskschedulerdesktop.dto.TaskView@7b36fbe4
+2026-09-24 00:29:43.567 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task-details.fxml, context=org.example.taskschedulerdesktop.dto.tasks.TaskView@7b36fbe4
 2026-09-24 00:29:43.619 [JavaFX Application Thread] INFO  o.e.t.c.t.TaskRightSidebarController - initialize()
 2026-09-24 00:29:43.620 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - sidebarController found, calling setContext()
 2026-09-24 00:29:43.620 [JavaFX Application Thread] INFO  o.e.t.c.t.TaskRightSidebarController - setContext()
-2026-09-24 00:29:43.620 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - context = org.example.taskschedulerdesktop.dto.TaskView@7b36fbe4
+2026-09-24 00:29:43.620 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - context = org.example.taskschedulerdesktop.dto.tasks.TaskView@7b36fbe4
 2026-09-24 00:29:43.620 [JavaFX Application Thread] INFO  o.e.t.c.t.TaskRightSidebarController - context saved: 999999
 2026-09-24 00:29:43.620 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - updateUI()
 2026-09-24 00:29:43.620 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - projectName: 1
@@ -262,18 +262,18 @@ Caused by: java.lang.IllegalArgumentException: Can not set javafx.scene.layout.H
 2026-09-24 00:29:53.105 [JavaFX Application Thread] INFO  o.e.t.c.t.TaskRightSidebarController - Open delete panel for task: 999999
 2026-09-24 00:29:55.100 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - Click on edit button
 2026-09-24 00:29:55.100 [JavaFX Application Thread] INFO  o.e.t.c.t.TaskRightSidebarController - Open edit sidebar for task: 999999
-2026-09-24 00:29:55.100 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/edit_task_right_sidebar.fxml, context=org.example.taskschedulerdesktop.dto.TaskView@7b36fbe4
+2026-09-24 00:29:55.100 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/edit_task_right_sidebar.fxml, context=org.example.taskschedulerdesktop.dto.tasks.TaskView@7b36fbe4
 2026-09-24 00:29:55.129 [JavaFX Application Thread] INFO  o.e.t.c.t.EditTaskRightSidebarController - initialize()
 2026-09-24 00:29:55.129 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - sidebarController found, calling setContext()
 2026-09-24 00:29:55.131 [Thread-12] DEBUG o.e.t.r.task.H2TaskRepository - findViewById(1)
 2026-09-24 00:29:55.133 [Thread-12] DEBUG o.e.t.r.task.H2TaskRepository - View not found
 2026-09-24 00:29:55.228 [JavaFX Application Thread] ERROR o.e.t.c.t.EditTaskRightSidebarController - java.lang.IllegalArgumentException
 2026-09-24 00:30:05.659 [JavaFX Application Thread] DEBUG o.e.t.c.t.EditTaskRightSidebarController - Close right sidebar
-2026-09-24 00:30:14.389 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task-details.fxml, context=org.example.taskschedulerdesktop.dto.TaskView@7b36fbe4
+2026-09-24 00:30:14.389 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task-details.fxml, context=org.example.taskschedulerdesktop.dto.tasks.TaskView@7b36fbe4
 2026-09-24 00:30:14.402 [JavaFX Application Thread] INFO  o.e.t.c.t.TaskRightSidebarController - initialize()
 2026-09-24 00:30:14.402 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - sidebarController found, calling setContext()
 2026-09-24 00:30:14.402 [JavaFX Application Thread] INFO  o.e.t.c.t.TaskRightSidebarController - setContext()
-2026-09-24 00:30:14.402 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - context = org.example.taskschedulerdesktop.dto.TaskView@7b36fbe4
+2026-09-24 00:30:14.402 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - context = org.example.taskschedulerdesktop.dto.tasks.TaskView@7b36fbe4
 2026-09-24 00:30:14.402 [JavaFX Application Thread] INFO  o.e.t.c.t.TaskRightSidebarController - context saved: 999999
 2026-09-24 00:30:14.402 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - updateUI()
 2026-09-24 00:30:14.402 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - projectName: 1
@@ -293,17 +293,17 @@ Caused by: java.lang.IllegalArgumentException: Can not set javafx.scene.layout.H
 2026-09-24 00:30:34.336 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - Click on button accept
 2026-09-24 00:30:35.816 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - Click on edit button
 2026-09-24 00:30:35.816 [JavaFX Application Thread] INFO  o.e.t.c.t.TaskRightSidebarController - Open edit sidebar for task: 999999
-2026-09-24 00:30:35.816 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/edit_task_right_sidebar.fxml, context=org.example.taskschedulerdesktop.dto.TaskView@7b36fbe4
+2026-09-24 00:30:35.816 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/edit_task_right_sidebar.fxml, context=org.example.taskschedulerdesktop.dto.tasks.TaskView@7b36fbe4
 2026-09-24 00:30:35.828 [JavaFX Application Thread] INFO  o.e.t.c.t.EditTaskRightSidebarController - initialize()
 2026-09-24 00:30:35.828 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - sidebarController found, calling setContext()
 2026-09-24 00:30:35.828 [Thread-7] DEBUG o.e.t.r.task.H2TaskRepository - findViewById(1)
 2026-09-24 00:30:35.830 [Thread-7] DEBUG o.e.t.r.task.H2TaskRepository - View not found
 2026-09-24 00:30:35.856 [JavaFX Application Thread] ERROR o.e.t.c.t.EditTaskRightSidebarController - java.lang.IllegalArgumentException
-2026-09-24 00:33:50.656 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task-details.fxml, context=org.example.taskschedulerdesktop.dto.TaskView@1ea06ae3
+2026-09-24 00:33:50.656 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task-details.fxml, context=org.example.taskschedulerdesktop.dto.tasks.TaskView@1ea06ae3
 2026-09-24 00:33:50.670 [JavaFX Application Thread] INFO  o.e.t.c.t.TaskRightSidebarController - initialize()
 2026-09-24 00:33:50.670 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - sidebarController found, calling setContext()
 2026-09-24 00:33:50.670 [JavaFX Application Thread] INFO  o.e.t.c.t.TaskRightSidebarController - setContext()
-2026-09-24 00:33:50.670 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - context = org.example.taskschedulerdesktop.dto.TaskView@1ea06ae3
+2026-09-24 00:33:50.670 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - context = org.example.taskschedulerdesktop.dto.tasks.TaskView@1ea06ae3
 2026-09-24 00:33:50.670 [JavaFX Application Thread] INFO  o.e.t.c.t.TaskRightSidebarController - context saved: 5555
 2026-09-24 00:33:50.670 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - updateUI()
 2026-09-24 00:33:50.670 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - projectName: 1
@@ -333,11 +333,11 @@ Caused by: java.lang.IllegalArgumentException: Can not set javafx.scene.layout.H
 2026-09-24 00:52:55.108 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectDetailsController - setContext: org.example.taskschedulerdesktop.models.Project@30f3f549
 2026-09-24 00:52:55.109 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectDetailsController - class = org.example.taskschedulerdesktop.models.Project
 2026-09-24 00:52:55.109 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/project_details.fxml
-2026-09-24 00:52:56.137 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task-details.fxml, context=org.example.taskschedulerdesktop.dto.TaskView@e8986fa
+2026-09-24 00:52:56.137 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task-details.fxml, context=org.example.taskschedulerdesktop.dto.tasks.TaskView@e8986fa
 2026-09-24 00:52:56.149 [JavaFX Application Thread] INFO  o.e.t.c.t.TaskRightSidebarController - initialize()
 2026-09-24 00:52:56.149 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - sidebarController found, calling setContext()
 2026-09-24 00:52:56.149 [JavaFX Application Thread] INFO  o.e.t.c.t.TaskRightSidebarController - setContext()
-2026-09-24 00:52:56.149 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - context = org.example.taskschedulerdesktop.dto.TaskView@e8986fa
+2026-09-24 00:52:56.149 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - context = org.example.taskschedulerdesktop.dto.tasks.TaskView@e8986fa
 2026-09-24 00:52:56.149 [JavaFX Application Thread] INFO  o.e.t.c.t.TaskRightSidebarController - context saved: 44444
 2026-09-24 00:52:56.149 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - updateUI()
 2026-09-24 00:52:56.149 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - projectName: 1
@@ -406,11 +406,11 @@ Caused by: java.lang.IllegalArgumentException: Can not set javafx.scene.layout.H
 2026-09-24 00:54:35.531 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectDetailsController - setContext: org.example.taskschedulerdesktop.models.Project@2951910
 2026-09-24 00:54:35.531 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectDetailsController - class = org.example.taskschedulerdesktop.models.Project
 2026-09-24 00:54:35.534 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/project_details.fxml
-2026-09-24 00:54:37.066 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task-details.fxml, context=org.example.taskschedulerdesktop.dto.TaskView@30dfb561
+2026-09-24 00:54:37.066 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task-details.fxml, context=org.example.taskschedulerdesktop.dto.tasks.TaskView@30dfb561
 2026-09-24 00:54:37.122 [JavaFX Application Thread] INFO  o.e.t.c.t.TaskRightSidebarController - initialize()
 2026-09-24 00:54:37.124 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - sidebarController found, calling setContext()
 2026-09-24 00:54:37.124 [JavaFX Application Thread] INFO  o.e.t.c.t.TaskRightSidebarController - setContext()
-2026-09-24 00:54:37.124 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - context = org.example.taskschedulerdesktop.dto.TaskView@30dfb561
+2026-09-24 00:54:37.124 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - context = org.example.taskschedulerdesktop.dto.tasks.TaskView@30dfb561
 2026-09-24 00:54:37.124 [JavaFX Application Thread] INFO  o.e.t.c.t.TaskRightSidebarController - context saved: 3333333
 2026-09-24 00:54:37.124 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - updateUI()
 2026-09-24 00:54:37.124 [JavaFX Application Thread] DEBUG o.e.t.c.t.TaskRightSidebarController - projectName: 1
@@ -555,7 +555,7 @@ Caused by: java.lang.IllegalArgumentException: Can not set javafx.scene.layout.H
 2026-09-24 01:13:27.455 [Thread-9] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(COMPLETED)
 2026-09-24 01:13:27.455 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectDetailsController - class = org.example.taskschedulerdesktop.models.Project
 2026-09-24 01:13:27.457 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/project_details.fxml
-2026-09-24 01:13:28.889 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_details.fxml, context=org.example.taskschedulerdesktop.dto.TaskView@2ccc6a9e
+2026-09-24 01:13:28.889 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_details.fxml, context=org.example.taskschedulerdesktop.dto.tasks.TaskView@2ccc6a9e
 2026-09-24 01:14:01.124 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Inter 18pt Regular'
 2026-09-24 01:14:01.125 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Inter 18pt'
 2026-09-24 01:14:01.126 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
@@ -618,11 +618,11 @@ Caused by: java.lang.IllegalArgumentException: Can not set javafx.scene.layout.H
 2026-09-24 01:14:03.839 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectDetailsController - setContext: org.example.taskschedulerdesktop.models.Project@409fecee
 2026-09-24 01:14:03.839 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectDetailsController - class = org.example.taskschedulerdesktop.models.Project
 2026-09-24 01:14:03.842 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/project_details.fxml
-2026-09-24 01:14:04.767 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_details.fxml, context=org.example.taskschedulerdesktop.dto.TaskView@223c6940
+2026-09-24 01:14:04.767 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_details.fxml, context=org.example.taskschedulerdesktop.dto.tasks.TaskView@223c6940
 2026-09-24 01:14:04.822 [JavaFX Application Thread] INFO  o.e.t.controllers.tasks.TaskDetails - initialize()
 2026-09-24 01:14:04.823 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - sidebarController found, calling setContext()
 2026-09-24 01:14:04.824 [JavaFX Application Thread] INFO  o.e.t.controllers.tasks.TaskDetails - setContext()
-2026-09-24 01:14:04.824 [JavaFX Application Thread] DEBUG o.e.t.controllers.tasks.TaskDetails - context = org.example.taskschedulerdesktop.dto.TaskView@223c6940
+2026-09-24 01:14:04.824 [JavaFX Application Thread] DEBUG o.e.t.controllers.tasks.TaskDetails - context = org.example.taskschedulerdesktop.dto.tasks.TaskView@223c6940
 2026-09-24 01:14:04.824 [JavaFX Application Thread] INFO  o.e.t.controllers.tasks.TaskDetails - context saved: 999999
 2026-09-24 01:14:04.824 [JavaFX Application Thread] DEBUG o.e.t.controllers.tasks.TaskDetails - updateUI()
 2026-09-24 01:14:04.824 [JavaFX Application Thread] DEBUG o.e.t.controllers.tasks.TaskDetails - projectName: 1
@@ -738,11 +738,11 @@ Caused by: java.lang.IllegalArgumentException: Can not set javafx.scene.layout.H
 2026-09-24 19:18:28.569 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectDetailsController - setContext: org.example.taskschedulerdesktop.models.Project@758f3863
 2026-09-24 19:18:28.569 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectDetailsController - class = org.example.taskschedulerdesktop.models.Project
 2026-09-24 19:18:28.572 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/project_details.fxml
-2026-09-24 19:18:29.847 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_details.fxml, context=org.example.taskschedulerdesktop.dto.TaskView@7966e809
+2026-09-24 19:18:29.847 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_details.fxml, context=org.example.taskschedulerdesktop.dto.tasks.TaskView@7966e809
 2026-09-24 19:18:29.906 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - initialize()
 2026-09-24 19:18:29.907 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - sidebarController found, calling setContext()
 2026-09-24 19:18:29.908 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - setContext()
-2026-09-24 19:18:29.908 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - context = org.example.taskschedulerdesktop.dto.TaskView@7966e809
+2026-09-24 19:18:29.908 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - context = org.example.taskschedulerdesktop.dto.tasks.TaskView@7966e809
 2026-09-24 19:18:29.908 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - context saved: 3333333
 2026-09-24 19:18:29.908 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - updateUI()
 2026-09-24 19:18:29.908 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - projectName: 1
@@ -892,11 +892,11 @@ Caused by: java.lang.IllegalArgumentException: Can not set javafx.scene.layout.H
 2026-09-24 19:20:16.008 [Thread-12] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(UNDER_REVIEW)
 2026-09-24 19:20:16.008 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectDetailsController - class = org.example.taskschedulerdesktop.models.Project
 2026-09-24 19:20:16.010 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/project_details.fxml
-2026-09-24 19:20:18.668 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_details.fxml, context=org.example.taskschedulerdesktop.dto.TaskView@14164eaa
+2026-09-24 19:20:18.668 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_details.fxml, context=org.example.taskschedulerdesktop.dto.tasks.TaskView@14164eaa
 2026-09-24 19:20:18.714 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - initialize()
 2026-09-24 19:20:18.715 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - sidebarController found, calling setContext()
 2026-09-24 19:20:18.716 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - setContext()
-2026-09-24 19:20:18.716 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - context = org.example.taskschedulerdesktop.dto.TaskView@14164eaa
+2026-09-24 19:20:18.716 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - context = org.example.taskschedulerdesktop.dto.tasks.TaskView@14164eaa
 2026-09-24 19:20:18.716 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - context saved: 3333333
 2026-09-24 19:20:18.716 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - updateUI()
 2026-09-24 19:20:18.716 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - projectName: 1
@@ -941,11 +941,11 @@ Caused by: java.lang.IllegalArgumentException: Can not set javafx.scene.layout.H
 2026-09-24 19:20:30.908 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskTableController - onSuccess: received 11 tasks
 2026-09-24 19:20:30.908 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskTableController - onSuccess: first task: 11111
 2026-09-24 19:20:30.908 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskTableController - Table has: 11 tasks
-2026-09-24 19:20:35.298 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_details.fxml, context=org.example.taskschedulerdesktop.dto.TaskView@630d8dcb
+2026-09-24 19:20:35.298 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_details.fxml, context=org.example.taskschedulerdesktop.dto.tasks.TaskView@630d8dcb
 2026-09-24 19:20:35.318 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - initialize()
 2026-09-24 19:20:35.318 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - sidebarController found, calling setContext()
 2026-09-24 19:20:35.318 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - setContext()
-2026-09-24 19:20:35.318 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - context = org.example.taskschedulerdesktop.dto.TaskView@630d8dcb
+2026-09-24 19:20:35.318 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - context = org.example.taskschedulerdesktop.dto.tasks.TaskView@630d8dcb
 2026-09-24 19:20:35.318 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - context saved: 3333333
 2026-09-24 19:20:35.318 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - updateUI()
 2026-09-24 19:20:35.318 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - projectName: 1
@@ -957,11 +957,11 @@ Caused by: java.lang.IllegalArgumentException: Can not set javafx.scene.layout.H
 2026-09-24 19:20:35.318 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - taskName: 3333333
 2026-09-24 19:20:35.318 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - status: NEW
 2026-09-24 19:20:35.318 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - UI updated
-2026-09-24 19:20:36.534 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_details.fxml, context=org.example.taskschedulerdesktop.dto.TaskView@4c497aec
+2026-09-24 19:20:36.534 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_details.fxml, context=org.example.taskschedulerdesktop.dto.tasks.TaskView@4c497aec
 2026-09-24 19:20:36.550 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - initialize()
 2026-09-24 19:20:36.550 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - sidebarController found, calling setContext()
 2026-09-24 19:20:36.550 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - setContext()
-2026-09-24 19:20:36.550 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - context = org.example.taskschedulerdesktop.dto.TaskView@4c497aec
+2026-09-24 19:20:36.550 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - context = org.example.taskschedulerdesktop.dto.tasks.TaskView@4c497aec
 2026-09-24 19:20:36.550 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - context saved: АБВГД
 2026-09-24 19:20:36.550 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - updateUI()
 2026-09-24 19:20:36.550 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - projectName: 1
@@ -3248,11 +3248,11 @@ Caused by: java.lang.IllegalArgumentException: Can not set javafx.scene.layout.H
 2026-09-24 21:05:19.345 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectDetailsController - setContext: org.example.taskschedulerdesktop.models.Project@3a2ae257
 2026-09-24 21:05:19.345 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectDetailsController - class = org.example.taskschedulerdesktop.models.Project
 2026-09-24 21:05:19.354 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/project_details.fxml
-2026-09-24 21:07:23.345 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_details.fxml, context=org.example.taskschedulerdesktop.dto.TaskView@441d65ae
+2026-09-24 21:07:23.345 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_details.fxml, context=org.example.taskschedulerdesktop.dto.tasks.TaskView@441d65ae
 2026-09-24 21:07:23.425 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - initialize()
 2026-09-24 21:07:23.427 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - sidebarController found, calling setContext()
 2026-09-24 21:07:23.428 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - setContext()
-2026-09-24 21:07:23.428 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - context = org.example.taskschedulerdesktop.dto.TaskView@441d65ae
+2026-09-24 21:07:23.428 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - context = org.example.taskschedulerdesktop.dto.tasks.TaskView@441d65ae
 2026-09-24 21:07:23.428 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - context saved: 44444
 2026-09-24 21:07:23.428 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - updateUI()
 2026-09-24 21:07:23.428 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - projectName: 1
@@ -3265,11 +3265,11 @@ Caused by: java.lang.IllegalArgumentException: Can not set javafx.scene.layout.H
 2026-09-24 21:07:23.429 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - status: NEW
 2026-09-24 21:07:23.430 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - UI updated
 2026-09-24 21:07:42.710 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - Click on edit button
-2026-09-24 21:20:27.125 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_details.fxml, context=org.example.taskschedulerdesktop.dto.TaskView@441d65ae
+2026-09-24 21:20:27.125 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_details.fxml, context=org.example.taskschedulerdesktop.dto.tasks.TaskView@441d65ae
 2026-09-24 21:20:27.157 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - initialize()
 2026-09-24 21:20:27.158 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - sidebarController found, calling setContext()
 2026-09-24 21:20:27.158 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - setContext()
-2026-09-24 21:20:27.158 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - context = org.example.taskschedulerdesktop.dto.TaskView@441d65ae
+2026-09-24 21:20:27.158 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - context = org.example.taskschedulerdesktop.dto.tasks.TaskView@441d65ae
 2026-09-24 21:20:27.158 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - context saved: 44444
 2026-09-24 21:20:27.158 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - updateUI()
 2026-09-24 21:20:27.158 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - projectName: 1
@@ -3281,11 +3281,11 @@ Caused by: java.lang.IllegalArgumentException: Can not set javafx.scene.layout.H
 2026-09-24 21:20:27.159 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - taskName: 44444
 2026-09-24 21:20:27.159 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - status: NEW
 2026-09-24 21:20:27.159 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - UI updated
-2026-09-24 21:20:32.635 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_details.fxml, context=org.example.taskschedulerdesktop.dto.TaskView@441d65ae
+2026-09-24 21:20:32.635 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_details.fxml, context=org.example.taskschedulerdesktop.dto.tasks.TaskView@441d65ae
 2026-09-24 21:20:32.656 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - initialize()
 2026-09-24 21:20:32.657 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - sidebarController found, calling setContext()
 2026-09-24 21:20:32.657 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - setContext()
-2026-09-24 21:20:32.657 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - context = org.example.taskschedulerdesktop.dto.TaskView@441d65ae
+2026-09-24 21:20:32.657 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - context = org.example.taskschedulerdesktop.dto.tasks.TaskView@441d65ae
 2026-09-24 21:20:32.657 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - context saved: 44444
 2026-09-24 21:20:32.657 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - updateUI()
 2026-09-24 21:20:32.657 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - projectName: 1
@@ -3297,11 +3297,11 @@ Caused by: java.lang.IllegalArgumentException: Can not set javafx.scene.layout.H
 2026-09-24 21:20:32.658 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - taskName: 44444
 2026-09-24 21:20:32.658 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - status: NEW
 2026-09-24 21:20:32.658 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - UI updated
-2026-09-24 21:20:34.571 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_details.fxml, context=org.example.taskschedulerdesktop.dto.TaskView@441d65ae
+2026-09-24 21:20:34.571 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_details.fxml, context=org.example.taskschedulerdesktop.dto.tasks.TaskView@441d65ae
 2026-09-24 21:20:34.592 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - initialize()
 2026-09-24 21:20:34.593 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - sidebarController found, calling setContext()
 2026-09-24 21:20:34.593 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - setContext()
-2026-09-24 21:20:34.593 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - context = org.example.taskschedulerdesktop.dto.TaskView@441d65ae
+2026-09-24 21:20:34.593 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - context = org.example.taskschedulerdesktop.dto.tasks.TaskView@441d65ae
 2026-09-24 21:20:34.593 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - context saved: 44444
 2026-09-24 21:20:34.593 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - updateUI()
 2026-09-24 21:20:34.593 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - projectName: 1
@@ -3313,11 +3313,11 @@ Caused by: java.lang.IllegalArgumentException: Can not set javafx.scene.layout.H
 2026-09-24 21:20:34.593 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - taskName: 44444
 2026-09-24 21:20:34.593 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - status: NEW
 2026-09-24 21:20:34.593 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - UI updated
-2026-09-24 21:20:36.355 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_details.fxml, context=org.example.taskschedulerdesktop.dto.TaskView@441d65ae
+2026-09-24 21:20:36.355 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_details.fxml, context=org.example.taskschedulerdesktop.dto.tasks.TaskView@441d65ae
 2026-09-24 21:20:36.376 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - initialize()
 2026-09-24 21:20:36.376 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - sidebarController found, calling setContext()
 2026-09-24 21:20:36.377 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - setContext()
-2026-09-24 21:20:36.377 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - context = org.example.taskschedulerdesktop.dto.TaskView@441d65ae
+2026-09-24 21:20:36.377 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - context = org.example.taskschedulerdesktop.dto.tasks.TaskView@441d65ae
 2026-09-24 21:20:36.377 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - context saved: 44444
 2026-09-24 21:20:36.377 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - updateUI()
 2026-09-24 21:20:36.377 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - projectName: 1
@@ -3329,11 +3329,11 @@ Caused by: java.lang.IllegalArgumentException: Can not set javafx.scene.layout.H
 2026-09-24 21:20:36.378 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - taskName: 44444
 2026-09-24 21:20:36.378 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - status: NEW
 2026-09-24 21:20:36.378 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - UI updated
-2026-09-24 21:20:38.872 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_details.fxml, context=org.example.taskschedulerdesktop.dto.TaskView@441d65ae
+2026-09-24 21:20:38.872 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_details.fxml, context=org.example.taskschedulerdesktop.dto.tasks.TaskView@441d65ae
 2026-09-24 21:20:38.898 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - initialize()
 2026-09-24 21:20:38.898 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - sidebarController found, calling setContext()
 2026-09-24 21:20:38.898 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - setContext()
-2026-09-24 21:20:38.898 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - context = org.example.taskschedulerdesktop.dto.TaskView@441d65ae
+2026-09-24 21:20:38.898 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - context = org.example.taskschedulerdesktop.dto.tasks.TaskView@441d65ae
 2026-09-24 21:20:38.900 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - context saved: 44444
 2026-09-24 21:20:38.900 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - updateUI()
 2026-09-24 21:20:38.900 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - projectName: 1
@@ -3345,11 +3345,11 @@ Caused by: java.lang.IllegalArgumentException: Can not set javafx.scene.layout.H
 2026-09-24 21:20:38.900 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - taskName: 44444
 2026-09-24 21:20:38.900 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - status: NEW
 2026-09-24 21:20:38.901 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - UI updated
-2026-09-24 21:20:39.806 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_details.fxml, context=org.example.taskschedulerdesktop.dto.TaskView@441d65ae
+2026-09-24 21:20:39.806 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_details.fxml, context=org.example.taskschedulerdesktop.dto.tasks.TaskView@441d65ae
 2026-09-24 21:20:39.831 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - initialize()
 2026-09-24 21:20:39.832 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - sidebarController found, calling setContext()
 2026-09-24 21:20:39.832 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - setContext()
-2026-09-24 21:20:39.832 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - context = org.example.taskschedulerdesktop.dto.TaskView@441d65ae
+2026-09-24 21:20:39.832 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - context = org.example.taskschedulerdesktop.dto.tasks.TaskView@441d65ae
 2026-09-24 21:20:39.832 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - context saved: 44444
 2026-09-24 21:20:39.832 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - updateUI()
 2026-09-24 21:20:39.832 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - projectName: 1
@@ -3361,11 +3361,11 @@ Caused by: java.lang.IllegalArgumentException: Can not set javafx.scene.layout.H
 2026-09-24 21:20:39.834 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - taskName: 44444
 2026-09-24 21:20:39.834 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - status: NEW
 2026-09-24 21:20:39.834 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - UI updated
-2026-09-24 21:20:43.602 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_details.fxml, context=org.example.taskschedulerdesktop.dto.TaskView@4e92eb27
+2026-09-24 21:20:43.602 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_details.fxml, context=org.example.taskschedulerdesktop.dto.tasks.TaskView@4e92eb27
 2026-09-24 21:20:43.621 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - initialize()
 2026-09-24 21:20:43.621 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - sidebarController found, calling setContext()
 2026-09-24 21:20:43.621 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - setContext()
-2026-09-24 21:20:43.621 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - context = org.example.taskschedulerdesktop.dto.TaskView@4e92eb27
+2026-09-24 21:20:43.621 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - context = org.example.taskschedulerdesktop.dto.tasks.TaskView@4e92eb27
 2026-09-24 21:20:43.621 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - context saved: 999999
 2026-09-24 21:20:43.621 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - updateUI()
 2026-09-24 21:20:43.621 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - projectName: 1
@@ -3377,11 +3377,11 @@ Caused by: java.lang.IllegalArgumentException: Can not set javafx.scene.layout.H
 2026-09-24 21:20:43.622 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - taskName: 999999
 2026-09-24 21:20:43.622 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - status: NEW
 2026-09-24 21:20:43.622 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - UI updated
-2026-09-24 21:20:45.020 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_details.fxml, context=org.example.taskschedulerdesktop.dto.TaskView@4e92eb27
+2026-09-24 21:20:45.020 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_details.fxml, context=org.example.taskschedulerdesktop.dto.tasks.TaskView@4e92eb27
 2026-09-24 21:20:45.042 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - initialize()
 2026-09-24 21:20:45.042 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - sidebarController found, calling setContext()
 2026-09-24 21:20:45.042 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - setContext()
-2026-09-24 21:20:45.042 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - context = org.example.taskschedulerdesktop.dto.TaskView@4e92eb27
+2026-09-24 21:20:45.042 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - context = org.example.taskschedulerdesktop.dto.tasks.TaskView@4e92eb27
 2026-09-24 21:20:45.042 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - context saved: 999999
 2026-09-24 21:20:45.042 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - updateUI()
 2026-09-24 21:20:45.042 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - projectName: 1
@@ -3393,11 +3393,11 @@ Caused by: java.lang.IllegalArgumentException: Can not set javafx.scene.layout.H
 2026-09-24 21:20:45.043 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - taskName: 999999
 2026-09-24 21:20:45.043 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - status: NEW
 2026-09-24 21:20:45.043 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - UI updated
-2026-09-24 21:20:47.544 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_details.fxml, context=org.example.taskschedulerdesktop.dto.TaskView@441d65ae
+2026-09-24 21:20:47.544 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_details.fxml, context=org.example.taskschedulerdesktop.dto.tasks.TaskView@441d65ae
 2026-09-24 21:20:47.565 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - initialize()
 2026-09-24 21:20:47.565 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - sidebarController found, calling setContext()
 2026-09-24 21:20:47.565 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - setContext()
-2026-09-24 21:20:47.565 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - context = org.example.taskschedulerdesktop.dto.TaskView@441d65ae
+2026-09-24 21:20:47.565 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - context = org.example.taskschedulerdesktop.dto.tasks.TaskView@441d65ae
 2026-09-24 21:20:47.565 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - context saved: 44444
 2026-09-24 21:20:47.565 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - updateUI()
 2026-09-24 21:20:47.565 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - projectName: 1
@@ -3409,11 +3409,11 @@ Caused by: java.lang.IllegalArgumentException: Can not set javafx.scene.layout.H
 2026-09-24 21:20:47.566 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - taskName: 44444
 2026-09-24 21:20:47.566 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - status: NEW
 2026-09-24 21:20:47.566 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - UI updated
-2026-09-24 21:20:49.335 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_details.fxml, context=org.example.taskschedulerdesktop.dto.TaskView@441d65ae
+2026-09-24 21:20:49.335 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_details.fxml, context=org.example.taskschedulerdesktop.dto.tasks.TaskView@441d65ae
 2026-09-24 21:20:49.350 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - initialize()
 2026-09-24 21:20:49.351 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - sidebarController found, calling setContext()
 2026-09-24 21:20:49.351 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - setContext()
-2026-09-24 21:20:49.351 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - context = org.example.taskschedulerdesktop.dto.TaskView@441d65ae
+2026-09-24 21:20:49.351 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - context = org.example.taskschedulerdesktop.dto.tasks.TaskView@441d65ae
 2026-09-24 21:20:49.351 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - context saved: 44444
 2026-09-24 21:20:49.351 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - updateUI()
 2026-09-24 21:20:49.351 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - projectName: 1
@@ -3425,11 +3425,11 @@ Caused by: java.lang.IllegalArgumentException: Can not set javafx.scene.layout.H
 2026-09-24 21:20:49.351 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - taskName: 44444
 2026-09-24 21:20:49.351 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - status: NEW
 2026-09-24 21:20:49.352 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - UI updated
-2026-09-24 21:20:51.704 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_details.fxml, context=org.example.taskschedulerdesktop.dto.TaskView@4e92eb27
+2026-09-24 21:20:51.704 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_details.fxml, context=org.example.taskschedulerdesktop.dto.tasks.TaskView@4e92eb27
 2026-09-24 21:20:51.725 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - initialize()
 2026-09-24 21:20:51.726 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - sidebarController found, calling setContext()
 2026-09-24 21:20:51.726 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - setContext()
-2026-09-24 21:20:51.726 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - context = org.example.taskschedulerdesktop.dto.TaskView@4e92eb27
+2026-09-24 21:20:51.726 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - context = org.example.taskschedulerdesktop.dto.tasks.TaskView@4e92eb27
 2026-09-24 21:20:51.726 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - context saved: 999999
 2026-09-24 21:20:51.726 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - updateUI()
 2026-09-24 21:20:51.726 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - projectName: 1
@@ -3441,11 +3441,11 @@ Caused by: java.lang.IllegalArgumentException: Can not set javafx.scene.layout.H
 2026-09-24 21:20:51.726 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - taskName: 999999
 2026-09-24 21:20:51.726 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - status: NEW
 2026-09-24 21:20:51.727 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - UI updated
-2026-09-24 21:20:53.114 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_details.fxml, context=org.example.taskschedulerdesktop.dto.TaskView@79fc4e61
+2026-09-24 21:20:53.114 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_details.fxml, context=org.example.taskschedulerdesktop.dto.tasks.TaskView@79fc4e61
 2026-09-24 21:20:53.133 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - initialize()
 2026-09-24 21:20:53.134 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - sidebarController found, calling setContext()
 2026-09-24 21:20:53.134 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - setContext()
-2026-09-24 21:20:53.134 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - context = org.example.taskschedulerdesktop.dto.TaskView@79fc4e61
+2026-09-24 21:20:53.134 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - context = org.example.taskschedulerdesktop.dto.tasks.TaskView@79fc4e61
 2026-09-24 21:20:53.134 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - context saved: 5555
 2026-09-24 21:20:53.134 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - updateUI()
 2026-09-24 21:20:53.134 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - projectName: 1
@@ -3470,11 +3470,11 @@ Caused by: java.lang.IllegalArgumentException: Can not set javafx.scene.layout.H
 2026-09-24 21:21:03.139 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectDetailsController - setContext: org.example.taskschedulerdesktop.models.Project@3a2ae257
 2026-09-24 21:21:03.140 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectDetailsController - class = org.example.taskschedulerdesktop.models.Project
 2026-09-24 21:21:03.142 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/project_details.fxml
-2026-09-24 21:21:05.512 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_details.fxml, context=org.example.taskschedulerdesktop.dto.TaskView@79fc4e61
+2026-09-24 21:21:05.512 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_details.fxml, context=org.example.taskschedulerdesktop.dto.tasks.TaskView@79fc4e61
 2026-09-24 21:21:05.530 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - initialize()
 2026-09-24 21:21:05.531 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - sidebarController found, calling setContext()
 2026-09-24 21:21:05.531 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - setContext()
-2026-09-24 21:21:05.531 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - context = org.example.taskschedulerdesktop.dto.TaskView@79fc4e61
+2026-09-24 21:21:05.531 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - context = org.example.taskschedulerdesktop.dto.tasks.TaskView@79fc4e61
 2026-09-24 21:21:05.531 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - context saved: 5555
 2026-09-24 21:21:05.531 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - updateUI()
 2026-09-24 21:21:05.531 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - projectName: 1
@@ -3486,11 +3486,11 @@ Caused by: java.lang.IllegalArgumentException: Can not set javafx.scene.layout.H
 2026-09-24 21:21:05.531 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - taskName: 5555
 2026-09-24 21:21:05.531 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - status: NEW
 2026-09-24 21:21:05.532 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - UI updated
-2026-09-24 21:21:07.845 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_details.fxml, context=org.example.taskschedulerdesktop.dto.TaskView@428b16bb
+2026-09-24 21:21:07.845 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_details.fxml, context=org.example.taskschedulerdesktop.dto.tasks.TaskView@428b16bb
 2026-09-24 21:21:07.862 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - initialize()
 2026-09-24 21:21:07.862 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - sidebarController found, calling setContext()
 2026-09-24 21:21:07.862 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - setContext()
-2026-09-24 21:21:07.863 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - context = org.example.taskschedulerdesktop.dto.TaskView@428b16bb
+2026-09-24 21:21:07.863 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - context = org.example.taskschedulerdesktop.dto.tasks.TaskView@428b16bb
 2026-09-24 21:21:07.863 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - context saved: 88888
 2026-09-24 21:21:07.863 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - updateUI()
 2026-09-24 21:21:07.863 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - projectName: 1
@@ -3502,11 +3502,11 @@ Caused by: java.lang.IllegalArgumentException: Can not set javafx.scene.layout.H
 2026-09-24 21:21:07.863 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - taskName: 88888
 2026-09-24 21:21:07.863 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - status: NEW
 2026-09-24 21:21:07.863 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - UI updated
-2026-09-24 21:21:09.941 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_details.fxml, context=org.example.taskschedulerdesktop.dto.TaskView@428b16bb
+2026-09-24 21:21:09.941 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_details.fxml, context=org.example.taskschedulerdesktop.dto.tasks.TaskView@428b16bb
 2026-09-24 21:21:09.959 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - initialize()
 2026-09-24 21:21:09.960 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - sidebarController found, calling setContext()
 2026-09-24 21:21:09.960 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - setContext()
-2026-09-24 21:21:09.960 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - context = org.example.taskschedulerdesktop.dto.TaskView@428b16bb
+2026-09-24 21:21:09.960 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - context = org.example.taskschedulerdesktop.dto.tasks.TaskView@428b16bb
 2026-09-24 21:21:09.960 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - context saved: 88888
 2026-09-24 21:21:09.960 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - updateUI()
 2026-09-24 21:21:09.960 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - projectName: 1
@@ -3519,11 +3519,11 @@ Caused by: java.lang.IllegalArgumentException: Can not set javafx.scene.layout.H
 2026-09-24 21:21:09.961 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - status: NEW
 2026-09-24 21:21:09.961 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - UI updated
 2026-09-24 21:21:10.986 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - Click on edit button
-2026-09-24 21:21:13.219 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_details.fxml, context=org.example.taskschedulerdesktop.dto.TaskView@4e92eb27
+2026-09-24 21:21:13.219 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_details.fxml, context=org.example.taskschedulerdesktop.dto.tasks.TaskView@4e92eb27
 2026-09-24 21:21:13.234 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - initialize()
 2026-09-24 21:21:13.234 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - sidebarController found, calling setContext()
 2026-09-24 21:21:13.234 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - setContext()
-2026-09-24 21:21:13.234 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - context = org.example.taskschedulerdesktop.dto.TaskView@4e92eb27
+2026-09-24 21:21:13.234 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - context = org.example.taskschedulerdesktop.dto.tasks.TaskView@4e92eb27
 2026-09-24 21:21:13.234 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - context saved: 999999
 2026-09-24 21:21:13.234 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - updateUI()
 2026-09-24 21:21:13.234 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - projectName: 1
@@ -3536,11 +3536,11 @@ Caused by: java.lang.IllegalArgumentException: Can not set javafx.scene.layout.H
 2026-09-24 21:21:13.235 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - status: NEW
 2026-09-24 21:21:13.235 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - UI updated
 2026-09-24 21:21:14.997 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - Close right sidebar
-2026-09-24 21:21:15.962 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_details.fxml, context=org.example.taskschedulerdesktop.dto.TaskView@4e92eb27
+2026-09-24 21:21:15.962 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_details.fxml, context=org.example.taskschedulerdesktop.dto.tasks.TaskView@4e92eb27
 2026-09-24 21:21:15.975 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - initialize()
 2026-09-24 21:21:15.975 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - sidebarController found, calling setContext()
 2026-09-24 21:21:15.975 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - setContext()
-2026-09-24 21:21:15.975 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - context = org.example.taskschedulerdesktop.dto.TaskView@4e92eb27
+2026-09-24 21:21:15.975 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - context = org.example.taskschedulerdesktop.dto.tasks.TaskView@4e92eb27
 2026-09-24 21:21:15.975 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - context saved: 999999
 2026-09-24 21:21:15.975 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - updateUI()
 2026-09-24 21:21:15.975 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - projectName: 1
@@ -3672,11 +3672,11 @@ Caused by: java.lang.IllegalArgumentException: Can not set javafx.scene.layout.H
 2026-09-24 21:26:22.720 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectDetailsController - class = org.example.taskschedulerdesktop.models.Project
 2026-09-24 21:26:22.719 [Thread-7] DEBUG o.e.t.r.task.H2TaskRepository - findViewsByStatus(COMPLETED)
 2026-09-24 21:26:22.727 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/project_details.fxml
-2026-09-24 21:26:24.310 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_details.fxml, context=org.example.taskschedulerdesktop.dto.TaskView@27cfdb91
+2026-09-24 21:26:24.310 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_details.fxml, context=org.example.taskschedulerdesktop.dto.tasks.TaskView@27cfdb91
 2026-09-24 21:26:24.390 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - initialize()
 2026-09-24 21:26:24.394 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - sidebarController found, calling setContext()
 2026-09-24 21:26:24.394 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - setContext()
-2026-09-24 21:26:24.395 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - context = org.example.taskschedulerdesktop.dto.TaskView@27cfdb91
+2026-09-24 21:26:24.395 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - context = org.example.taskschedulerdesktop.dto.tasks.TaskView@27cfdb91
 2026-09-24 21:26:24.395 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - context saved: 999999
 2026-09-24 21:26:24.395 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - updateUI()
 2026-09-24 21:26:24.395 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - projectName: 1
@@ -3689,11 +3689,11 @@ Caused by: java.lang.IllegalArgumentException: Can not set javafx.scene.layout.H
 2026-09-24 21:26:24.397 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - status: NEW
 2026-09-24 21:26:24.397 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - UI updated
 2026-09-24 21:26:26.376 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Click outside sidebar, closing
-2026-09-24 21:26:27.476 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_details.fxml, context=org.example.taskschedulerdesktop.dto.TaskView@27cfdb91
+2026-09-24 21:26:27.476 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_details.fxml, context=org.example.taskschedulerdesktop.dto.tasks.TaskView@27cfdb91
 2026-09-24 21:26:27.509 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - initialize()
 2026-09-24 21:26:27.510 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - sidebarController found, calling setContext()
 2026-09-24 21:26:27.510 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - setContext()
-2026-09-24 21:26:27.510 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - context = org.example.taskschedulerdesktop.dto.TaskView@27cfdb91
+2026-09-24 21:26:27.510 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - context = org.example.taskschedulerdesktop.dto.tasks.TaskView@27cfdb91
 2026-09-24 21:26:27.510 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - context saved: 999999
 2026-09-24 21:26:27.510 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - updateUI()
 2026-09-24 21:26:27.510 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - projectName: 1
@@ -3717,11 +3717,11 @@ Caused by: java.lang.IllegalArgumentException: Can not set javafx.scene.layout.H
 2026-09-24 21:26:30.684 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectDetailsController - setContext: org.example.taskschedulerdesktop.models.Project@3a2ae257
 2026-09-24 21:26:30.684 [JavaFX Application Thread] DEBUG o.e.t.c.p.ProjectDetailsController - class = org.example.taskschedulerdesktop.models.Project
 2026-09-24 21:26:30.687 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/project_details.fxml
-2026-09-24 21:26:32.552 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_details.fxml, context=org.example.taskschedulerdesktop.dto.TaskView@31af9be5
+2026-09-24 21:26:32.552 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - openRightSidebar: path=/org/example/taskschedulerdesktop/view/task_details.fxml, context=org.example.taskschedulerdesktop.dto.tasks.TaskView@31af9be5
 2026-09-24 21:26:32.581 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - initialize()
 2026-09-24 21:26:32.582 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - sidebarController found, calling setContext()
 2026-09-24 21:26:32.582 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - setContext()
-2026-09-24 21:26:32.582 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - context = org.example.taskschedulerdesktop.dto.TaskView@31af9be5
+2026-09-24 21:26:32.582 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - context = org.example.taskschedulerdesktop.dto.tasks.TaskView@31af9be5
 2026-09-24 21:26:32.583 [JavaFX Application Thread] INFO  o.e.t.c.tasks.TaskDetailsController - context saved: 777777
 2026-09-24 21:26:32.583 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - updateUI()
 2026-09-24 21:26:32.583 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskDetailsController - projectName: 1

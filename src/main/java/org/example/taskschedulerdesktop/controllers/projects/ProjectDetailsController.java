@@ -69,6 +69,7 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
         log.debug("ProjectDetailsController: TaskChangedEvent received: projectId={}", event.getProjectId());
 
         if (context != null && event.getProjectId().equals(context.getId())) {
+            //TODO обновлять одну задачу, а не весь контейнер
             refreshAllContainers();
 
             asyncProjectService.findProjectById(
@@ -228,6 +229,12 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
             log.error("Context not established");
             return;
         }
+
+        log.debug("updateUI: name={}, tasks={}, completed={}, percent={}",
+                context.getName(),
+                context.getNumberOfTasks(),
+                context.getCompletedTasks(),
+                context.getPercentOfCompletion());
 
         this.projectNameLabel.setText(context.getName());
         this.projectSupervisorLabel.setText(context.getSupervisor());

@@ -263,21 +263,26 @@
 
 /* ── Прогресс-бар ───────────────────────────────────── */
 .progress-thin {
-  -fx-min-height: 4px;
-  -fx-max-height: 4px;
+  -fx-min-height: 5px;
+  -fx-max-height: 5px;
   -fx-background-color: #f0f0ec;
   -fx-border-width: 0;
+  -fx-padding: 0;
   -fx-accent: #1a3a8f;
   -fx-background-radius: 0;
 }
 .progress-thin .bar {
   -fx-background-color: #1a3a8f;
   -fx-background-radius: 0;
+  -fx-background-insets: 0;
+  -fx-padding: 0;
   -fx-border-width: 0;
 }
 .progress-thin .track {
   -fx-background-color: #f0f0ec;
   -fx-background-radius: 0;
+  -fx-background-insets: 0;
+  -fx-border-width: 0;
 }
 
 /* ── Аватар ─────────────────────────────────────────── */
@@ -361,6 +366,9 @@
   -fx-font-family: "Courier New", monospace;
   -fx-font-weight: normal;
 }
+
+.task-table .column-header-background .filler { -fx-background-color: transparent; }
+
 .task-table .table-row-cell {
   -fx-background-color: white;
   -fx-border-color: #f0f0ec;
@@ -380,6 +388,47 @@
 .table-task-title { -fx-font-size: 13px; -fx-text-fill: #111110; -fx-font-weight: 500; }
 .table-mono       { -fx-font-family: "Courier New", monospace; -fx-font-size: 10px;
                   -fx-text-fill: #c8c8c0; }
+
+.task-table .scroll-bar {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.task-table .scroll-bar .increment-button,
+.task-table .scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+    -fx-opacity: 0;
+    -fx-min-width: 0;  -fx-min-height: 0;
+    -fx-pref-width: 0; -fx-pref-height: 0;
+    -fx-max-width: 0;  -fx-max-height: 0;
+}
+
+.task-table .scroll-bar .increment-arrow,
+.task-table .scroll-bar .decrement-arrow {
+    -fx-shape: null;
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+    -fx-opacity: 0;
+    -fx-min-width: 0;  -fx-min-height: 0;
+    -fx-pref-width: 0; -fx-pref-height: 0;
+    -fx-max-width: 0;  -fx-max-height: 0;
+}
+
+.task-table .scroll-bar .track {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+}
+
+.task-table .scroll-bar .thumb {
+    -fx-background-color: #c8c8c0;
+    -fx-background-radius: 3;
+}
+.task-table .scroll-bar .thumb:hover {
+    -fx-background-color: #9b9b95;
+}
 
 /* ── Фильтры ────────────────────────────────────────── */
 .filter-btn {
@@ -512,9 +561,63 @@
   -fx-background-color: transparent;
   -fx-border-width: 0;
 }
-.scroll-pane-clean .viewport { -fx-background-color: transparent; }
+.scroll-pane-clean .viewport {
+    -fx-background-color: transparent;
+}
 .scroll-pane-clean .scroll-bar:vertical   { -fx-pref-width: 6; }
 .scroll-pane-clean .scroll-bar:horizontal { -fx-pref-height: 6; }
+
+/* Фон самого скроллбара — прозрачный */
+.scroll-pane-clean .scroll-bar {
+  -fx-background-color: transparent;
+  -fx-padding: 0;
+}
+
+/* Кнопки со стрелками — убрать полностью */
+.scroll-pane-clean .scroll-bar .increment-button,
+.scroll-pane-clean .scroll-bar .decrement-button {
+  -fx-background-color: transparent;
+  -fx-padding: 0;
+  -fx-opacity: 0;
+  -fx-min-width: 0;
+  -fx-min-height: 0;
+  -fx-pref-width: 0;
+  -fx-pref-height: 0;
+  -fx-max-width: 0;
+  -fx-max-height: 0;
+}
+
+/* Сами стрелки — убрать */
+.scroll-pane-clean .scroll-bar .increment-arrow,
+.scroll-pane-clean .scroll-bar .decrement-arrow {
+  -fx-shape: null;
+  -fx-background-color: transparent;
+  -fx-padding: 0;
+  -fx-opacity: 0;
+  -fx-min-width: 0;
+  -fx-min-height: 0;
+  -fx-pref-width: 0;
+  -fx-pref-height: 0;
+  -fx-max-width: 0;
+  -fx-max-height: 0;
+}
+
+/* Канавка (track) — прозрачная */
+.scroll-pane-clean .scroll-bar .track {
+  -fx-background-color: transparent;
+  -fx-border-color: transparent;
+  -fx-background-radius: 0;
+  -fx-border-radius: 0;
+}
+
+/* Ползунок (thumb) — сохраняем аккуратный вид */
+.scroll-pane-clean .scroll-bar .thumb {
+  -fx-background-color: #c8c8c0;
+  -fx-background-radius: 3;
+}
+.scroll-pane-clean .scroll-bar .thumb:hover {
+  -fx-background-color: #9b9b95;
+}
 
 /* ── Цветовые точки проектов ────────────────────────── */
 .dot-blue    { -fx-background-color: #1a3a8f; -fx-min-width:8;-fx-min-height:8;
@@ -548,3 +651,46 @@
                -fx-padding: 8; -fx-spacing: 2; }
 .mini-stat-val { -fx-font-size: 15px; -fx-font-weight: 600; -fx-text-fill: #111110; }
 .mini-stat-lbl { -fx-font-size: 10px; -fx-text-fill: #9b9b95; }
+
+/* project-list-view */
+.project-list-view {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+    -fx-border-color: transparent;
+}
+
+/* Внутренние слои VirtualFlow */
+.project-list-view .virtual-flow,
+.project-list-view .virtual-flow .clipped-container,
+.project-list-view .virtual-flow .sheet {
+    -fx-background-color: transparent;
+}
+
+/* Ячейки */
+.project-list-view .list-cell {
+    -fx-background-color: transparent;
+    -fx-padding: 4 0 4 0;
+}
+
+.project-list-view .list-cell:filled:selected .project-name-label {
+    -fx-font-weight:600;
+    -fx-font-size:13px;
+    -fx-text-fill: #1a1a1a;
+}
+
+.project-list-view .list-cell:filled:selected .percent-of-completion-label {
+    -fx-font-family:'Courier New';
+    -fx-font-size:11px;
+    -fx-text-fill: #1a1a1a;
+}
+
+.project-list-view .list-cell:filled:hover {
+    -fx-background-color: #f6f6f4;
+}
+
+/* Скроллбар (опционально) */
+project-list-view .scroll-bar:vertical,
+project-list-view .scroll-bar:horizontal {
+    -fx-background-color: transparent;
+}

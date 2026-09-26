@@ -8,7 +8,7 @@
 
 <VBox styleClass="detail-root"
       fx:controller="org.example.taskschedulerdesktop.controllers.tasks.TaskDetailsController"
-      xmlns="http://javafx.com/javafx/25"
+      xmlns="http://javafx.com/javafx/21"
       xmlns:fx="http://javafx.com/fxml/1">
 
     <!-- Шапка -->
