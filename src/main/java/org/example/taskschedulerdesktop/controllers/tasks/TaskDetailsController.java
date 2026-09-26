@@ -164,7 +164,8 @@ public class TaskDetailsController implements RightSidebar {
             taskService.deleteTask(
                     contextTask,
                     () -> {
-                        EventBus.getInstance().fire(new TaskChangedEvent(contextTask.getProjectId(), contextTask.getTaskName()));
+                        NavigationManager.closeRightSidebar();
+                        NavigationManager.showToast("Задача удалена!", "info");
                     },
                     error -> NavigationManager.showToast("Не удалось удалить", "error")
             );

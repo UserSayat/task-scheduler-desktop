@@ -138,6 +138,7 @@ public class AsyncTaskService {
         };
 
         if (onSuccess != null) task.setOnSucceeded(event -> {
+            EventBus.getInstance().fire(new TaskChangedEvent(taskToDelete.getProjectId(), taskToDelete.getTaskName()));
             onSuccess.run();
         });
         if (onError != null) task.setOnFailed(e -> onError.accept(task.getException()));

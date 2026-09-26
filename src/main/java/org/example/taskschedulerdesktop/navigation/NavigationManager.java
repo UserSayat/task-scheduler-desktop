@@ -5,6 +5,7 @@ import javafx.animation.PauseTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -48,6 +49,7 @@ public class NavigationManager {
     private static Callback<Class<?>, Object> controllerFactory;
 
     private static Parent rightSidebar = null;
+    private static Object rightSidebarController = null;
     private static final double RIGHT_SIDEBAR_WIDTH = 400.0;
 
     // История переходов
@@ -79,29 +81,37 @@ public class NavigationManager {
     // Храним ссылку на контроллер ТЕКУЩЕЙ страницы, чтобы вовремя вызывать shutdown
     private static Object currentController = null;
 
+    // Храним обработчик кликов вне сайдбара, чтобы потом от него отписаться
+    private static EventHandler<MouseEvent> outsideClickFilter;
     // ============================================================
     // ИНИЦИАЛИЗАЦИЯ
     // ============================================================
 
     public static void init(StackPane globalStackPane, StackPane contentArea, Callback<Class<?>, Object> controllerFactory) {
+
+        // Если init вызывается повторно — снять старый фильтр
+        if (NavigationManager.globalStackPane != null && outsideClickFilter != null) {
+            NavigationManager.globalStackPane.removeEventFilter(MouseEvent.MOUSE_CLICKED, outsideClickFilter);
+            outsideClickFilter = null;
+        }
+
         NavigationManager.globalStackPane = globalStackPane;
         NavigationManager.contentArea = contentArea;
         NavigationManager.controllerFactory = controllerFactory;
 
-        globalStackPane.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
+        outsideClickFilter = event -> {
             if (rightSidebar == null || !rightSidebar.isVisible()) {
                 return;
             }
-
             Node clicked = (Node) event.getTarget();
-
             if (isChildOf(clicked, rightSidebar)) {
                 return;
             }
-
             log.debug("Click outside sidebar, closing");
             closeRightSidebar();
-        });
+        };
+
+        globalStackPane.addEventFilter(MouseEvent.MOUSE_CLICKED, outsideClickFilter);
     }
 
     public static void navigateTo(String fxmlPath) {
@@ -331,6 +341,7 @@ public class NavigationManager {
             }
 
             rightSidebar = sidebar;
+            rightSidebarController = controller;
 
             if (rightSidebar instanceof VBox sidebarVBox) {
                 sidebarVBox.setPrefWidth(RIGHT_SIDEBAR_WIDTH);
@@ -352,18 +363,23 @@ public class NavigationManager {
     }
 
     public static void closeRightSidebar() {
-        if (rightSidebar != null) {
-            TranslateTransition animate = new TranslateTransition(Duration.millis(200), rightSidebar);
-
-            animate.setToX(RIGHT_SIDEBAR_WIDTH);
-
-            animate.setOnFinished(event -> {
-                globalStackPane.getChildren().remove(rightSidebar);
-                rightSidebar = null;
-            });
-
-            animate.play();
+        if (rightSidebar == null) {
+            return;
         }
+
+        if (rightSidebarController instanceof Shutdownable shutdownable) {
+            shutdownable.shutdown();
+        }
+
+        rightSidebarController = null;
+
+        TranslateTransition animate = new TranslateTransition(Duration.millis(200), rightSidebar);
+        animate.setToX(RIGHT_SIDEBAR_WIDTH);
+        animate.setOnFinished(event -> {
+            globalStackPane.getChildren().remove(rightSidebar);
+            rightSidebar = null;
+        });
+        animate.play();
     }
 
     private static boolean isChildOf(Node node, Node potentialParent) {
@@ -458,5 +474,21 @@ public class NavigationManager {
         stay.play();
 
         log.debug("Toast is displayed: {}", message);
+    }
+
+    public static void dispose() {
+        if (globalStackPane != null && outsideClickFilter != null) {
+            globalStackPane.removeEventFilter(MouseEvent.MOUSE_CLICKED, outsideClickFilter);
+            outsideClickFilter = null;
+        }
+        if (globalStackPane != null && rightSidebar != null) {
+            globalStackPane.getChildren().remove(rightSidebar);
+            rightSidebar = null;
+        }
+        rightSidebarController = null;
+        history.clear();
+        currentPage = null;
+        currentController = null;
+        log.debug("NavigationManager disposed");
     }
 }

@@ -8,6 +8,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import org.example.taskschedulerdesktop.config.AppConfig;
 import org.example.taskschedulerdesktop.database.DatabaseConnection;
+import org.example.taskschedulerdesktop.navigation.NavigationManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -90,6 +91,7 @@ public class TaskSchedulerApplication extends Application {
 
     @Override
     public void stop() {
+        NavigationManager.dispose();
         DatabaseConnection.getInstance().close();
     }
 }
