@@ -21,9 +21,7 @@ public class TaskSchedulerApplication extends Application {
 
     private static final String[] STYLES = {
             "/org/example/taskschedulerdesktop/styles/style.css",
-            "/org/example/taskschedulerdesktop/styles/base.css",
             "/org/example/taskschedulerdesktop/styles/row_task_table.css",
-            "/org/example/taskschedulerdesktop/styles/task_table_view.css"
     };
 
     @Override

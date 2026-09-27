@@ -3,6 +3,7 @@ package org.example.taskschedulerdesktop.controllers.tasks;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import org.example.taskschedulerdesktop.config.AppConfig;
 import org.slf4j.Logger;
@@ -31,6 +32,9 @@ public class TasksController {
             loader.setControllerFactory(AppConfig.getInstance().getControllerFactory());
 
             Node taskTable = loader.load();
+
+            VBox.setVgrow(taskTable, Priority.ALWAYS);
+
             taskTableContainerVBox.getChildren().add(taskTable);
 
             log.debug("Task table loaded successfully");

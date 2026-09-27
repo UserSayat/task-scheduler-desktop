@@ -11,27 +11,27 @@
       fx:controller="org.example.taskschedulerdesktop.controllers.tasks.TasksController"
       xmlns:fx="http://javafx.com/fxml/1">
 
-    <VBox fx:id="taskTableContainerVBox" spacing="30.0">
+    <VBox fx:id="taskTableContainerVBox" spacing="30.0" VBox.vgrow="ALWAYS">
         <!-- Фильтры -->
-        <HBox spacing="8" alignment="CENTER_LEFT">
-            <Label text="СТАТУС" styleClass="section-mono" style="-fx-padding:0 4 0 0;"/>
-            <Button fx:id="fAll" text="Все" styleClass="filter-btn-active"/>
-            <Button fx:id="fTodo" text="К выполнению" styleClass="filter-btn"/>
-            <Button fx:id="fProgress" text="В работе" styleClass="filter-btn"/>
-            <Button fx:id="fReview" text="На проверке" styleClass="filter-btn"/>
-            <Button fx:id="fDone" text="Завершено" styleClass="filter-btn"/>
+<!--        <HBox spacing="8" alignment="CENTER_LEFT">-->
+<!--            <Label text="СТАТУС" styleClass="section-mono" style="-fx-padding:0 4 0 0;"/>-->
+<!--            <Button fx:id="fAll" text="Все" styleClass="filter-btn-active"/>-->
+<!--            <Button fx:id="fTodo" text="К выполнению" styleClass="filter-btn"/>-->
+<!--            <Button fx:id="fProgress" text="В работе" styleClass="filter-btn"/>-->
+<!--            <Button fx:id="fReview" text="На проверке" styleClass="filter-btn"/>-->
+<!--            <Button fx:id="fDone" text="Завершено" styleClass="filter-btn"/>-->
 
-            <Separator orientation="VERTICAL" prefHeight="16"
-                       style="-fx-padding:0 4;"/>
+<!--            <Separator orientation="VERTICAL" prefHeight="16"-->
+<!--                       style="-fx-padding:0 4;"/>-->
 
-            <Label text="ПРИОРИТЕТ" styleClass="section-mono" style="-fx-padding:0 4 0 0;"/>
-            <Button fx:id="pAll" text="Все" styleClass="filter-btn-active"/>
-            <Button fx:id="pHigh" text="Высокий" styleClass="filter-btn"/>
-            <Button fx:id="pMedium" text="Средний" styleClass="filter-btn"/>
-            <Button fx:id="pLow" text="Низкий"  styleClass="filter-btn"/>
+<!--            <Label text="ПРИОРИТЕТ" styleClass="section-mono" style="-fx-padding:0 4 0 0;"/>-->
+<!--            <Button fx:id="pAll" text="Все" styleClass="filter-btn-active"/>-->
+<!--            <Button fx:id="pHigh" text="Высокий" styleClass="filter-btn"/>-->
+<!--            <Button fx:id="pMedium" text="Средний" styleClass="filter-btn"/>-->
+<!--            <Button fx:id="pLow" text="Низкий"  styleClass="filter-btn"/>-->
 
-            <Region HBox.hgrow="ALWAYS"/>
-            <Label fx:id="taskCount" text="10 / 10 задач" styleClass="section-mono"/>
-        </HBox>
+<!--            <Region HBox.hgrow="ALWAYS"/>-->
+<!--            <Label fx:id="taskCount" text="10 / 10 задач" styleClass="section-mono"/>-->
+<!--        </HBox>-->
     </VBox>
 </VBox>

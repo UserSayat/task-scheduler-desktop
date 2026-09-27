@@ -392,7 +392,7 @@ public class NavigationManager {
                 sidebarOverlay = null;
             }
         });
-        
+
         animateSidebar.play();
     }
 
