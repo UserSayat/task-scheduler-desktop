@@ -30,13 +30,13 @@
 }
 .logo-sub {
   -fx-text-fill: rgba(255,255,255,0.28);
-  -fx-font-size: 9px;
-  -fx-font-family: "Courier New", monospace;
+  -fx-font-size: 11px;
+  -fx-font-family: "JetBrains Mono", monospace;
 }
 .nav-section-label {
   -fx-text-fill: rgba(255,255,255,0.22);
-  -fx-font-size: 9px;
-  -fx-font-family: "Courier New", monospace;
+  -fx-font-size: 11px;
+  -fx-font-family: "JetBrains Mono", monospace;
   -fx-padding: 16 12 4 12;
 }
 .nav-btn {
@@ -44,7 +44,7 @@
   -fx-text-fill: rgba(255,255,255,0.4);
   -fx-alignment: CENTER_LEFT;
   -fx-padding: 8 12 8 12;
-  -fx-font-size: 13px;
+  -fx-font-size: 14px;
   -fx-cursor: hand;
   -fx-border-width: 0;
   -fx-background-radius: 0;
@@ -75,12 +75,12 @@
 }
 .user-name {
   -fx-text-fill: white;
-  -fx-font-size: 12px;
+  -fx-font-size: 14px;
   -fx-font-weight: 500;
 }
 .user-role {
   -fx-text-fill: rgba(255,255,255,0.28);
-  -fx-font-size: 10px;
+  -fx-font-size: 12px;
 }
 
 /* ── Хедер ──────────────────────────────────────────── */
@@ -99,14 +99,14 @@
 }
 .page-date {
   -fx-text-fill: #9b9b95;
-  -fx-font-size: 11px;
-  -fx-font-family: "Courier New", monospace;
+  -fx-font-size: 12px;
+  -fx-font-family: "JetBrains Mono", monospace;
 }
 
 .page-back-button {
   -fx-text-fill: #9b9b95;
-  -fx-font-size: 13px;
-  -fx-font-family: "Courier New", monospace;
+  -fx-font-size: 12px;
+  -fx-font-family: "JetBrains Mono", monospace;
   -fx-background-color: transparent;
   -fx-border-color: transparent
 }
@@ -117,7 +117,7 @@
 .btn-primary {
   -fx-background-color: #111110;
   -fx-text-fill: white;
-  -fx-font-size: 12px;
+  -fx-font-size: 13px;
   -fx-padding: 7 14 7 14;
   -fx-cursor: hand;
   -fx-background-radius: 0;
@@ -130,7 +130,7 @@
   -fx-text-fill: #5a5a56;
   -fx-border-color: #e2e2dc;
   -fx-border-width: 1;
-  -fx-font-size: 12px;
+  -fx-font-size: 13px;
   -fx-padding: 6 12 6 12;
   -fx-cursor: hand;
   -fx-background-radius: 0;
@@ -152,8 +152,8 @@
 .btn-ghost-danger {
   -fx-background-color: transparent;
   -fx-text-fill: #9b9b95;
-  -fx-font-size: 11px;
-  -fx-font-family: "Courier New", monospace;
+  -fx-font-size: 12px;
+  -fx-font-family: "JetBrains Mono", monospace;
   -fx-cursor: hand;
   -fx-border-width: 0;
   -fx-padding: 4 0 4 0;
@@ -163,7 +163,7 @@
   -fx-background-color: transparent;
   -fx-text-fill: #9b9b95;
   -fx-font-size: 11px;
-  -fx-font-family: "Courier New", monospace;
+  -fx-font-family: "JetBrains Mono", monospace;
   -fx-cursor: hand;
   -fx-border-width: 0;
   -fx-padding: 4 0 4 0;
@@ -173,8 +173,8 @@
 /* ── Поля ввода ─────────────────────────────────────── */
 .field-label {
   -fx-text-fill: #9b9b95;
-  -fx-font-size: 10px;
-  -fx-font-family: "Courier New", monospace;
+  -fx-font-size: 12px;
+  -fx-font-family: "JetBrains Mono", monospace;
   -fx-padding: 0 0 5 0;
 }
 .text-field-styled {
@@ -234,10 +234,18 @@
   -fx-border-width: 1;
   -fx-padding: 20;
 }
-.card:hover { -fx-border-color: #c8c8c0; }
+
+.project-card {
+  -fx-background-color: white;
+  -fx-border-color: #e2e2dc;
+  -fx-border-width: 1;
+  -fx-padding: 20;
+}
+.project-card:hover { -fx-border-color: #c8c8c0; }
+
 .card-title {
   -fx-font-family: "Georgia", serif;
-  -fx-font-size: 15px;
+  -fx-font-size: 17px;
   -fx-text-fill: #111110;
 }
 .stat-number {
@@ -256,13 +264,13 @@
   -fx-padding: 2 0 0 0;
 }
 .stat-mono {
-  -fx-font-family: "Courier New", monospace;
-  -fx-font-size: 10px;
+  -fx-font-family: "JetBrains Mono", monospace;
+  -fx-font-size: 12px;
   -fx-text-fill: #e2e2dc;
 }
 .section-mono {
-  -fx-font-family: "Courier New", monospace;
-  -fx-font-size: 10px;
+  -fx-font-family: "JetBrains Mono", monospace;
+  -fx-font-size: 12px;
   -fx-text-fill: #9b9b95;
 }
 
@@ -311,32 +319,26 @@
 }
 .avatar-text {
   -fx-text-fill: white;
-  -fx-font-size: 9px;
-  -fx-font-family: "Courier New", monospace;
-  -fx-font-weight: bold;
-}
-.avatar-text-lg {
-  -fx-text-fill: white;
-  -fx-font-size: 11px;
-  -fx-font-family: "Courier New", monospace;
+  -fx-font-size: 12px;
+  -fx-font-family: "JetBrains Mono", monospace;
   -fx-font-weight: bold;
 }
 
 /* ── Бейджи приоритет/статус ────────────────────────── */
 .badge-high   { -fx-background-color: #fef2f2; -fx-text-fill: #b91c1c;
-              -fx-font-size: 10px; -fx-padding: 2 7 2 7; }
+              -fx-font-size: 13px; -fx-padding: 2 7 2 7; }
 .badge-medium { -fx-background-color: #fffbeb; -fx-text-fill: #92400e;
-              -fx-font-size: 10px; -fx-padding: 2 7 2 7; }
+              -fx-font-size: 13px; -fx-padding: 2 7 2 7; }
 .badge-low    { -fx-background-color: #f0fdf4; -fx-text-fill: #14532d;
-              -fx-font-size: 10px; -fx-padding: 2 7 2 7; }
+              -fx-font-size: 13px; -fx-padding: 2 7 2 7; }
 .badge-todo        { -fx-background-color: #f6f6f4; -fx-text-fill: #5a5a56;
-                   -fx-font-size: 10px; -fx-padding: 2 7 2 7; }
+                   -fx-font-size: 13px; -fx-padding: 2 7 2 7; }
 .badge-in-progress { -fx-background-color: #e8edf8; -fx-text-fill: #1a3a8f;
-                   -fx-font-size: 10px; -fx-padding: 2 7 2 7; }
+                   -fx-font-size: 13px; -fx-padding: 2 7 2 7; }
 .badge-review      { -fx-background-color: #f5f3ff; -fx-text-fill: #7c3aed;
-                   -fx-font-size: 10px; -fx-padding: 2 7 2 7; }
+                   -fx-font-size: 13px; -fx-padding: 2 7 2 7; }
 .badge-done        { -fx-background-color: #f0fdf4; -fx-text-fill: #14532d;
-                   -fx-font-size: 10px; -fx-padding: 2 7 2 7; }
+                   -fx-font-size: 13px; -fx-padding: 2 7 2 7; }
 
 /* ── Тег ────────────────────────────────────────────── */
 .tag-chip {
@@ -344,8 +346,8 @@
   -fx-text-fill: #9b9b95;
   -fx-border-color: #e2e2dc;
   -fx-border-width: 1;
-  -fx-font-size: 9px;
-  -fx-font-family: "Courier New", monospace;
+  -fx-font-size: 10px;
+  -fx-font-family: "JetBrains Mono", monospace;
   -fx-padding: 1 5 1 5;
 }
 
@@ -367,8 +369,8 @@
 }
 .task-table .column-header .label {
   -fx-text-fill: #9b9b95;
-  -fx-font-size: 10px;
-  -fx-font-family: "Courier New", monospace;
+  -fx-font-size: 12px;
+  -fx-font-family: "JetBrains Mono", monospace;
   -fx-font-weight: normal;
 }
 
@@ -390,8 +392,8 @@
   -fx-font-size: 12px;
   -fx-border-width: 0;
 }
-.table-task-title { -fx-font-size: 13px; -fx-text-fill: #111110; -fx-font-weight: 500; }
-.table-mono       { -fx-font-family: "Courier New", monospace; -fx-font-size: 10px;
+.table-task-title { -fx-font-size: 14px; -fx-text-fill: #111110; -fx-font-weight: 500; }
+.table-mono       { -fx-font-family: "JetBrains Mono", monospace; -fx-font-size: 12px;
                   -fx-text-fill: #c8c8c0; }
 
 .task-table .scroll-bar {
@@ -441,7 +443,7 @@
   -fx-text-fill: #5a5a56;
   -fx-border-color: #e2e2dc;
   -fx-border-width: 1;
-  -fx-font-size: 11px;
+  -fx-font-size: 12px;
   -fx-padding: 4 10 4 10;
   -fx-cursor: hand;
   -fx-background-radius: 0;
@@ -453,7 +455,7 @@
   -fx-text-fill: #1a3a8f;
   -fx-border-color: #1a3a8f;
   -fx-border-width: 1;
-  -fx-font-size: 11px;
+  -fx-font-size: 12px;
   -fx-padding: 4 10 4 10;
   -fx-cursor: hand;
   -fx-background-radius: 0;
@@ -471,7 +473,7 @@
 .toggle-high {
   -fx-background-color: #fef2f2; -fx-text-fill: #b91c1c;
   -fx-border-color: #fecaca; -fx-border-width: 1;
-  -fx-font-size: 11px; -fx-padding: 5 10;
+  -fx-font-size: 12px; -fx-padding: 5 10;
   -fx-cursor: hand; -fx-background-radius: 0; -fx-border-radius: 0;
 }
 .toggle-high:selected {
@@ -480,7 +482,7 @@
 .toggle-medium {
   -fx-background-color: #fffbeb; -fx-text-fill: #92400e;
   -fx-border-color: #fde68a; -fx-border-width: 1;
-  -fx-font-size: 11px; -fx-padding: 5 10;
+  -fx-font-size: 12px; -fx-padding: 5 10;
   -fx-cursor: hand; -fx-background-radius: 0; -fx-border-radius: 0;
 }
 .toggle-medium:selected {
@@ -489,7 +491,7 @@
 .toggle-low {
   -fx-background-color: #f0fdf4; -fx-text-fill: #14532d;
   -fx-border-color: #bbf7d0; -fx-border-width: 1;
-  -fx-font-size: 11px; -fx-padding: 5 10;
+  -fx-font-size: 12px; -fx-padding: 5 10;
   -fx-cursor: hand; -fx-background-radius: 0; -fx-border-radius: 0;
 }
 .toggle-low:selected {
@@ -505,8 +507,8 @@
   -fx-spacing: 4;
 }
 .modal-body { -fx-padding: 20 28 24 28; -fx-spacing: 14; }
-.modal-sup  { -fx-text-fill: #9b9b95; -fx-font-size: 10px;
-            -fx-font-family: "Courier New", monospace; }
+.modal-sup  { -fx-text-fill: #9b9b95; -fx-font-size: 12px;
+            -fx-font-family: "JetBrains Mono", monospace; }
 .modal-title { -fx-font-family: "Georgia", serif;
              -fx-font-size: 18px; -fx-text-fill: #111110; }
 
@@ -520,19 +522,19 @@
 .detail-body  { -fx-padding: 20 24; -fx-spacing: 18; }
 .detail-field-label {
   -fx-text-fill: #9b9b95;
-  -fx-font-size: 10px;
-  -fx-font-family: "Courier New", monospace;
+  -fx-font-size: 12px;
+  -fx-font-family: "JetBrains Mono", monospace;
   -fx-padding: 0 0 5 0;
 }
-.detail-project { -fx-text-fill: #9b9b95; -fx-font-size: 10px;
-                -fx-font-family: "Courier New", monospace; -fx-padding: 0 0 6 0; }
+.detail-project { -fx-text-fill: #9b9b95; -fx-font-size: 12px;
+                -fx-font-family: "JetBrains Mono", monospace; -fx-padding: 0 0 6 0; }
 .detail-title   { -fx-font-family: "Georgia", serif; -fx-font-size: 17px;
                 -fx-text-fill: #111110; -fx-wrap-text: true; }
 .detail-desc-box {
   -fx-background-color: #f6f6f4;
   -fx-padding: 12;
 }
-.detail-desc { -fx-font-size: 12px; -fx-text-fill: #5a5a56;
+.detail-desc { -fx-font-size: 14px; -fx-text-fill: #5a5a56;
              -fx-wrap-text: true; }
 .confirm-delete-box {
   -fx-background-color: #fef2f2;
@@ -541,7 +543,7 @@
   -fx-padding: 12;
   -fx-spacing: 8;
 }
-.confirm-delete-text { -fx-text-fill: #b91c1c; -fx-font-size: 12px; }
+.confirm-delete-text { -fx-text-fill: #b91c1c; -fx-font-size: 14px; }
 .online-dot {
   -fx-min-width: 10; -fx-min-height: 10;
   -fx-max-width: 10; -fx-max-height: 10;
@@ -557,9 +559,9 @@
   -fx-spacing: 10;
   -fx-alignment: CENTER_LEFT;
 }
-.deadline-title { -fx-font-size: 12px; -fx-text-fill: #111110; }
-.deadline-date  { -fx-font-size: 10px; -fx-text-fill: #9b9b95;
-                -fx-font-family: "Courier New", monospace; }
+.deadline-title { -fx-font-size: 13px; -fx-text-fill: #111110; }
+.deadline-date  { -fx-font-size: 11px; -fx-text-fill: #9b9b95;
+                -fx-font-family: "JetBrains Mono", monospace; }
 
 /* ── Прокрутка ──────────────────────────────────────── */
 .scroll-pane-clean {
@@ -643,19 +645,19 @@
 /* ── Поле проект-detail ─────────────────────────────── */
 .proj-detail-stat-val { -fx-font-family: "Georgia", serif;
                       -fx-font-size: 22px; -fx-text-fill: #111110; }
-.proj-detail-stat-lbl { -fx-font-size: 10px; -fx-text-fill: #9b9b95;
-                      -fx-font-family: "Courier New", monospace; }
+.proj-detail-stat-lbl { -fx-font-size: 12px; -fx-text-fill: #9b9b95;
+                      -fx-font-family: "JetBrains Mono", monospace; }
 
 /* ── Мини-карточка члена команды ────────────────────── */
 .team-card { -fx-background-color: white; -fx-border-color: #e2e2dc;
            -fx-border-width: 1; -fx-padding: 20; }
 .team-card:hover { -fx-border-color: #c8c8c0; }
-.team-name  { -fx-font-size: 13px; -fx-font-weight: 600; -fx-text-fill: #111110; }
-.team-role  { -fx-font-size: 11px; -fx-text-fill: #9b9b95; }
+.team-name  { -fx-font-size: 15px; -fx-font-weight: 600; -fx-text-fill: #111110; }
+.team-role  { -fx-font-size: 13px; -fx-text-fill: #9b9b95; }
 .mini-stat-box { -fx-background-color: #f6f6f4; -fx-alignment: CENTER;
                -fx-padding: 8; -fx-spacing: 2; }
 .mini-stat-val { -fx-font-size: 15px; -fx-font-weight: 600; -fx-text-fill: #111110; }
-.mini-stat-lbl { -fx-font-size: 10px; -fx-text-fill: #9b9b95; }
+.mini-stat-lbl { -fx-font-size: 12px; -fx-text-fill: #9b9b95; }
 
 /* dashboard-list-view */
 .dashboard-list-view {
@@ -678,20 +680,14 @@
     -fx-padding: 4 0 4 0;
 }
 
-.dashboard-list-view .list-cell:filled:selected .project-name-label {
+.project-name-label {
     -fx-font-weight:600;
-    -fx-font-size:13px;
+    -fx-font-size:14px;
     -fx-text-fill: #1a1a1a;
 }
 
 .dashboard-list-view .percent-of-completion-label {
-    -fx-font-family:'Courier New';
-    -fx-font-size:13px;
-    -fx-text-fill: #000000;
-}
-
-.dashboard-list-view .list-cell:filled:selected .percent-of-completion-label {
-    -fx-font-family:'Courier New';
+    -fx-font-family:'JetBrains Mono';
     -fx-font-size:13px;
     -fx-text-fill: #000000;
 }

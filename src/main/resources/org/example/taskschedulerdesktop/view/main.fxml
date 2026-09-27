@@ -60,8 +60,8 @@
                         <Label text="РМ" styleClass="avatar-text"/>
                     </StackPane>
                     <VBox spacing="2">
-                        <Label text="Роман Михайлов" styleClass="user-name"/>
-                        <Label text="Руководитель" styleClass="user-role"/>
+                        <Label text="Пользователь" styleClass="user-name"/>
+                        <Label text="Должность" styleClass="user-role"/>
                     </VBox>
                 </HBox>
             </VBox>

@@ -12,7 +12,7 @@
    <HBox spacing="12" alignment="CENTER_LEFT">
       <StackPane>
          <StackPane styleClass="avatar-box-lg">
-            <Label text="АК" styleClass="avatar-text-lg"/>
+            <Label text="АК" styleClass="avatar-text"/>
          </StackPane>
          <Region styleClass="online-dot" StackPane.alignment="BOTTOM_RIGHT"
                  style="-fx-translate-x:2; -fx-translate-y:2;"/>

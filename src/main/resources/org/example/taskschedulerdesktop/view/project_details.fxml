@@ -13,7 +13,7 @@
 <ScrollPane fitToWidth="true" styleClass="scroll-pane-clean" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.taskschedulerdesktop.controllers.projects.ProjectDetailsController">
     <VBox spacing="14" styleClass="content-area">
         <!-- Шапка проекта -->
-        <VBox spacing="0" styleClass="card">
+        <VBox styleClass="card">
             <HBox alignment="CENTER_LEFT" spacing="16" style="-fx-padding:0 0 16 0;">
                 <HBox alignment="CENTER_LEFT" spacing="10" HBox.hgrow="ALWAYS">
                     <Region fx:id="projectDot" style="-fx-background-color:#1a3a8f;-fx-min-width:12;-fx-min-height:12;-fx-max-width:12;-fx-max-height:12;-fx-background-radius:6;" />

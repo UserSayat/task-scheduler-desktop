@@ -7,21 +7,21 @@
 <ScrollPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="org.example.taskschedulerdesktop.controllers.projects.ProjectsController"
             fitToWidth="true" fitToHeight="true" hbarPolicy="NEVER" styleClass="scroll-pane-clean">
-    <VBox spacing="14" styleClass="content-area">
+    <VBox styleClass="content-area">
 
         <HBox alignment="CENTER_RIGHT">
             <Button fx:id="createProjectButton" text="+ Новый проект"
                     styleClass="btn-secondary"/>
         </HBox>
 
-        <TilePane fx:id="projectsTilePane" styleClass="content-area"
+        <TilePane fx:id="projectsTilePane"
                   hgap="20"
                   vgap="20"
-                  prefTileWidth="450"
-                  prefTileHeight="250"
+                  prefTileWidth="420"
+                  prefTileHeight="280"
                   alignment="CENTER">
             <padding>
-                <Insets bottom="30.0" left="40.0" right="40.0" top="30.0" />
+                <Insets bottom="30.0" left="20.0" right="20.0" top="30.0"/>
             </padding>
                 <ProgressIndicator fx:id="projectsLoadingIndicator" />
         </TilePane>

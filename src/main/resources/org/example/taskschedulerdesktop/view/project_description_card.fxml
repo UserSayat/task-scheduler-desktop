@@ -15,7 +15,7 @@
                HBox.hgrow="ALWAYS"/>
         <Label fx:id="supervisorInitialsLabel" styleClass="section-mono" text="/А.К."/>
         <Region HBox.hgrow="ALWAYS"/>
-        <Label fx:id="ratioOfCompletedToAllLabel" style="-fx-font-size:11px;-fx-text-fill:#9b9b95;" text="13/18 задач"/>
+        <Label fx:id="ratioOfCompletedToAllLabel" style="-fx-font-size:13px;-fx-text-fill:#9b9b95;" text="13/18 задач"/>
         <Label fx:id="percentOfCompletionLabel" styleClass="percent-of-completion-label" text="72%"/>
     </HBox>
     <ProgressBar fx:id="progressBar" maxWidth="Infinity" progress="0.72" style="-fx-accent:#1a3a8f;"
