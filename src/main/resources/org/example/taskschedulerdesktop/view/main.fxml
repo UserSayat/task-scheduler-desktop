@@ -71,7 +71,7 @@
             <VBox>
                 <!-- Хедер -->
                 <HBox styleClass="topbar" spacing="12" alignment="CENTER_LEFT">
-                    <Button fx:id="backButton" mnemonicParsing="false" text="&lt;- Назад"/>
+                    <Button fx:id="backButton" styleClass="page-back-button" mnemonicParsing="false" text="← Назад"/>
                     <VBox spacing="2" HBox.hgrow="ALWAYS">
                         <Label fx:id="pageTitleLabel" text="Обзор" styleClass="page-title"/>
                         <Label fx:id="pageDate"  styleClass="page-date"/>

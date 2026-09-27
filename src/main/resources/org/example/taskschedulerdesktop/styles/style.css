@@ -106,6 +106,15 @@
   -fx-font-size: 11px;
   -fx-font-family: "Courier New", monospace;
 }
+
+.page-back-button {
+  -fx-text-fill: #9b9b95;
+  -fx-font-size: 13px;
+  -fx-font-family: "Courier New", monospace;
+  -fx-background-color: transparent;
+  -fx-border-color: transparent
+}
+
 .topbar-spacer { -fx-hgrow: ALWAYS; }
 
 /* ── Кнопки ─────────────────────────────────────────── */
