@@ -14427,3 +14427,648 @@ SELECT COUNT(1) FROM tasks WHERE status = ? [42102-224]
 2026-09-27 16:29:13.411 [JavaFX Application Thread] DEBUG o.e.t.service.task.AsyncTaskService - onSucceeded returned: 1 tasks
 2026-09-27 16:29:13.411 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskTableController - onSuccess: received 1 tasks
 2026-09-27 16:29:13.411 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskTableController - Table has: 1 tasks
+2026-09-27 16:29:29.157 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Inter 18pt Regular'
+2026-09-27 16:29:29.159 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Inter 18pt'
+2026-09-27 16:29:29.160 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-09-27 16:29:29.160 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Inter_18pt-Regular.ttf → 'Inter 18pt'
+2026-09-27 16:29:29.181 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Inter 18pt Medium'
+2026-09-27 16:29:29.182 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Inter 18pt Medium'
+2026-09-27 16:29:29.182 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-09-27 16:29:29.182 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Inter_18pt-Medium.ttf → 'Inter 18pt Medium'
+2026-09-27 16:29:29.201 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Inter 18pt SemiBold'
+2026-09-27 16:29:29.202 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Inter 18pt SemiBold'
+2026-09-27 16:29:29.202 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-09-27 16:29:29.202 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Inter_18pt-SemiBold.ttf → 'Inter 18pt SemiBold'
+2026-09-27 16:29:29.223 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Lora Regular'
+2026-09-27 16:29:29.224 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Lora'
+2026-09-27 16:29:29.224 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-09-27 16:29:29.224 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Lora-Regular.ttf → 'Lora'
+2026-09-27 16:29:29.244 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'JetBrains Mono Regular'
+2026-09-27 16:29:29.244 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'JetBrains Mono'
+2026-09-27 16:29:29.244 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-09-27 16:29:29.244 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/JetBrainsMono-Regular.ttf → 'JetBrains Mono'
+2026-09-27 16:29:29.768 [JavaFX Application Thread] DEBUG o.e.t.database.DatabaseConnection - H2 TCP-server started on the port:9092 successful
+2026-09-27 16:29:29.771 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - createTableIfNotExists()
+2026-09-27 16:29:29.793 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - createIndexes()
+2026-09-27 16:29:29.811 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - ProjectServiceImpl created
+2026-09-27 16:29:29.815 [JavaFX Application Thread] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 1199923840
+2026-09-27 16:29:29.816 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - Subscribe on TaskChangedEvent completed
+2026-09-27 16:29:30.210 [JavaFX Application Thread] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: PageTitleChangedEvent -> 1758096519
+2026-09-27 16:29:30.235 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/dashboard.fxml
+2026-09-27 16:29:30.371 [Thread-6] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 815728692
+2026-09-27 16:29:30.374 [Thread-7] DEBUG o.e.t.r.task.H2TaskRepository - findAllViews()
+2026-09-27 16:29:30.380 [Thread-6] DEBUG o.e.t.c.review.DashboardController - loadProjects()
+2026-09-27 16:29:30.387 [Thread-6] DEBUG o.e.t.c.review.DashboardController - load deadlines
+2026-09-27 16:29:30.393 [Thread-11] DEBUG o.e.t.s.project.AsyncProjectService - Found 1 projects
+2026-09-27 16:29:30.395 [Thread-10] DEBUG o.e.t.r.task.H2TaskRepository - findUpcomingDeadlines(maxDaysUntilDeadline: 7)
+2026-09-27 16:29:30.400 [Thread-7] DEBUG o.e.t.r.task.H2TaskRepository - Found 1 views
+2026-09-27 16:29:30.440 [JavaFX Application Thread] DEBUG o.e.t.TaskSchedulerApplication - CSS: /org/example/taskschedulerdesktop/styles/style.css
+2026-09-27 16:29:30.441 [JavaFX Application Thread] DEBUG o.e.t.TaskSchedulerApplication - CSS: /org/example/taskschedulerdesktop/styles/row_task_table.css
+2026-09-27 16:29:30.478 [Thread-6] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 1682677477
+2026-09-27 16:29:30.479 [Thread-6] DEBUG o.e.t.c.review.DashboardController - Task table loaded successfully
+2026-09-27 16:29:30.479 [Thread-9] DEBUG o.e.t.r.task.H2TaskRepository - findAllViews()
+2026-09-27 16:29:30.481 [Thread-9] DEBUG o.e.t.r.task.H2TaskRepository - Found 1 views
+2026-09-27 16:29:30.984 [JavaFX Application Thread] DEBUG o.e.t.c.review.DashboardController - Found 0 tasks, task status: COMPLETED
+2026-09-27 16:29:30.988 [JavaFX Application Thread] DEBUG o.e.t.c.review.DashboardController - Found 0 tasks, task status: UNDER_REVIEW
+2026-09-27 16:29:30.989 [JavaFX Application Thread] DEBUG o.e.t.c.review.DashboardController - Found 0 tasks, task status: IN_PROGRESS
+2026-09-27 16:29:30.992 [JavaFX Application Thread] DEBUG o.e.t.c.review.DashboardController - observableList size: 1
+2026-09-27 16:29:30.993 [JavaFX Application Thread] DEBUG o.e.t.c.review.DashboardController - deadlinesListView size : 1
+2026-09-27 16:29:30.996 [JavaFX Application Thread] DEBUG o.e.t.service.task.AsyncTaskService - onSucceeded returned: 1 tasks
+2026-09-27 16:29:30.996 [JavaFX Application Thread] DEBUG o.e.t.c.review.DashboardController - Found 1 tasks
+2026-09-27 16:29:31.014 [JavaFX Application Thread] DEBUG o.e.t.listeners.EventBus - FIRE: PageTitleChangedEvent (subscribers: 1)
+2026-09-27 16:29:31.015 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/dashboard.fxml
+2026-09-27 16:29:31.015 [JavaFX Application Thread] DEBUG o.e.t.service.task.AsyncTaskService - onSucceeded returned: 1 tasks
+2026-09-27 16:29:31.015 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskTableController - onSuccess: received 1 tasks
+2026-09-27 16:29:31.016 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskTableController - Table has: 1 tasks
+2026-09-27 16:29:31.161 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:29:31.181 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:29:31.346 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:29:31.355 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:29:31.565 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:29:31.576 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:29:31.592 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:29:31.603 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:29:31.607 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:29:31.616 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:29:31.620 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:29:31.632 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:29:31.635 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:29:31.645 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:29:31.647 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:29:31.659 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:29:31.661 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:29:31.673 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:29:31.675 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:29:31.687 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:29:31.689 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:29:31.702 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:29:31.704 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:29:31.719 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:29:31.722 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:29:31.736 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:29:31.739 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:29:31.748 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:29:31.750 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:29:31.759 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:29:31.761 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:29:31.771 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:29:31.779 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:29:31.788 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:29:31.799 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:29:31.807 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:29:31.810 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:29:31.818 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:29:31.821 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:29:31.829 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:29:31.832 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:29:31.839 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:29:31.842 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:29:31.849 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:29:31.851 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:29:31.858 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:29:31.860 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:29:31.866 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:29:31.870 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:29:31.877 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:29:31.878 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:29:31.886 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:29:31.889 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:29:31.895 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:29:31.897 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:29:31.903 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:29:31.905 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:29:31.911 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:29:31.913 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:29:31.919 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:29:32.272 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/tasks.fxml
+2026-09-27 16:29:32.293 [Thread-12] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 272598836
+2026-09-27 16:29:32.293 [Thread-12] DEBUG o.e.t.c.tasks.TasksController - Task table loaded successfully
+2026-09-27 16:29:32.293 [Thread-8] DEBUG o.e.t.r.task.H2TaskRepository - findAllViews()
+2026-09-27 16:29:32.296 [Thread-8] DEBUG o.e.t.r.task.H2TaskRepository - Found 1 views
+2026-09-27 16:29:32.297 [JavaFX Application Thread] DEBUG o.e.t.listeners.EventBus - FIRE: PageTitleChangedEvent (subscribers: 1)
+2026-09-27 16:29:32.298 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/tasks.fxml
+2026-09-27 16:29:32.329 [JavaFX Application Thread] DEBUG o.e.t.service.task.AsyncTaskService - onSucceeded returned: 1 tasks
+2026-09-27 16:29:32.329 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskTableController - onSuccess: received 1 tasks
+2026-09-27 16:29:32.329 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskTableController - Table has: 1 tasks
+2026-09-27 16:32:46.918 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/tasks.fxml
+2026-09-27 16:32:46.932 [Thread-6] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 98038895
+2026-09-27 16:32:46.933 [Thread-6] DEBUG o.e.t.c.tasks.TasksController - Task table loaded successfully
+2026-09-27 16:32:46.933 [Thread-10] DEBUG o.e.t.r.task.H2TaskRepository - findAllViews()
+2026-09-27 16:32:46.937 [JavaFX Application Thread] DEBUG o.e.t.listeners.EventBus - FIRE: PageTitleChangedEvent (subscribers: 1)
+2026-09-27 16:32:46.937 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/tasks.fxml
+2026-09-27 16:32:46.943 [Thread-10] DEBUG o.e.t.r.task.H2TaskRepository - Found 1 views
+2026-09-27 16:32:46.964 [JavaFX Application Thread] DEBUG o.e.t.service.task.AsyncTaskService - onSucceeded returned: 1 tasks
+2026-09-27 16:32:46.964 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskTableController - onSuccess: received 1 tasks
+2026-09-27 16:32:46.966 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskTableController - Table has: 1 tasks
+2026-09-27 16:32:47.971 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-27 16:32:48.014 [Thread-12] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: ProjectChangedEvent -> 67696517
+2026-09-27 16:32:48.021 [Thread-13] DEBUG o.e.t.s.project.AsyncProjectService - createProjectLoader()
+2026-09-27 16:32:48.022 [JavaFX Application Thread] DEBUG o.e.t.listeners.EventBus - FIRE: PageTitleChangedEvent (subscribers: 1)
+2026-09-27 16:32:48.023 [Thread-13] DEBUG o.e.t.s.project.AsyncProjectService - Project: org.example.taskschedulerdesktop.models.Project@431ca88c, number of tasks = 1
+2026-09-27 16:32:48.023 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-27 16:32:48.023 [Thread-13] DEBUG o.e.t.s.project.ProjectCardService - createCard(org.example.taskschedulerdesktop.models.Project@431ca88c)
+2026-09-27 16:32:48.041 [Thread-13] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.initialize(), hashCode = 807886901
+2026-09-27 16:32:48.042 [Thread-13] DEBUG o.e.t.c.p.ProjectCardController - context = null
+2026-09-27 16:32:48.042 [Thread-13] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.setContext: org.example.taskschedulerdesktop.models.Project@431ca88c, hashCode = 807886901
+2026-09-27 16:32:48.043 [Thread-13] DEBUG o.e.t.c.p.ProjectCardController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-27 16:32:48.044 [Thread-13] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 1967599698
+2026-09-27 16:32:48.752 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/team.fxml
+2026-09-27 16:32:48.822 [JavaFX Application Thread] DEBUG o.e.t.listeners.EventBus - FIRE: PageTitleChangedEvent (subscribers: 1)
+2026-09-27 16:32:48.824 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/team.fxml
+2026-09-27 16:32:49.532 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-27 16:32:49.539 [Thread-12] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: ProjectChangedEvent -> 27116556
+2026-09-27 16:32:49.541 [Thread-14] DEBUG o.e.t.s.project.AsyncProjectService - createProjectLoader()
+2026-09-27 16:32:49.542 [JavaFX Application Thread] DEBUG o.e.t.listeners.EventBus - FIRE: PageTitleChangedEvent (subscribers: 1)
+2026-09-27 16:32:49.543 [Thread-14] DEBUG o.e.t.s.project.AsyncProjectService - Project: org.example.taskschedulerdesktop.models.Project@2be072f2, number of tasks = 1
+2026-09-27 16:32:49.543 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-27 16:32:49.543 [Thread-14] DEBUG o.e.t.s.project.ProjectCardService - createCard(org.example.taskschedulerdesktop.models.Project@2be072f2)
+2026-09-27 16:32:49.559 [Thread-14] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.initialize(), hashCode = 1003503814
+2026-09-27 16:32:49.560 [Thread-14] DEBUG o.e.t.c.p.ProjectCardController - context = null
+2026-09-27 16:32:49.560 [Thread-14] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.setContext: org.example.taskschedulerdesktop.models.Project@2be072f2, hashCode = 1003503814
+2026-09-27 16:32:49.560 [Thread-14] DEBUG o.e.t.c.p.ProjectCardController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-27 16:32:49.561 [Thread-14] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 1776426941
+2026-09-27 16:32:50.050 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/tasks.fxml
+2026-09-27 16:32:50.061 [Thread-6] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 1570202275
+2026-09-27 16:32:50.061 [Thread-6] DEBUG o.e.t.c.tasks.TasksController - Task table loaded successfully
+2026-09-27 16:32:50.061 [Thread-7] DEBUG o.e.t.r.task.H2TaskRepository - findAllViews()
+2026-09-27 16:32:50.063 [Thread-7] DEBUG o.e.t.r.task.H2TaskRepository - Found 1 views
+2026-09-27 16:32:50.064 [JavaFX Application Thread] DEBUG o.e.t.listeners.EventBus - FIRE: PageTitleChangedEvent (subscribers: 1)
+2026-09-27 16:32:50.064 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/tasks.fxml
+2026-09-27 16:32:50.085 [JavaFX Application Thread] DEBUG o.e.t.service.task.AsyncTaskService - onSucceeded returned: 1 tasks
+2026-09-27 16:32:50.086 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskTableController - onSuccess: received 1 tasks
+2026-09-27 16:32:50.086 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskTableController - Table has: 1 tasks
+2026-09-27 16:32:50.740 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/dashboard.fxml
+2026-09-27 16:32:50.778 [Thread-12] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 660202252
+2026-09-27 16:32:50.778 [Thread-12] DEBUG o.e.t.c.review.DashboardController - loadProjects()
+2026-09-27 16:32:50.779 [Thread-9] DEBUG o.e.t.r.task.H2TaskRepository - findAllViews()
+2026-09-27 16:32:50.780 [Thread-9] DEBUG o.e.t.r.task.H2TaskRepository - Found 1 views
+2026-09-27 16:32:50.779 [Thread-12] DEBUG o.e.t.c.review.DashboardController - load deadlines
+2026-09-27 16:32:50.782 [JavaFX Application Thread] DEBUG o.e.t.c.review.DashboardController - Found 0 tasks, task status: IN_PROGRESS
+2026-09-27 16:32:50.783 [Thread-8] DEBUG o.e.t.r.task.H2TaskRepository - findUpcomingDeadlines(maxDaysUntilDeadline: 7)
+2026-09-27 16:32:50.784 [JavaFX Application Thread] DEBUG o.e.t.c.review.DashboardController - Found 0 tasks, task status: UNDER_REVIEW
+2026-09-27 16:32:50.785 [JavaFX Application Thread] DEBUG o.e.t.c.review.DashboardController - Found 0 tasks, task status: COMPLETED
+2026-09-27 16:32:50.785 [Thread-15] DEBUG o.e.t.s.project.AsyncProjectService - Found 1 projects
+2026-09-27 16:32:50.786 [JavaFX Application Thread] DEBUG o.e.t.service.task.AsyncTaskService - onSucceeded returned: 1 tasks
+2026-09-27 16:32:50.786 [JavaFX Application Thread] DEBUG o.e.t.c.review.DashboardController - Found 1 tasks
+2026-09-27 16:32:50.788 [JavaFX Application Thread] DEBUG o.e.t.c.review.DashboardController - observableList size: 1
+2026-09-27 16:32:50.788 [JavaFX Application Thread] DEBUG o.e.t.c.review.DashboardController - deadlinesListView size : 1
+2026-09-27 16:32:50.789 [Thread-12] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 1344425450
+2026-09-27 16:32:50.790 [Thread-12] DEBUG o.e.t.c.review.DashboardController - Task table loaded successfully
+2026-09-27 16:32:50.790 [Thread-10] DEBUG o.e.t.r.task.H2TaskRepository - findAllViews()
+2026-09-27 16:32:50.791 [Thread-10] DEBUG o.e.t.r.task.H2TaskRepository - Found 1 views
+2026-09-27 16:32:50.792 [JavaFX Application Thread] DEBUG o.e.t.listeners.EventBus - FIRE: PageTitleChangedEvent (subscribers: 1)
+2026-09-27 16:32:50.793 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/dashboard.fxml
+2026-09-27 16:32:50.794 [JavaFX Application Thread] DEBUG o.e.t.service.task.AsyncTaskService - onSucceeded returned: 1 tasks
+2026-09-27 16:32:50.794 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskTableController - onSuccess: received 1 tasks
+2026-09-27 16:32:50.794 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskTableController - Table has: 1 tasks
+2026-09-27 16:32:50.803 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:32:50.814 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:32:50.827 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:32:50.833 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:32:50.874 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:32:50.883 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:32:50.891 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:32:50.901 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:32:50.904 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:32:50.913 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:32:50.915 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:32:50.923 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:32:50.925 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:32:50.931 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:32:50.933 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:32:50.944 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:32:50.946 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:32:50.955 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:32:50.957 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:32:50.967 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:32:50.969 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:32:50.978 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:32:50.980 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:32:50.990 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:32:50.992 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:32:51.003 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:32:51.005 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:32:51.015 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:32:51.018 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:32:51.024 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:32:51.026 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:32:51.035 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:32:51.039 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:32:51.045 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:32:51.050 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:32:51.055 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:32:51.057 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:32:51.063 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:32:51.065 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:32:51.071 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:32:51.072 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:32:51.078 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:32:51.079 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:32:51.086 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:32:51.087 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:32:51.094 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:32:51.096 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:32:51.100 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:32:51.102 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:32:51.106 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:32:51.108 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:32:51.115 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:32:51.117 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:32:51.122 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:32:51.123 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:32:51.128 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:32:51.129 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:32:51.133 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:32:51.135 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:32:51.140 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:32:52.484 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/tasks.fxml
+2026-09-27 16:32:52.496 [Thread-6] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 338765372
+2026-09-27 16:32:52.498 [Thread-9] DEBUG o.e.t.r.task.H2TaskRepository - findAllViews()
+2026-09-27 16:32:52.498 [Thread-6] DEBUG o.e.t.c.tasks.TasksController - Task table loaded successfully
+2026-09-27 16:32:52.500 [Thread-9] DEBUG o.e.t.r.task.H2TaskRepository - Found 1 views
+2026-09-27 16:32:52.502 [JavaFX Application Thread] DEBUG o.e.t.listeners.EventBus - FIRE: PageTitleChangedEvent (subscribers: 1)
+2026-09-27 16:32:52.502 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/tasks.fxml
+2026-09-27 16:32:52.503 [JavaFX Application Thread] DEBUG o.e.t.service.task.AsyncTaskService - onSucceeded returned: 1 tasks
+2026-09-27 16:32:52.503 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskTableController - onSuccess: received 1 tasks
+2026-09-27 16:32:52.503 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskTableController - Table has: 1 tasks
+2026-09-27 16:32:55.756 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/tasks.fxml
+2026-09-27 16:32:55.764 [Thread-12] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 2095704012
+2026-09-27 16:32:55.765 [Thread-7] DEBUG o.e.t.r.task.H2TaskRepository - findAllViews()
+2026-09-27 16:32:55.765 [Thread-12] DEBUG o.e.t.c.tasks.TasksController - Task table loaded successfully
+2026-09-27 16:32:55.766 [Thread-7] DEBUG o.e.t.r.task.H2TaskRepository - Found 1 views
+2026-09-27 16:32:55.767 [JavaFX Application Thread] DEBUG o.e.t.listeners.EventBus - FIRE: PageTitleChangedEvent (subscribers: 1)
+2026-09-27 16:32:55.768 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/tasks.fxml
+2026-09-27 16:32:55.768 [JavaFX Application Thread] DEBUG o.e.t.service.task.AsyncTaskService - onSucceeded returned: 1 tasks
+2026-09-27 16:32:55.769 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskTableController - onSuccess: received 1 tasks
+2026-09-27 16:32:55.769 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskTableController - Table has: 1 tasks
+2026-09-27 16:32:57.174 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-27 16:32:57.183 [Thread-6] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: ProjectChangedEvent -> 1462446364
+2026-09-27 16:32:57.184 [Thread-11] DEBUG o.e.t.s.project.AsyncProjectService - createProjectLoader()
+2026-09-27 16:32:57.187 [JavaFX Application Thread] DEBUG o.e.t.listeners.EventBus - FIRE: PageTitleChangedEvent (subscribers: 1)
+2026-09-27 16:32:57.187 [Thread-11] DEBUG o.e.t.s.project.AsyncProjectService - Project: org.example.taskschedulerdesktop.models.Project@37e95aef, number of tasks = 1
+2026-09-27 16:32:57.187 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-27 16:32:57.187 [Thread-11] DEBUG o.e.t.s.project.ProjectCardService - createCard(org.example.taskschedulerdesktop.models.Project@37e95aef)
+2026-09-27 16:32:57.196 [Thread-11] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.initialize(), hashCode = 22913945
+2026-09-27 16:32:57.197 [Thread-11] DEBUG o.e.t.c.p.ProjectCardController - context = null
+2026-09-27 16:32:57.197 [Thread-11] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.setContext: org.example.taskschedulerdesktop.models.Project@37e95aef, hashCode = 22913945
+2026-09-27 16:32:57.197 [Thread-11] DEBUG o.e.t.c.p.ProjectCardController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-27 16:32:57.197 [Thread-11] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 1007738334
+2026-09-27 16:34:27.040 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Inter 18pt Regular'
+2026-09-27 16:34:27.042 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Inter 18pt'
+2026-09-27 16:34:27.043 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-09-27 16:34:27.043 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Inter_18pt-Regular.ttf → 'Inter 18pt'
+2026-09-27 16:34:27.064 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Inter 18pt Medium'
+2026-09-27 16:34:27.064 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Inter 18pt Medium'
+2026-09-27 16:34:27.064 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-09-27 16:34:27.065 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Inter_18pt-Medium.ttf → 'Inter 18pt Medium'
+2026-09-27 16:34:27.084 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Inter 18pt SemiBold'
+2026-09-27 16:34:27.084 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Inter 18pt SemiBold'
+2026-09-27 16:34:27.086 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-09-27 16:34:27.086 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Inter_18pt-SemiBold.ttf → 'Inter 18pt SemiBold'
+2026-09-27 16:34:27.105 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Lora Regular'
+2026-09-27 16:34:27.105 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Lora'
+2026-09-27 16:34:27.105 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-09-27 16:34:27.106 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Lora-Regular.ttf → 'Lora'
+2026-09-27 16:34:27.124 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'JetBrains Mono Regular'
+2026-09-27 16:34:27.125 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'JetBrains Mono'
+2026-09-27 16:34:27.125 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-09-27 16:34:27.125 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/JetBrainsMono-Regular.ttf → 'JetBrains Mono'
+2026-09-27 16:34:27.683 [JavaFX Application Thread] DEBUG o.e.t.database.DatabaseConnection - H2 TCP-server started on the port:9092 successful
+2026-09-27 16:34:27.687 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - createTableIfNotExists()
+2026-09-27 16:34:27.710 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - createIndexes()
+2026-09-27 16:34:27.730 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - ProjectServiceImpl created
+2026-09-27 16:34:27.734 [JavaFX Application Thread] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 331390368
+2026-09-27 16:34:27.735 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - Subscribe on TaskChangedEvent completed
+2026-09-27 16:34:28.182 [JavaFX Application Thread] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: PageTitleChangedEvent -> 159607930
+2026-09-27 16:34:28.208 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/dashboard.fxml
+2026-09-27 16:34:28.336 [Thread-6] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 1104429123
+2026-09-27 16:34:28.339 [Thread-7] DEBUG o.e.t.r.task.H2TaskRepository - findAllViews()
+2026-09-27 16:34:28.347 [Thread-6] DEBUG o.e.t.c.review.DashboardController - loadProjects()
+2026-09-27 16:34:28.350 [Thread-6] DEBUG o.e.t.c.review.DashboardController - load deadlines
+2026-09-27 16:34:28.354 [Thread-11] DEBUG o.e.t.s.project.AsyncProjectService - Found 1 projects
+2026-09-27 16:34:28.356 [Thread-8] DEBUG o.e.t.r.task.H2TaskRepository - findUpcomingDeadlines(maxDaysUntilDeadline: 7)
+2026-09-27 16:34:28.359 [Thread-7] DEBUG o.e.t.r.task.H2TaskRepository - Found 1 views
+2026-09-27 16:34:28.375 [JavaFX Application Thread] DEBUG o.e.t.TaskSchedulerApplication - CSS: /org/example/taskschedulerdesktop/styles/style.css
+2026-09-27 16:34:28.376 [JavaFX Application Thread] DEBUG o.e.t.TaskSchedulerApplication - CSS: /org/example/taskschedulerdesktop/styles/row_task_table.css
+2026-09-27 16:34:28.420 [Thread-6] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 1186064581
+2026-09-27 16:34:28.422 [Thread-6] DEBUG o.e.t.c.review.DashboardController - Task table loaded successfully
+2026-09-27 16:34:28.422 [Thread-9] DEBUG o.e.t.r.task.H2TaskRepository - findAllViews()
+2026-09-27 16:34:28.424 [Thread-9] DEBUG o.e.t.r.task.H2TaskRepository - Found 1 views
+2026-09-27 16:34:28.916 [JavaFX Application Thread] DEBUG o.e.t.c.review.DashboardController - Found 0 tasks, task status: IN_PROGRESS
+2026-09-27 16:34:28.917 [JavaFX Application Thread] DEBUG o.e.t.c.review.DashboardController - Found 0 tasks, task status: UNDER_REVIEW
+2026-09-27 16:34:28.919 [JavaFX Application Thread] DEBUG o.e.t.c.review.DashboardController - Found 0 tasks, task status: COMPLETED
+2026-09-27 16:34:28.920 [JavaFX Application Thread] DEBUG o.e.t.service.task.AsyncTaskService - onSucceeded returned: 1 tasks
+2026-09-27 16:34:28.922 [JavaFX Application Thread] DEBUG o.e.t.c.review.DashboardController - Found 1 tasks
+2026-09-27 16:34:28.923 [JavaFX Application Thread] DEBUG o.e.t.c.review.DashboardController - observableList size: 1
+2026-09-27 16:34:28.924 [JavaFX Application Thread] DEBUG o.e.t.c.review.DashboardController - deadlinesListView size : 1
+2026-09-27 16:34:28.953 [JavaFX Application Thread] DEBUG o.e.t.listeners.EventBus - FIRE: PageTitleChangedEvent (subscribers: 1)
+2026-09-27 16:34:28.953 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/dashboard.fxml
+2026-09-27 16:34:28.954 [JavaFX Application Thread] DEBUG o.e.t.service.task.AsyncTaskService - onSucceeded returned: 1 tasks
+2026-09-27 16:34:28.954 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskTableController - onSuccess: received 1 tasks
+2026-09-27 16:34:28.955 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskTableController - Table has: 1 tasks
+2026-09-27 16:34:29.118 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:34:29.143 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:34:29.316 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:34:29.327 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:34:29.525 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:34:29.535 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:34:29.550 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:34:29.565 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:34:29.567 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:34:29.581 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:34:29.583 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:34:29.596 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:34:29.599 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:34:29.611 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:34:29.614 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:34:29.624 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:34:29.628 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:34:29.639 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:34:29.641 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:34:29.651 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:34:29.653 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:34:29.664 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:34:29.666 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:34:29.679 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:34:29.681 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:34:29.690 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:34:29.692 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:34:29.701 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:34:29.702 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:34:29.711 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:34:29.713 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:34:29.721 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:34:29.730 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:34:29.736 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:34:29.743 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:34:29.750 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:34:29.752 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:34:29.759 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:34:29.761 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:34:29.768 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:34:29.769 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:34:29.775 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:34:29.777 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:34:29.784 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:34:29.786 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:34:29.793 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:34:29.795 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:34:29.800 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:34:29.802 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:34:29.807 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:34:29.809 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:34:29.815 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:34:29.816 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:34:29.821 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:34:29.824 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:34:29.829 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:34:29.831 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:34:29.837 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:34:29.839 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:34:29.848 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:34:32.943 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/dashboard.fxml
+2026-09-27 16:34:32.968 [Thread-12] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 335582271
+2026-09-27 16:34:32.968 [Thread-12] DEBUG o.e.t.c.review.DashboardController - loadProjects()
+2026-09-27 16:34:32.968 [Thread-10] DEBUG o.e.t.r.task.H2TaskRepository - findAllViews()
+2026-09-27 16:34:32.969 [Thread-12] DEBUG o.e.t.c.review.DashboardController - load deadlines
+2026-09-27 16:34:32.970 [Thread-9] DEBUG o.e.t.r.task.H2TaskRepository - findUpcomingDeadlines(maxDaysUntilDeadline: 7)
+2026-09-27 16:34:32.970 [Thread-10] DEBUG o.e.t.r.task.H2TaskRepository - Found 1 views
+2026-09-27 16:34:32.971 [JavaFX Application Thread] DEBUG o.e.t.c.review.DashboardController - Found 0 tasks, task status: COMPLETED
+2026-09-27 16:34:32.971 [JavaFX Application Thread] DEBUG o.e.t.c.review.DashboardController - Found 0 tasks, task status: UNDER_REVIEW
+2026-09-27 16:34:32.972 [JavaFX Application Thread] DEBUG o.e.t.c.review.DashboardController - Found 0 tasks, task status: IN_PROGRESS
+2026-09-27 16:34:32.973 [JavaFX Application Thread] DEBUG o.e.t.service.task.AsyncTaskService - onSucceeded returned: 1 tasks
+2026-09-27 16:34:32.973 [Thread-13] DEBUG o.e.t.s.project.AsyncProjectService - Found 1 projects
+2026-09-27 16:34:32.973 [JavaFX Application Thread] DEBUG o.e.t.c.review.DashboardController - Found 1 tasks
+2026-09-27 16:34:32.974 [JavaFX Application Thread] DEBUG o.e.t.c.review.DashboardController - observableList size: 1
+2026-09-27 16:34:32.974 [JavaFX Application Thread] DEBUG o.e.t.c.review.DashboardController - deadlinesListView size : 1
+2026-09-27 16:34:32.977 [Thread-12] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 289579769
+2026-09-27 16:34:32.978 [Thread-12] DEBUG o.e.t.c.review.DashboardController - Task table loaded successfully
+2026-09-27 16:34:32.978 [Thread-8] DEBUG o.e.t.r.task.H2TaskRepository - findAllViews()
+2026-09-27 16:34:32.980 [Thread-8] DEBUG o.e.t.r.task.H2TaskRepository - Found 1 views
+2026-09-27 16:34:32.986 [JavaFX Application Thread] DEBUG o.e.t.listeners.EventBus - FIRE: PageTitleChangedEvent (subscribers: 1)
+2026-09-27 16:34:32.986 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/dashboard.fxml
+2026-09-27 16:34:33.007 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:34:33.018 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:34:33.041 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:34:33.048 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:34:33.110 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:34:33.120 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:34:33.128 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:34:33.137 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:34:33.139 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:34:33.147 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:34:33.149 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:34:33.160 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:34:33.162 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:34:33.174 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:34:33.177 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:34:33.187 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:34:33.189 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:34:33.201 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:34:33.203 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:34:33.216 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:34:33.219 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:34:33.230 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:34:33.232 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:34:33.242 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:34:33.245 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:34:33.254 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:34:33.257 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:34:33.266 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:34:33.268 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:34:33.276 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:34:33.278 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:34:33.287 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:34:33.293 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:34:33.299 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:34:33.306 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:34:33.312 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:34:33.315 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:34:33.320 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:34:33.322 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:34:33.329 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:34:33.332 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:34:33.338 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:34:33.339 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:34:33.345 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:34:33.347 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:34:33.354 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:34:33.357 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:34:33.364 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:34:33.366 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:34:33.376 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:34:33.379 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:34:33.389 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:34:33.392 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:34:33.400 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:34:33.404 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:34:33.412 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:34:33.416 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:34:33.423 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:34:33.426 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:34:33.432 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:34:33.456 [JavaFX Application Thread] DEBUG o.e.t.service.task.AsyncTaskService - onSucceeded returned: 1 tasks
+2026-09-27 16:34:33.456 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskTableController - onSuccess: received 1 tasks
+2026-09-27 16:34:33.457 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskTableController - Table has: 1 tasks
+2026-09-27 16:34:34.849 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/tasks.fxml
+2026-09-27 16:34:34.877 [Thread-6] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 290581357
+2026-09-27 16:34:34.878 [Thread-6] DEBUG o.e.t.c.tasks.TasksController - Task table loaded successfully
+2026-09-27 16:34:34.878 [Thread-7] DEBUG o.e.t.r.task.H2TaskRepository - findAllViews()
+2026-09-27 16:34:34.879 [Thread-7] DEBUG o.e.t.r.task.H2TaskRepository - Found 1 views
+2026-09-27 16:34:34.882 [JavaFX Application Thread] DEBUG o.e.t.listeners.EventBus - FIRE: PageTitleChangedEvent (subscribers: 1)
+2026-09-27 16:34:34.884 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/tasks.fxml
+2026-09-27 16:34:34.884 [JavaFX Application Thread] DEBUG o.e.t.service.task.AsyncTaskService - onSucceeded returned: 1 tasks
+2026-09-27 16:34:34.884 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskTableController - onSuccess: received 1 tasks
+2026-09-27 16:34:34.884 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskTableController - Table has: 1 tasks
+2026-09-27 16:34:44.057 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-27 16:34:44.098 [Thread-12] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: ProjectChangedEvent -> 160788773
+2026-09-27 16:34:44.104 [Thread-14] DEBUG o.e.t.s.project.AsyncProjectService - createProjectLoader()
+2026-09-27 16:34:44.105 [JavaFX Application Thread] DEBUG o.e.t.listeners.EventBus - FIRE: PageTitleChangedEvent (subscribers: 1)
+2026-09-27 16:34:44.105 [Thread-14] DEBUG o.e.t.s.project.AsyncProjectService - Project: org.example.taskschedulerdesktop.models.Project@6c48efbd, number of tasks = 1
+2026-09-27 16:34:44.105 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-27 16:34:44.105 [Thread-14] DEBUG o.e.t.s.project.ProjectCardService - createCard(org.example.taskschedulerdesktop.models.Project@6c48efbd)
+2026-09-27 16:34:44.128 [Thread-14] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.initialize(), hashCode = 145319920
+2026-09-27 16:34:44.129 [Thread-14] DEBUG o.e.t.c.p.ProjectCardController - context = null
+2026-09-27 16:34:44.130 [Thread-14] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.setContext: org.example.taskschedulerdesktop.models.Project@6c48efbd, hashCode = 145319920
+2026-09-27 16:34:44.131 [Thread-14] DEBUG o.e.t.c.p.ProjectCardController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-27 16:34:44.133 [Thread-14] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 291504682
+2026-09-27 16:35:41.828 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Inter 18pt Regular'
+2026-09-27 16:35:41.831 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Inter 18pt'
+2026-09-27 16:35:41.832 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-09-27 16:35:41.832 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Inter_18pt-Regular.ttf → 'Inter 18pt'
+2026-09-27 16:35:41.849 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Inter 18pt Medium'
+2026-09-27 16:35:41.850 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Inter 18pt Medium'
+2026-09-27 16:35:41.850 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-09-27 16:35:41.850 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Inter_18pt-Medium.ttf → 'Inter 18pt Medium'
+2026-09-27 16:35:41.873 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Inter 18pt SemiBold'
+2026-09-27 16:35:41.874 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Inter 18pt SemiBold'
+2026-09-27 16:35:41.874 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-09-27 16:35:41.874 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Inter_18pt-SemiBold.ttf → 'Inter 18pt SemiBold'
+2026-09-27 16:35:41.893 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Lora Regular'
+2026-09-27 16:35:41.893 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Lora'
+2026-09-27 16:35:41.893 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-09-27 16:35:41.893 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Lora-Regular.ttf → 'Lora'
+2026-09-27 16:35:41.913 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'JetBrains Mono Regular'
+2026-09-27 16:35:41.914 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'JetBrains Mono'
+2026-09-27 16:35:41.914 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-09-27 16:35:41.914 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/JetBrainsMono-Regular.ttf → 'JetBrains Mono'
+2026-09-27 16:35:42.411 [JavaFX Application Thread] DEBUG o.e.t.database.DatabaseConnection - H2 TCP-server started on the port:9092 successful
+2026-09-27 16:35:42.413 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - createTableIfNotExists()
+2026-09-27 16:35:42.433 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - createIndexes()
+2026-09-27 16:35:42.450 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - ProjectServiceImpl created
+2026-09-27 16:35:42.453 [JavaFX Application Thread] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 331390368
+2026-09-27 16:35:42.454 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - Subscribe on TaskChangedEvent completed
+2026-09-27 16:35:42.815 [JavaFX Application Thread] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: PageTitleChangedEvent -> 159607930
+2026-09-27 16:35:42.840 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/dashboard.fxml
+2026-09-27 16:35:42.961 [Thread-6] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 763759050
+2026-09-27 16:35:42.966 [Thread-7] DEBUG o.e.t.r.task.H2TaskRepository - findAllViews()
+2026-09-27 16:35:42.972 [Thread-6] DEBUG o.e.t.c.review.DashboardController - loadProjects()
+2026-09-27 16:35:42.976 [Thread-6] DEBUG o.e.t.c.review.DashboardController - load deadlines
+2026-09-27 16:35:42.981 [Thread-11] DEBUG o.e.t.s.project.AsyncProjectService - Found 1 projects
+2026-09-27 16:35:42.982 [Thread-8] DEBUG o.e.t.r.task.H2TaskRepository - findUpcomingDeadlines(maxDaysUntilDeadline: 7)
+2026-09-27 16:35:42.985 [Thread-7] DEBUG o.e.t.r.task.H2TaskRepository - Found 1 views
+2026-09-27 16:35:43.008 [JavaFX Application Thread] DEBUG o.e.t.TaskSchedulerApplication - CSS: /org/example/taskschedulerdesktop/styles/style.css
+2026-09-27 16:35:43.009 [JavaFX Application Thread] DEBUG o.e.t.TaskSchedulerApplication - CSS: /org/example/taskschedulerdesktop/styles/row_task_table.css
+2026-09-27 16:35:43.052 [Thread-6] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 526017732
+2026-09-27 16:35:43.054 [Thread-6] DEBUG o.e.t.c.review.DashboardController - Task table loaded successfully
+2026-09-27 16:35:43.054 [Thread-9] DEBUG o.e.t.r.task.H2TaskRepository - findAllViews()
+2026-09-27 16:35:43.056 [Thread-9] DEBUG o.e.t.r.task.H2TaskRepository - Found 1 views
+2026-09-27 16:35:43.626 [JavaFX Application Thread] DEBUG o.e.t.c.review.DashboardController - Found 0 tasks, task status: IN_PROGRESS
+2026-09-27 16:35:43.631 [JavaFX Application Thread] DEBUG o.e.t.c.review.DashboardController - Found 0 tasks, task status: UNDER_REVIEW
+2026-09-27 16:35:43.632 [JavaFX Application Thread] DEBUG o.e.t.c.review.DashboardController - Found 0 tasks, task status: COMPLETED
+2026-09-27 16:35:43.634 [JavaFX Application Thread] DEBUG o.e.t.service.task.AsyncTaskService - onSucceeded returned: 1 tasks
+2026-09-27 16:35:43.635 [JavaFX Application Thread] DEBUG o.e.t.c.review.DashboardController - Found 1 tasks
+2026-09-27 16:35:43.638 [JavaFX Application Thread] DEBUG o.e.t.c.review.DashboardController - observableList size: 1
+2026-09-27 16:35:43.639 [JavaFX Application Thread] DEBUG o.e.t.c.review.DashboardController - deadlinesListView size : 1
+2026-09-27 16:35:43.665 [JavaFX Application Thread] DEBUG o.e.t.listeners.EventBus - FIRE: PageTitleChangedEvent (subscribers: 1)
+2026-09-27 16:35:43.665 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/dashboard.fxml
+2026-09-27 16:35:43.665 [JavaFX Application Thread] DEBUG o.e.t.service.task.AsyncTaskService - onSucceeded returned: 1 tasks
+2026-09-27 16:35:43.666 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskTableController - onSuccess: received 1 tasks
+2026-09-27 16:35:43.666 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskTableController - Table has: 1 tasks
+2026-09-27 16:35:43.818 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:35:43.841 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:35:44.001 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:35:44.023 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:35:44.226 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:35:44.237 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:35:44.251 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:35:44.262 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:35:44.264 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:35:44.274 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:35:44.276 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:35:44.286 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:35:44.288 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:35:44.297 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:35:44.299 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:35:44.309 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:35:44.310 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:35:44.319 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:35:44.321 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:35:44.330 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:35:44.332 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:35:44.341 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:35:44.343 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:35:44.353 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:35:44.355 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:35:44.365 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:35:44.367 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:35:44.378 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:35:44.381 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:35:44.392 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:35:44.394 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - creating project list cell
+2026-09-27 16:35:44.405 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.ProjectListCell - project list cell loaded successfully
+2026-09-27 16:35:44.414 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:35:44.423 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:35:44.433 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:35:44.439 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:35:44.442 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:35:44.447 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:35:44.450 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:35:44.457 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:35:44.459 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:35:44.467 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:35:44.470 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:35:44.476 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:35:44.479 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:35:44.484 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:35:44.485 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:35:44.490 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:35:44.493 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:35:44.498 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:35:44.499 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:35:44.505 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:35:44.507 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:35:44.512 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:35:44.514 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:35:44.520 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:35:44.521 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:35:44.528 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:35:44.529 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - creating deadline list cell
+2026-09-27 16:35:44.535 [JavaFX Application Thread] DEBUG o.e.t.dto.projects.DeadlineListCell - deadline list cell loaded successfully
+2026-09-27 16:35:54.897 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-27 16:35:54.968 [Thread-12] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: ProjectChangedEvent -> 485860344
+2026-09-27 16:35:54.991 [Thread-13] DEBUG o.e.t.s.project.AsyncProjectService - createProjectLoader()
+2026-09-27 16:35:54.992 [JavaFX Application Thread] DEBUG o.e.t.listeners.EventBus - FIRE: PageTitleChangedEvent (subscribers: 1)
+2026-09-27 16:35:54.994 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-27 16:35:54.994 [Thread-13] DEBUG o.e.t.s.project.AsyncProjectService - Project: org.example.taskschedulerdesktop.models.Project@23d3b5b6, number of tasks = 1
+2026-09-27 16:35:54.994 [Thread-13] DEBUG o.e.t.s.project.ProjectCardService - createCard(org.example.taskschedulerdesktop.models.Project@23d3b5b6)
+2026-09-27 16:35:55.024 [Thread-13] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.initialize(), hashCode = 221656819
+2026-09-27 16:35:55.025 [Thread-13] DEBUG o.e.t.c.p.ProjectCardController - context = null
+2026-09-27 16:35:55.028 [Thread-13] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.setContext: org.example.taskschedulerdesktop.models.Project@23d3b5b6, hashCode = 221656819
+2026-09-27 16:35:55.029 [Thread-13] DEBUG o.e.t.c.p.ProjectCardController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-27 16:35:55.031 [Thread-13] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 1845572020
+2026-09-27 16:35:55.461 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/team.fxml
+2026-09-27 16:35:55.542 [JavaFX Application Thread] DEBUG o.e.t.listeners.EventBus - FIRE: PageTitleChangedEvent (subscribers: 1)
+2026-09-27 16:35:55.542 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/team.fxml
+2026-09-27 16:35:56.132 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-27 16:35:56.137 [Thread-12] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: ProjectChangedEvent -> 898774070
+2026-09-27 16:35:56.139 [Thread-14] DEBUG o.e.t.s.project.AsyncProjectService - createProjectLoader()
+2026-09-27 16:35:56.141 [JavaFX Application Thread] DEBUG o.e.t.listeners.EventBus - FIRE: PageTitleChangedEvent (subscribers: 1)
+2026-09-27 16:35:56.141 [Thread-14] DEBUG o.e.t.s.project.AsyncProjectService - Project: org.example.taskschedulerdesktop.models.Project@36011d1, number of tasks = 1
+2026-09-27 16:35:56.141 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/projects.fxml
+2026-09-27 16:35:56.141 [Thread-14] DEBUG o.e.t.s.project.ProjectCardService - createCard(org.example.taskschedulerdesktop.models.Project@36011d1)
+2026-09-27 16:35:56.156 [Thread-14] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.initialize(), hashCode = 1510167580
+2026-09-27 16:35:56.156 [Thread-14] DEBUG o.e.t.c.p.ProjectCardController - context = null
+2026-09-27 16:35:56.156 [Thread-14] DEBUG o.e.t.c.p.ProjectCardController - ProjectCardController.setContext: org.example.taskschedulerdesktop.models.Project@36011d1, hashCode = 1510167580
+2026-09-27 16:35:56.157 [Thread-14] DEBUG o.e.t.c.p.ProjectCardController - class = org.example.taskschedulerdesktop.models.Project
+2026-09-27 16:35:56.157 [Thread-14] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 1941650788

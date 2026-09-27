@@ -53,10 +53,6 @@
   -fx-background-color: rgba(255,255,255,0.05);
   -fx-text-fill: rgba(255,255,255,0.7);
 }
-.nav-btn-active {
-  -fx-background-color: rgba(255,255,255,0.1);
-  -fx-text-fill: white;
-}
 .nav-project-btn {
   -fx-background-color: transparent;
   -fx-text-fill: rgba(255,255,255,0.38);

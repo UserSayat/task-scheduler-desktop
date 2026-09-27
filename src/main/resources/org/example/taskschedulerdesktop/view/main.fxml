@@ -30,7 +30,7 @@
                 <VBox VBox.vgrow="ALWAYS">
                     <Label text="НАВИГАЦИЯ" styleClass="nav-section-label"/>
                     <Button fx:id="reviewButton" text="Обзор" maxWidth="Infinity"
-                            styleClass="nav-btn, nav-btn-active"/>
+                            styleClass="nav-btn, nav-btn"/>
                     <Button fx:id="tasksButton" text="Задачи" maxWidth="Infinity"
                             styleClass="nav-btn"/>
                     <Button fx:id="projectsButton" text="Проекты" maxWidth="Infinity"
@@ -38,19 +38,19 @@
                     <Button fx:id="teamButton" text="Команда" maxWidth="Infinity"
                             styleClass="nav-btn"/>
 
-                    <Label text="ПРОЕКТЫ" styleClass="nav-section-label"/>
-                    <Button text="● Редизайн портала"
-                            maxWidth="Infinity" styleClass="nav-project-btn"/>
-                    <!--                                onAction="#showProjects"/>-->
-                    <Button text="● Миграция CRM"
-                            maxWidth="Infinity" styleClass="nav-project-btn"/>
-                    <!--                                onAction="#showProjects"/>-->
-                    <Button text="● Мобильное приложение"
-                            maxWidth="Infinity" styleClass="nav-project-btn"/>
-                    <!--                                onAction="#showProjects"/>-->
-                    <Button text="● Отчётность Q3"
-                            maxWidth="Infinity" styleClass="nav-project-btn"/>
-                    <!--                                onAction="#showProjects"/>-->
+<!--                    <Label text="ПРОЕКТЫ" styleClass="nav-section-label"/>-->
+<!--                    <Button text="● Редизайн портала"-->
+<!--                            maxWidth="Infinity" styleClass="nav-project-btn"/>-->
+<!--                    &lt;!&ndash;                                onAction="#showProjects"/>&ndash;&gt;-->
+<!--                    <Button text="● Миграция CRM"-->
+<!--                            maxWidth="Infinity" styleClass="nav-project-btn"/>-->
+<!--                    &lt;!&ndash;                                onAction="#showProjects"/>&ndash;&gt;-->
+<!--                    <Button text="● Мобильное приложение"-->
+<!--                            maxWidth="Infinity" styleClass="nav-project-btn"/>-->
+<!--                    &lt;!&ndash;                                onAction="#showProjects"/>&ndash;&gt;-->
+<!--                    <Button text="● Отчётность Q3"-->
+<!--                            maxWidth="Infinity" styleClass="nav-project-btn"/>-->
+<!--                    &lt;!&ndash;                                onAction="#showProjects"/>&ndash;&gt;-->
                     <Region VBox.vgrow="ALWAYS"/>
                 </VBox>
 
