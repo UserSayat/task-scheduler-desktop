@@ -72,7 +72,22 @@ public class DashboardController implements Shutdownable {
                 projects -> {
                     ObservableList<Project> observableList = FXCollections.observableList(projects);
                     projectListView.setItems(observableList);
-                    projectListView.setCellFactory(listView -> new ProjectListCell());
+                    projectListView.setCellFactory(listView -> {
+                        ProjectListCell cell = new ProjectListCell();
+                        cell.setOnMouseClicked(event -> {
+                            if (cell.isEmpty() || cell.getItem() == null) return;
+
+                            if (event.getClickCount() == 1) {
+                                Project item = cell.getItem();
+                                NavigationManager.navigateTo(
+                                        Routes.PROJECT_DETAILS,
+                                        null,
+                                        item
+                                );
+                            }
+                        });
+                        return cell;
+                    });
                 },
                 error -> {
                     log.error("Error loading projects", error);

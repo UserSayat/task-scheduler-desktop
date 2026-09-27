@@ -3,14 +3,13 @@ package org.example.taskschedulerdesktop.controllers.tasks;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import org.example.taskschedulerdesktop.controllers.Shutdownable;
 import org.example.taskschedulerdesktop.dto.tasks.TaskView;
 import org.example.taskschedulerdesktop.listeners.EventBus;
 import org.example.taskschedulerdesktop.listeners.TaskChangedEvent;
+import org.example.taskschedulerdesktop.navigation.NavigationManager;
+import org.example.taskschedulerdesktop.navigation.Routes;
 import org.example.taskschedulerdesktop.service.task.AsyncTaskService;
 import org.example.taskschedulerdesktop.utils.TaskPriority;
 import org.example.taskschedulerdesktop.utils.TaskStatus;
@@ -21,6 +20,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.function.Consumer;
 
+// TODO: заменить getIndex() на передачу TaskView через cellValueFactory,
+//       чтобы избежать IndexOutOfBoundsException при обновлении/фильтрации таблицы
 public class TaskTableController implements Shutdownable {
 
     private final AsyncTaskService asyncTaskService;
@@ -28,7 +29,7 @@ public class TaskTableController implements Shutdownable {
 
     @FXML private TableView<TaskView> taskTable;
 
-    @FXML private TableColumn<TaskView, Long> idColumn;
+    //@FXML private TableColumn<TaskView, Long> idColumn;
     @FXML private TableColumn<TaskView, String> taskNameColumn;
     @FXML private TableColumn<TaskView, String> projectNameColumn;
     @FXML private TableColumn<TaskView, String> executorColumn;
@@ -47,9 +48,9 @@ public class TaskTableController implements Shutdownable {
     @FXML
     public void initialize() {
 
-        idColumn.setCellValueFactory(
-                cellData -> new SimpleLongProperty(cellData.getValue().getId()).asObject()
-        );
+//        idColumn.setCellValueFactory(
+//                cellData -> new SimpleLongProperty(cellData.getValue().getId()).asObject()
+//        );
         taskNameColumn.setCellValueFactory(
                 cellData -> new SimpleStringProperty(cellData.getValue().getTaskName())
         );
@@ -67,30 +68,40 @@ public class TaskTableController implements Shutdownable {
         setupStatusColumn();
         setupDeadlineColumn();
 
-        loadTasks();
+        taskTable.setRowFactory(tv -> {
+            TableRow<TaskView> row = new TableRow<>();
+
+            row.setOnMouseClicked(event -> {
+                if (row.isEmpty()) return;
+                if (event.getClickCount() != 2) return;
+
+                TaskView item = row.getItem();
+                NavigationManager.openRightSidebar(
+                        Routes.TASK_DETAILS,
+                        item
+                );
+            });
+
+            return row;
+        });
+
+        taskTable.setPlaceholder(new Label("Нет задач"));
 
         EventBus.getInstance().subscribe(TaskChangedEvent.class, taskChangedEventListener);
 
+        loadTasks();
     }
 
     public void loadTasks() {
-
-        taskTable.setPlaceholder(new Label("Загрузка..."));
+        //taskTable.setPlaceholder(new Label("Загрузка..."));
         asyncTaskService.findAllTasksView(
                 taskViews -> {
                     log.debug("onSuccess: received {} tasks", taskViews.size());
-
-                    if (taskViews.isEmpty()) {
-                        taskTable.setPlaceholder(new Label("Нет задач"));
-                        return;
-                    }
-
-                    log.debug("onSuccess: first task: {}", taskViews.getFirst().getTaskName());
-
                     taskTable.getItems().setAll(taskViews);
                     log.debug("Table has: {} tasks", taskTable.getItems().size());
                 },
                 error -> {
+                    taskTable.getItems().clear();
                     taskTable.setPlaceholder(new Label("Ошибка загрузки: " + error.getMessage()));
                     log.error("Error loading tasks", error);
                 }
@@ -142,6 +153,7 @@ public class TaskTableController implements Shutdownable {
                     TaskView task = getTableView().getItems().get(getIndex());
                     Label label = new Label(item);
                     label.getStyleClass().add(getStyleClassForStatus(task.getStatus()));
+                    label.setStyle("-fx");
 
                     setGraphic(label);
                 }
@@ -188,7 +200,7 @@ public class TaskTableController implements Shutdownable {
         return switch (priority) {
             case LOW -> "priority-low";
             case MIDDLE -> "priority-middle";
-            case HIGH -> "priority=high";
+            case HIGH -> "priority-high";
         };
     }
 

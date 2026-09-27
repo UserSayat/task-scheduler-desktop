@@ -13,8 +13,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
@@ -51,6 +51,7 @@ public class NavigationManager {
     private static Parent rightSidebar = null;
     private static Object rightSidebarController = null;
     private static final double RIGHT_SIDEBAR_WIDTH = 400.0;
+    private static Region sidebarOverlay = null;
 
     // История переходов
     private static class PageInfo {
@@ -81,37 +82,16 @@ public class NavigationManager {
     // Храним ссылку на контроллер ТЕКУЩЕЙ страницы, чтобы вовремя вызывать shutdown
     private static Object currentController = null;
 
-    // Храним обработчик кликов вне сайдбара, чтобы потом от него отписаться
-    private static EventHandler<MouseEvent> outsideClickFilter;
     // ============================================================
     // ИНИЦИАЛИЗАЦИЯ
     // ============================================================
 
     public static void init(StackPane globalStackPane, StackPane contentArea, Callback<Class<?>, Object> controllerFactory) {
 
-        // Если init вызывается повторно — снять старый фильтр
-        if (NavigationManager.globalStackPane != null && outsideClickFilter != null) {
-            NavigationManager.globalStackPane.removeEventFilter(MouseEvent.MOUSE_CLICKED, outsideClickFilter);
-            outsideClickFilter = null;
-        }
-
         NavigationManager.globalStackPane = globalStackPane;
         NavigationManager.contentArea = contentArea;
         NavigationManager.controllerFactory = controllerFactory;
 
-        outsideClickFilter = event -> {
-            if (rightSidebar == null || !rightSidebar.isVisible()) {
-                return;
-            }
-            Node clicked = (Node) event.getTarget();
-            if (isChildOf(clicked, rightSidebar)) {
-                return;
-            }
-            log.debug("Click outside sidebar, closing");
-            closeRightSidebar();
-        };
-
-        globalStackPane.addEventFilter(MouseEvent.MOUSE_CLICKED, outsideClickFilter);
     }
 
     public static void navigateTo(String fxmlPath) {
@@ -320,6 +300,11 @@ public class NavigationManager {
 
         if (rightSidebar != null) {
             globalStackPane.getChildren().remove(rightSidebar);
+            rightSidebar = null;
+        }
+        if (sidebarOverlay != null) {
+            globalStackPane.getChildren().remove(sidebarOverlay);
+            sidebarOverlay = null;
         }
 
         try {
@@ -350,10 +335,25 @@ public class NavigationManager {
 
             StackPane.setAlignment(rightSidebar, Pos.CENTER_RIGHT);
 
-            globalStackPane.getChildren().add(rightSidebar);
+            sidebarOverlay = new Region();
+            sidebarOverlay.setBackground(new Background(
+                    new BackgroundFill(Color.rgb(0, 0, 0, 0.4), null, null)
+            ));
+            sidebarOverlay.setPrefSize(Double.MAX_VALUE, Double.MAX_VALUE);
+            sidebarOverlay.setOpacity(0);
+
+            sidebarOverlay.setOnMouseClicked(e -> closeRightSidebar());
+
+            StackPane.setAlignment(sidebarOverlay, Pos.CENTER);
+
+            globalStackPane.getChildren().addAll(sidebarOverlay, rightSidebar);
+
+            FadeTransition fadeInOverlay = new FadeTransition(Duration.millis(200), sidebarOverlay);
+            fadeInOverlay.setFromValue(0);
+            fadeInOverlay.setToValue(1);
+            fadeInOverlay.play();
 
             TranslateTransition animate = new TranslateTransition(Duration.millis(200), rightSidebar);
-
             animate.setFromX(RIGHT_SIDEBAR_WIDTH);
             animate.setToX(0);
             animate.play();
@@ -373,13 +373,27 @@ public class NavigationManager {
 
         rightSidebarController = null;
 
-        TranslateTransition animate = new TranslateTransition(Duration.millis(200), rightSidebar);
-        animate.setToX(RIGHT_SIDEBAR_WIDTH);
-        animate.setOnFinished(event -> {
+        TranslateTransition animateSidebar = new TranslateTransition(Duration.millis(200), rightSidebar);
+        animateSidebar.setToX(RIGHT_SIDEBAR_WIDTH);
+
+        if (sidebarOverlay != null) {
+            FadeTransition fadeOutOverlay = new FadeTransition(Duration.millis(200), sidebarOverlay);
+            fadeOutOverlay.setFromValue(sidebarOverlay.getOpacity());
+            fadeOutOverlay.setToValue(0);
+            fadeOutOverlay.play();
+        }
+
+        animateSidebar.setOnFinished(event -> {
             globalStackPane.getChildren().remove(rightSidebar);
             rightSidebar = null;
+
+            if (sidebarOverlay != null) {
+                globalStackPane.getChildren().remove(sidebarOverlay);
+                sidebarOverlay = null;
+            }
         });
-        animate.play();
+        
+        animateSidebar.play();
     }
 
     private static boolean isChildOf(Node node, Node potentialParent) {
@@ -477,10 +491,6 @@ public class NavigationManager {
     }
 
     public static void dispose() {
-        if (globalStackPane != null && outsideClickFilter != null) {
-            globalStackPane.removeEventFilter(MouseEvent.MOUSE_CLICKED, outsideClickFilter);
-            outsideClickFilter = null;
-        }
         if (globalStackPane != null && rightSidebar != null) {
             globalStackPane.getChildren().remove(rightSidebar);
             rightSidebar = null;

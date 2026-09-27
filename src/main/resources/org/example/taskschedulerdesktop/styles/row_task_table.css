@@ -1,17 +1,23 @@
 .status-new {
-    -fx-text-fill: #1a3a8f;
-    -fx-background-color: #e8edf8;
-    -fx-background-radius: 12px;
-    -fx-padding: 4px 12px;
+    -fx-text-fill: #1a1a1a;
+    -fx-background-color: #ededed;
+    -fx-padding: 2px 10px;
     -fx-font-size: 12px;
     -fx-font-weight: 500;
 }
 
 .status-in-progress {
-    -fx-text-fill: #92400e;
-    -fx-background-color: #fffbeb;
-    -fx-background-radius: 12px;
-    -fx-padding: 4px 12px;
+    -fx-text-fill: #1a3a8f;
+    -fx-background-color: #e8edf8;
+    -fx-padding: 2px 10px;
+    -fx-font-size: 12px;
+    -fx-font-weight: 500;
+}
+
+.status-under-review {
+    -fx-text-fill: #7304db;
+    -fx-background-color: #f9f2ff;
+    -fx-padding: 2px 10px;
     -fx-font-size: 12px;
     -fx-font-weight: 500;
 }
@@ -19,8 +25,7 @@
 .status-completed {
     -fx-text-fill: #14532d;
     -fx-background-color: #f0fdf4;
-    -fx-background-radius: 12px;
-    -fx-padding: 4px 12px;
+    -fx-padding: 2px 10px;
     -fx-font-size: 12px;
     -fx-font-weight: 500;
 }
@@ -28,8 +33,7 @@
 .priority-high {
     -fx-text-fill: #b91c1c;
     -fx-background-color: #fef2f2;
-    -fx-background-radius: 12px;
-    -fx-padding: 4px 12px;
+    -fx-padding: 2px 10px;
     -fx-font-size: 12px;
     -fx-font-weight: 600;
 }
@@ -37,8 +41,7 @@
 .priority-middle {
     -fx-text-fill: #92400e;
     -fx-background-color: #fffbeb;
-    -fx-background-radius: 12px;
-    -fx-padding: 4px 12px;
+    -fx-padding: 2px 10px;
     -fx-font-size: 12px;
     -fx-font-weight: 500;
 }
@@ -46,8 +49,7 @@
 .priority-low {
     -fx-text-fill: #14532d;
     -fx-background-color: #f0fdf4;
-    -fx-background-radius: 12px;
-    -fx-padding: 4px 12px;
+    -fx-padding: 2px 10px;
     -fx-font-size: 12px;
     -fx-font-weight: 400;
 }

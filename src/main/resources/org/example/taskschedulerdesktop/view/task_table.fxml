@@ -6,7 +6,7 @@
 
 <TableView fx:id="taskTable" styleClass="task-table" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="200.0" minWidth="0.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.taskschedulerdesktop.controllers.tasks.TaskTableController">
    <columns>
-      <TableColumn fx:id="idColumn" prefWidth="30" text="#" />
+<!--      <TableColumn fx:id="idColumn" prefWidth="30" text="#" />-->
       <TableColumn fx:id="taskNameColumn" prefWidth="200" text="Задача" />
       <TableColumn fx:id="projectNameColumn" prefWidth="150" text="Проект" />
       <TableColumn fx:id="executorColumn" prefWidth="150" text="Исполнитель" />

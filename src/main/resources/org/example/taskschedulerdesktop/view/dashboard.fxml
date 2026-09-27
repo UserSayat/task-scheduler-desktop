@@ -33,7 +33,7 @@
                         <Label style="-fx-alignment:TOP_RIGHT;" styleClass="stat-mono" text="001"/>
                         <Label fx:id="statAll" styleClass="stat-number" text="10"/>
                         <Label styleClass="stat-label" text="Всего задач"/>
-                        <Label styleClass="stat-sub" text="активных проектов: 4"/>
+<!--                        <Label fx:id="amountOfActiveProjectsLabel" styleClass="stat-sub" text="активных проектов: 4"/>-->
                     </VBox>
                 </StackPane>
 
@@ -43,7 +43,7 @@
                         <Label styleClass="stat-mono" text="002"/>
                         <Label fx:id="statInProgress" styleClass="stat-number" text="3"/>
                         <Label styleClass="stat-label" text="В работе"/>
-                        <Label styleClass="stat-sub" text="требуют внимания"/>
+<!--                        <Label styleClass="stat-sub" text="требуют внимания"/>-->
                     </VBox>
                 </StackPane>
 
@@ -53,7 +53,7 @@
                         <Label styleClass="stat-mono" text="003"/>
                         <Label fx:id="statReview" styleClass="stat-number" text="2"/>
                         <Label styleClass="stat-label" text="На проверке"/>
-                        <Label styleClass="stat-sub" text="ожидают решения"/>
+<!--                        <Label styleClass="stat-sub" text="ожидают решения"/>-->
                     </VBox>
                 </StackPane>
 
@@ -63,7 +63,7 @@
                         <Label styleClass="stat-mono" text="004"/>
                         <Label fx:id="statDone" styleClass="stat-number" text="2"/>
                         <Label styleClass="stat-label" text="Завершено"/>
-                        <Label styleClass="stat-sub" text="за текущий спринт"/>
+<!--                        <Label styleClass="stat-sub" text="за текущий спринт"/>-->
                     </VBox>
                 </StackPane>
                 <rowConstraints>
