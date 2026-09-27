@@ -5,6 +5,7 @@ public final class Routes {
     private Routes() {}
 
     public static final String DASHBOARD = "/org/example/taskschedulerdesktop/view/dashboard.fxml";
+    public static final String DEADLINE_ROW = "/org/example/taskschedulerdesktop/view/deadline_row.fxml";
 
     public static final String TASKS = "/org/example/taskschedulerdesktop/view/tasks.fxml";
     public static final String CREATE_TASK = "/org/example/taskschedulerdesktop/view/create_task.fxml";

@@ -98,4 +98,9 @@ public class TaskServiceImpl implements TaskService {
                 .orElseThrow(() -> new IllegalArgumentException(""));
         return view.getProjectName();
     }
+
+    @Override
+    public List<TaskView> findUpcomingDeadlines(int maxDaysUntilDeadline) {
+        return repository.findUpcomingDeadlines(maxDaysUntilDeadline);
+    }
 }

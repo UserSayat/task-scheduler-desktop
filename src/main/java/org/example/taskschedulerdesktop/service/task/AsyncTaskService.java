@@ -201,4 +201,18 @@ public class AsyncTaskService {
 
         executor.submit(task);
     }
+
+    public void findUpcomingDeadlines(int maxDaysUntilDeadline, Consumer<List<TaskView>> onSuccess, Consumer<Throwable> onError) {
+        javafx.concurrent.Task<List<TaskView>> task = new javafx.concurrent.Task<>() {
+            @Override
+            protected List<TaskView> call() throws Exception {
+                return delegate.findUpcomingDeadlines(maxDaysUntilDeadline);
+            }
+        };
+
+        task.setOnSucceeded(event -> onSuccess.accept(task.getValue()));
+        task.setOnFailed(event -> onError.accept(task.getException()));
+
+        executor.submit(task);
+    }
 }

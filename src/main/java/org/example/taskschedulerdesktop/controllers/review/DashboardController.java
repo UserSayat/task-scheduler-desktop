@@ -10,11 +10,15 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.VBox;
 import org.example.taskschedulerdesktop.config.AppConfig;
 import org.example.taskschedulerdesktop.controllers.Shutdownable;
+import org.example.taskschedulerdesktop.dto.projects.DeadlineListCell;
 import org.example.taskschedulerdesktop.dto.projects.ProjectListCell;
+import org.example.taskschedulerdesktop.dto.tasks.TaskView;
 import org.example.taskschedulerdesktop.listeners.EventBus;
 import org.example.taskschedulerdesktop.listeners.TaskChangedEvent;
 import org.example.taskschedulerdesktop.models.Project;
+import org.example.taskschedulerdesktop.models.Task;
 import org.example.taskschedulerdesktop.navigation.NavigationManager;
+import org.example.taskschedulerdesktop.navigation.Routes;
 import org.example.taskschedulerdesktop.service.project.AsyncProjectService;
 import org.example.taskschedulerdesktop.service.task.AsyncTaskService;
 import org.example.taskschedulerdesktop.utils.TaskStatus;
@@ -37,11 +41,14 @@ public class DashboardController implements Shutdownable {
     @FXML private Label statDone;
 
     @FXML private ListView<Project> projectListView;
+    @FXML private ListView<TaskView> deadlinesListView;
 
     @FXML private VBox taskTableContainerVBox;
 
     private final Consumer<TaskChangedEvent> taskUpdateListener = event -> {
         refreshStat();
+        loadProjects();
+        loadDeadlines();
     };
 
     public DashboardController(AsyncProjectService asyncProjectService, AsyncTaskService asyncTaskService) {
@@ -55,6 +62,7 @@ public class DashboardController implements Shutdownable {
 
         refreshStat();
         loadProjects();
+        loadDeadlines();
         loadTaskTable();
     }
 
@@ -63,9 +71,7 @@ public class DashboardController implements Shutdownable {
         asyncProjectService.findAllProjects(
                 projects -> {
                     ObservableList<Project> observableList = FXCollections.observableList(projects);
-                    log.debug("observableList size: {}", observableList.size());
                     projectListView.setItems(observableList);
-                    log.debug("projectListView size : {}", projectListView.getItems().size());
                     projectListView.setCellFactory(listView -> new ProjectListCell());
                 },
                 error -> {
@@ -74,7 +80,39 @@ public class DashboardController implements Shutdownable {
         );
     }
 
+    private void loadDeadlines() {
+        log.debug("load deadlines");
+        asyncTaskService.findUpcomingDeadlines(
+                7,
+                taskViews -> {
+                    ObservableList<TaskView> observableList = FXCollections.observableList(taskViews);
+                    log.debug("observableList size: {}", observableList.size());
+                    deadlinesListView.setItems(observableList);
+                    log.debug("deadlinesListView size : {}", deadlinesListView.getItems().size());
+                    deadlinesListView.setCellFactory(listViews -> {
+                        DeadlineListCell cell = new DeadlineListCell();
+                        cell.setOnMouseClicked(event -> {
+                            if (cell.isEmpty() || cell.getItem() == null) return;
+
+                            if (event.getClickCount() == 1) {
+                                TaskView item = cell.getItem();
+                                NavigationManager.openRightSidebar(
+                                        Routes.TASK_DETAILS,
+                                        item
+                                );
+                            }
+                        });
+                        return cell;
+                    });
+                },
+                error -> {
+                    log.error("Error loading deadlines", error);
+                }
+        );
+    }
+
     private void loadTaskTable() {
+        //TODO перевести в асинхронный режим
         try {
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource("/org/example/taskschedulerdesktop/view/task_table.fxml")

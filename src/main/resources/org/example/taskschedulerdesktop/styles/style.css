@@ -652,8 +652,8 @@
 .mini-stat-val { -fx-font-size: 15px; -fx-font-weight: 600; -fx-text-fill: #111110; }
 .mini-stat-lbl { -fx-font-size: 10px; -fx-text-fill: #9b9b95; }
 
-/* project-list-view */
-.project-list-view {
+/* dashboard-list-view */
+.dashboard-list-view {
     -fx-background-color: transparent;
     -fx-background-insets: 0;
     -fx-padding: 0;
@@ -661,36 +661,42 @@
 }
 
 /* Внутренние слои VirtualFlow */
-.project-list-view .virtual-flow,
-.project-list-view .virtual-flow .clipped-container,
-.project-list-view .virtual-flow .sheet {
+.dashboard-list-view .virtual-flow,
+.dashboard-list-view .virtual-flow .clipped-container,
+.dashboard-list-view .virtual-flow .sheet {
     -fx-background-color: transparent;
 }
 
 /* Ячейки */
-.project-list-view .list-cell {
+.dashboard-list-view .list-cell {
     -fx-background-color: transparent;
     -fx-padding: 4 0 4 0;
 }
 
-.project-list-view .list-cell:filled:selected .project-name-label {
+.dashboard-list-view .list-cell:filled:selected .project-name-label {
     -fx-font-weight:600;
     -fx-font-size:13px;
     -fx-text-fill: #1a1a1a;
 }
 
-.project-list-view .list-cell:filled:selected .percent-of-completion-label {
+.dashboard-list-view .percent-of-completion-label {
     -fx-font-family:'Courier New';
-    -fx-font-size:11px;
-    -fx-text-fill: #1a1a1a;
+    -fx-font-size:13px;
+    -fx-text-fill: #000000;
 }
 
-.project-list-view .list-cell:filled:hover {
+.dashboard-list-view .list-cell:filled:selected .percent-of-completion-label {
+    -fx-font-family:'Courier New';
+    -fx-font-size:13px;
+    -fx-text-fill: #000000;
+}
+
+.dashboard-list-view .list-cell:filled:hover {
     -fx-background-color: #f6f6f4;
 }
 
 /* Скроллбар (опционально) */
-project-list-view .scroll-bar:vertical,
-project-list-view .scroll-bar:horizontal {
+dashboard-list-view .scroll-bar:vertical,
+dashboard-list-view .scroll-bar:horizontal {
     -fx-background-color: transparent;
 }

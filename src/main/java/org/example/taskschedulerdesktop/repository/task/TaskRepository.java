@@ -23,4 +23,5 @@ public interface TaskRepository {
     int countByStatus(TaskStatus status);
     int countByProjectIdAndPriority(long projectId, TaskPriority priority);
     int countByProjectId(long projectId);
+    List<TaskView> findUpcomingDeadlines(int maxDaysUntilDeadline);
 }

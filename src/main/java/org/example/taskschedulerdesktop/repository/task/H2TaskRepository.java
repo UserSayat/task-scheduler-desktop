@@ -334,6 +334,36 @@ public class H2TaskRepository implements TaskRepository {
         return 0;
     }
 
+    @Override
+    public List<TaskView> findUpcomingDeadlines(int maxDaysUntilDeadline) {
+        log.debug("findUpcomingDeadlines(maxDaysUntilDeadline: {})", maxDaysUntilDeadline);
+
+        //TODO добавить индекс на дедлайн
+        String sql = """
+            SELECT t.id, t.name, t.project_id, p.name AS project_name, t.executor, t.type, t.status, t.priority,
+             t.deadline, t.description, t.synced FROM tasks t LEFT JOIN projects p ON t.project_id = p.id
+              WHERE t.deadline IS NOT NULL
+               AND t.deadline < DATEADD('DAY', ?, CURRENT_DATE) ORDER BY t.deadline ASC;
+        """;
+
+        List<TaskView> views = new ArrayList<>();
+
+        try (Connection conn = db.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, maxDaysUntilDeadline);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                views.add(mapRowToTaskView(rs));
+            }
+        } catch (SQLException e) {
+            log.error("Error finding upcoming deadlines: project maxDaysUntilDeadline = {}", maxDaysUntilDeadline, e);
+        }
+
+        return views;
+    }
+
     // ===== МЕТОДЫ ДЛЯ СИНХРОНИЗАЦИИ =====
 
     @Override

@@ -19,5 +19,6 @@ public interface TaskService {
     int countTasksByProjectIdAndPriority(long projectId, TaskPriority priority);
     int countTasksByProjectId(long projectId);
     String getProjectNameById(long id);
+    List<TaskView> findUpcomingDeadlines(int maxDaysUntilDeadline);
 }
 

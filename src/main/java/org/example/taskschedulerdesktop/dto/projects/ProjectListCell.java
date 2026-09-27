@@ -26,15 +26,15 @@ public class ProjectListCell extends ListCell<Project> {
 
     public ProjectListCell() {
         try {
-            log.debug("creating cell");
+            log.debug("creating project list cell");
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource(Routes.PROJECT_DESCRIPTION_CARD)
             );
             loader.setController(this);
             loader.load();
-            log.debug("loaded successfully");
+            log.debug("project list cell loaded successfully");
         } catch (IOException e) {
-            log.error("loading failed");
+            log.error("project list cell loading failed");
             throw new RuntimeException("Не удалось загрузить project_description_card.fxml", e);
         }
     }

@@ -86,65 +86,21 @@
                         <Label styleClass="section-mono" text="прогресс выполнения"/>
                     </HBox>
 
-                    <ListView fx:id="projectListView" styleClass="project-list-view">
+                    <ListView fx:id="projectListView" styleClass="dashboard-list-view">
                     </ListView>
                 </VBox>
 
                 <!-- Дедлайны -->
-                <VBox spacing="0" styleClass="card" GridPane.columnIndex="1">
+                <VBox styleClass="card" GridPane.columnIndex="1">
                     <HBox alignment="CENTER_LEFT" style="-fx-padding: 0 0 14 0;">
-                        <Label styleClass="card-title" text="Дедлайны" HBox.hgrow="ALWAYS"/>
+                        <Label styleClass="card-title" text="Дедлайны"/>
+                        <Region HBox.hgrow="ALWAYS"/>
                         <Label styleClass="section-mono" text="ближайшие"/>
                     </HBox>
 
-                    <VBox fx:id="deadlinesList" spacing="0">
-                        <!-- Элементы добавляются контроллером -->
-                        <HBox alignment="CENTER_LEFT" spacing="10" styleClass="deadline-row">
-                            <StackPane styleClass="avatar-box">
-                                <Label styleClass="avatar-text" text="АК"/>
-                            </StackPane>
-                            <VBox spacing="2" HBox.hgrow="ALWAYS">
-                                <Label styleClass="deadline-title" text="Утвердить макеты" wrapText="true"/>
-                                <Label styleClass="deadline-date" text="03 авг"/>
-                            </VBox>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" spacing="10" styleClass="deadline-row">
-                            <StackPane styleClass="avatar-box">
-                                <Label styleClass="avatar-text" text="МВ"/>
-                            </StackPane>
-                            <VBox spacing="2" HBox.hgrow="ALWAYS">
-                                <Label styleClass="deadline-title" text="Интеграция с 1С" wrapText="true"/>
-                                <Label styleClass="deadline-date" text="05 авг"/>
-                            </VBox>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" spacing="10" styleClass="deadline-row">
-                            <StackPane styleClass="avatar-box">
-                                <Label styleClass="avatar-text" text="ЕН"/>
-                            </StackPane>
-                            <VBox spacing="2" HBox.hgrow="ALWAYS">
-                                <Label styleClass="deadline-title" text="Push-уведомления" wrapText="true"/>
-                                <Label styleClass="deadline-date" text="04 авг"/>
-                            </VBox>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" spacing="10" styleClass="deadline-row">
-                            <StackPane styleClass="avatar-box">
-                                <Label styleClass="avatar-text" text="ПС"/>
-                            </StackPane>
-                            <VBox spacing="2" HBox.hgrow="ALWAYS">
-                                <Label styleClass="deadline-title" text="Данные по выручке" wrapText="true"/>
-                                <Label styleClass="deadline-date" text="10 авг"/>
-                            </VBox>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" spacing="10" styleClass="deadline-row">
-                            <StackPane styleClass="avatar-box">
-                                <Label styleClass="avatar-text" text="АК"/>
-                            </StackPane>
-                            <VBox spacing="2" HBox.hgrow="ALWAYS">
-                                <Label styleClass="deadline-title" text="Оптимизация изображений" wrapText="true"/>
-                                <Label styleClass="deadline-date" text="06 авг"/>
-                            </VBox>
-                        </HBox>
-                    </VBox>
+                    <ListView fx:id="deadlinesListView" styleClass="dashboard-list-view">
+                    </ListView>
+
                 </VBox>
                 <rowConstraints>
                     <RowConstraints/>

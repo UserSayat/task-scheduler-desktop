@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<HBox fx:id="root" xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      alignment="CENTER_LEFT" spacing="10" styleClass="deadline-row">
+    <StackPane styleClass="avatar-box">
+        <Label fx:id="deadlineExecutorInitialsLabel" styleClass="avatar-text" text="АК"/>
+    </StackPane>
+    <VBox spacing="2" HBox.hgrow="ALWAYS">
+        <Label fx:id="deadlineTitleLabel" styleClass="deadline-title" text="Утвердить макеты" wrapText="true"/>
+        <Label fx:id="deadlineDateLabel" styleClass="deadline-date" text="03 авг"/>
+    </VBox>
+</HBox>
