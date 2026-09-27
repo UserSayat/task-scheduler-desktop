@@ -17,33 +17,33 @@ public class H2ProjectRepository implements ProjectRepository {
 
     public H2ProjectRepository(DatabaseConnection db) {
         this.db = db;
-        createTableIfNotExists();
+        //createTableIfNotExists();
         createIndexes();
     }
 
-    // ===== СОЗДАНИЕ ТАБЛИЦЫ =====
-
-    private void createTableIfNotExists() {
-        String sql = """
-            CREATE TABLE IF NOT EXISTS projects (
-                id INT PRIMARY KEY AUTO_INCREMENT,
-                name VARCHAR(255) NOT NULL,
-                supervisor VARCHAR(255) NOT NULL,
-                numberOfTasks INT,
-                completedTasks INT,
-                remainingTasks INT,
-                percentOfCompletion INT,
-                synced BOOLEAN DEFAULT FALSE
-            )
-        """;
-
-        try (Connection conn = db.getConnection();
-             Statement stmt = conn.createStatement()) {
-            stmt.execute(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+//    // ===== СОЗДАНИЕ ТАБЛИЦЫ =====
+//
+//    private void createTableIfNotExists() {
+//        String sql = """
+//            CREATE TABLE IF NOT EXISTS projects (
+//                id INT PRIMARY KEY AUTO_INCREMENT,
+//                name VARCHAR(255) NOT NULL,
+//                supervisor VARCHAR(255) NOT NULL,
+//                numberOfTasks INT,
+//                completedTasks INT,
+//                remainingTasks INT,
+//                percentOfCompletion INT,
+//                synced BOOLEAN DEFAULT FALSE
+//            )
+//        """;
+//
+//        try (Connection conn = db.getConnection();
+//             Statement stmt = conn.createStatement()) {
+//            stmt.execute(sql);
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     // ===== CRUD МЕТОДЫ =====
 

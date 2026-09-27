@@ -25,11 +25,24 @@ public class H2TaskRepository implements TaskRepository {
     }
 
     // ===== СОЗДАНИЕ ТАБЛИЦЫ =====
-
+//TODO настроить миграции
     private void createTableIfNotExists() {
         log.debug("createTableIfNotExists()");
 
-        String sql = """
+        String sql1 = """
+            CREATE TABLE IF NOT EXISTS projects (
+                id INT PRIMARY KEY AUTO_INCREMENT,
+                name VARCHAR(255) NOT NULL,
+                supervisor VARCHAR(255) NOT NULL,
+                numberOfTasks INT,
+                completedTasks INT,
+                remainingTasks INT,
+                percentOfCompletion INT,
+                synced BOOLEAN DEFAULT FALSE
+            )
+        """;
+
+        String sql2 = """
             CREATE TABLE IF NOT EXISTS tasks (
                 id INT PRIMARY KEY AUTO_INCREMENT,
                 name VARCHAR(255) NOT NULL,
@@ -38,15 +51,20 @@ public class H2TaskRepository implements TaskRepository {
                 type VARCHAR(255) NOT NULL,
                 status VARCHAR(50),
                 priority VARCHAR(50),
-                deadline VARCHAR(50),
+                deadline DATE,
                 description TEXT,
-                synced BOOLEAN DEFAULT FALSE
+                synced BOOLEAN DEFAULT FALSE,
+                CONSTRAINT fk_tasks_project
+                    FOREIGN KEY (project_id)
+                    REFERENCES projects(id)
+                    ON DELETE CASCADE
             )
         """;
 
         try (Connection conn = db.getConnection();
              Statement stmt = conn.createStatement()) {
-            stmt.execute(sql);
+            stmt.execute(sql1);
+            stmt.execute(sql2);
         } catch (SQLException e) {
             log.error("Error creating the task table");
         }
@@ -106,7 +124,7 @@ public class H2TaskRepository implements TaskRepository {
             pstmt.setString(4, task.getType());
             pstmt.setString(5, task.getStatus().name());
             pstmt.setString(6, task.getPriority().name());
-            pstmt.setString(7, task.getDeadline().toString());
+            pstmt.setObject(7, task.getDeadline(), Types.DATE);
             pstmt.setString(8, task.getDescription());
             pstmt.setBoolean(9, task.isSynced());
             pstmt.setLong(10, task.getId());
@@ -444,10 +462,14 @@ public class H2TaskRepository implements TaskRepository {
 
     private void createIndexes() {
         log.debug("createIndexes()");
-        String sql = "CREATE INDEX IF NOT EXISTS idx_task_status ON tasks(status)";
+        String sqlStatus = "CREATE INDEX IF NOT EXISTS idx_task_status ON tasks(status)";
+        String sqlProjectId = "CREATE INDEX IF NOT EXISTS idx_task_project_id ON tasks(project_id)";
+        String sqlDeadline = "CREATE INDEX IF NOT EXISTS idx_task_deadline ON tasks(deadline)";
         try (Connection conn = db.getConnection();
              Statement stmt = conn.createStatement()) {
-            stmt.execute(sql);
+            stmt.execute(sqlStatus);
+            stmt.execute(sqlProjectId);
+            stmt.execute(sqlDeadline);
         } catch (SQLException e) {
             log.error("Error creating indexes");
         }
