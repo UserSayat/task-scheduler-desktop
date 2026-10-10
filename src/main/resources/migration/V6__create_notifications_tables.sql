@@ -1,6 +1,5 @@
-# --- !Ups
-
--- Уведомления
+-- V6: Уведомления
+-- Зависимости: V1 (users)
 
 CREATE TABLE IF NOT EXISTS notifications (
     id              UUID PRIMARY KEY,

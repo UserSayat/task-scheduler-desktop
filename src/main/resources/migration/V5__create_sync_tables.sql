@@ -1,7 +1,7 @@
-# --- !Ups
+-- V5: Таблицы синхронизации
+-- Зависимости: V1 (users)
 
--- Синхронизация
-
+-- Состояние полей (для field-level LWW)
 CREATE TABLE IF NOT EXISTS field_versions (
     id              UUID PRIMARY KEY,
     created_at      TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS field_versions (
 CREATE INDEX IF NOT EXISTS idx_field_versions_entity ON field_versions(entity_type, entity_id);
 CREATE INDEX IF NOT EXISTS idx_field_versions_updated ON field_versions(updated_at);
 
+-- Журнал изменений
 CREATE TABLE IF NOT EXISTS sync_log (
     id              UUID PRIMARY KEY,
     created_at      TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -39,11 +40,13 @@ CREATE INDEX IF NOT EXISTS idx_sync_log_entity ON sync_log(entity_type, entity_i
 CREATE INDEX IF NOT EXISTS idx_sync_log_user ON sync_log(user_id);
 CREATE INDEX IF NOT EXISTS idx_sync_log_device ON sync_log(device_id);
 
+-- Состояние синхронизации
 CREATE TABLE IF NOT EXISTS sync_state (
-    key             VARCHAR(50) PRIMARY KEY,
-    value           CLOB
+    state_key             VARCHAR(50) PRIMARY KEY,
+    state_value           CLOB
 );
 
+-- Ошибки синхронизации
 CREATE TABLE IF NOT EXISTS sync_errors (
     id              UUID PRIMARY KEY,
     entity_type     VARCHAR(50) NOT NULL,

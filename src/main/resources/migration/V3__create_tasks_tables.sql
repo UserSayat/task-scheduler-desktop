@@ -1,6 +1,5 @@
-# --- !Ups
-
--- Задачи
+-- V3: Задачи, исполнители, наблюдатели
+-- Зависимости: V1 (users), V2 (projects)
 
 CREATE TABLE IF NOT EXISTS tasks (
     id              UUID PRIMARY KEY,
@@ -31,6 +30,7 @@ CREATE INDEX IF NOT EXISTS idx_tasks_deadline ON tasks(deadline);
 CREATE INDEX IF NOT EXISTS idx_tasks_creator ON tasks(creator_id);
 CREATE INDEX IF NOT EXISTS idx_tasks_deleted_at ON tasks(deleted_at);
 
+-- Исполнители (ответственный + соисполнители)
 CREATE TABLE IF NOT EXISTS task_assignees (
     id              UUID PRIMARY KEY,
     task_id         UUID NOT NULL,
@@ -47,6 +47,7 @@ CREATE TABLE IF NOT EXISTS task_assignees (
 CREATE INDEX IF NOT EXISTS idx_task_assignees_task ON task_assignees(task_id);
 CREATE INDEX IF NOT EXISTS idx_task_assignees_user ON task_assignees(user_id);
 
+-- Наблюдатели
 CREATE TABLE IF NOT EXISTS task_observers (
     id              UUID PRIMARY KEY,
     task_id         UUID NOT NULL,

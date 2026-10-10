@@ -28156,3 +28156,343 @@ SELECT COUNT(1) FROM tasks WHERE status = ? [42102-224]
 2026-09-27 22:21:48.577 [JavaFX Application Thread] DEBUG o.e.t.service.task.AsyncTaskService - onSucceeded returned: 1 tasks
 2026-09-27 22:21:48.578 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskTableController - onSuccess: received 1 tasks
 2026-09-27 22:21:48.578 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskTableController - Table has: 1 tasks
+2026-10-10 20:37:52.705 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Inter 18pt Regular'
+2026-10-10 20:37:52.707 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Inter 18pt'
+2026-10-10 20:37:52.707 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-10-10 20:37:52.708 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Inter_18pt-Regular.ttf → 'Inter 18pt'
+2026-10-10 20:37:52.729 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Inter 18pt Medium'
+2026-10-10 20:37:52.729 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Inter 18pt Medium'
+2026-10-10 20:37:52.730 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-10-10 20:37:52.730 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Inter_18pt-Medium.ttf → 'Inter 18pt Medium'
+2026-10-10 20:37:52.752 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Inter 18pt SemiBold'
+2026-10-10 20:37:52.752 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Inter 18pt SemiBold'
+2026-10-10 20:37:52.752 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-10-10 20:37:52.752 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Inter_18pt-SemiBold.ttf → 'Inter 18pt SemiBold'
+2026-10-10 20:37:52.773 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Lora Regular'
+2026-10-10 20:37:52.773 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Lora'
+2026-10-10 20:37:52.773 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-10-10 20:37:52.774 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Lora-Regular.ttf → 'Lora'
+2026-10-10 20:37:52.794 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'JetBrains Mono Regular'
+2026-10-10 20:37:52.795 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'JetBrains Mono'
+2026-10-10 20:37:52.795 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-10-10 20:37:52.795 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/JetBrainsMono-Regular.ttf → 'JetBrains Mono'
+2026-10-10 20:37:53.112 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - NavigationManager disposed
+2026-10-10 20:40:18.994 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Inter 18pt Regular'
+2026-10-10 20:40:18.996 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Inter 18pt'
+2026-10-10 20:40:18.997 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-10-10 20:40:18.997 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Inter_18pt-Regular.ttf → 'Inter 18pt'
+2026-10-10 20:40:19.011 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Inter 18pt Medium'
+2026-10-10 20:40:19.011 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Inter 18pt Medium'
+2026-10-10 20:40:19.011 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-10-10 20:40:19.012 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Inter_18pt-Medium.ttf → 'Inter 18pt Medium'
+2026-10-10 20:40:19.025 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Inter 18pt SemiBold'
+2026-10-10 20:40:19.025 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Inter 18pt SemiBold'
+2026-10-10 20:40:19.025 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-10-10 20:40:19.025 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Inter_18pt-SemiBold.ttf → 'Inter 18pt SemiBold'
+2026-10-10 20:40:19.035 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Lora Regular'
+2026-10-10 20:40:19.035 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Lora'
+2026-10-10 20:40:19.036 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-10-10 20:40:19.036 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Lora-Regular.ttf → 'Lora'
+2026-10-10 20:40:19.046 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'JetBrains Mono Regular'
+2026-10-10 20:40:19.047 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'JetBrains Mono'
+2026-10-10 20:40:19.047 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-10-10 20:40:19.047 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/JetBrainsMono-Regular.ttf → 'JetBrains Mono'
+2026-10-10 20:40:19.315 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - NavigationManager disposed
+2026-10-10 21:07:57.818 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Inter 18pt Regular'
+2026-10-10 21:07:57.820 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Inter 18pt'
+2026-10-10 21:07:57.820 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-10-10 21:07:57.820 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Inter_18pt-Regular.ttf → 'Inter 18pt'
+2026-10-10 21:07:57.841 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Inter 18pt Medium'
+2026-10-10 21:07:57.841 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Inter 18pt Medium'
+2026-10-10 21:07:57.841 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-10-10 21:07:57.841 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Inter_18pt-Medium.ttf → 'Inter 18pt Medium'
+2026-10-10 21:07:57.863 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Inter 18pt SemiBold'
+2026-10-10 21:07:57.863 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Inter 18pt SemiBold'
+2026-10-10 21:07:57.863 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-10-10 21:07:57.863 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Inter_18pt-SemiBold.ttf → 'Inter 18pt SemiBold'
+2026-10-10 21:07:57.881 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Lora Regular'
+2026-10-10 21:07:57.881 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Lora'
+2026-10-10 21:07:57.881 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-10-10 21:07:57.881 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Lora-Regular.ttf → 'Lora'
+2026-10-10 21:07:57.903 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'JetBrains Mono Regular'
+2026-10-10 21:07:57.903 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'JetBrains Mono'
+2026-10-10 21:07:57.903 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-10-10 21:07:57.903 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/JetBrainsMono-Regular.ttf → 'JetBrains Mono'
+2026-10-10 21:07:58.768 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - NavigationManager disposed
+2026-10-10 21:10:03.446 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Inter 18pt Regular'
+2026-10-10 21:10:03.447 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Inter 18pt'
+2026-10-10 21:10:03.447 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-10-10 21:10:03.447 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Inter_18pt-Regular.ttf → 'Inter 18pt'
+2026-10-10 21:10:03.460 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Inter 18pt Medium'
+2026-10-10 21:10:03.460 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Inter 18pt Medium'
+2026-10-10 21:10:03.460 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-10-10 21:10:03.460 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Inter_18pt-Medium.ttf → 'Inter 18pt Medium'
+2026-10-10 21:10:03.472 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Inter 18pt SemiBold'
+2026-10-10 21:10:03.472 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Inter 18pt SemiBold'
+2026-10-10 21:10:03.472 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-10-10 21:10:03.472 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Inter_18pt-SemiBold.ttf → 'Inter 18pt SemiBold'
+2026-10-10 21:10:03.482 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Lora Regular'
+2026-10-10 21:10:03.482 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Lora'
+2026-10-10 21:10:03.482 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-10-10 21:10:03.482 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Lora-Regular.ttf → 'Lora'
+2026-10-10 21:10:03.492 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'JetBrains Mono Regular'
+2026-10-10 21:10:03.493 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'JetBrains Mono'
+2026-10-10 21:10:03.493 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-10-10 21:10:03.493 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/JetBrainsMono-Regular.ttf → 'JetBrains Mono'
+2026-10-10 21:10:04.002 [JavaFX Application Thread] WARN  o.f.c.i.database.base.Database - Flyway upgrade recommended: H2 2.2.224 is newer than this version of Flyway and support has not been tested. The latest supported version of H2 is 2.2.220.
+2026-10-10 21:10:04.036 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - NavigationManager disposed
+2026-10-10 21:10:04.067 [JavaFX Application Thread] INFO  o.e.t.database.DatabaseConnection - HikariCP initialized for jdbc:h2:file:C:\Users\Саят\.taskschedulerdb\data\taskschedulerdb;DB_CLOSE_DELAY=-1
+2026-10-10 21:10:04.097 [JavaFX Application Thread] DEBUG o.e.t.database.DatabaseConnection - H2 TCP server started on the port:9092 successful
+2026-10-10 21:10:04.099 [JavaFX Application Thread] INFO  o.e.t.database.DatabaseConnection - HikariCP connection pool closed
+2026-10-10 21:10:04.103 [JavaFX Application Thread] INFO  o.e.t.database.DatabaseConnection - H2 TCP-sever closed
+2026-10-10 21:14:57.721 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Inter 18pt Regular'
+2026-10-10 21:14:57.723 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Inter 18pt'
+2026-10-10 21:14:57.724 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-10-10 21:14:57.724 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Inter_18pt-Regular.ttf → 'Inter 18pt'
+2026-10-10 21:14:57.735 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Inter 18pt Medium'
+2026-10-10 21:14:57.736 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Inter 18pt Medium'
+2026-10-10 21:14:57.736 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-10-10 21:14:57.736 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Inter_18pt-Medium.ttf → 'Inter 18pt Medium'
+2026-10-10 21:14:57.747 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Inter 18pt SemiBold'
+2026-10-10 21:14:57.748 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Inter 18pt SemiBold'
+2026-10-10 21:14:57.748 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-10-10 21:14:57.748 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Inter_18pt-SemiBold.ttf → 'Inter 18pt SemiBold'
+2026-10-10 21:14:57.760 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Lora Regular'
+2026-10-10 21:14:57.760 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Lora'
+2026-10-10 21:14:57.760 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-10-10 21:14:57.760 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Lora-Regular.ttf → 'Lora'
+2026-10-10 21:14:57.772 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'JetBrains Mono Regular'
+2026-10-10 21:14:57.772 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'JetBrains Mono'
+2026-10-10 21:14:57.772 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-10-10 21:14:57.772 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/JetBrainsMono-Regular.ttf → 'JetBrains Mono'
+2026-10-10 21:14:58.277 [JavaFX Application Thread] WARN  o.f.c.i.database.base.Database - Flyway upgrade recommended: H2 2.2.224 is newer than this version of Flyway and support has not been tested. The latest supported version of H2 is 2.2.220.
+2026-10-10 21:14:58.312 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - NavigationManager disposed
+2026-10-10 21:14:58.342 [JavaFX Application Thread] INFO  o.e.t.database.DatabaseConnection - HikariCP initialized for jdbc:h2:file:C:\Users\Саят\.taskschedulerdb\data\taskschedulerdb;DB_CLOSE_DELAY=-1
+2026-10-10 21:14:58.373 [JavaFX Application Thread] DEBUG o.e.t.database.DatabaseConnection - H2 TCP server started on the port:9092 successful
+2026-10-10 21:14:58.376 [JavaFX Application Thread] INFO  o.e.t.database.DatabaseConnection - HikariCP connection pool closed
+2026-10-10 21:14:58.380 [JavaFX Application Thread] INFO  o.e.t.database.DatabaseConnection - H2 TCP-sever closed
+2026-10-10 21:20:02.311 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Inter 18pt Regular'
+2026-10-10 21:20:02.315 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Inter 18pt'
+2026-10-10 21:20:02.315 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-10-10 21:20:02.315 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Inter_18pt-Regular.ttf → 'Inter 18pt'
+2026-10-10 21:20:02.328 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Inter 18pt Medium'
+2026-10-10 21:20:02.328 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Inter 18pt Medium'
+2026-10-10 21:20:02.328 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-10-10 21:20:02.328 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Inter_18pt-Medium.ttf → 'Inter 18pt Medium'
+2026-10-10 21:20:02.341 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Inter 18pt SemiBold'
+2026-10-10 21:20:02.342 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Inter 18pt SemiBold'
+2026-10-10 21:20:02.342 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-10-10 21:20:02.342 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Inter_18pt-SemiBold.ttf → 'Inter 18pt SemiBold'
+2026-10-10 21:20:02.355 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Lora Regular'
+2026-10-10 21:20:02.355 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Lora'
+2026-10-10 21:20:02.355 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-10-10 21:20:02.355 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Lora-Regular.ttf → 'Lora'
+2026-10-10 21:20:02.368 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'JetBrains Mono Regular'
+2026-10-10 21:20:02.368 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'JetBrains Mono'
+2026-10-10 21:20:02.368 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-10-10 21:20:02.368 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/JetBrainsMono-Regular.ttf → 'JetBrains Mono'
+2026-10-10 21:20:03.058 [JavaFX Application Thread] WARN  o.f.c.i.database.base.Database - Flyway upgrade recommended: H2 2.2.224 is newer than this version of Flyway and support has not been tested. The latest supported version of H2 is 2.2.220.
+2026-10-10 21:20:03.398 [JavaFX Application Thread] ERROR o.f.core.internal.command.DbMigrate - Migration of schema "PUBLIC" to version "5 - create sync tables" failed! Please restore backups and roll back database and code!
+2026-10-10 21:20:03.415 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - NavigationManager disposed
+2026-10-10 21:20:03.453 [JavaFX Application Thread] INFO  o.e.t.database.DatabaseConnection - HikariCP initialized for jdbc:h2:file:C:\Users\Саят\.taskschedulerdb\data\taskschedulerdb;DB_CLOSE_DELAY=-1
+2026-10-10 21:20:03.483 [JavaFX Application Thread] DEBUG o.e.t.database.DatabaseConnection - H2 TCP server started on the port:9092 successful
+2026-10-10 21:20:03.487 [JavaFX Application Thread] INFO  o.e.t.database.DatabaseConnection - HikariCP connection pool closed
+2026-10-10 21:20:03.488 [JavaFX Application Thread] INFO  o.e.t.database.DatabaseConnection - H2 TCP-sever closed
+2026-10-10 21:25:16.113 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Inter 18pt Regular'
+2026-10-10 21:25:16.116 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Inter 18pt'
+2026-10-10 21:25:16.116 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-10-10 21:25:16.116 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Inter_18pt-Regular.ttf → 'Inter 18pt'
+2026-10-10 21:25:16.131 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Inter 18pt Medium'
+2026-10-10 21:25:16.131 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Inter 18pt Medium'
+2026-10-10 21:25:16.131 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-10-10 21:25:16.131 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Inter_18pt-Medium.ttf → 'Inter 18pt Medium'
+2026-10-10 21:25:16.143 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Inter 18pt SemiBold'
+2026-10-10 21:25:16.144 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Inter 18pt SemiBold'
+2026-10-10 21:25:16.144 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-10-10 21:25:16.144 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Inter_18pt-SemiBold.ttf → 'Inter 18pt SemiBold'
+2026-10-10 21:25:16.154 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Lora Regular'
+2026-10-10 21:25:16.154 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Lora'
+2026-10-10 21:25:16.154 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-10-10 21:25:16.154 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Lora-Regular.ttf → 'Lora'
+2026-10-10 21:25:16.167 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'JetBrains Mono Regular'
+2026-10-10 21:25:16.167 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'JetBrains Mono'
+2026-10-10 21:25:16.167 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-10-10 21:25:16.167 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/JetBrainsMono-Regular.ttf → 'JetBrains Mono'
+2026-10-10 21:25:16.798 [JavaFX Application Thread] WARN  o.f.c.i.database.base.Database - Flyway upgrade recommended: H2 2.2.224 is newer than this version of Flyway and support has not been tested. The latest supported version of H2 is 2.2.220.
+2026-10-10 21:25:17.071 [JavaFX Application Thread] ERROR o.f.core.internal.command.DbMigrate - Migration of schema "PUBLIC" to version "8 - seed roles" failed! Please restore backups and roll back database and code!
+2026-10-10 21:25:17.084 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - NavigationManager disposed
+2026-10-10 21:25:17.117 [JavaFX Application Thread] INFO  o.e.t.database.DatabaseConnection - HikariCP initialized for jdbc:h2:file:C:\Users\Саят\.taskschedulerdb\data\taskschedulerdb;DB_CLOSE_DELAY=-1
+2026-10-10 21:25:17.148 [JavaFX Application Thread] DEBUG o.e.t.database.DatabaseConnection - H2 TCP server started on the port:9092 successful
+2026-10-10 21:25:17.152 [JavaFX Application Thread] INFO  o.e.t.database.DatabaseConnection - HikariCP connection pool closed
+2026-10-10 21:25:17.155 [JavaFX Application Thread] INFO  o.e.t.database.DatabaseConnection - H2 TCP-sever closed
+2026-10-10 21:26:34.330 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Inter 18pt Regular'
+2026-10-10 21:26:34.332 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Inter 18pt'
+2026-10-10 21:26:34.333 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-10-10 21:26:34.333 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Inter_18pt-Regular.ttf → 'Inter 18pt'
+2026-10-10 21:26:34.347 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Inter 18pt Medium'
+2026-10-10 21:26:34.347 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Inter 18pt Medium'
+2026-10-10 21:26:34.347 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-10-10 21:26:34.347 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Inter_18pt-Medium.ttf → 'Inter 18pt Medium'
+2026-10-10 21:26:34.360 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Inter 18pt SemiBold'
+2026-10-10 21:26:34.360 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Inter 18pt SemiBold'
+2026-10-10 21:26:34.360 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-10-10 21:26:34.360 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Inter_18pt-SemiBold.ttf → 'Inter 18pt SemiBold'
+2026-10-10 21:26:34.372 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Lora Regular'
+2026-10-10 21:26:34.372 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Lora'
+2026-10-10 21:26:34.372 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-10-10 21:26:34.372 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Lora-Regular.ttf → 'Lora'
+2026-10-10 21:26:34.384 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'JetBrains Mono Regular'
+2026-10-10 21:26:34.385 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'JetBrains Mono'
+2026-10-10 21:26:34.385 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-10-10 21:26:34.385 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/JetBrainsMono-Regular.ttf → 'JetBrains Mono'
+2026-10-10 21:26:35.214 [JavaFX Application Thread] WARN  o.f.c.i.database.base.Database - Flyway upgrade recommended: H2 2.2.224 is newer than this version of Flyway and support has not been tested. The latest supported version of H2 is 2.2.220.
+2026-10-10 21:26:35.599 [JavaFX Application Thread] ERROR o.f.core.internal.command.DbMigrate - Migration of schema "PUBLIC" to version "8 - seed roles" failed! Please restore backups and roll back database and code!
+2026-10-10 21:26:35.614 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - NavigationManager disposed
+2026-10-10 21:26:35.660 [JavaFX Application Thread] INFO  o.e.t.database.DatabaseConnection - HikariCP initialized for jdbc:h2:file:C:\Users\Саят\.taskschedulerdb\data\taskschedulerdb;DB_CLOSE_DELAY=-1
+2026-10-10 21:26:35.702 [JavaFX Application Thread] DEBUG o.e.t.database.DatabaseConnection - H2 TCP server started on the port:9092 successful
+2026-10-10 21:26:35.707 [JavaFX Application Thread] INFO  o.e.t.database.DatabaseConnection - HikariCP connection pool closed
+2026-10-10 21:26:35.709 [JavaFX Application Thread] INFO  o.e.t.database.DatabaseConnection - H2 TCP-sever closed
+2026-10-10 21:26:36.278 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Inter 18pt Regular'
+2026-10-10 21:26:36.280 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Inter 18pt'
+2026-10-10 21:26:36.280 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-10-10 21:26:36.280 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Inter_18pt-Regular.ttf → 'Inter 18pt'
+2026-10-10 21:26:36.293 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Inter 18pt Medium'
+2026-10-10 21:26:36.294 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Inter 18pt Medium'
+2026-10-10 21:26:36.294 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-10-10 21:26:36.294 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Inter_18pt-Medium.ttf → 'Inter 18pt Medium'
+2026-10-10 21:26:36.305 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Inter 18pt SemiBold'
+2026-10-10 21:26:36.306 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Inter 18pt SemiBold'
+2026-10-10 21:26:36.306 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-10-10 21:26:36.306 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Inter_18pt-SemiBold.ttf → 'Inter 18pt SemiBold'
+2026-10-10 21:26:36.319 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Lora Regular'
+2026-10-10 21:26:36.319 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Lora'
+2026-10-10 21:26:36.319 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-10-10 21:26:36.319 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Lora-Regular.ttf → 'Lora'
+2026-10-10 21:26:36.330 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'JetBrains Mono Regular'
+2026-10-10 21:26:36.330 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'JetBrains Mono'
+2026-10-10 21:26:36.330 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-10-10 21:26:36.330 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/JetBrainsMono-Regular.ttf → 'JetBrains Mono'
+2026-10-10 21:26:37.161 [JavaFX Application Thread] WARN  o.f.c.i.database.base.Database - Flyway upgrade recommended: H2 2.2.224 is newer than this version of Flyway and support has not been tested. The latest supported version of H2 is 2.2.220.
+2026-10-10 21:26:37.259 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - NavigationManager disposed
+2026-10-10 21:26:37.303 [JavaFX Application Thread] INFO  o.e.t.database.DatabaseConnection - HikariCP initialized for jdbc:h2:file:C:\Users\Саят\.taskschedulerdb\data\taskschedulerdb;DB_CLOSE_DELAY=-1
+2026-10-10 21:26:37.339 [JavaFX Application Thread] DEBUG o.e.t.database.DatabaseConnection - H2 TCP server started on the port:9092 successful
+2026-10-10 21:26:37.345 [JavaFX Application Thread] INFO  o.e.t.database.DatabaseConnection - HikariCP connection pool closed
+2026-10-10 21:26:37.380 [JavaFX Application Thread] INFO  o.e.t.database.DatabaseConnection - H2 TCP-sever closed
+2026-10-10 21:28:07.068 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Inter 18pt Regular'
+2026-10-10 21:28:07.070 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Inter 18pt'
+2026-10-10 21:28:07.070 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-10-10 21:28:07.070 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Inter_18pt-Regular.ttf → 'Inter 18pt'
+2026-10-10 21:28:07.081 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Inter 18pt Medium'
+2026-10-10 21:28:07.083 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Inter 18pt Medium'
+2026-10-10 21:28:07.083 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-10-10 21:28:07.083 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Inter_18pt-Medium.ttf → 'Inter 18pt Medium'
+2026-10-10 21:28:07.094 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Inter 18pt SemiBold'
+2026-10-10 21:28:07.094 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Inter 18pt SemiBold'
+2026-10-10 21:28:07.094 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-10-10 21:28:07.094 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Inter_18pt-SemiBold.ttf → 'Inter 18pt SemiBold'
+2026-10-10 21:28:07.104 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Lora Regular'
+2026-10-10 21:28:07.105 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Lora'
+2026-10-10 21:28:07.105 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-10-10 21:28:07.105 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Lora-Regular.ttf → 'Lora'
+2026-10-10 21:28:07.116 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'JetBrains Mono Regular'
+2026-10-10 21:28:07.117 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'JetBrains Mono'
+2026-10-10 21:28:07.117 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-10-10 21:28:07.117 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/JetBrainsMono-Regular.ttf → 'JetBrains Mono'
+2026-10-10 21:28:07.749 [JavaFX Application Thread] WARN  o.f.c.i.database.base.Database - Flyway upgrade recommended: H2 2.2.224 is newer than this version of Flyway and support has not been tested. The latest supported version of H2 is 2.2.220.
+2026-10-10 21:28:08.004 [JavaFX Application Thread] ERROR o.f.core.internal.command.DbMigrate - Migration of schema "PUBLIC" to version "8 - seed roles" failed! Please restore backups and roll back database and code!
+2026-10-10 21:28:08.016 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - NavigationManager disposed
+2026-10-10 21:28:08.047 [JavaFX Application Thread] INFO  o.e.t.database.DatabaseConnection - HikariCP initialized for jdbc:h2:file:C:\Users\Саят\.taskschedulerdb\data\taskschedulerdb;DB_CLOSE_DELAY=-1
+2026-10-10 21:28:08.078 [JavaFX Application Thread] DEBUG o.e.t.database.DatabaseConnection - H2 TCP server started on the port:9092 successful
+2026-10-10 21:28:08.083 [JavaFX Application Thread] INFO  o.e.t.database.DatabaseConnection - HikariCP connection pool closed
+2026-10-10 21:28:08.085 [JavaFX Application Thread] INFO  o.e.t.database.DatabaseConnection - H2 TCP-sever closed
+2026-10-10 21:29:00.483 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Inter 18pt Regular'
+2026-10-10 21:29:00.485 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Inter 18pt'
+2026-10-10 21:29:00.486 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-10-10 21:29:00.486 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Inter_18pt-Regular.ttf → 'Inter 18pt'
+2026-10-10 21:29:00.497 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Inter 18pt Medium'
+2026-10-10 21:29:00.497 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Inter 18pt Medium'
+2026-10-10 21:29:00.497 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-10-10 21:29:00.497 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Inter_18pt-Medium.ttf → 'Inter 18pt Medium'
+2026-10-10 21:29:00.509 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Inter 18pt SemiBold'
+2026-10-10 21:29:00.509 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Inter 18pt SemiBold'
+2026-10-10 21:29:00.509 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-10-10 21:29:00.509 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Inter_18pt-SemiBold.ttf → 'Inter 18pt SemiBold'
+2026-10-10 21:29:00.519 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'Lora Regular'
+2026-10-10 21:29:00.520 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'Lora'
+2026-10-10 21:29:00.520 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-10-10 21:29:00.520 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/Lora-Regular.ttf → 'Lora'
+2026-10-10 21:29:00.530 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Name: 'JetBrains Mono Regular'
+2026-10-10 21:29:00.530 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Family: 'JetBrains Mono'
+2026-10-10 21:29:00.530 [JavaFX-Launcher] INFO  o.e.t.TaskSchedulerApplication - Style: 'Regular'
+2026-10-10 21:29:00.530 [JavaFX-Launcher] DEBUG o.e.t.TaskSchedulerApplication - Font loaded: /org/example/taskschedulerdesktop/fonts/JetBrainsMono-Regular.ttf → 'JetBrains Mono'
+2026-10-10 21:29:01.151 [JavaFX Application Thread] WARN  o.f.c.i.database.base.Database - Flyway upgrade recommended: H2 2.2.224 is newer than this version of Flyway and support has not been tested. The latest supported version of H2 is 2.2.220.
+2026-10-10 21:29:01.446 [JavaFX Application Thread] INFO  o.e.t.database.DatabaseConnection - HikariCP initialized for jdbc:h2:file:C:\Users\Саят\.taskschedulerdb\data\taskschedulerdb;DB_CLOSE_DELAY=-1
+2026-10-10 21:29:01.473 [JavaFX Application Thread] DEBUG o.e.t.database.DatabaseConnection - H2 TCP server started on the port:9092 successful
+2026-10-10 21:29:01.545 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - createTableIfNotExists()
+2026-10-10 21:29:01.559 [JavaFX Application Thread] DEBUG o.e.t.r.task.H2TaskRepository - createIndexes()
+2026-10-10 21:29:01.733 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - ProjectServiceImpl created
+2026-10-10 21:29:01.753 [JavaFX Application Thread] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 2130347764
+2026-10-10 21:29:01.754 [JavaFX Application Thread] DEBUG o.e.t.s.project.ProjectServiceImpl - Subscribe on TaskChangedEvent completed
+2026-10-10 21:29:02.168 [JavaFX Application Thread] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: PageTitleChangedEvent -> 1400669282
+2026-10-10 21:29:02.196 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Start async loading page: /org/example/taskschedulerdesktop/view/dashboard.fxml
+2026-10-10 21:29:02.310 [JavaFX Application Thread] DEBUG o.e.t.TaskSchedulerApplication - CSS: /org/example/taskschedulerdesktop/styles/style.css
+2026-10-10 21:29:02.311 [JavaFX Application Thread] DEBUG o.e.t.TaskSchedulerApplication - CSS: /org/example/taskschedulerdesktop/styles/row_task_table.css
+2026-10-10 21:29:02.317 [Thread-6] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 523003407
+2026-10-10 21:29:02.319 [Thread-7] DEBUG o.e.t.r.task.H2TaskRepository - findAllViews()
+2026-10-10 21:29:02.326 [Thread-7] ERROR o.e.t.r.task.H2TaskRepository - Error loading tasks
+2026-10-10 21:29:02.333 [Thread-6] DEBUG o.e.t.c.review.DashboardController - loadProjects()
+2026-10-10 21:29:02.334 [Thread-6] DEBUG o.e.t.c.review.DashboardController - load deadlines
+2026-10-10 21:29:02.336 [Thread-7] DEBUG o.e.t.r.task.H2TaskRepository - findUpcomingDeadlines(maxDaysUntilDeadline: 7)
+2026-10-10 21:29:02.338 [Thread-11] DEBUG o.e.t.s.project.AsyncProjectService - Found 0 projects
+2026-10-10 21:29:02.340 [Thread-7] ERROR o.e.t.r.task.H2TaskRepository - Error finding upcoming deadlines: project maxDaysUntilDeadline = 7
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Столбец "T.NAME" не найден
+Column "T.NAME" not found; SQL statement:
+    SELECT t.id, t.name, t.project_id, p.name AS project_name, t.executor, t.type, t.status, t.priority,
+     t.deadline, t.description, t.synced FROM tasks t LEFT JOIN projects p ON t.project_id = p.id
+      WHERE t.deadline IS NOT NULL
+       AND t.deadline < DATEADD('DAY', ?, CURRENT_DATE) ORDER BY t.deadline ASC;
+ [42122-224]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:514)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.get(DbException.java:199)
+	at org.h2.expression.ExpressionColumn.getColumnException(ExpressionColumn.java:244)
+	at org.h2.expression.ExpressionColumn.optimizeOther(ExpressionColumn.java:226)
+	at org.h2.expression.ExpressionColumn.optimize(ExpressionColumn.java:213)
+	at org.h2.command.query.Select.prepareExpressions(Select.java:1170)
+	at org.h2.command.query.Query.prepare(Query.java:218)
+	at org.h2.command.Parser.prepareCommand(Parser.java:489)
+	at org.h2.engine.SessionLocal.prepareLocal(SessionLocal.java:639)
+	at org.h2.engine.SessionLocal.prepareCommand(SessionLocal.java:559)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1166)
+	at org.h2.jdbc.JdbcPreparedStatement.<init>(JdbcPreparedStatement.java:93)
+	at org.h2.jdbc.JdbcConnection.prepareStatement(JdbcConnection.java:316)
+	at com.zaxxer.hikari.pool.ProxyConnection.prepareStatement(ProxyConnection.java:328)
+	at com.zaxxer.hikari.pool.HikariProxyConnection.prepareStatement(HikariProxyConnection.java)
+	at org.example.taskschedulerdesktop.repository.task.H2TaskRepository.findUpcomingDeadlines(H2TaskRepository.java:370)
+	at org.example.taskschedulerdesktop.service.task.TaskServiceImpl.findUpcomingDeadlines(TaskServiceImpl.java:104)
+	at org.example.taskschedulerdesktop.service.task.AsyncTaskService$10.call(AsyncTaskService.java:209)
+	at org.example.taskschedulerdesktop.service.task.AsyncTaskService$10.call(AsyncTaskService.java:206)
+	at javafx.concurrent.Task$TaskCallable.call(Task.java:1399)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:572)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2026-10-10 21:29:02.487 [Thread-6] DEBUG o.e.t.listeners.EventBus - SUBSCRIBE: TaskChangedEvent -> 954008568
+2026-10-10 21:29:02.489 [Thread-6] DEBUG o.e.t.c.review.DashboardController - Task table loaded successfully
+2026-10-10 21:29:02.489 [Thread-8] DEBUG o.e.t.r.task.H2TaskRepository - findAllViews()
+2026-10-10 21:29:02.491 [Thread-8] ERROR o.e.t.r.task.H2TaskRepository - Error loading tasks
+2026-10-10 21:29:02.759 [JavaFX Application Thread] DEBUG o.e.t.service.task.AsyncTaskService - onSucceeded returned: 0 tasks
+2026-10-10 21:29:02.760 [JavaFX Application Thread] DEBUG o.e.t.c.review.DashboardController - Found 0 tasks
+2026-10-10 21:29:02.771 [JavaFX Application Thread] DEBUG o.e.t.c.review.DashboardController - Found 0 tasks, task status: IN_PROGRESS
+2026-10-10 21:29:02.772 [JavaFX Application Thread] DEBUG o.e.t.c.review.DashboardController - Found 0 tasks, task status: UNDER_REVIEW
+2026-10-10 21:29:02.773 [JavaFX Application Thread] DEBUG o.e.t.c.review.DashboardController - Found 0 tasks, task status: COMPLETED
+2026-10-10 21:29:02.779 [JavaFX Application Thread] DEBUG o.e.t.c.review.DashboardController - observableList size: 0
+2026-10-10 21:29:02.780 [JavaFX Application Thread] DEBUG o.e.t.c.review.DashboardController - deadlinesListView size : 0
+2026-10-10 21:29:02.815 [JavaFX Application Thread] DEBUG o.e.t.listeners.EventBus - FIRE: PageTitleChangedEvent (subscribers: 1)
+2026-10-10 21:29:02.816 [JavaFX Application Thread] DEBUG o.e.t.navigation.NavigationManager - Page displayed successfully: /org/example/taskschedulerdesktop/view/dashboard.fxml
+2026-10-10 21:29:02.816 [JavaFX Application Thread] DEBUG o.e.t.service.task.AsyncTaskService - onSucceeded returned: 0 tasks
+2026-10-10 21:29:02.817 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskTableController - onSuccess: received 0 tasks
+2026-10-10 21:29:02.817 [JavaFX Application Thread] DEBUG o.e.t.c.tasks.TaskTableController - Table has: 0 tasks

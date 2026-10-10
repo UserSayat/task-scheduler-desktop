@@ -1,6 +1,5 @@
-# --- !Ups
-
--- Проекты
+-- V2: Проекты и участники
+-- Зависимости: V1 (users)
 
 CREATE TABLE IF NOT EXISTS projects (
     id              UUID PRIMARY KEY,

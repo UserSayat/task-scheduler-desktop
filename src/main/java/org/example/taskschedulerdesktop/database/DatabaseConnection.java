@@ -2,6 +2,7 @@ package org.example.taskschedulerdesktop.database;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import org.example.taskschedulerdesktop.config.DbConfig;
 import org.h2.tools.Server;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,37 +12,35 @@ import java.sql.SQLException;
 
 public class DatabaseConnection {
 
-    private static DatabaseConnection instance;
-    private final HikariDataSource dataSource;
     private static final Logger log = LoggerFactory.getLogger(DatabaseConnection.class);
 
-    private static final String URL = "jdbc:h2:~/tasks-db"; //;AUTO_SERVER=TRUE
+    private static DatabaseConnection instance;
+    private final HikariDataSource dataSource;
+    private Server h2Server;
+
     private static final String USER = "sa";
     private static final String PASSWORD = "";
 
-    private Server h2Server;
-
     private DatabaseConnection() {
         HikariConfig config = new HikariConfig();
-        config.setJdbcUrl(URL);
+        config.setJdbcUrl(DbConfig.getDbUrl());
         config.setUsername(USER);
         config.setPassword(PASSWORD);
-
-        config.setConnectionTestQuery("SELECT 1");
         config.setMaximumPoolSize(5);
         config.setPoolName("TaskSchedulerPool");
 
         this.dataSource = new HikariDataSource(config);
+        log.info("HikariCP initialized for {}", DbConfig.getDbUrl());
 
         try {
             this.h2Server = Server.createTcpServer("-tcp", "-tcpPort", "9092", "-tcpAllowOthers").start();
-            log.debug("H2 TCP-server started on the port:9092 successful");
+            log.debug("H2 TCP server started on the port:9092 successful");
         } catch (SQLException e) {
-            throw new RuntimeException("Failed to start H2Server");
+            throw new RuntimeException("Failed to start H2S TCP server");
         }
     }
 
-    public static DatabaseConnection getInstance() {
+    public static synchronized DatabaseConnection getInstance() {
         if (instance == null) {
             instance = new DatabaseConnection();
         }

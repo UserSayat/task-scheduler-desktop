@@ -1,7 +1,7 @@
-# --- !Ups
+-- V1: Ядро — пользователи, роли, связь ролей
+-- Зависимости: нет
 
--- Ядро
-
+-- Пользователи
 CREATE TABLE IF NOT EXISTS users (
     id              UUID PRIMARY KEY,
     name            VARCHAR(255) NOT NULL,
@@ -23,6 +23,7 @@ CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
 CREATE INDEX IF NOT EXISTS idx_users_status ON users(status);
 CREATE INDEX IF NOT EXISTS idx_users_deleted_at ON users(deleted_at);
 
+-- Роли
 CREATE TABLE IF NOT EXISTS roles (
     id              UUID PRIMARY KEY,
     code            VARCHAR(50) NOT NULL UNIQUE,
@@ -31,6 +32,7 @@ CREATE TABLE IF NOT EXISTS roles (
     updated_at      TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Связь пользователей и ролей
 CREATE TABLE IF NOT EXISTS user_roles (
     id              UUID PRIMARY KEY,
     user_id         UUID NOT NULL,

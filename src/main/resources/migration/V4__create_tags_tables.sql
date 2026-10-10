@@ -1,6 +1,5 @@
-# --- !Ups
-
--- Теги
+-- V4: Теги и связь с задачами
+-- Зависимости: V1 (users), V3 (tasks)
 
 CREATE TABLE IF NOT EXISTS tags (
     id              UUID PRIMARY KEY,

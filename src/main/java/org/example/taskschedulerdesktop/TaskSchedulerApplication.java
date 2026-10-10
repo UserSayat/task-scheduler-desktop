@@ -7,8 +7,10 @@ import javafx.scene.Scene;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import org.example.taskschedulerdesktop.config.AppConfig;
+import org.example.taskschedulerdesktop.config.DbConfig;
 import org.example.taskschedulerdesktop.database.DatabaseConnection;
 import org.example.taskschedulerdesktop.navigation.NavigationManager;
+import org.flywaydb.core.Flyway;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,6 +37,16 @@ public class TaskSchedulerApplication extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+
+        Flyway flyway = Flyway.configure()
+                .dataSource(DbConfig.getDbUrl(), "sa", "")
+                .locations("classpath:migration")
+                .load();
+
+        flyway.migrate();
+
+        // Инициализация пула соединений
+        DatabaseConnection.getInstance();
 
         AppConfig.getInstance().setPrimaryStage(primaryStage);
 
