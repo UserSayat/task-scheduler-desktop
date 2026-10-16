@@ -4,11 +4,11 @@
 -- Состояние полей (для field-level LWW)
 CREATE TABLE IF NOT EXISTS field_versions (
     id              UUID PRIMARY KEY,
-    created_at      TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    created_at      TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
     entity_type     VARCHAR(50) NOT NULL,
     entity_id       UUID NOT NULL,
     field_name      VARCHAR(100) NOT NULL,
-    updated_at      TIMESTAMP NOT NULL,
+    updated_at      TIMESTAMP WITH TIME ZONE NOT NULL,
     updated_by      UUID NOT NULL,
     device_id       VARCHAR(100),
     CONSTRAINT uq_field_versions UNIQUE (entity_type, entity_id, field_name),
@@ -21,15 +21,15 @@ CREATE INDEX IF NOT EXISTS idx_field_versions_updated ON field_versions(updated_
 -- Журнал изменений
 CREATE TABLE IF NOT EXISTS sync_log (
     id              UUID PRIMARY KEY,
-    created_at      TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    created_at      TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
     entity_type     VARCHAR(50) NOT NULL,
     entity_id       UUID NOT NULL,
     operation       VARCHAR(10) NOT NULL,
     user_id         UUID NOT NULL,
     device_id       VARCHAR(100) NOT NULL,
-    timestamp       TIMESTAMP NOT NULL,
+    timestamp       TIMESTAMP WITH TIME ZONE NOT NULL,
     synced          BOOLEAN NOT NULL DEFAULT FALSE,
-    server_timestamp TIMESTAMP,
+    server_timestamp TIMESTAMP WITH TIME ZONE,
     CONSTRAINT fk_sync_log_user FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
@@ -54,8 +54,8 @@ CREATE TABLE IF NOT EXISTS sync_errors (
     operation       VARCHAR(10) NOT NULL,
     error_code      VARCHAR(50) NOT NULL,
     error_message   CLOB,
-    created_at      TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    resolved_at     TIMESTAMP
+    created_at      TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    resolved_at     TIMESTAMP WITH TIME ZONE
 );
 
 CREATE INDEX IF NOT EXISTS idx_sync_errors_created ON sync_errors(created_at);
