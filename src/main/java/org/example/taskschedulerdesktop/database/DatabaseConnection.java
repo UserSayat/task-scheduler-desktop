@@ -21,6 +21,9 @@ public class DatabaseConnection {
     private static final String USER = "sa";
     private static final String PASSWORD = "";
 
+    private static final String H2_TCP_PROPERTY = "taskhub.h2.tcp";
+    private static final String H2_TCP_PORT = "9092";
+
     private DatabaseConnection() {
         HikariConfig config = new HikariConfig();
         config.setJdbcUrl(DbConfig.getDbUrl());
@@ -32,11 +35,19 @@ public class DatabaseConnection {
         this.dataSource = new HikariDataSource(config);
         log.info("HikariCP initialized for {}", DbConfig.getDbUrl());
 
+        // TCP-сервер нужен только для просмотра БД из IDE во время разработки.
+        // Включается флагом -Dtaskhub.h2.tcp=true, доступен только с localhost.
+        if (Boolean.getBoolean(H2_TCP_PROPERTY)) {
+            startH2TcpServer();
+        }
+    }
+
+    private void startH2TcpServer() {
         try {
-            this.h2Server = Server.createTcpServer("-tcp", "-tcpPort", "9092", "-tcpAllowOthers").start();
-            log.debug("H2 TCP server started on the port:9092 successful");
+            this.h2Server = Server.createTcpServer("-tcp", "-tcpPort", H2_TCP_PORT).start();
+            log.info("H2 TCP server started on localhost:{}", H2_TCP_PORT);
         } catch (SQLException e) {
-            throw new RuntimeException("Failed to start H2S TCP server");
+            log.warn("Failed to start H2 TCP server on port {}", H2_TCP_PORT, e);
         }
     }
 
