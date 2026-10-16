@@ -7,13 +7,16 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.example.taskschedulerdesktop.controllers.sidebar.RightSidebar;
 import org.example.taskschedulerdesktop.dto.tasks.TaskView;
-import org.example.taskschedulerdesktop.listeners.EventBus;
-import org.example.taskschedulerdesktop.listeners.TaskChangedEvent;
-import org.example.taskschedulerdesktop.models.Task;
+import org.example.taskschedulerdesktop.models.User;
 import org.example.taskschedulerdesktop.navigation.NavigationManager;
 import org.example.taskschedulerdesktop.service.task.AsyncTaskService;
+import org.example.taskschedulerdesktop.service.task.TaskEdit;
+import org.example.taskschedulerdesktop.service.user.AsyncUserService;
+import org.example.taskschedulerdesktop.utils.Initials;
 import org.example.taskschedulerdesktop.utils.TaskPriority;
+import org.example.taskschedulerdesktop.utils.TagChips;
 import org.example.taskschedulerdesktop.utils.TaskStatus;
+import org.example.taskschedulerdesktop.utils.Tags;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,6 +28,7 @@ public class TaskDetailsController implements RightSidebar {
 
     private static final Logger log = LoggerFactory.getLogger(TaskDetailsController.class);
     private final AsyncTaskService taskService;
+    private final AsyncUserService userService;
 
     @FXML private Label projectNameLabel;
     @FXML private Button closeButton;
@@ -40,7 +44,7 @@ public class TaskDetailsController implements RightSidebar {
 
     @FXML private Label executorAvatarLabel;
     @FXML private Label executorNameLabel;
-    @FXML private ComboBox<String> executorComboBox;
+    @FXML private ComboBox<User> executorComboBox;
 
     @FXML private Label deadlineLabel;
     @FXML private DatePicker deadlineDatePicker;
@@ -68,8 +72,9 @@ public class TaskDetailsController implements RightSidebar {
     private TaskView contextTask;
     private boolean editMode = false;
 
-    public TaskDetailsController(AsyncTaskService taskService) {
+    public TaskDetailsController(AsyncTaskService taskService, AsyncUserService userService) {
         this.taskService = taskService;
+        this.userService = userService;
     }
 
     @FXML
@@ -84,8 +89,10 @@ public class TaskDetailsController implements RightSidebar {
             priorityComboBox.getItems().add(priority.getDisplayName());
         }
 
-        executorComboBox.getItems().addAll("Алексей Козлов", "Мария Волкова", "Елена Никитина",
-                "Павел Сорокин", "Дмитрий Лебедев", "Ирина Фёдорова");
+        userService.findActiveUsers(
+                users -> executorComboBox.getItems().setAll(users),
+                error -> NavigationManager.showToast("Ошибка загрузки сотрудников", "error")
+        );
 
         closeButton.setOnAction(event -> {
             log.debug("Close right sidebar");
@@ -109,32 +116,41 @@ public class TaskDetailsController implements RightSidebar {
             }
 
             enterEditMode();
-//            log.info("Open edit sidebar for task: {}", contextTask.getTaskName());
+//            log.info("Open edit sidebar for task: {}", contextTask.title());
 //            NavigationManager.openRightSidebar(Routes.EDIT_TASK_RIGHT_SIDEBAR, contextTask);
         });
 
         saveEditedTaskButton.setOnAction(event -> {
-            contextTask.setTaskName(taskNameLabel.getText());
-            contextTask.setStatus(TaskStatus.fromString(statusComboBox.getValue()));
-            contextTask.setPriority(TaskPriority.fromString(priorityComboBox.getValue()));
-            contextTask.setExecutor(executorComboBox.getValue());
-            if (deadlineDatePicker.getValue() != null) {
-                if (deadlineDatePicker.getValue().isAfter(LocalDate.now())) {
-                    contextTask.setDeadline(deadlineDatePicker.getValue());
-                } else {
-                    NavigationManager.showToast("Дедлайн истек! Выберете корректную дату!", "info");
-                    return;
-                }
-            } else {
+            LocalDate deadline = deadlineDatePicker.getValue();
+            if (deadline == null) {
                 NavigationManager.showToast("Выберите дату!", "info");
                 return;
             }
-            contextTask.setType(tagsTextField.getText());
-            //contextTask.setDescription(taskDescriptionTextArea.getText());
+            // Прошедший дедлайн можно оставить как есть, но нельзя поставить заново
+            if (deadline.isBefore(LocalDate.now()) && !deadline.equals(contextTask.deadline())) {
+                NavigationManager.showToast("Дедлайн истек! Выберете корректную дату!", "info");
+                return;
+            }
+            if (newTaskNameLabel.getText().isBlank()) {
+                NavigationManager.showToast("Введите название задачи", "info");
+                return;
+            }
+
+            User executor = executorComboBox.getValue();
+            TaskEdit edit = new TaskEdit(
+                    contextTask.id(),
+                    newTaskNameLabel.getText(),
+                    contextTask.description(),
+                    TaskStatus.fromString(statusComboBox.getValue()),
+                    TaskPriority.fromString(priorityComboBox.getValue()),
+                    deadline,
+                    executor != null ? executor.getId() : contextTask.responsibleId(),
+                    Tags.parse(tagsTextField.getText()));
 
             taskService.updateTask(
-                    toTask(contextTask),
-                    () -> {
+                    edit,
+                    updated -> {
+                        contextTask = updated;
                         exitEditMode();
                         NavigationManager.showToast("Данные обновлены", "success");
                     },
@@ -151,7 +167,7 @@ public class TaskDetailsController implements RightSidebar {
         deleteButton.setOnAction(event -> {
             log.debug("Click on delete button");
 
-            log.info("Open delete panel for task: {}", contextTask.getTaskName());
+            log.info("Open delete panel for task: {}", contextTask.title());
             deleteButton.setVisible(false);
             deleteButton.setManaged(false);
 
@@ -187,7 +203,7 @@ public class TaskDetailsController implements RightSidebar {
         }
 
         this.contextTask = (TaskView) context;
-        log.info("context saved: {}", contextTask.getTaskName());
+        log.info("context saved: {}", contextTask.title());
         exitEditMode();
         updateUI();
     }
@@ -201,64 +217,25 @@ public class TaskDetailsController implements RightSidebar {
             return;
         }
 
-        log.debug("projectName: {}", contextTask.getProjectId());
-        log.debug("taskName: {}", contextTask.getTaskName());
-        log.debug("status: {}", contextTask.getStatus());
-        log.debug("priority: {}", contextTask.getPriority().getDisplayName());
-        projectNameLabel.setText(contextTask.getProjectName());
-        taskNameLabel.setText(contextTask.getTaskName());
-        statusLabel.setText(contextTask.getStatus().getDisplayName());
-        priorityLabel.setText(contextTask.getPriority().getDisplayName());
-        executorAvatarLabel.setText(getInitials(contextTask.getExecutor()));
-        executorNameLabel.setText(contextTask.getExecutor());
-        deadlineLabel.setText(formatFull(contextTask.getDeadline()));
+        log.debug("projectName: {}", contextTask.projectId());
+        log.debug("taskName: {}", contextTask.title());
+        log.debug("status: {}", contextTask.status());
+        log.debug("priority: {}", contextTask.priority().getDisplayName());
+        projectNameLabel.setText(contextTask.projectName());
+        taskNameLabel.setText(contextTask.title());
+        statusLabel.setText(contextTask.status().getDisplayName());
+        priorityLabel.setText(contextTask.priority().getDisplayName());
+        executorAvatarLabel.setText(Initials.of(contextTask.responsibleName()));
+        executorNameLabel.setText(contextTask.responsibleName() != null ? contextTask.responsibleName() : "Не назначен");
+        deadlineLabel.setText(formatFull(contextTask.deadline()));
         updateTags();
-        taskDescriptionLabel.setText(contextTask.getDescription());
+        taskDescriptionLabel.setText(contextTask.description());
 
         log.info("UI updated");
     }
 
-    private String getInitials(String fullName) {
-        if (fullName == null || fullName.isBlank()) {
-            throw new IllegalArgumentException("Имя не может быть пустым");
-        }
-
-        String[] parts = fullName.trim().split("\\s+");
-        StringBuilder initials = new StringBuilder();
-
-        int count = Math.min(parts.length, 2);
-        for (int i = 0; i < count; i++) {
-            initials.append(parts[i].charAt(0));
-        }
-
-        return initials.toString().toUpperCase();
-    }
-
     private void updateTags() {
-        tagsFlowPane.getChildren().clear();
-
-        String type = contextTask.getType();
-        if (type == null || type.isBlank()) {
-            tagsFlowPane.setVisible(false);
-            tagsFlowPane.setManaged(false);
-            return;
-        }
-
-        String[] tags = type.split(",");
-        boolean hasValidTags = false;
-
-        for (String tag : tags) {
-            String trimmed = tag.trim();
-            if (!trimmed.isEmpty()) {
-                Label tagLabel = new Label(trimmed);
-                tagLabel.getStyleClass().add("tag-chip");
-                tagsFlowPane.getChildren().add(tagLabel);
-                hasValidTags = true;
-            }
-        }
-
-        tagsFlowPane.setVisible(hasValidTags);
-        tagsFlowPane.setManaged(hasValidTags);
+        TagChips.fill(tagsFlowPane, contextTask.tagNames());
     }
 
     private void resetDeleteUI() {
@@ -304,12 +281,15 @@ public class TaskDetailsController implements RightSidebar {
         editActionsHBox.setVisible(true);
         editActionsHBox.setManaged(true);
 
-        newTaskNameLabel.setText(contextTask.getTaskName());
-        statusComboBox.setValue(contextTask.getStatus().getDisplayName());
-        priorityComboBox.setValue(contextTask.getPriority().getDisplayName());
-        deadlineDatePicker.setValue(contextTask.getDeadline());
-        executorComboBox.setValue(contextTask.getExecutor());
-        tagsTextField.setText(contextTask.getType());
+        newTaskNameLabel.setText(contextTask.title());
+        statusComboBox.setValue(contextTask.status().getDisplayName());
+        priorityComboBox.setValue(contextTask.priority().getDisplayName());
+        deadlineDatePicker.setValue(contextTask.deadline());
+        executorComboBox.setValue(executorComboBox.getItems().stream()
+                .filter(user -> user.getId().equals(contextTask.responsibleId()))
+                .findFirst()
+                .orElse(null));
+        tagsTextField.setText(contextTask.tagsAsText());
     }
 
     private void exitEditMode() {
@@ -348,18 +328,5 @@ public class TaskDetailsController implements RightSidebar {
         editActionsHBox.setManaged(false);
 
         updateUI();
-    }
-
-    private Task toTask(TaskView taskView) {
-        return new Task(taskView.getId(),
-                taskView.getTaskName(),
-                taskView.getProjectId(),
-                taskView.getExecutor(),
-                taskView.getType(),
-                taskView.getStatus(),
-                taskView.getPriority(),
-                taskView.getDeadline(),
-                taskView.getDescription(),
-                taskView.isSynced());
     }
 }

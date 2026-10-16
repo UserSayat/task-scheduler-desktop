@@ -1,14 +1,16 @@
 package org.example.taskschedulerdesktop.listeners;
 
+import java.util.UUID;
+
 public class TaskDeleteEvent {
 
-    private final long taskId;
+    private final UUID taskId;
 
-    public TaskDeleteEvent(long taskId) {
+    public TaskDeleteEvent(UUID taskId) {
         this.taskId = taskId;
     }
 
-    public long getTaskId() {
+    public UUID getTaskId() {
         return taskId;
     }
 }

@@ -15,7 +15,7 @@ import org.example.taskschedulerdesktop.dto.projects.ProjectListCell;
 import org.example.taskschedulerdesktop.dto.tasks.TaskView;
 import org.example.taskschedulerdesktop.listeners.EventBus;
 import org.example.taskschedulerdesktop.listeners.TaskChangedEvent;
-import org.example.taskschedulerdesktop.models.Project;
+import org.example.taskschedulerdesktop.dto.projects.ProjectView;
 import org.example.taskschedulerdesktop.models.Task;
 import org.example.taskschedulerdesktop.navigation.NavigationManager;
 import org.example.taskschedulerdesktop.navigation.Routes;
@@ -40,7 +40,7 @@ public class DashboardController implements Shutdownable {
     @FXML private Label statReview;
     @FXML private Label statDone;
 
-    @FXML private ListView<Project> projectListView;
+    @FXML private ListView<ProjectView> projectListView;
     @FXML private ListView<TaskView> deadlinesListView;
 
     @FXML private VBox taskTableContainerVBox;
@@ -70,7 +70,7 @@ public class DashboardController implements Shutdownable {
         log.debug("loadProjects()");
         asyncProjectService.findAllProjects(
                 projects -> {
-                    ObservableList<Project> observableList = FXCollections.observableList(projects);
+                    ObservableList<ProjectView> observableList = FXCollections.observableList(projects);
                     projectListView.setItems(observableList);
                     projectListView.setCellFactory(listView -> {
                         ProjectListCell cell = new ProjectListCell();
@@ -78,7 +78,7 @@ public class DashboardController implements Shutdownable {
                             if (cell.isEmpty() || cell.getItem() == null) return;
 
                             if (event.getClickCount() == 1) {
-                                Project item = cell.getItem();
+                                ProjectView item = cell.getItem();
                                 NavigationManager.navigateTo(
                                         Routes.PROJECT_DETAILS,
                                         null,
@@ -167,25 +167,25 @@ public class DashboardController implements Shutdownable {
                 })
         ;
 
-        asyncTaskService.countTasksByStatus(TaskStatus.UNDER_REVIEW,
+        asyncTaskService.countTasksByStatus(TaskStatus.ON_REVIEW,
                 amountOfTasks -> {
-                    log.debug("Found {} tasks, task status: {}", amountOfTasks, TaskStatus.UNDER_REVIEW);
+                    log.debug("Found {} tasks, task status: {}", amountOfTasks, TaskStatus.ON_REVIEW);
                     statReview.setText(String.valueOf(amountOfTasks));
                 },
                 error -> {
                     NavigationManager.showToast("Ошибка загрузки статистики", "error");
-                    log.error("Amount of tasks loading error, task status: {}", TaskStatus.UNDER_REVIEW);
+                    log.error("Amount of tasks loading error, task status: {}", TaskStatus.ON_REVIEW);
                 })
         ;
 
-        asyncTaskService.countTasksByStatus(TaskStatus.COMPLETED,
+        asyncTaskService.countTasksByStatus(TaskStatus.DONE,
                 amountOfTasks -> {
-                    log.debug("Found {} tasks, task status: {}", amountOfTasks, TaskStatus.COMPLETED);
+                    log.debug("Found {} tasks, task status: {}", amountOfTasks, TaskStatus.DONE);
                     statDone.setText(String.valueOf(amountOfTasks));
                 },
                 error -> {
                     NavigationManager.showToast("Ошибка загрузки статистики", "error");
-                    log.error("Amount of tasks loading error, task status: {}", TaskStatus.COMPLETED);
+                    log.error("Amount of tasks loading error, task status: {}", TaskStatus.DONE);
                 })
         ;
     }

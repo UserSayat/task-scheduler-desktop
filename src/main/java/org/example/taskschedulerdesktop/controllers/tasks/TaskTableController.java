@@ -52,15 +52,15 @@ public class TaskTableController implements Shutdownable {
 //                cellData -> new SimpleLongProperty(cellData.getValue().getId()).asObject()
 //        );
         taskNameColumn.setCellValueFactory(
-                cellData -> new SimpleStringProperty(cellData.getValue().getTaskName())
+                cellData -> new SimpleStringProperty(cellData.getValue().title())
         );
         projectNameColumn.setCellValueFactory(
-                cellData -> new SimpleStringProperty(cellData.getValue().getProjectName())
+                cellData -> new SimpleStringProperty(cellData.getValue().projectName())
         );
         executorColumn.setCellValueFactory(
                 cellData -> new SimpleStringProperty(
                         //TODO Использовать инициалы а не полное имя, и при нажатии переходить на страницу сотрудника
-                        cellData.getValue().getExecutor()
+                        cellData.getValue().responsibleName()
                 )
         );
 
@@ -111,7 +111,7 @@ public class TaskTableController implements Shutdownable {
     private void setupPriorityColumn() {
         priorityColumn.setCellValueFactory(
                 cellData -> new SimpleStringProperty(
-                        cellData.getValue().getPriority().getDisplayName()
+                        cellData.getValue().priority().getDisplayName()
                 )
         );
 
@@ -126,7 +126,7 @@ public class TaskTableController implements Shutdownable {
                 } else {
                     TaskView task = getTableView().getItems().get(getIndex());
                     Label label = new Label(item);
-                    label.getStyleClass().add(getStyleClassForPriority(task.getPriority()));
+                    label.getStyleClass().add(getStyleClassForPriority(task.priority()));
 
                     setGraphic(label);
                 }
@@ -137,7 +137,7 @@ public class TaskTableController implements Shutdownable {
     private void setupStatusColumn() {
         statusColumn.setCellValueFactory(
                 cellData -> new SimpleStringProperty(
-                        cellData.getValue().getStatus().getDisplayName()
+                        cellData.getValue().status().getDisplayName()
                 )
         );
 
@@ -152,7 +152,7 @@ public class TaskTableController implements Shutdownable {
                 } else {
                     TaskView task = getTableView().getItems().get(getIndex());
                     Label label = new Label(item);
-                    label.getStyleClass().add(getStyleClassForStatus(task.getStatus()));
+                    label.getStyleClass().add(getStyleClassForStatus(task.status()));
                     label.setStyle("-fx");
 
                     setGraphic(label);
@@ -164,8 +164,8 @@ public class TaskTableController implements Shutdownable {
     private void setupDeadlineColumn() {
         deadlineColumn.setCellValueFactory(
                 cellData -> new SimpleStringProperty(
-                        cellData.getValue().getDeadline() != null
-                                ? cellData.getValue().getDeadline().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
+                        cellData.getValue().deadline() != null
+                                ? cellData.getValue().deadline().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
                                 : ""
                 )
         );
@@ -182,9 +182,9 @@ public class TaskTableController implements Shutdownable {
                     TaskView task = getTableView().getItems().get(getIndex());
                     Label label = new Label(item);
 
-                    if (task.getDeadline() != null
-                            && task.getDeadline().isBefore(LocalDate.now())
-                            && task.getStatus() != TaskStatus.COMPLETED) {
+                    if (task.deadline() != null
+                            && task.deadline().isBefore(LocalDate.now())
+                            && task.status() != TaskStatus.DONE) {
                         label.getStyleClass().add("deadline-overdue");
                     } else {
                         label.getStyleClass().add("deadline-normal");
@@ -199,8 +199,8 @@ public class TaskTableController implements Shutdownable {
     private String getStyleClassForPriority(TaskPriority priority) {
         return switch (priority) {
             case LOW -> "priority-low";
-            case MIDDLE -> "priority-middle";
-            case HIGH -> "priority-high";
+            case MEDIUM -> "priority-middle";
+            case HIGH, CRITICAL -> "priority-high";
         };
     }
 
@@ -208,8 +208,8 @@ public class TaskTableController implements Shutdownable {
         return switch (status) {
             case NEW -> "status-new";
             case IN_PROGRESS -> "status-in-progress";
-            case UNDER_REVIEW -> "status-under-review";
-            case COMPLETED -> "status-completed";
+            case ON_REVIEW -> "status-under-review";
+            case DONE -> "status-completed";
         };
     }
 

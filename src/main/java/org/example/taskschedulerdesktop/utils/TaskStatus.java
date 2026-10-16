@@ -3,8 +3,8 @@ package org.example.taskschedulerdesktop.utils;
 public enum TaskStatus {
     NEW("К выполнению"),
     IN_PROGRESS("В работе"),
-    UNDER_REVIEW("На проверке"),
-    COMPLETED("Завершена");
+    ON_REVIEW("На проверке"),
+    DONE("Завершена");
 
     private final String displayName;
 

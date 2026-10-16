@@ -2,8 +2,9 @@ package org.example.taskschedulerdesktop.utils;
 
 public enum TaskPriority {
     LOW("Низкий"),
-    MIDDLE("Средний"),
-    HIGH("Высокий");
+    MEDIUM("Средний"),
+    HIGH("Высокий"),
+    CRITICAL("Критический");
 
     private final String displayName;
 

@@ -5,7 +5,7 @@ import javafx.scene.Node;
 import javafx.scene.input.MouseButton;
 import org.example.taskschedulerdesktop.config.AppConfig;
 import org.example.taskschedulerdesktop.controllers.projects.ProjectCardController;
-import org.example.taskschedulerdesktop.models.Project;
+import org.example.taskschedulerdesktop.dto.projects.ProjectView;
 import org.example.taskschedulerdesktop.navigation.NavigationManager;
 import org.example.taskschedulerdesktop.navigation.Routes;
 import org.slf4j.Logger;
@@ -22,7 +22,7 @@ public class ProjectCardService {
     public ProjectCardService() {
     }
 
-    public Node createCard(Project project) {
+    public Node createCard(ProjectView project) {
         try {
             log.debug("createCard({})", project);
 
@@ -46,15 +46,15 @@ public class ProjectCardService {
             return card;
 
         } catch (IOException e) {
-            log.warn("Failed to create a card for project: {}", project.getName());
+            log.warn("Failed to create a card for project: {}", project.name());
             throw new RuntimeException("Failed to create a card for the project. ", e);
         }
     }
 
-    public List<Node> createCards(List<Project> projects) {
+    public List<Node> createCards(List<ProjectView> projects) {
         List<Node> cards = new ArrayList<>();
 
-        for (Project project : projects) {
+        for (ProjectView project : projects) {
             Node card = createCard(project);
             cards.add(card);
         }

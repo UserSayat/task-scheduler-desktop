@@ -1,17 +1,19 @@
 package org.example.taskschedulerdesktop.service.project;
 
-import org.example.taskschedulerdesktop.models.Project;
-import org.example.taskschedulerdesktop.utils.TaskStatus;
+import org.example.taskschedulerdesktop.dto.projects.ProjectView;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface ProjectService {
 
-    List<Project> findAll();
-    void save(Project project);
-    void update(Project project);
-    void delete(long id);
-    Project findById(long id);
-    int countTasksByProjectIdAndStatus(long projectId, TaskStatus status);
-    int countTasksByProjectId(long projectId);
+    List<ProjectView> findAll();
+
+    ProjectView findById(UUID id);
+
+    ProjectView create(String name, UUID ownerId);
+
+    ProjectView update(UUID id, String name, UUID ownerId);
+
+    void delete(UUID id);
 }

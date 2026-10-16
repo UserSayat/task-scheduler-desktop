@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class DatabaseConnection {
+public class DatabaseConnection implements ConnectionSource {
 
     private static final Logger log = LoggerFactory.getLogger(DatabaseConnection.class);
 
@@ -58,7 +58,8 @@ public class DatabaseConnection {
         return instance;
     }
 
-    public Connection getConnection() throws SQLException{
+    @Override
+    public Connection getConnection() throws SQLException {
         return dataSource.getConnection();
     }
 

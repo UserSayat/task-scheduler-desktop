@@ -6,6 +6,8 @@ import javafx.scene.layout.FlowPane;
 import org.example.taskschedulerdesktop.controllers.Shutdownable;
 import org.example.taskschedulerdesktop.dto.tasks.TaskView;
 import org.example.taskschedulerdesktop.navigation.ContextAware;
+import org.example.taskschedulerdesktop.utils.Initials;
+import org.example.taskschedulerdesktop.utils.TagChips;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,11 +40,11 @@ public class TaskDescriptionCardController implements ContextAware, Shutdownable
             return;
         }
 
-       taskNameLabel.setText(contextTask.getTaskName());
-       updateTags();
-       taskDeadlineLabel.setText(formatShort(contextTask.getDeadline()));
-       executorInitialsLabel.setText(getInitials(contextTask.getExecutor()));
-       priorityLabel.setText(contextTask.getPriority().getDisplayName());
+       taskNameLabel.setText(contextTask.title());
+       TagChips.fill(tagsFlowPane, contextTask.tagNames());
+       taskDeadlineLabel.setText(formatShort(contextTask.deadline()));
+       executorInitialsLabel.setText(Initials.of(contextTask.responsibleName()));
+       priorityLabel.setText(contextTask.priority().getDisplayName());
     }
 
     public Label getTaskSequenceNumberLabel() {
@@ -59,49 +61,6 @@ public class TaskDescriptionCardController implements ContextAware, Shutdownable
 
     public void setTaskNameLabel(String taskName) {
         this.taskNameLabel.setText(taskName);
-    }
-
-    private String getInitials(String fullName) {
-        if (fullName == null || fullName.isBlank()) {
-            throw new IllegalArgumentException("Имя не может быть пустым");
-        }
-
-        String[] parts = fullName.trim().split("\\s+");
-        StringBuilder initials = new StringBuilder();
-
-        int count = Math.min(parts.length, 2);
-        for (int i = 0; i < count; i++) {
-            initials.append(parts[i].charAt(0));
-        }
-
-        return initials.toString().toUpperCase();
-    }
-
-    private void updateTags() {
-        tagsFlowPane.getChildren().clear();
-
-        String type = contextTask.getType();
-        if (type == null || type.isBlank()) {
-            tagsFlowPane.setVisible(false);
-            tagsFlowPane.setManaged(false);
-            return;
-        }
-
-        String[] tags = type.split(",");
-        boolean hasValidTags = false;
-
-        for (String tag : tags) {
-            String trimmed = tag.trim();
-            if (!trimmed.isEmpty()) {
-                Label tagLabel = new Label(trimmed);
-                tagLabel.getStyleClass().add("tag-chip");
-                tagsFlowPane.getChildren().add(tagLabel);
-                hasValidTags = true;
-            }
-        }
-
-        tagsFlowPane.setVisible(hasValidTags);
-        tagsFlowPane.setManaged(hasValidTags);
     }
 
     @Override

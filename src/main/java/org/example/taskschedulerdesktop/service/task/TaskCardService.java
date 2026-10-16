@@ -37,7 +37,7 @@ public class TaskCardService {
             return card;
 
         } catch (IOException e) {
-            throw new RuntimeException("Не удалось создать карточку для задачи: " + task.getTaskName(), e);
+            throw new RuntimeException("Не удалось создать карточку для задачи: " + task.title(), e);
         }
     }
 

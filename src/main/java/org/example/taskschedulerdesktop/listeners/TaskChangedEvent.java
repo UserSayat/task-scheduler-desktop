@@ -1,15 +1,17 @@
 package org.example.taskschedulerdesktop.listeners;
 
+import java.util.UUID;
+
 public class TaskChangedEvent {
-    private final Long projectId;
+    private final UUID projectId;
     private final String taskName;
 
-    public TaskChangedEvent(Long projectId, String taskName) {
+    public TaskChangedEvent(UUID projectId, String taskName) {
         this.projectId = projectId;
         this.taskName = taskName;
     }
 
-    public Long getProjectId() {
+    public UUID getProjectId() {
         return projectId;
     }
 

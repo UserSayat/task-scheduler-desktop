@@ -1,480 +1,331 @@
 package org.example.taskschedulerdesktop.repository.task;
 
-import org.example.taskschedulerdesktop.database.DatabaseConnection;
+import com.github.f4b6a3.uuid.UuidCreator;
+import org.example.taskschedulerdesktop.database.Jdbc;
+import org.example.taskschedulerdesktop.database.UnitOfWork;
 import org.example.taskschedulerdesktop.dto.tasks.TaskView;
 import org.example.taskschedulerdesktop.models.Task;
+import org.example.taskschedulerdesktop.models.TaskAssignee;
+import org.example.taskschedulerdesktop.utils.AssigneeRole;
 import org.example.taskschedulerdesktop.utils.TaskPriority;
 import org.example.taskschedulerdesktop.utils.TaskStatus;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public class H2TaskRepository implements TaskRepository {
 
-    private final DatabaseConnection db;
-    private static final Logger log = LoggerFactory.getLogger(H2TaskRepository.class);
+    /**
+     * Общая часть выборок для экранов: задача + проект + ответственный + теги + признак синхронизации.
+     */
+    private static final String VIEW_SELECT = """
+            SELECT t.id, t.title, t.description, t.project_id, p.name AS project_name,
+                   t.status, t.priority, t.deadline,
+                   u.id AS responsible_id, u.name AS responsible_name,
+                   (SELECT LISTAGG(tg.name, ',') WITHIN GROUP (ORDER BY tg.name)
+                      FROM task_tags tt JOIN tags tg ON tg.id = tt.tag_id
+                     WHERE tt.task_id = t.id AND tg.deleted_at IS NULL) AS tag_names,
+                   EXISTS (SELECT 1 FROM sync_log s
+                            WHERE s.entity_id = t.id AND s.synced = FALSE) AS has_unsynced
+              FROM tasks t
+              JOIN projects p ON p.id = t.project_id
+              LEFT JOIN task_assignees a ON a.task_id = t.id AND a.role = 'RESPONSIBLE'
+              LEFT JOIN users u ON u.id = a.user_id
+             WHERE t.deleted_at IS NULL AND p.deleted_at IS NULL
+            """;
 
-    public H2TaskRepository(DatabaseConnection db) {
-        this.db = db;
-        createTableIfNotExists();
-        createIndexes();
+    private static final String ACTIVE_TASKS = """
+            FROM tasks t JOIN projects p ON p.id = t.project_id
+            WHERE t.deleted_at IS NULL AND p.deleted_at IS NULL
+            """;
+
+    private final UnitOfWork uow;
+
+    public H2TaskRepository(UnitOfWork uow) {
+        this.uow = uow;
     }
 
-    // ===== СОЗДАНИЕ ТАБЛИЦЫ =====
-//TODO настроить миграции
-    private void createTableIfNotExists() {
-        log.debug("createTableIfNotExists()");
-
-        String sql1 = """
-            CREATE TABLE IF NOT EXISTS projects (
-                id INT PRIMARY KEY AUTO_INCREMENT,
-                name VARCHAR(255) NOT NULL,
-                supervisor VARCHAR(255) NOT NULL,
-                numberOfTasks INT,
-                completedTasks INT,
-                remainingTasks INT,
-                percentOfCompletion INT,
-                synced BOOLEAN DEFAULT FALSE
-            )
-        """;
-
-        String sql2 = """
-            CREATE TABLE IF NOT EXISTS tasks (
-                id INT PRIMARY KEY AUTO_INCREMENT,
-                name VARCHAR(255) NOT NULL,
-                project_id INT NOT NULL,
-                executor VARCHAR(255) NOT NULL,
-                type VARCHAR(255) NOT NULL,
-                status VARCHAR(50),
-                priority VARCHAR(50),
-                deadline DATE,
-                description TEXT,
-                synced BOOLEAN DEFAULT FALSE,
-                CONSTRAINT fk_tasks_project
-                    FOREIGN KEY (project_id)
-                    REFERENCES projects(id)
-                    ON DELETE CASCADE
-            )
-        """;
-
-        try (Connection conn = db.getConnection();
-             Statement stmt = conn.createStatement()) {
-            stmt.execute(sql1);
-            stmt.execute(sql2);
-        } catch (SQLException e) {
-            log.error("Error creating the task table");
-        }
-    }
-
-    // ===== CRUD МЕТОДЫ =====
+    // ===== ЗАПИСЬ =====
 
     @Override
-    public void save(Task task) {
-        log.debug("save({})", task);
-
+    public void insert(Task task) throws SQLException {
         String sql = """
-            INSERT INTO tasks (name, project_id, executor, type, status,
-             priority, deadline, description, synced) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """;
+                INSERT INTO tasks (id, title, description, creator_id, project_id, status, priority,
+                                   start_date, deadline, closed_at, created_at, updated_at,
+                                   created_by, updated_by, deleted_at)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """;
+        try (PreparedStatement ps = uow.connection().prepareStatement(sql)) {
+            Jdbc.setUuid(ps, 1, task.getId());
+            ps.setString(2, task.getTitle());
+            ps.setString(3, task.getDescription());
+            Jdbc.setUuid(ps, 4, task.getCreatorId());
+            Jdbc.setUuid(ps, 5, task.getProjectId());
+            ps.setString(6, task.getStatus().name());
+            ps.setString(7, task.getPriority().name());
+            Jdbc.setDate(ps, 8, task.getStartDate());
+            Jdbc.setDate(ps, 9, task.getDeadline());
+            Jdbc.setInstant(ps, 10, task.getClosedAt());
+            Jdbc.setInstant(ps, 11, task.getCreatedAt());
+            Jdbc.setInstant(ps, 12, task.getUpdatedAt());
+            Jdbc.setUuid(ps, 13, task.getCreatedBy());
+            Jdbc.setUuid(ps, 14, task.getUpdatedBy());
+            Jdbc.setInstant(ps, 15, task.getDeletedAt());
+            ps.executeUpdate();
+        }
+        replaceCollections(task);
+    }
 
-        try (Connection conn = db.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+    @Override
+    public void update(Task task) throws SQLException {
+        String sql = """
+                UPDATE tasks SET title = ?, description = ?, project_id = ?, status = ?, priority = ?,
+                                 start_date = ?, deadline = ?, closed_at = ?, updated_at = ?,
+                                 updated_by = ?, deleted_at = ?
+                 WHERE id = ?
+                """;
+        try (PreparedStatement ps = uow.connection().prepareStatement(sql)) {
+            ps.setString(1, task.getTitle());
+            ps.setString(2, task.getDescription());
+            Jdbc.setUuid(ps, 3, task.getProjectId());
+            ps.setString(4, task.getStatus().name());
+            ps.setString(5, task.getPriority().name());
+            Jdbc.setDate(ps, 6, task.getStartDate());
+            Jdbc.setDate(ps, 7, task.getDeadline());
+            Jdbc.setInstant(ps, 8, task.getClosedAt());
+            Jdbc.setInstant(ps, 9, task.getUpdatedAt());
+            Jdbc.setUuid(ps, 10, task.getUpdatedBy());
+            Jdbc.setInstant(ps, 11, task.getDeletedAt());
+            Jdbc.setUuid(ps, 12, task.getId());
+            ps.executeUpdate();
+        }
+        replaceCollections(task);
+    }
 
-            pstmt.setString(1, task.getTaskName());
-            pstmt.setLong(2, task.getProjectId());
-            pstmt.setString(3, task.getExecutor());
-            pstmt.setString(4, task.getType());
-            pstmt.setString(5, task.getStatus().name());
-            pstmt.setString(6, task.getPriority().name());
-            pstmt.setObject(7, task.getDeadline(), Types.DATE);
-            pstmt.setString(8, task.getDescription());
-            pstmt.setBoolean(9, task.isSynced());
-            pstmt.executeUpdate();
+    private void replaceCollections(Task task) throws SQLException {
+        Connection c = uow.connection();
+        Instant now = task.getUpdatedAt();
 
-            ResultSet generatedKeys = pstmt.getGeneratedKeys();
-            if (generatedKeys.next()) {
-                task.setId(generatedKeys.getLong(1));
+        deleteByTaskId("task_assignees", task.getId());
+        String assigneeSql = """
+                INSERT INTO task_assignees (id, task_id, user_id, role, assigned_at, created_at, updated_at)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+                """;
+        try (PreparedStatement ps = c.prepareStatement(assigneeSql)) {
+            for (TaskAssignee assignee : task.getAssignees()) {
+                Jdbc.setUuid(ps, 1, UuidCreator.getTimeOrderedEpoch());
+                Jdbc.setUuid(ps, 2, task.getId());
+                Jdbc.setUuid(ps, 3, assignee.userId());
+                ps.setString(4, assignee.role().name());
+                Jdbc.setInstant(ps, 5, now);
+                Jdbc.setInstant(ps, 6, now);
+                Jdbc.setInstant(ps, 7, now);
+                ps.addBatch();
             }
-
-            log.debug("Task saved: id = {}", task.getId());
-        } catch (SQLException e) {
-            log.error("Error saving task {}", task);
+            ps.executeBatch();
         }
-    }
 
-    @Override
-    public void update(Task task) {
-        log.debug("update({})", task);
-
-        String sql = """
-            UPDATE tasks SET name = ?, project_id = ?, executor = ?, type = ?, status = ?,
-             priority = ?, deadline = ?, description = ?, synced = ? WHERE id = ?
-        """;
-
-        try (Connection conn = db.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setString(1, task.getTaskName());
-            pstmt.setLong(2, task.getProjectId());
-            pstmt.setString(3, task.getExecutor());
-            pstmt.setString(4, task.getType());
-            pstmt.setString(5, task.getStatus().name());
-            pstmt.setString(6, task.getPriority().name());
-            pstmt.setObject(7, task.getDeadline(), Types.DATE);
-            pstmt.setString(8, task.getDescription());
-            pstmt.setBoolean(9, task.isSynced());
-            pstmt.setLong(10, task.getId());
-            pstmt.executeUpdate();
-
-            log.debug("Task updated: id = {}", task.getId());
-
-        } catch (SQLException e) {
-            log.error("Error updating task: id = {}", task.getId());
-        }
-    }
-
-    @Override
-    public void delete(long id) {
-        log.debug("delete({})", id);
-
-        String sql = "DELETE FROM tasks WHERE id = ?";
-
-        try (Connection conn = db.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setLong(1, id);
-            pstmt.executeUpdate();
-
-            log.debug("Task deleted: id = {}", id);
-        } catch (SQLException e) {
-            log.error("Error deleting task: id = {}", id);
-        }
-    }
-
-    @Override
-    public Optional<Task> findById(long id) {
-        log.debug("findById({})", id);
-
-        String sql = """
-            SELECT t.id, t.name, t.project_id, t.executor, t.type, t.status, t.priority,
-             t.deadline, t.description, t.synced FROM tasks t WHERE t.id = ?
-        """;
-
-        try (Connection conn = db.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setLong(1, id);
-            ResultSet rs = pstmt.executeQuery();
-
-            if (rs.next()) {
-                log.debug("Task found: name = {}", rs.getString("name"));
-                return Optional.of(mapRowToTask(rs));
+        deleteByTaskId("task_observers", task.getId());
+        String observerSql = """
+                INSERT INTO task_observers (id, task_id, user_id, added_at, created_at, updated_at)
+                VALUES (?, ?, ?, ?, ?, ?)
+                """;
+        try (PreparedStatement ps = c.prepareStatement(observerSql)) {
+            for (UUID userId : task.getObserverIds()) {
+                Jdbc.setUuid(ps, 1, UuidCreator.getTimeOrderedEpoch());
+                Jdbc.setUuid(ps, 2, task.getId());
+                Jdbc.setUuid(ps, 3, userId);
+                Jdbc.setInstant(ps, 4, now);
+                Jdbc.setInstant(ps, 5, now);
+                Jdbc.setInstant(ps, 6, now);
+                ps.addBatch();
             }
-            log.debug("Task not found");
-            return Optional.empty();
+            ps.executeBatch();
+        }
 
-        } catch (SQLException e) {
-            log.error("Error finding task: id = {}", id);
-            return Optional.empty();
+        deleteByTaskId("task_tags", task.getId());
+        try (PreparedStatement ps = c.prepareStatement("INSERT INTO task_tags (task_id, tag_id) VALUES (?, ?)")) {
+            for (UUID tagId : task.getTagIds()) {
+                Jdbc.setUuid(ps, 1, task.getId());
+                Jdbc.setUuid(ps, 2, tagId);
+                ps.addBatch();
+            }
+            ps.executeBatch();
         }
     }
 
+    private void deleteByTaskId(String table, UUID taskId) throws SQLException {
+        try (PreparedStatement ps = uow.connection().prepareStatement("DELETE FROM " + table + " WHERE task_id = ?")) {
+            Jdbc.setUuid(ps, 1, taskId);
+            ps.executeUpdate();
+        }
+    }
+
+    // ===== ЧТЕНИЕ СУЩНОСТИ =====
+
     @Override
-    public List<TaskView> findAllViews() {
-        log.debug("findAllViews()");
-        String sql = """
-            SELECT t.id, t.name, t.project_id, p.name AS project_name, t.executor, t.type, t.status, t.priority,
-             t.deadline, t.description, t.synced FROM tasks t LEFT JOIN projects p ON t.project_id = p.id ORDER BY t.deadline
-        """;
+    public Optional<Task> findById(UUID id) throws SQLException {
+        Task task;
+        try (PreparedStatement ps = uow.connection().prepareStatement("SELECT * FROM tasks WHERE id = ?")) {
+            Jdbc.setUuid(ps, 1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next()) {
+                    return Optional.empty();
+                }
+                task = mapTask(rs);
+            }
+        }
+
+        task.setAssignees(findAssignees(id));
+        task.setObserverIds(findIds("SELECT user_id FROM task_observers WHERE task_id = ?", id));
+        task.setTagIds(findIds("SELECT tag_id FROM task_tags WHERE task_id = ?", id));
+        return Optional.of(task);
+    }
+
+    private List<TaskAssignee> findAssignees(UUID taskId) throws SQLException {
+        List<TaskAssignee> assignees = new ArrayList<>();
+        String sql = "SELECT user_id, role FROM task_assignees WHERE task_id = ? ORDER BY assigned_at";
+        try (PreparedStatement ps = uow.connection().prepareStatement(sql)) {
+            Jdbc.setUuid(ps, 1, taskId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    assignees.add(new TaskAssignee(Jdbc.getUuid(rs, "user_id"),
+                            Jdbc.getEnum(rs, "role", AssigneeRole.class)));
+                }
+            }
+        }
+        return assignees;
+    }
+
+    private List<UUID> findIds(String sql, UUID taskId) throws SQLException {
+        List<UUID> ids = new ArrayList<>();
+        try (PreparedStatement ps = uow.connection().prepareStatement(sql)) {
+            Jdbc.setUuid(ps, 1, taskId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    ids.add(rs.getObject(1, UUID.class));
+                }
+            }
+        }
+        return ids;
+    }
+
+    private Task mapTask(ResultSet rs) throws SQLException {
+        Task task = new Task();
+        task.setId(Jdbc.getUuid(rs, "id"));
+        task.setTitle(rs.getString("title"));
+        task.setDescription(rs.getString("description"));
+        task.setCreatorId(Jdbc.getUuid(rs, "creator_id"));
+        task.setProjectId(Jdbc.getUuid(rs, "project_id"));
+        task.setStatus(Jdbc.getEnum(rs, "status", TaskStatus.class));
+        task.setPriority(Jdbc.getEnum(rs, "priority", TaskPriority.class));
+        task.setStartDate(Jdbc.getDate(rs, "start_date"));
+        task.setDeadline(Jdbc.getDate(rs, "deadline"));
+        task.setClosedAt(Jdbc.getInstant(rs, "closed_at"));
+        task.setCreatedAt(Jdbc.getInstant(rs, "created_at"));
+        task.setUpdatedAt(Jdbc.getInstant(rs, "updated_at"));
+        task.setCreatedBy(Jdbc.getUuid(rs, "created_by"));
+        task.setUpdatedBy(Jdbc.getUuid(rs, "updated_by"));
+        task.setDeletedAt(Jdbc.getInstant(rs, "deleted_at"));
+        return task;
+    }
+
+    // ===== ЧТЕНИЕ ДЛЯ ЭКРАНОВ =====
+
+    @Override
+    public List<TaskView> findAllViews() throws SQLException {
+        return queryViews(VIEW_SELECT + " ORDER BY t.deadline NULLS LAST, t.created_at");
+    }
+
+    @Override
+    public Optional<TaskView> findViewById(UUID id) throws SQLException {
+        return queryViews(VIEW_SELECT + " AND t.id = ?", id).stream().findFirst();
+    }
+
+    @Override
+    public List<TaskView> findViewsByProjectIdAndStatus(UUID projectId, TaskStatus status) throws SQLException {
+        return queryViews(VIEW_SELECT + " AND t.project_id = ? AND t.status = ? ORDER BY t.deadline NULLS LAST, t.created_at",
+                projectId, status.name());
+    }
+
+    @Override
+    public List<TaskView> findUpcomingDeadlines(int maxDaysUntilDeadline) throws SQLException {
+        return queryViews(VIEW_SELECT + """
+                 AND t.deadline IS NOT NULL
+                 AND t.status <> 'DONE'
+                 AND t.deadline < DATEADD('DAY', ?, CURRENT_DATE)
+                 ORDER BY t.deadline
+                """, maxDaysUntilDeadline);
+    }
+
+    private List<TaskView> queryViews(String sql, Object... params) throws SQLException {
         List<TaskView> views = new ArrayList<>();
-
-        try (Connection conn = db.getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
-
-            while (rs.next()) {
-                views.add(mapRowToTaskView(rs));
+        try (PreparedStatement ps = uow.connection().prepareStatement(sql)) {
+            for (int i = 0; i < params.length; i++) {
+                ps.setObject(i + 1, params[i]);
             }
-
-            log.debug("Found {} views", views.size());
-        } catch (SQLException e) {
-            log.error("Error loading tasks");
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    views.add(mapView(rs));
+                }
+            }
         }
         return views;
     }
 
-    @Override
-    public Optional<TaskView> findViewById(long id) {
-        log.debug("findViewById({})", id);
-        String sql = """
-            SELECT t.id, t.name, t.project_id, p.name AS project_name, t.executor, t.type, t.status, t.priority,
-             t.deadline, t.description, t.synced FROM tasks t LEFT JOIN projects p ON t.project_id = p.id WHERE t.id = ?
-        """;
-
-        try (Connection conn = db.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setLong(1, id);
-            ResultSet rs = pstmt.executeQuery();
-
-            if (rs.next()) {
-                log.debug("View found: name = {}", rs.getString("name"));
-                return Optional.of(mapRowToTaskView(rs));
-            }
-            log.debug("View not found");
-            return Optional.empty();
-
-        } catch (SQLException e) {
-            log.error("Error finding view: id = {}", id);
-            return Optional.empty();
-        }
-    }
-
-    @Override
-    public List<TaskView> findViewsByProjectIdAndStatus(long projectId, TaskStatus status) {
-        log.debug("findViewsByProjectIdAndStatus({}, {})", projectId, status);
-
-        String sql = """
-            SELECT t.id, t.name, t.project_id, p.name AS project_name, t.executor, t.type, t.status, t.priority,
-             t.deadline, t.description, t.synced FROM tasks t LEFT JOIN projects p ON t.project_id = p.id
-             WHERE t.project_id = ? AND t.status = ? ORDER BY t.deadline
-        """;
-
-        List<TaskView> views = new ArrayList<>();
-
-        try (Connection conn = db.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setLong(1, projectId);
-            pstmt.setString(2, status.name());
-            ResultSet rs = pstmt.executeQuery();
-
-            while (rs.next()) {
-                views.add(mapRowToTaskView(rs));
-            }
-        } catch (SQLException e) {
-            log.error("Error finding views by project id and status: project id = {},  status = {}", projectId, status, e);
-        }
-
-        return views;
-    }
-
-    @Override
-    public int countByProjectIdAndStatus(long projectId, TaskStatus status) {
-        log.debug("countByProjectNameAndStatus({}, {})", projectId, status);
-
-        String sql = "SELECT COUNT(1) FROM tasks WHERE project_id = ? AND status = ?";
-
-        try (Connection conn = db.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setLong(1, projectId);
-            stmt.setString(2, status.name());
-
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    return rs.getInt(1);
-                }
-            }
-        } catch (SQLException e) {
-            log.error("Error finding views by {} and {}", projectId, status);
-        }
-        return 0;
-    }
-
-    @Override
-    public int countByStatus(TaskStatus status) {
-        String sql = "SELECT COUNT(1) FROM tasks WHERE status = ?";
-
-        try (Connection conn = db.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setString(1, status.name());
-
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    return rs.getInt(1);
-                }
-            }
-        } catch (SQLException e) {
-            log.error("Error finding views by status {}", status, e);
-        }
-        return 0;
-    }
-
-    @Override
-    public int countByProjectIdAndPriority(long projectId, TaskPriority priority) {
-        log.debug("countByProjectNameAndPriority({}, {})", projectId, priority);
-
-        String sql = "SELECT COUNT(1) FROM tasks WHERE project_id = ? AND priority = ?";
-
-        try (Connection conn = db.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setLong(1, projectId);
-            stmt.setString(2, priority.name());
-
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    return rs.getInt(1);
-                }
-            }
-        } catch (SQLException e) {
-            log.error("Error finding views by {} and {}", projectId, priority, e);
-        }
-        return 0;
-    }
-
-    @Override
-    public int countByProjectId(long projectId) {
-        log.debug("countByProjectName({})", projectId);
-
-        String sql = "SELECT COUNT(1) FROM tasks WHERE project_id = ?";
-
-        try (Connection conn = db.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setLong(1, projectId);
-
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    log.debug("countTasksByProjectName: {}", rs.getInt(1));
-                    return rs.getInt(1);
-                }
-            }
-        } catch (SQLException e) {
-            log.error("Error finding views by {}", projectId);
-        }
-        return 0;
-    }
-
-    @Override
-    public List<TaskView> findUpcomingDeadlines(int maxDaysUntilDeadline) {
-        log.debug("findUpcomingDeadlines(maxDaysUntilDeadline: {})", maxDaysUntilDeadline);
-
-        //TODO добавить индекс на дедлайн
-        String sql = """
-            SELECT t.id, t.name, t.project_id, p.name AS project_name, t.executor, t.type, t.status, t.priority,
-             t.deadline, t.description, t.synced FROM tasks t LEFT JOIN projects p ON t.project_id = p.id
-              WHERE t.deadline IS NOT NULL
-               AND t.deadline < DATEADD('DAY', ?, CURRENT_DATE) ORDER BY t.deadline ASC;
-        """;
-
-        List<TaskView> views = new ArrayList<>();
-
-        try (Connection conn = db.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setInt(1, maxDaysUntilDeadline);
-            ResultSet rs = pstmt.executeQuery();
-
-            while (rs.next()) {
-                views.add(mapRowToTaskView(rs));
-            }
-        } catch (SQLException e) {
-            log.error("Error finding upcoming deadlines: project maxDaysUntilDeadline = {}", maxDaysUntilDeadline, e);
-        }
-
-        return views;
-    }
-
-    // ===== МЕТОДЫ ДЛЯ СИНХРОНИЗАЦИИ =====
-
-    @Override
-    public List<Task> findUnsynced() {
-        String sql = "SELECT id, name, project_id, executor, type, status, priority, deadline, description, synced FROM tasks WHERE synced = FALSE";
-        List<Task> tasks = new ArrayList<>();
-
-        try (Connection conn = db.getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
-
-            while (rs.next()) {
-                tasks.add(mapRowToTask(rs));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return tasks;
-    }
-
-    @Override
-    public void markAsSynced(long id) {
-        String sql = "UPDATE tasks SET synced = TRUE WHERE id = ?";
-
-        try (Connection conn = db.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setLong(1, id);
-            pstmt.executeUpdate();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    // ===== ВСПОМОГАТЕЛЬНЫЕ МЕТОДЫ =====
-
-    private Task mapRowToTask(ResultSet rs) throws SQLException {
-        Date deadline = rs.getDate("deadline");
-
-        if (deadline == null) {
-            throw new IllegalArgumentException("deadline is null");
-        }
-
-        return new Task(rs.getLong("id"),
-                rs.getString("name"),
-                rs.getLong("project_id"),
-                rs.getString("executor"),
-                rs.getString("type"),
-                TaskStatus.valueOf(rs.getString("status")),
-                TaskPriority.valueOf(rs.getString("priority")),
-                deadline.toLocalDate(),
+    private TaskView mapView(ResultSet rs) throws SQLException {
+        String tagNames = rs.getString("tag_names");
+        return new TaskView(
+                Jdbc.getUuid(rs, "id"),
+                rs.getString("title"),
                 rs.getString("description"),
-                rs.getBoolean("synced"));
+                Jdbc.getUuid(rs, "project_id"),
+                rs.getString("project_name"),
+                Jdbc.getUuid(rs, "responsible_id"),
+                rs.getString("responsible_name"),
+                Jdbc.getEnum(rs, "status", TaskStatus.class),
+                Jdbc.getEnum(rs, "priority", TaskPriority.class),
+                Jdbc.getDate(rs, "deadline"),
+                tagNames == null ? List.of() : Arrays.asList(tagNames.split(",")),
+                !rs.getBoolean("has_unsynced"));
     }
 
-    private TaskView mapRowToTaskView(ResultSet rs) throws SQLException {
-        Date deadline = rs.getDate("deadline");
+    // ===== СТАТИСТИКА =====
 
-        if (deadline == null) {
-            throw new IllegalArgumentException("deadline is null");
-        }
-
-        return new TaskView(rs.getLong("id"),
-        rs.getString("name"),
-        rs.getLong("project_id"),
-        rs.getString("project_name"), // JOIN
-        rs.getString("executor"),
-        rs.getString("type"),
-        TaskStatus.valueOf(rs.getString("status")),
-        TaskPriority.valueOf(rs.getString("priority")),
-        deadline.toLocalDate(),
-        rs.getString("description"),
-        rs.getBoolean("synced"));
+    @Override
+    public int countByProjectIdAndStatus(UUID projectId, TaskStatus status) throws SQLException {
+        return count("SELECT COUNT(*) " + ACTIVE_TASKS + " AND t.project_id = ? AND t.status = ?",
+                projectId, status.name());
     }
 
-    //TODO заменить по необходимости в оставшихся местах Task на TaskView
+    @Override
+    public int countByStatus(TaskStatus status) throws SQLException {
+        return count("SELECT COUNT(*) " + ACTIVE_TASKS + " AND t.status = ?", status.name());
+    }
 
-    private void createIndexes() {
-        log.debug("createIndexes()");
-        String sqlStatus = "CREATE INDEX IF NOT EXISTS idx_task_status ON tasks(status)";
-        String sqlProjectId = "CREATE INDEX IF NOT EXISTS idx_task_project_id ON tasks(project_id)";
-        String sqlDeadline = "CREATE INDEX IF NOT EXISTS idx_task_deadline ON tasks(deadline)";
-        try (Connection conn = db.getConnection();
-             Statement stmt = conn.createStatement()) {
-            stmt.execute(sqlStatus);
-            stmt.execute(sqlProjectId);
-            stmt.execute(sqlDeadline);
-        } catch (SQLException e) {
-            log.error("Error creating indexes");
+    @Override
+    public int countByProjectIdAndPriority(UUID projectId, TaskPriority priority) throws SQLException {
+        return count("SELECT COUNT(*) " + ACTIVE_TASKS + " AND t.project_id = ? AND t.priority = ?",
+                projectId, priority.name());
+    }
+
+    private int count(String sql, Object... params) throws SQLException {
+        try (PreparedStatement ps = uow.connection().prepareStatement(sql)) {
+            for (int i = 0; i < params.length; i++) {
+                ps.setObject(i + 1, params[i]);
+            }
+            try (ResultSet rs = ps.executeQuery()) {
+                rs.next();
+                return rs.getInt(1);
+            }
         }
     }
 }
-
-
-

@@ -3,14 +3,16 @@ package org.example.taskschedulerdesktop.controllers.tasks;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import org.example.taskschedulerdesktop.models.Project;
-import org.example.taskschedulerdesktop.models.Task;
+import org.example.taskschedulerdesktop.dto.projects.ProjectView;
+import org.example.taskschedulerdesktop.models.User;
 import org.example.taskschedulerdesktop.navigation.NavigationManager;
 import org.example.taskschedulerdesktop.service.project.AsyncProjectService;
 import org.example.taskschedulerdesktop.service.task.AsyncTaskService;
+import org.example.taskschedulerdesktop.service.task.NewTask;
+import org.example.taskschedulerdesktop.service.user.AsyncUserService;
 import org.example.taskschedulerdesktop.utils.ProjectStringConverter;
 import org.example.taskschedulerdesktop.utils.TaskPriority;
-import org.example.taskschedulerdesktop.utils.TaskStatus;
+import org.example.taskschedulerdesktop.utils.Tags;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,14 +24,13 @@ public class CreateTaskController {
 
     private final AsyncTaskService taskService;
     private final AsyncProjectService projectService;
+    private final AsyncUserService userService;
 
     @FXML private TextField taskNameTextField;
 
-    @FXML private ComboBox<Project> projectComboBox;
-    private Long selectedProject;
+    @FXML private ComboBox<ProjectView> projectComboBox;
 
-    @FXML private ComboBox<String> executorComboBox;
-    private String selectedExecutor;
+    @FXML private ComboBox<User> executorComboBox;
 
     @FXML private ToggleButton tHigh;
     @FXML private ToggleButton tMedium;
@@ -37,22 +38,25 @@ public class CreateTaskController {
     private TaskPriority currentPriority = TaskPriority.LOW;
 
     @FXML private DatePicker deadlineDatePicker;
-    private LocalDate selectedDate;
 
     @FXML private TextField tagsTextField;
 
     @FXML private Button createTaskButton;
     @FXML private Button cancelButton;
 
-    public CreateTaskController(AsyncTaskService taskService, AsyncProjectService projectService) {
+    public CreateTaskController(AsyncTaskService taskService, AsyncProjectService projectService,
+                                AsyncUserService userService) {
         this.taskService = taskService;
         this.projectService = projectService;
+        this.userService = userService;
     }
 
     @FXML
     public void initialize() {
-        executorComboBox.getItems().addAll("Алексей Козлов", "Мария Волкова", "Елена Никитина",
-                "Павел Сорокин", "Дмитрий Лебедев", "Ирина Фёдорова");
+        userService.findActiveUsers(
+                users -> executorComboBox.getItems().setAll(users),
+                error -> NavigationManager.showToast("Ошибка загрузки сотрудников", "error")
+        );
 
         projectService.findAllProjects(
                 projects -> {
@@ -65,56 +69,35 @@ public class CreateTaskController {
                 }
         );
 
-        projectComboBox.setOnAction(event -> {
-            selectedProject = projectComboBox.getValue().getId();
-        });
-
-        executorComboBox.setOnAction(event -> {
-            selectedExecutor = executorComboBox.getValue();
-        });
-
-        tHigh.setOnAction(event -> {
-            this.currentPriority = TaskPriority.HIGH;
-        });
-
-        tMedium.setOnAction(event -> {
-            this.currentPriority = TaskPriority.MIDDLE;
-        });
-
-        tLow.setOnAction(event -> {
-            this.currentPriority = TaskPriority.LOW;
-        });
-
-        deadlineDatePicker.setOnAction(event -> {
-            selectedDate = deadlineDatePicker.getValue();
-        });
+        tHigh.setOnAction(event -> this.currentPriority = TaskPriority.HIGH);
+        tMedium.setOnAction(event -> this.currentPriority = TaskPriority.MEDIUM);
+        tLow.setOnAction(event -> this.currentPriority = TaskPriority.LOW);
 
         createTaskButton.setOnAction(event -> {
-            if (taskNameTextField.getText().isEmpty() ||
-                    selectedProject == null ||
-                    selectedExecutor == null ||
-                    selectedDate == null) {
+            ProjectView project = projectComboBox.getValue();
+            User executor = executorComboBox.getValue();
+            LocalDate deadline = deadlineDatePicker.getValue();
+
+            if (taskNameTextField.getText().isBlank() || project == null || executor == null || deadline == null) {
                 NavigationManager.showToast("Заполните пустые поля", "info");
                 return;
             }
 
-            if (deadlineDatePicker.getValue().isBefore(LocalDate.now())) {
+            if (deadline.isBefore(LocalDate.now())) {
                 NavigationManager.showToast("Дедлайн истек! Выберете корректную дату!", "info");
                 return;
             }
 
-            //TODO может быть стоит использовать AsyncTaskService
-            taskService.createTask(new Task(null,
+            NewTask newTask = new NewTask(
                     taskNameTextField.getText(),
-                    selectedProject,
-                    selectedExecutor,
-                    tagsTextField.getText(),
-                    TaskStatus.NEW,
+                    project.id(),
+                    executor.getId(),
                     currentPriority,
-                    deadlineDatePicker.getValue(),
-                    null,
-                    false),
-                    () -> {
+                    deadline,
+                    Tags.parse(tagsTextField.getText()));
+
+            taskService.createTask(newTask,
+                    created -> {
                         Stage stage = (Stage) createTaskButton.getScene().getWindow();
                         if (stage != null) {
                             NavigationManager.closeDialog(stage);
@@ -123,9 +106,6 @@ public class CreateTaskController {
                     },
                     error -> NavigationManager.showToast("Ошибка создания задачи", "error")
             );
-
-            log.debug("createTaskButton.getScene() = {}", createTaskButton.getScene());
-            log.debug("createTaskButton.getScene().getWindow() = {}", createTaskButton.getScene().getWindow());
         });
 
         cancelButton.setOnAction(event -> {

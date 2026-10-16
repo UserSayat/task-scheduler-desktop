@@ -8,7 +8,7 @@ import org.example.taskschedulerdesktop.config.AppConfig;
 import org.example.taskschedulerdesktop.controllers.Shutdownable;
 import org.example.taskschedulerdesktop.listeners.EventBus;
 import org.example.taskschedulerdesktop.listeners.TaskChangedEvent;
-import org.example.taskschedulerdesktop.models.Project;
+import org.example.taskschedulerdesktop.dto.projects.ProjectView;
 import org.example.taskschedulerdesktop.navigation.ContextAware;
 import org.example.taskschedulerdesktop.navigation.NavigationManager;
 import org.example.taskschedulerdesktop.navigation.Routes;
@@ -41,7 +41,7 @@ public class ProjectCardController implements ContextAware, Shutdownable {
 
     @FXML private Label remainingTasksLabel;
 
-    private Project context;
+    private ProjectView context;
     private Consumer<TaskChangedEvent> taskChangedListener;
 
 
@@ -61,7 +61,7 @@ public class ProjectCardController implements ContextAware, Shutdownable {
         log.debug("ProjectCardController.setContext: {}, hashCode = {}", context, this.hashCode());
         log.debug("class = {}", context != null ? context.getClass().getName() : "null");
 
-        if (context instanceof Project projectContext) {
+        if (context instanceof ProjectView projectContext) {
             this.context = projectContext;
 
             updateUI(projectContext);
@@ -69,7 +69,7 @@ public class ProjectCardController implements ContextAware, Shutdownable {
             taskChangedListener = event -> {
                 log.debug("TaskChangedEvent received: projectId={}", event.getProjectId());
 
-                if (Objects.equals(event.getProjectId(), projectContext.getId())) {
+                if (Objects.equals(event.getProjectId(), projectContext.id())) {
                     refreshCard();
                 } else {
                     log.debug("The event is not suitable");
@@ -96,23 +96,23 @@ public class ProjectCardController implements ContextAware, Shutdownable {
             return;
         }
 
-        log.debug("context.getId() = {}", context.getId());
+        log.debug("context.id() = {}", context.id());
 
         projectService.findProjectById(
-                context.getId(),
+                context.id(),
                 this::updateUI,
                 error -> log.error("Error updating card")
         );
     }
 
-    private void updateUI(Project project) {
-        projectNameLabel.setText(project.getName());
-        projectSupervisorLabel.setText("Руководитель: " + project.getSupervisor());
-        numberOfTasksLabel.setText(String.valueOf(project.getNumberOfTasks()));
-        completedTasksLabel.setText(String.valueOf(project.getCompletedTasks()));
-        remainingTasksLabel.setText(String.valueOf(project.getRemainingTasks()));
-        percentOfCompletionLabel.setText(project.getPercentOfCompletion() + "%");
-        taskCompletionProgressBar.setProgress(project.getPercentOfCompletion() / 100.0);
+    private void updateUI(ProjectView project) {
+        projectNameLabel.setText(project.name());
+        projectSupervisorLabel.setText("Руководитель: " + project.ownerName());
+        numberOfTasksLabel.setText(String.valueOf(project.totalTasks()));
+        completedTasksLabel.setText(String.valueOf(project.doneTasks()));
+        remainingTasksLabel.setText(String.valueOf(project.remainingTasks()));
+        percentOfCompletionLabel.setText(project.percentDone() + "%");
+        taskCompletionProgressBar.setProgress(project.percentDone() / 100.0);
     }
 
     @Override

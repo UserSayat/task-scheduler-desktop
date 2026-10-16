@@ -15,7 +15,7 @@ import org.example.taskschedulerdesktop.listeners.ChangeType;
 import org.example.taskschedulerdesktop.listeners.EventBus;
 import org.example.taskschedulerdesktop.listeners.ProjectChangedEvent;
 import org.example.taskschedulerdesktop.listeners.TaskChangedEvent;
-import org.example.taskschedulerdesktop.models.Project;
+import org.example.taskschedulerdesktop.dto.projects.ProjectView;
 import org.example.taskschedulerdesktop.navigation.ContextAware;
 import org.example.taskschedulerdesktop.navigation.NavigationManager;
 import org.example.taskschedulerdesktop.navigation.Routes;
@@ -87,12 +87,12 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
     private int amountOfMediumPriorityTasks = 0;
     private int amountOfLowPriorityTasks = 0;
 
-    private Project context;
+    private ProjectView context;
 
     private final Consumer<TaskChangedEvent> taskUpdateListener = event -> {
         log.debug("ProjectDetailsController: TaskChangedEvent received: projectId={}", event.getProjectId());
 
-        if (context != null && event.getProjectId().equals(context.getId())) {
+        if (context != null && event.getProjectId().equals(context.id())) {
             //TODO обновлять одну задачу, а не весь контейнер event.getTaskId();
             refreshAllContainers();
 
@@ -100,7 +100,7 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
             loadTasksStatisticByPriority();
 
             asyncProjectService.findProjectById(
-                    context.getId(),
+                    context.id(),
                     project -> {
                         this.context = project;
                         updateUI();
@@ -113,13 +113,13 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
     private final Consumer<ProjectChangedEvent> projectUpdateListener = event -> {
         log.debug("ProjectDetailsController: ProjectChangedEvent received: projectId={}", event.getProjectId());
 
-        if (context == null && !event.getProjectId().equals(context.getId())) {
+        if (context == null || !event.getProjectId().equals(context.id())) {
             return;
         }
 
         if (event.getChangeType() == ChangeType.UPDATED) {
             asyncProjectService.findProjectById(
-                    context.getId(),
+                    context.id(),
                     project -> {
                         this.context = project;
                         updateUI();
@@ -148,7 +148,7 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
             throw new RuntimeException("Context is null");
         }
 
-        Service<List<Node>> loaderService = asyncTaskService.createLoaderService(context.getId(), status);
+        Service<List<Node>> loaderService = asyncTaskService.createLoaderService(context.id(), status);
 
         indicator.visibleProperty().bind(loaderService.runningProperty());
 
@@ -199,19 +199,19 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
         log.debug("setContext: {}", context);
         log.debug("class = {}", context != null ? context.getClass().getName() : "null");
 
-        if (context instanceof Project projectCard) {
+        if (context instanceof ProjectView projectCard) {
             this.context = projectCard;
             updateUI();
 
             newTasksLoader = setupLoaderService(TaskStatus.NEW, newTasksVBox, newTasksLoadingIndicator);
             inProgressLoader = setupLoaderService(TaskStatus.IN_PROGRESS, tasksInProgressVBox, tasksInProgressLoadingIndicator);
-            underReviewLoader = setupLoaderService(TaskStatus.UNDER_REVIEW, tasksUnderReviewVBox, tasksUnderReviewLoadingIndicator);
-            completedLoader = setupLoaderService(TaskStatus.COMPLETED, completedTasksVBox, completedTasksLoadingIndicator);
+            underReviewLoader = setupLoaderService(TaskStatus.ON_REVIEW, tasksUnderReviewVBox, tasksUnderReviewLoadingIndicator);
+            completedLoader = setupLoaderService(TaskStatus.DONE, completedTasksVBox, completedTasksLoadingIndicator);
 
             refreshAllContainers();
 
             asyncProjectService.findProjectById(
-                    projectCard.getId(),
+                    projectCard.id(),
                     project -> {
                         this.context = project;
                         updateUI();
@@ -229,7 +229,7 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
             deleteProjectButton.setOnAction(event -> {
                 log.debug("Click on delete button");
 
-                log.info("Open delete panel for project: {}", projectCard.getId());
+                log.info("Open delete panel for project: {}", projectCard.id());
                 deleteProjectButton.setVisible(false);
                 deleteProjectButton.setManaged(false);
 
@@ -239,7 +239,7 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
 
             confirmDeleteButton.setOnAction(event -> {
                 asyncProjectService.deleteProject(
-                        projectCard.getId(),
+                        projectCard.id(),
                         () -> {
                             NavigationManager.showToast("Проект удален", "info");
                         },
@@ -265,7 +265,7 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
             throw new RuntimeException("Context is null");
         }
 
-        asyncTaskService.countTasksByProjectIdAndStatus(context.getId(), TaskStatus.IN_PROGRESS,
+        asyncTaskService.countTasksByProjectIdAndStatus(context.id(), TaskStatus.IN_PROGRESS,
                 amount -> {
                     this.amountOfTasksInProgress = amount;
                     amountOfTasksInProgressLabelSidePanel.setText(String.valueOf(amountOfTasksInProgress));
@@ -277,7 +277,7 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
                 }
         );
 
-        asyncTaskService.countTasksByProjectIdAndStatus(context.getId(), TaskStatus.UNDER_REVIEW,
+        asyncTaskService.countTasksByProjectIdAndStatus(context.id(), TaskStatus.ON_REVIEW,
                 amount -> {
                     this.amountOfTasksUnderReview = amount;
                     amountOfTasksUnderReviewLabelSidePanel.setText(String.valueOf(amountOfTasksUnderReview));
@@ -289,7 +289,7 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
                 }
         );
 
-        asyncTaskService.countTasksByProjectIdAndStatus(context.getId(), TaskStatus.NEW,
+        asyncTaskService.countTasksByProjectIdAndStatus(context.id(), TaskStatus.NEW,
                 amount -> {
                     amountOfNewTasks = amount;
                     amountOfNewTasksLabelSidePanel.setText(String.valueOf(amountOfNewTasks));
@@ -301,7 +301,7 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
                 }
         );
 
-        asyncTaskService.countTasksByProjectIdAndStatus(context.getId(), TaskStatus.COMPLETED,
+        asyncTaskService.countTasksByProjectIdAndStatus(context.id(), TaskStatus.DONE,
                 amount -> {
                     amountOfCompletedTasks = amount;
                     amountOfCompletedTasksLabelSidePanel.setText(String.valueOf(amountOfCompletedTasks));
@@ -321,7 +321,7 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
             throw new RuntimeException("Context is null");
         }
 
-        asyncTaskService.countTasksByProjectIdAndPriority(context.getId(), TaskPriority.HIGH,
+        asyncTaskService.countTasksByProjectIdAndPriority(context.id(), TaskPriority.HIGH,
                 amount -> {
                     amountOfHighPriorityTasks = amount;
                     amountOfHighPriorityTasksLabel.setText(String.valueOf(amountOfHighPriorityTasks));
@@ -332,7 +332,7 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
                 }
         );
 
-        asyncTaskService.countTasksByProjectIdAndPriority(context.getId(), TaskPriority.MIDDLE,
+        asyncTaskService.countTasksByProjectIdAndPriority(context.id(), TaskPriority.MEDIUM,
                 amount -> {
                     amountOfMediumPriorityTasks = amount;
                     amountOfMediumPriorityTasksLabel.setText(String.valueOf(amountOfMediumPriorityTasks));
@@ -343,7 +343,7 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
                 }
         );
 
-        asyncTaskService.countTasksByProjectIdAndPriority(context.getId(), TaskPriority.LOW,
+        asyncTaskService.countTasksByProjectIdAndPriority(context.id(), TaskPriority.LOW,
                 amount -> {
                     amountOfLowPriorityTasks = amount;
                     amountOfLowPriorityTasksLabel.setText(String.valueOf(amountOfLowPriorityTasks));
@@ -362,18 +362,18 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
         }
 
         log.debug("updateUI: name={}, tasks={}, completed={}, percent={}",
-                context.getName(),
-                context.getNumberOfTasks(),
-                context.getCompletedTasks(),
-                context.getPercentOfCompletion());
+                context.name(),
+                context.totalTasks(),
+                context.doneTasks(),
+                context.percentDone());
 
-        this.projectNameLabel.setText(context.getName());
-        this.projectSupervisorLabel.setText(context.getSupervisor());
-        this.numberOfTasksLabel.setText(String.valueOf(context.getNumberOfTasks()));
-        this.completedTasksLabel.setText(String.valueOf(context.getCompletedTasks()));
-        this.remainingTasksLabel.setText(String.valueOf(context.getRemainingTasks()));
-        this.percentOfCompletionLabel.setText(context.getPercentOfCompletion() + "%");
-        this.progressBar.setProgress(context.getPercentOfCompletion() / 100.0);
+        this.projectNameLabel.setText(context.name());
+        this.projectSupervisorLabel.setText(context.ownerName());
+        this.numberOfTasksLabel.setText(String.valueOf(context.totalTasks()));
+        this.completedTasksLabel.setText(String.valueOf(context.doneTasks()));
+        this.remainingTasksLabel.setText(String.valueOf(context.remainingTasks()));
+        this.percentOfCompletionLabel.setText(context.percentDone() + "%");
+        this.progressBar.setProgress(context.percentDone() / 100.0);
         this.amountOfTasksInProgressLabelSidePanel.setText(String.valueOf(amountOfTasksInProgress));
         this.amountOfTasksUnderReviewLabelSidePanel.setText(String.valueOf(amountOfTasksUnderReview));
         this.amountOfNewTasksLabelSidePanel.setText(String.valueOf(amountOfNewTasks));

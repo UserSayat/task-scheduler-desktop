@@ -1,101 +1,184 @@
 package org.example.taskschedulerdesktop.service.project;
 
-import org.example.taskschedulerdesktop.config.AppConfig;
+import com.github.f4b6a3.uuid.UuidCreator;
+import org.example.taskschedulerdesktop.database.UnitOfWork;
+import org.example.taskschedulerdesktop.dto.projects.ProjectView;
 import org.example.taskschedulerdesktop.exeptions.NotFoundException;
-import org.example.taskschedulerdesktop.listeners.EventBus;
-import org.example.taskschedulerdesktop.listeners.ProjectChangedEvent;
-import org.example.taskschedulerdesktop.listeners.TaskChangedEvent;
 import org.example.taskschedulerdesktop.models.Project;
+import org.example.taskschedulerdesktop.models.Project.Fields;
+import org.example.taskschedulerdesktop.models.ProjectMember;
 import org.example.taskschedulerdesktop.repository.project.ProjectRepository;
-import org.example.taskschedulerdesktop.service.task.TaskService;
-import org.example.taskschedulerdesktop.utils.TaskStatus;
+import org.example.taskschedulerdesktop.session.Session;
+import org.example.taskschedulerdesktop.sync.ChangeTracker;
+import org.example.taskschedulerdesktop.sync.EntityType;
+import org.example.taskschedulerdesktop.utils.MemberRole;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.sql.SQLException;
+import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
+/**
+ * Проекты. Каждая запись — одна транзакция вместе с field_versions и sync_log.
+ * Владелец проекта всегда есть в участниках с ролью OWNER (API.md, 8.2).
+ */
 public class ProjectServiceImpl implements ProjectService {
 
     private static final Logger log = LoggerFactory.getLogger(ProjectServiceImpl.class);
-    private final ProjectRepository projectRepository;
-    private final TaskService taskService;
+    private static final int NAME_MAX_LENGTH = 255;
 
-    public ProjectServiceImpl(ProjectRepository projectRepository, TaskService taskService) {
-        log.debug("ProjectServiceImpl created");
+    private final UnitOfWork uow;
+    private final ProjectRepository repository;
+    private final ChangeTracker changeTracker;
+    private final Session session;
 
-        this.projectRepository = projectRepository;
-        this.taskService = taskService;
+    public ProjectServiceImpl(UnitOfWork uow, ProjectRepository repository,
+                              ChangeTracker changeTracker, Session session) {
+        this.uow = uow;
+        this.repository = repository;
+        this.changeTracker = changeTracker;
+        this.session = session;
+    }
 
-        EventBus.getInstance().subscribe(TaskChangedEvent.class, event -> {
+    @Override
+    public List<ProjectView> findAll() {
+        return uow.read(repository::findAllViews);
+    }
 
-            log.debug("TaskChangedEvent received: projectId={}", event.getProjectId());
+    @Override
+    public ProjectView findById(UUID id) {
+        return uow.read(() -> repository.findViewById(id))
+                .orElseThrow(() -> new NotFoundException("Project not found: " + id));
+    }
 
-            try {
-                Project project = projectRepository.findById(event.getProjectId())
-                        .orElseThrow(() -> new NotFoundException(""));
+    @Override
+    public ProjectView create(String name, UUID ownerId) {
+        String validName = validName(name);
+        Objects.requireNonNull(ownerId, "ownerId");
 
-                log.debug("Project found: {}", project.getName());
-                update(project);
-                log.debug("Project updated: {}", project.getName());
+        return uow.inTransaction(() -> {
+            Instant now = Instant.now();
+            UUID userId = session.getCurrentUserId();
 
-            } catch (Exception e) {
-                log.error("Error updating project ", e);
+            List<ProjectMember> members = new ArrayList<>();
+            members.add(new ProjectMember(ownerId, MemberRole.OWNER, now));
+            // Создатель должен сохранить доступ к проекту, даже если владельцем назначил другого
+            if (!userId.equals(ownerId)) {
+                members.add(new ProjectMember(userId, MemberRole.MANAGER, now));
             }
+
+            Project project = new Project();
+            project.setId(UuidCreator.getTimeOrderedEpoch());
+            project.setName(validName);
+            project.setOwnerId(ownerId);
+            project.setMembers(members);
+            project.setCreatedAt(now);
+            project.setUpdatedAt(now);
+            project.setCreatedBy(userId);
+            project.setUpdatedBy(userId);
+
+            repository.insert(project);
+            changeTracker.created(EntityType.PROJECT, project.getId(), Fields.ON_CREATE, now);
+
+            log.debug("Project created: {}", project.getId());
+            return requireView(project.getId());
         });
-
-        log.debug("Subscribe on TaskChangedEvent completed");
     }
 
     @Override
-    public List<Project> findAll() {
-        return projectRepository.findAll();
+    public ProjectView update(UUID id, String name, UUID ownerId) {
+        String validName = validName(name);
+        Objects.requireNonNull(ownerId, "ownerId");
+
+        return uow.inTransaction(() -> {
+            Project project = repository.findById(id)
+                    .orElseThrow(() -> new NotFoundException("Project not found: " + id));
+            Instant now = Instant.now();
+            List<String> changed = new ArrayList<>();
+
+            if (!Objects.equals(project.getName(), validName)) {
+                project.setName(validName);
+                changed.add(Fields.NAME);
+            }
+            if (!Objects.equals(project.getOwnerId(), ownerId)) {
+                project.setMembers(withOwner(project.getMembers(), project.getOwnerId(), ownerId, now));
+                project.setOwnerId(ownerId);
+                changed.add(Fields.OWNER_ID);
+                changed.add(Fields.MEMBERS);
+            }
+
+            if (!changed.isEmpty()) {
+                project.setUpdatedAt(now);
+                project.setUpdatedBy(session.getCurrentUserId());
+                repository.update(project);
+                changeTracker.updated(EntityType.PROJECT, id, changed, now);
+                log.debug("Project {} updated, fields: {}", id, changed);
+            }
+
+            return requireView(id);
+        });
     }
 
     @Override
-    public void save(Project project) {
-        log.debug("save({})", project);
+    public void delete(UUID id) {
+        uow.inTransaction(() -> {
+            Project project = repository.findById(id)
+                    .orElseThrow(() -> new NotFoundException("Project not found: " + id));
+            Instant now = Instant.now();
 
-        projectRepository.save(project);
+            project.setDeletedAt(now);
+            project.setUpdatedAt(now);
+            project.setUpdatedBy(session.getCurrentUserId());
+            repository.update(project);
+            changeTracker.deleted(EntityType.PROJECT, id, now);
+        });
     }
 
-    @Override
-    public void update(Project project) {
-        log.debug("update({})", project);
+    /**
+     * Новый владелец получает роль OWNER, прежний остаётся в проекте как MANAGER.
+     */
+    private List<ProjectMember> withOwner(List<ProjectMember> members, UUID oldOwnerId, UUID newOwnerId, Instant now) {
+        List<ProjectMember> result = new ArrayList<>();
+        result.add(new ProjectMember(newOwnerId, MemberRole.OWNER, joinedAt(members, newOwnerId, now)));
 
-        int numberOfTasks = countTasksByProjectId(project.getId());
-        int completedTasks = countTasksByProjectIdAndStatus(project.getId(), TaskStatus.COMPLETED);
-        int remainingTasks = numberOfTasks - completedTasks;
-        int percentOfCompletion = numberOfTasks > 0 ? (completedTasks * 100 / numberOfTasks) : 0;
-
-        project.setNumberOfTasks(numberOfTasks);
-        project.setCompletedTasks(completedTasks);
-        project.setRemainingTasks(remainingTasks);
-        project.setPercentOfCompletion(percentOfCompletion);
-
-        log.debug("Project: {}, numberOfTasks = {}, completedTasks = {}",
-                project.getName(), project.getNumberOfTasks(), project.getCompletedTasks());
-
-        projectRepository.update(project);
+        for (ProjectMember member : members) {
+            if (member.userId().equals(newOwnerId)) {
+                continue;
+            }
+            if (member.userId().equals(oldOwnerId)) {
+                result.add(new ProjectMember(oldOwnerId, MemberRole.MANAGER, member.joinedAt()));
+            } else {
+                result.add(member);
+            }
+        }
+        return result;
     }
 
-    @Override
-    public void delete(long id) {
-        projectRepository.delete(id);
+    private Instant joinedAt(List<ProjectMember> members, UUID userId, Instant fallback) {
+        return members.stream()
+                .filter(m -> m.userId().equals(userId))
+                .map(ProjectMember::joinedAt)
+                .findFirst()
+                .orElse(fallback);
     }
 
-    @Override
-    public Project findById(long id) {
-        return projectRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Project not found"));
+    private ProjectView requireView(UUID id) throws SQLException {
+        return repository.findViewById(id)
+                .orElseThrow(() -> new NotFoundException("Project not found: " + id));
     }
 
-    @Override
-    public int countTasksByProjectIdAndStatus(long projectId, TaskStatus status) {
-        return taskService.countTasksByProjectIdAndStatus(projectId, status);
-    }
-
-    @Override
-    public int countTasksByProjectId(long projectId) {
-        return taskService.countTasksByProjectId(projectId);
+    private String validName(String name) {
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException("Название проекта не может быть пустым");
+        }
+        String trimmed = name.trim();
+        if (trimmed.length() > NAME_MAX_LENGTH) {
+            throw new IllegalArgumentException("Название проекта длиннее " + NAME_MAX_LENGTH + " символов");
+        }
+        return trimmed;
     }
 }
