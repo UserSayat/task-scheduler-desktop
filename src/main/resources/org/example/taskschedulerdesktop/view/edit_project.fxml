@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 
 <VBox styleClass="modal-root" prefWidth="420"
-      fx:controller="org.example.taskschedulerdesktop.controllers.projects.EditProjectController"
+      fx:controller="org.example.taskschedulerdesktop.project.EditProjectController"
       xmlns="http://javafx.com/javafx/21"
       xmlns:fx="http://javafx.com/fxml/1">
 

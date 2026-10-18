@@ -8,7 +8,7 @@
 <?import javafx.geometry.*?>
 
 <VBox spacing="14" styleClass="content-area"
-      fx:controller="org.example.taskschedulerdesktop.controllers.tasks.TasksController"
+      fx:controller="org.example.taskschedulerdesktop.task.TasksController"
       xmlns:fx="http://javafx.com/fxml/1">
 
     <VBox fx:id="taskTableContainerVBox" spacing="30.0" VBox.vgrow="ALWAYS">

@@ -7,7 +7,7 @@
 <TableView fx:id="taskTable" styleClass="task-table"
            xmlns="http://javafx.com/javafx/21"
            xmlns:fx="http://javafx.com/fxml/1"
-           fx:controller="org.example.taskschedulerdesktop.controllers.tasks.TaskTableController">
+           fx:controller="org.example.taskschedulerdesktop.task.TaskTableController">
 
    <columns>
 <!--      <TableColumn fx:id="idColumn" prefWidth="30" text="#" />-->

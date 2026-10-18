@@ -1,8 +1,8 @@
 package org.example.taskschedulerdesktop.sync;
 
 import com.github.f4b6a3.uuid.UuidCreator;
-import org.example.taskschedulerdesktop.database.Jdbc;
-import org.example.taskschedulerdesktop.database.UnitOfWork;
+import org.example.taskschedulerdesktop.shared.database.Jdbc;
+import org.example.taskschedulerdesktop.shared.database.UnitOfWork;
 import org.example.taskschedulerdesktop.session.Session;
 
 import java.sql.PreparedStatement;

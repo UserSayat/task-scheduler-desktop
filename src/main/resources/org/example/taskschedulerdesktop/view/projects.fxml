@@ -5,7 +5,7 @@
 <?import javafx.geometry.*?>
 
 <ScrollPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="org.example.taskschedulerdesktop.controllers.projects.ProjectsController"
+            fx:controller="org.example.taskschedulerdesktop.project.ProjectsController"
             fitToWidth="true" fitToHeight="true" hbarPolicy="NEVER" styleClass="scroll-pane-clean">
     <VBox styleClass="content-area">
 

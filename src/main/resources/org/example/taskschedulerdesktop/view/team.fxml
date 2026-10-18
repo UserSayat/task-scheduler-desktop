@@ -9,7 +9,7 @@
 <ScrollPane fitToWidth="true" styleClass="scroll-pane-clean"
             xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="org.example.taskschedulerdesktop.controllers.team.TeamController">
+            fx:controller="org.example.taskschedulerdesktop.team.TeamController">
     <TilePane fx:id="teamTilePane"
               styleClass="content-area"
               hgap="12"

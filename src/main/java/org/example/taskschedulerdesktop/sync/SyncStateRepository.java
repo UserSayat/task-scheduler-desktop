@@ -1,6 +1,6 @@
 package org.example.taskschedulerdesktop.sync;
 
-import org.example.taskschedulerdesktop.database.UnitOfWork;
+import org.example.taskschedulerdesktop.shared.database.UnitOfWork;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

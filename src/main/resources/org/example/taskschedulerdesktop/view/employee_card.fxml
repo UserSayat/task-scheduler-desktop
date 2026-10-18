@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 
-<VBox styleClass="team-card" spacing="12" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.taskschedulerdesktop.controllers.team.EmployeeCardController">
+<VBox styleClass="team-card" spacing="12" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.taskschedulerdesktop.team.EmployeeCardController">
    <HBox spacing="12" alignment="CENTER_LEFT">
       <StackPane>
          <StackPane styleClass="avatar-box-lg">

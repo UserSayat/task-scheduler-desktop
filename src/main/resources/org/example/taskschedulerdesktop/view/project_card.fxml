@@ -10,7 +10,7 @@
 <VBox fx:id="rootVBox"
       xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="org.example.taskschedulerdesktop.controllers.projects.ProjectCardController"
+      fx:controller="org.example.taskschedulerdesktop.project.ProjectCardController"
       styleClass="project-card">
     <HBox alignment="CENTER_LEFT" spacing="8" style="-fx-padding:0 0 14 0;">
         <VBox HBox.hgrow="ALWAYS" spacing="3">
