@@ -1,4 +1,4 @@
-package org.example.taskschedulerdesktop.sync;
+package org.example.taskschedulerdesktop.sync.protocol;
 
 public enum EntityType {
     USER,

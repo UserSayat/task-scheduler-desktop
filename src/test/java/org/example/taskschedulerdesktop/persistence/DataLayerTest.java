@@ -1,27 +1,28 @@
 package org.example.taskschedulerdesktop.persistence;
 
 import org.example.taskschedulerdesktop.config.DevDataSeeder;
-import org.example.taskschedulerdesktop.shared.database.UnitOfWork;
-import org.example.taskschedulerdesktop.project.ProjectView;
-import org.example.taskschedulerdesktop.task.TaskView;
-import org.example.taskschedulerdesktop.shared.exception.DataAccessException;
 import org.example.taskschedulerdesktop.project.H2ProjectRepository;
-import org.example.taskschedulerdesktop.tag.H2TagRepository;
-import org.example.taskschedulerdesktop.task.H2TaskRepository;
 import org.example.taskschedulerdesktop.project.ProjectService;
 import org.example.taskschedulerdesktop.project.ProjectServiceImpl;
+import org.example.taskschedulerdesktop.project.ProjectView;
+import org.example.taskschedulerdesktop.session.Session;
+import org.example.taskschedulerdesktop.shared.database.UnitOfWork;
+import org.example.taskschedulerdesktop.shared.exception.DataAccessException;
+import org.example.taskschedulerdesktop.sync.local.ChangeTracker;
+import org.example.taskschedulerdesktop.tag.H2TagRepository;
 import org.example.taskschedulerdesktop.tag.TagService;
+import org.example.taskschedulerdesktop.task.H2TaskRepository;
 import org.example.taskschedulerdesktop.task.NewTask;
 import org.example.taskschedulerdesktop.task.TaskEdit;
+import org.example.taskschedulerdesktop.task.TaskPriority;
 import org.example.taskschedulerdesktop.task.TaskService;
 import org.example.taskschedulerdesktop.task.TaskServiceImpl;
-import org.example.taskschedulerdesktop.session.Session;
-import org.example.taskschedulerdesktop.sync.ChangeTracker;
-import org.example.taskschedulerdesktop.task.TaskPriority;
 import org.example.taskschedulerdesktop.task.TaskStatus;
+import org.example.taskschedulerdesktop.task.TaskView;
 import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -31,8 +32,6 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Слой данных клиента на настоящей H2 со всеми миграциями: запись сущностей,

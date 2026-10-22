@@ -5,13 +5,13 @@ import java.util.UUID;
 /**
  * Кто работает с приложением и на каком устройстве.
  * <p>
- * Пока входа нет (этап 7), текущий пользователь задаётся при запуске — в режиме разработки
- * это демо-администратор из {@link org.example.taskschedulerdesktop.config.DevDataSeeder}.
+ * Пользователь задаётся при входе (или при запуске, если вход уже был на этом устройстве),
+ * в демо-режиме — демо-администратор из {@link org.example.taskschedulerdesktop.config.DevDataSeeder}.
  */
 public class Session {
 
     private final UUID deviceId;
-    private UUID currentUserId;
+    private volatile UUID currentUserId;
 
     public Session(UUID deviceId, UUID currentUserId) {
         this.deviceId = deviceId;
@@ -23,13 +23,22 @@ public class Session {
     }
 
     public UUID getCurrentUserId() {
-        if (currentUserId == null) {
+        UUID userId = currentUserId;
+        if (userId == null) {
             throw new IllegalStateException("No user is signed in");
         }
-        return currentUserId;
+        return userId;
     }
 
-    public void setCurrentUserId(UUID currentUserId) {
-        this.currentUserId = currentUserId;
+    public boolean isSignedIn() {
+        return currentUserId != null;
+    }
+
+    public void signIn(UUID userId) {
+        this.currentUserId = userId;
+    }
+
+    public void signOut() {
+        this.currentUserId = null;
     }
 }

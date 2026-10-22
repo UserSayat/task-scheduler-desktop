@@ -1,4 +1,4 @@
-package org.example.taskschedulerdesktop.sync;
+package org.example.taskschedulerdesktop.sync.local;
 
 import org.example.taskschedulerdesktop.shared.database.UnitOfWork;
 
@@ -8,12 +8,15 @@ import java.sql.SQLException;
 import java.util.Optional;
 
 /**
- * Служебные значения синхронизации (device_id, pull_cursor, ...) в таблице sync_state.
+ * Служебные значения синхронизации в таблице sync_state: устройство, курсор pull, вошедший пользователь
+ * и его refresh-токен (API.md, 5).
  */
 public class SyncStateRepository {
 
     public static final String DEVICE_ID = "device_id";
     public static final String PULL_CURSOR = "pull_cursor";
+    public static final String CURRENT_USER_ID = "current_user_id";
+    public static final String REFRESH_TOKEN = "refresh_token";
 
     private final UnitOfWork uow;
 
@@ -36,6 +39,13 @@ public class SyncStateRepository {
         try (PreparedStatement ps = uow.connection().prepareStatement(sql)) {
             ps.setString(1, key);
             ps.setString(2, value);
+            ps.executeUpdate();
+        }
+    }
+
+    public void remove(String key) throws SQLException {
+        try (PreparedStatement ps = uow.connection().prepareStatement("DELETE FROM sync_state WHERE state_key = ?")) {
+            ps.setString(1, key);
             ps.executeUpdate();
         }
     }

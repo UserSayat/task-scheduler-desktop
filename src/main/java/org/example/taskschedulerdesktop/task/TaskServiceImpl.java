@@ -1,13 +1,13 @@
 package org.example.taskschedulerdesktop.task;
 
 import com.github.f4b6a3.uuid.UuidCreator;
+import org.example.taskschedulerdesktop.session.Session;
 import org.example.taskschedulerdesktop.shared.database.UnitOfWork;
 import org.example.taskschedulerdesktop.shared.exception.NotFoundException;
-import org.example.taskschedulerdesktop.task.Task.Fields;
+import org.example.taskschedulerdesktop.sync.local.ChangeTracker;
+import org.example.taskschedulerdesktop.sync.protocol.EntityType;
 import org.example.taskschedulerdesktop.tag.TagService;
-import org.example.taskschedulerdesktop.session.Session;
-import org.example.taskschedulerdesktop.sync.ChangeTracker;
-import org.example.taskschedulerdesktop.sync.EntityType;
+import org.example.taskschedulerdesktop.task.Task.Fields;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
