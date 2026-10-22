@@ -1,30 +1,24 @@
 package org.example.taskschedulerdesktop;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import org.example.taskschedulerdesktop.config.AppConfig;
 import org.example.taskschedulerdesktop.shared.database.DbConfig;
 import org.example.taskschedulerdesktop.shared.database.DatabaseConnection;
 import org.example.taskschedulerdesktop.shared.navigation.NavigationManager;
+import org.example.taskschedulerdesktop.shell.AppShell;
 import org.flywaydb.core.Flyway;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.InputStream;
-import java.net.URL;
 
 public class TaskSchedulerApplication extends Application {
 
     private static final Logger log = LoggerFactory.getLogger(TaskSchedulerApplication.class);
 
-    private static final String[] STYLES = {
-            "/org/example/taskschedulerdesktop/styles/style.css",
-            "/org/example/taskschedulerdesktop/styles/row_task_table.css",
-    };
+    private AppShell shell;
 
     @Override
     public void init() {
@@ -36,43 +30,22 @@ public class TaskSchedulerApplication extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
-
-        Flyway flyway = Flyway.configure()
+    public void start(Stage primaryStage) {
+        Flyway.configure()
                 .dataSource(DbConfig.getDbUrl(), "sa", "")
                 .locations("classpath:migration")
-                .load();
-
-        flyway.migrate();
+                .load()
+                .migrate();
 
         // Инициализация пула соединений
         DatabaseConnection.getInstance();
 
-        AppConfig.getInstance().setPrimaryStage(primaryStage);
+        AppConfig config = AppConfig.getInstance();
+        config.setPrimaryStage(primaryStage);
 
-        FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/org/example/taskschedulerdesktop/view/main.fxml")
-        );
-        Parent root = loader.load();
-
-        Scene scene = new Scene(root, 1280, 720);
-
-        primaryStage.setMinWidth(900);
-        primaryStage.setMinHeight(600);
-
-        for (String cssPath : STYLES) {
-            URL cssUrl = getClass().getResource(cssPath);
-            if (cssUrl != null) {
-                scene.getStylesheets().add(cssUrl.toExternalForm());
-                log.debug("CSS: {}", cssPath);
-            } else {
-                log.error("Not found: {}", cssPath);
-            }
-        }
-
-        primaryStage.setTitle("Корпоративный планировщик");
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        shell = new AppShell(primaryStage, config);
+        config.setAppShell(shell);
+        shell.start();
     }
 
     public static void main(String[] args) {
@@ -81,18 +54,15 @@ public class TaskSchedulerApplication extends Application {
 
     private void loadFont(String path) {
         try (InputStream is = getClass().getResourceAsStream(path)) {
-            if (is != null) {
-                Font font = Font.loadFont(is, 12);
-                if (font != null) {
-                    log.info("Name: '{}'", font.getName());       // "DM Serif Display"
-                    log.info("Family: '{}'", font.getFamily());   // "DM Serif Display"
-                    log.info("Style: '{}'", font.getStyle());
-                    log.debug("Font loaded: {} → '{}'", path, font.getFamily());
-                } else {
-                    log.warn("File read, but font not recognized: {}", path);
-                }
-            } else {
+            if (is == null) {
                 log.error("File not found: {}", path);
+                return;
+            }
+            Font font = Font.loadFont(is, 12);
+            if (font != null) {
+                log.debug("Font loaded: {} → '{}'", path, font.getFamily());
+            } else {
+                log.warn("File read, but font not recognized: {}", path);
             }
         } catch (Exception e) {
             log.error("Font loading error: {}", path, e);
@@ -101,6 +71,9 @@ public class TaskSchedulerApplication extends Application {
 
     @Override
     public void stop() {
+        if (shell != null) {
+            shell.stop();
+        }
         NavigationManager.dispose();
         DatabaseConnection.getInstance().close();
     }

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane styleClass="login-root" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="org.example.taskschedulerdesktop.auth.LoginController">
+    <VBox styleClass="login-card" maxWidth="380" maxHeight="-Infinity" spacing="14">
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <StackPane styleClass="logo-icon">
+                <Label text="TF" style="-fx-text-fill:white;-fx-font-size:10px;-fx-font-weight:bold;"/>
+            </StackPane>
+            <VBox spacing="2">
+                <Label text="TaskFlow" styleClass="login-title"/>
+                <Label text="КОРПОРАТИВНЫЙ ПОРТАЛ" styleClass="field-label"/>
+            </VBox>
+        </HBox>
+
+        <Label text="Вход в систему" styleClass="page-title">
+            <VBox.margin><Insets top="10"/></VBox.margin>
+        </Label>
+
+        <VBox spacing="0">
+            <Label text="EMAIL" styleClass="field-label"/>
+            <TextField fx:id="emailField" promptText="ivanov@company.ru" styleClass="text-field-styled"/>
+        </VBox>
+        <VBox spacing="0">
+            <Label text="ПАРОЛЬ" styleClass="field-label"/>
+            <PasswordField fx:id="passwordField" styleClass="text-field-styled"/>
+        </VBox>
+
+        <Label fx:id="errorLabel" styleClass="login-error" wrapText="true" managed="false" visible="false"/>
+
+        <Button fx:id="loginButton" text="Войти" defaultButton="true" maxWidth="Infinity" styleClass="btn-primary"/>
+
+        <HBox fx:id="progressBox" spacing="8" alignment="CENTER_LEFT" managed="false" visible="false">
+            <ProgressIndicator prefWidth="16" prefHeight="16"/>
+            <Label fx:id="progressLabel" styleClass="page-date"/>
+        </HBox>
+
+        <Label fx:id="serverLabel" styleClass="page-date"/>
+    </VBox>
+</StackPane>

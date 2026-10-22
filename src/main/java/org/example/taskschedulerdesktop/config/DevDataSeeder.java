@@ -12,10 +12,11 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * Демо-сотрудники для режима разработки, пока нет входа и синхронизации с сервером (этапы 6–7).
+ * Демо-режим: клиент работает без сервера, с демо-сотрудниками, текущий пользователь — демо-администратор.
+ * Удобно для разработки экранов. Включается флагом {@code -Dtaskhub.dev=true}.
  * <p>
- * Режим включён по умолчанию; выключается флагом {@code -Dtaskhub.dev=false}.
- * Данные пишутся напрямую, без журнала синхронизации: на сервер они попадать не должны.
+ * Данные пишутся напрямую, без журнала синхронизации, и на сервер не попадают: при первом настоящем
+ * входе локальная база очищается.
  */
 public final class DevDataSeeder {
 
@@ -43,7 +44,7 @@ public final class DevDataSeeder {
     private DevDataSeeder() {}
 
     public static boolean isEnabled() {
-        return !"false".equalsIgnoreCase(System.getProperty(DEV_PROPERTY));
+        return Boolean.getBoolean(DEV_PROPERTY);
     }
 
     public static void seed(UnitOfWork uow) {

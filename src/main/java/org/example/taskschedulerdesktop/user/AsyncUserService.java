@@ -5,6 +5,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
@@ -41,6 +43,20 @@ public class AsyncUserService {
             log.error("Users loading failed", task.getException());
             onError.accept(task.getException());
         });
+
+        executor.submit(task);
+    }
+
+    public void findUser(UUID id, Consumer<Optional<User>> onSuccess) {
+        Task<Optional<User>> task = new Task<>() {
+            @Override
+            protected Optional<User> call() {
+                return delegate.findById(id);
+            }
+        };
+
+        task.setOnSucceeded(event -> onSuccess.accept(task.getValue()));
+        task.setOnFailed(event -> log.error("User loading failed", task.getException()));
 
         executor.submit(task);
     }

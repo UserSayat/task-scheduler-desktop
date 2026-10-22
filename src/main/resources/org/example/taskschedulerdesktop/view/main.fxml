@@ -57,12 +57,13 @@
                 <!-- Пользователь -->
                 <HBox styleClass="sidebar-user-box" spacing="10" alignment="CENTER_LEFT">
                     <StackPane styleClass="avatar-box-rm">
-                        <Label text="РМ" styleClass="avatar-text"/>
+                        <Label fx:id="userInitialsLabel" text="—" styleClass="avatar-text"/>
                     </StackPane>
-                    <VBox spacing="2">
-                        <Label text="Пользователь" styleClass="user-name"/>
-                        <Label text="Должность" styleClass="user-role"/>
+                    <VBox spacing="2" HBox.hgrow="ALWAYS">
+                        <Label fx:id="userNameLabel" text="Пользователь" styleClass="user-name"/>
+                        <Label fx:id="userPositionLabel" styleClass="user-role"/>
                     </VBox>
+                    <Button fx:id="logoutButton" text="Выйти" styleClass="logout-btn"/>
                 </HBox>
             </VBox>
         </left>
@@ -76,6 +77,7 @@
                         <Label fx:id="pageTitleLabel" text="Обзор" styleClass="page-title"/>
                         <Label fx:id="pageDate"  styleClass="page-date"/>
                     </VBox>
+                    <Button fx:id="syncStatusButton" styleClass="sync-indicator" text="● Синхронизация"/>
                     <Button fx:id="createTaskButton" text="+ Новая задача"
                             styleClass="btn-secondary"/>
                     <!--                        <TextField fx:id="searchField" promptText="Поиск задач..."-->

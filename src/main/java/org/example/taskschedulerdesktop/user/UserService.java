@@ -3,6 +3,8 @@ package org.example.taskschedulerdesktop.user;
 import org.example.taskschedulerdesktop.shared.database.UnitOfWork;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 public class UserService {
 
@@ -16,5 +18,9 @@ public class UserService {
 
     public List<User> findAllActive() {
         return uow.read(repository::findAllActive);
+    }
+
+    public Optional<User> findById(UUID id) {
+        return uow.read(() -> repository.findById(id));
     }
 }

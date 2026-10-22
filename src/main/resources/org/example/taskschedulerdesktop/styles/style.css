@@ -701,3 +701,51 @@ dashboard-list-view .scroll-bar:vertical,
 dashboard-list-view .scroll-bar:horizontal {
     -fx-background-color: transparent;
 }
+/* ── Экран входа ────────────────────────────────────── */
+.login-root {
+  -fx-background-color: #f6f6f4;
+}
+.login-card {
+  -fx-background-color: white;
+  -fx-border-color: #e2e2dc;
+  -fx-border-width: 1;
+  -fx-padding: 32 32 28 32;
+}
+.login-title {
+  -fx-text-fill: #111110;
+  -fx-font-size: 14px;
+  -fx-font-weight: bold;
+}
+.login-error {
+  -fx-background-color: #fef2f2;
+  -fx-text-fill: #b91c1c;
+  -fx-font-size: 12px;
+  -fx-padding: 8 10 8 10;
+}
+
+/* ── Выход и индикатор синхронизации ────────────────── */
+.logout-btn {
+  -fx-background-color: transparent;
+  -fx-text-fill: rgba(255,255,255,0.35);
+  -fx-font-size: 11px;
+  -fx-font-family: "JetBrains Mono", monospace;
+  -fx-cursor: hand;
+  -fx-border-width: 0;
+  -fx-padding: 4 0 4 0;
+}
+.logout-btn:hover { -fx-text-fill: white; }
+
+.sync-indicator {
+  -fx-background-color: transparent;
+  -fx-border-width: 0;
+  -fx-font-size: 12px;
+  -fx-font-family: "JetBrains Mono", monospace;
+  -fx-cursor: hand;
+  -fx-padding: 6 8 6 8;
+}
+.sync-indicator:hover { -fx-background-color: #f6f6f4; }
+.sync-indicator:disabled { -fx-opacity: 1; }
+.sync-ok      { -fx-text-fill: #15803d; }
+.sync-pending { -fx-text-fill: #92400e; }
+.sync-offline { -fx-text-fill: #9b9b95; }
+.sync-error   { -fx-text-fill: #b91c1c; }
