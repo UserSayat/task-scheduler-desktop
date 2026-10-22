@@ -21,9 +21,22 @@ JavaFX-клиент корпоративного планировщика зад
     mvn clean javafx:run
 ```
 
-### Режим разработки
+### Сервер и вход
 
-Пока нет входа и синхронизации с сервером, клиент работает в режиме разработки: при запуске в локальную базу добавляются демо-сотрудники, текущий пользователь — демо-администратор. Выключить: `-Dtaskhub.dev=false`.
+Клиент работает с [сервером TaskHub](https://github.com/UserSayat/task-manager-api). Адрес по умолчанию — `http://localhost:8080`, другой задаётся флагом `-Dtaskhub.server=https://...`.
+
+- Первый вход на устройстве — только онлайн: после входа загружаются все доступные данные (snapshot).
+- Дальше вход сохраняется (refresh-токен в локальной базе): приложение открывается и без сети, изменения отправятся, когда сервер станет доступен.
+- Если на устройстве входит другой пользователь, локальные данные предыдущего удаляются.
+
+### Синхронизация
+
+Индикатор в шапке показывает состояние: «Синхронизировано», «Не отправлено: N», «Офлайн», «Отклонено сервером: N». Нажатие — синхронизировать сейчас.
+Синхронизация запускается при старте, каждые 120 секунд, через 5 секунд после изменения и по кнопке (без сети — раз в 30 секунд).
+
+### Демо-режим
+
+Без сервера, с демо-сотрудниками, текущий пользователь — демо-администратор: `-Dtaskhub.dev=true`. Демо-данные на сервер не попадают и удаляются при первом настоящем входе.
 
 H2 TCP-сервер для просмотра базы из IDE: `-Dtaskhub.h2.tcp=true` (порт 9092, только localhost).
 
@@ -36,16 +49,23 @@ H2 TCP-сервер для просмотра базы из IDE: `-Dtaskhub.h2.t
 org.example.taskschedulerdesktop
 ├── MainLauncher, TaskSchedulerApplication   точка входа
 ├── config/      AppConfig (сборка зависимостей), DevDataSeeder
+├── auth/        вход и выход, токены, экран входа
 ├── task/        задачи: Task, TaskView, TaskRepository, TaskService, контроллеры экранов задач
 ├── project/     проекты: Project, ProjectView, ProjectRepository, ProjectService, контроллеры
 ├── user/        сотрудники
 ├── tag/         теги
 ├── team/        экран «Команда»
 ├── dashboard/   дашборд «Мои задачи»
-├── shell/       главное окно (MainController)
-├── sync/        журнал изменений: ChangeTracker, sync_state
+├── shell/       главное окно (AppShell — вход или рабочее пространство, MainController)
+├── sync/        синхронизация: SyncScheduler (когда), SyncService (в каком порядке), SyncStatus
+│   ├── protocol/    сообщения push/pull/snapshot и их доставка на сервер
+│   ├── local/       служебные таблицы H2: sync_log, field_versions, sync_errors, sync_state
+│   ├── push/        сборка локальных изменений для отправки
+│   ├── pull/        запись данных с сервера по LWW
+│   └── adapter/     контракт для фич (TaskSyncAdapter и др. лежат в своих пакетах)
 ├── session/     текущий пользователь и устройство
 └── shared/      общее для всех фич
+    ├── api/         HTTP-клиент сервера (ApiClient)
     ├── database/    пул соединений, UnitOfWork, Jdbc
     ├── event/       EventBus
     ├── navigation/  NavigationManager, Routes
@@ -60,4 +80,7 @@ FXML, стили и шрифты лежат в `src/main/resources/org/example/t
 - `UnitOfWork` — одна транзакция на операцию; репозитории берут соединение из неё.
 - `ChangeTracker` — каждое изменение сущности в той же транзакции пишет `field_versions` и `sync_log` (очередь для синхронизации).
 - Модели (`Task`, `Project`, ...) — зеркало таблиц; экраны работают с `TaskView` и `ProjectView`.
-- Тесты слоя данных: `mvn test`.
+- Синхронизация: `OutgoingChanges` собирает push из журнала, `ChangeApplier` применяет pull и snapshot по field-level LWW. Каждая фича описывает свои поля в `*SyncAdapter` (`TaskSyncAdapter`, `ProjectSyncAdapter`, ...).
+- Тесты: `mvn test` (слой данных и синхронизация с сервером-заглушкой).
+- Проверка с настоящим сервером (на чистой базе, нужен администратор):
+  `mvn test -Dtest=ServerIntegrationTest -Dtaskhub.e2e.server=http://localhost:8080 -Dtaskhub.e2e.email=... -Dtaskhub.e2e.password=...`
