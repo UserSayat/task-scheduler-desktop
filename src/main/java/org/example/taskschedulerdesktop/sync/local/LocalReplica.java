@@ -101,4 +101,41 @@ public class LocalReplica {
         }
         log.info("Access to project {} revoked: removed with {} tasks, {} unsent changes", projectId, taskIds.size(), byEntity.size());
     }
+
+    /**
+     * Удалить сущность, созданную на этом устройстве, но не принятую сервером. Проект удаляется
+     * вместе с задачами, тег — вместе со связями с задачами.
+     *
+     * @return проект удалённой задачи (чтобы обновить экраны) или {@code null}
+     */
+    public UUID removeLocalOnly(EntityType type, UUID id, Instant at) throws SQLException {
+        UUID projectId = null;
+        switch (type) {
+            case PROJECT -> removeProject(id, at);
+            case TASK -> {
+                try (PreparedStatement ps = uow.connection().prepareStatement("SELECT project_id FROM tasks WHERE id = ?")) {
+                    Jdbc.setUuid(ps, 1, id);
+                    try (ResultSet rs = ps.executeQuery()) {
+                        projectId = rs.next() ? Jdbc.getUuid(rs, "project_id") : null;
+                    }
+                }
+                execute("DELETE FROM tasks WHERE id = ?", id);
+            }
+            case TAG -> {
+                execute("DELETE FROM task_tags WHERE tag_id = ?", id);
+                execute("DELETE FROM tags WHERE id = ?", id);
+            }
+            case USER -> { } // сотрудников клиент не создаёт
+        }
+        fieldVersions.deleteForEntities(type, List.of(id));
+        log.info("Local-only {} {} removed", type, id);
+        return projectId;
+    }
+
+    private void execute(String sql, UUID id) throws SQLException {
+        try (PreparedStatement ps = uow.connection().prepareStatement(sql)) {
+            Jdbc.setUuid(ps, 1, id);
+            ps.executeUpdate();
+        }
+    }
 }

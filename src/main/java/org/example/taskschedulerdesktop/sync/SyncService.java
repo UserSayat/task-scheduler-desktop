@@ -3,6 +3,7 @@ package org.example.taskschedulerdesktop.sync;
 import org.example.taskschedulerdesktop.session.Session;
 import org.example.taskschedulerdesktop.shared.api.ApiException;
 import org.example.taskschedulerdesktop.shared.api.OfflineException;
+import org.example.taskschedulerdesktop.shared.database.Jdbc;
 import org.example.taskschedulerdesktop.shared.database.UnitOfWork;
 import org.example.taskschedulerdesktop.sync.adapter.KnownUsers;
 import org.example.taskschedulerdesktop.sync.adapter.SyncEntityAdapter;
@@ -59,6 +60,8 @@ public class SyncService {
     private final SyncLogRepository syncLog;
     private final SyncErrorRepository syncErrors;
     private final SyncStateRepository syncState;
+    private final FieldVersionRepository fieldVersions;
+    private final LocalReplica replica;
 
     private final List<Consumer<SyncStatus>> statusListeners = new CopyOnWriteArrayList<>();
     private final List<Consumer<AppliedChanges>> changeListeners = new CopyOnWriteArrayList<>();
@@ -87,6 +90,8 @@ public class SyncService {
         this.syncLog = new SyncLogRepository(uow);
         this.syncErrors = new SyncErrorRepository(uow);
         this.syncState = new SyncStateRepository(uow);
+        this.fieldVersions = new FieldVersionRepository(uow);
+        this.replica = new LocalReplica(uow);
     }
 
     // ===== Подписки для экранов =====
@@ -180,6 +185,86 @@ public class SyncService {
         fullSnapshot(changes);
         int[] counts = counts();
         publish(new SyncStatus(SyncStatus.State.SYNCED, counts[0], counts[1], Instant.now(), null));
+    }
+
+    // ===== Отклонённые изменения =====
+
+    public List<SyncErrorRepository.Rejected> rejectedChanges() {
+        return uow.read(syncErrors::findUnresolved);
+    }
+
+    /**
+     * «Повторить»: ошибка считается решённой, изменения сущности уйдут при следующей синхронизации
+     * (например, после того как администратор выдал права).
+     */
+    public synchronized void retryRejected(EntityType type, UUID entityId) {
+        uow.inTransaction(() -> syncErrors.resolve(type, entityId, Instant.now()));
+        refreshCounts();
+    }
+
+    /**
+     * «Отменить мою правку»: неотправленные изменения сущности удаляются, а её значения
+     * загружаются с сервера заново. Сущность, которой на сервере нет (отклонённое создание), удаляется.
+     *
+     * @throws OfflineException нужна связь, чтобы получить значения с сервера; локально ничего не меняется
+     */
+    public synchronized void discardRejected(EntityType type, UUID entityId, boolean createdLocally) {
+        AppliedChanges changes = new AppliedChanges();
+        if (createdLocally) {
+            uow.inTransaction(() -> {
+                Instant now = Instant.now();
+                syncLog.removeUnsynced(type, List.of(entityId));
+                syncErrors.resolve(type, entityId, now);
+                UUID projectId = replica.removeLocalOnly(type, entityId, now);
+                switch (type) {
+                    case PROJECT -> changes.projectRevoked(entityId);
+                    case TASK -> changes.taskChanged(projectId);
+                    case TAG -> changes.tagChanged();
+                    case USER -> changes.userChanged();
+                }
+            });
+        } else {
+            // Сначала проверяем связь: без сервера откатывать нечем
+            UUID projectId = projectFor(type, entityId);
+            api.snapshot(projectId, 1);
+            uow.inTransaction(() -> {
+                syncLog.removeUnsynced(type, List.of(entityId));
+                fieldVersions.deleteForEntities(type, List.of(entityId));
+                syncErrors.resolve(type, entityId, Instant.now());
+            });
+            // Без локальных версий полей серверные значения выигрывают LWW
+            if (projectId != null) {
+                projectSnapshot(projectId, changes);
+            } else {
+                fullSnapshot(changes);
+            }
+        }
+        if (!changes.isEmpty()) {
+            changeListeners.forEach(listener -> listener.accept(changes));
+        }
+        refreshCounts();
+    }
+
+    /** Проект, который нужно загрузить заново, чтобы вернуть серверные значения; null — полный snapshot. */
+    private UUID projectFor(EntityType type, UUID entityId) {
+        return switch (type) {
+            case PROJECT -> entityId;
+            case TASK -> uow.read(() -> {
+                try (var ps = uow.connection().prepareStatement("SELECT project_id FROM tasks WHERE id = ?")) {
+                    Jdbc.setUuid(ps, 1, entityId);
+                    try (var rs = ps.executeQuery()) {
+                        return rs.next() ? Jdbc.getUuid(rs, "project_id") : null;
+                    }
+                }
+            });
+            case TAG, USER -> null;
+        };
+    }
+
+    private void refreshCounts() {
+        int[] counts = counts();
+        publish(new SyncStatus(status.state() == SyncStatus.State.SYNCING ? SyncStatus.State.SYNCED : status.state(),
+                counts[0], counts[1], status.lastSyncedAt(), status.message()));
     }
 
     // ===== push =====

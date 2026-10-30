@@ -3,6 +3,11 @@ package org.example.taskschedulerdesktop.persistence;
 import org.example.taskschedulerdesktop.access.H2PermissionRepository;
 import org.example.taskschedulerdesktop.access.PermissionService;
 import org.example.taskschedulerdesktop.config.DevDataSeeder;
+import org.example.taskschedulerdesktop.user.ProfileService;
+import org.example.taskschedulerdesktop.user.H2UserRepository;
+import org.example.taskschedulerdesktop.tag.TagAdminService;
+import org.example.taskschedulerdesktop.project.Visibility;
+import org.example.taskschedulerdesktop.project.ProjectInfo;
 import org.example.taskschedulerdesktop.admin.Employee;
 import org.example.taskschedulerdesktop.admin.H2EmployeeRepository;
 import org.example.taskschedulerdesktop.admin.RoleAssignment;
@@ -21,6 +26,7 @@ import org.example.taskschedulerdesktop.tag.TagService;
 import org.example.taskschedulerdesktop.task.H2TaskRepository;
 import org.example.taskschedulerdesktop.task.NewTask;
 import org.example.taskschedulerdesktop.task.TaskEdit;
+import org.example.taskschedulerdesktop.task.TaskExtras;
 import org.example.taskschedulerdesktop.task.TaskPriority;
 import org.example.taskschedulerdesktop.task.TaskService;
 import org.example.taskschedulerdesktop.task.TaskServiceImpl;
@@ -57,6 +63,8 @@ class DataLayerTest {
     private UnitOfWork uow;
     private TaskService taskService;
     private ProjectService projectService;
+    private Session session;
+    private ChangeTracker tracker;
 
     @BeforeEach
     void setUp() {
@@ -66,8 +74,8 @@ class DataLayerTest {
         uow = new UnitOfWork(() -> DriverManager.getConnection(url, "sa", ""));
         DevDataSeeder.seed(uow);
 
-        Session session = new Session(UUID.randomUUID(), DevDataSeeder.DEV_ADMIN_ID);
-        ChangeTracker tracker = new ChangeTracker(uow, session);
+        session = new Session(UUID.randomUUID(), DevDataSeeder.DEV_ADMIN_ID);
+        tracker = new ChangeTracker(uow, session);
         TagService tagService = new TagService(new H2TagRepository(uow), tracker, session,
                 new PermissionService(uow, new H2PermissionRepository(uow), session));
         taskService = new TaskServiceImpl(uow, new H2TaskRepository(uow), tagService, tracker, session);
@@ -171,6 +179,98 @@ class DataLayerTest {
         assertEquals(List.of("Критический", "Высокий"), maria.topTasks().stream().map(MemberTask::title).toList(),
                 "сначала приоритет, потом срок");
         assertTrue(team.stream().noneMatch(m -> m.id().equals(blocked)), "заблокированных на экране нет");
+    }
+
+    @Test
+    void extrasAreSavedAndLoggedOnlyWhenChanged() throws SQLException {
+        UUID elena = UUID.fromString("00000000-0000-7000-8000-0000000000a3");
+        UUID pavel = UUID.fromString("00000000-0000-7000-8000-0000000000a4");
+        TaskView task = createTask();
+        LocalDate start = LocalDate.now();
+        TaskExtras extras = new TaskExtras(start, List.of(elena, MARIA), List.of(pavel));
+
+        taskService.update(new TaskEdit(task.id(), task.title(), "Подробности", task.status(), task.priority(),
+                task.deadline(), task.responsibleId(), task.tagNames(), extras));
+
+        TaskExtras saved = taskService.findExtras(task.id());
+        assertEquals(start, saved.startDate());
+        assertEquals(List.of(elena), saved.coExecutorIds(), "ответственный не становится соисполнителем");
+        assertEquals(List.of(pavel), saved.observerIds());
+        assertEquals("Подробности", taskService.findViewById(task.id()).description());
+        assertEquals(MARIA, taskService.findViewById(task.id()).responsibleId());
+        assertTrue(hasFieldVersion("TASK", task.id(), "startDate"));
+        assertTrue(hasFieldVersion("TASK", task.id(), "observers"));
+        assertEquals(1, syncLog("TASK", task.id(), "UPDATE"));
+
+        // Без extras соисполнители и наблюдатели остаются как были
+        TaskView current = taskService.findViewById(task.id());
+        taskService.update(edit(current, "Новое название", current.status(), current.tagNames()));
+        assertEquals(saved, taskService.findExtras(task.id()));
+
+        assertThrows(IllegalArgumentException.class, () -> taskService.update(new TaskEdit(task.id(), task.title(),
+                null, task.status(), task.priority(), start.minusDays(1), task.responsibleId(), task.tagNames(),
+                new TaskExtras(start, List.of(), List.of()))), "дедлайн раньше начала");
+    }
+
+    @Test
+    void profileChangesAreLoggedForSync() throws SQLException {
+        ProfileService profile = new ProfileService(uow, new H2UserRepository(uow), tracker, session, null);
+
+        assertTrue(profile.update("Алексей Козлов", "Тимлид", "Asia/Omsk"));
+        assertFalse(profile.update("Алексей Козлов", "Тимлид", "Asia/Omsk"), "без изменений журнал не пишется");
+
+        assertEquals("Тимлид", profile.current().getPosition());
+        assertEquals(1, syncLog("USER", DevDataSeeder.DEV_ADMIN_ID, "UPDATE"));
+        assertTrue(hasFieldVersion("USER", DevDataSeeder.DEV_ADMIN_ID, "position"));
+        assertFalse(hasFieldVersion("USER", DevDataSeeder.DEV_ADMIN_ID, "name"), "имя не менялось");
+        assertThrows(IllegalArgumentException.class, () -> profile.update("", null, "Asia/Omsk"));
+        assertThrows(IllegalArgumentException.class, () -> profile.update("Имя", null, "Mars/Olympus"));
+        assertThrows(IllegalArgumentException.class, () -> ProfileService.validatePassword("short"));
+    }
+
+    @Test
+    void adminManagesTagsAndDeletedTagCannotBeUsed() throws SQLException {
+        TagAdminService tags = new TagAdminService(uow, new H2TagRepository(uow), tracker, session,
+                new PermissionService(uow, new H2PermissionRepository(uow), session));
+
+        tags.create("backend", "#1a3a8f");
+        assertThrows(IllegalArgumentException.class, () -> tags.create("Backend", null), "имя занято без учёта регистра");
+        UUID id = tags.findAll().get(0).id();
+        tags.update(id, "бэкенд", "#B91C1C");
+        assertEquals("#B91C1C", tags.findAll().get(0).color());
+        assertEquals(1, syncLog("TAG", id, "UPDATE"));
+
+        ProjectView project = projectService.create("Проект", MARIA);
+        taskService.create(new NewTask("С тегом", project.id(), MARIA, TaskPriority.LOW, null, List.of("бэкенд")));
+        assertEquals(1, tags.findAll().get(0).tasks());
+
+        tags.delete(id);
+        assertTrue(tags.findAll().isEmpty());
+        assertEquals(1, syncLog("TAG", id, "DELETE"));
+        assertThrows(IllegalArgumentException.class, () -> taskService.create(new NewTask("С удалённым тегом",
+                project.id(), MARIA, TaskPriority.LOW, null, List.of("бэкенд"))));
+        assertThrows(IllegalArgumentException.class, () -> tags.create("бэкенд", null), "имя удалённого тега занято");
+    }
+
+    @Test
+    void projectInfoAndArchive() throws SQLException {
+        ProjectView project = projectService.create("Проект", MARIA);
+        LocalDate start = LocalDate.of(2026, 11, 1);
+
+        projectService.update(project.id(), "Проект", MARIA, Map.of(),
+                new ProjectInfo("  Цели проекта  ", Visibility.PUBLIC, start, start.plusMonths(2)));
+
+        ProjectInfo info = projectService.findInfo(project.id());
+        assertEquals("Цели проекта", info.description());
+        assertEquals(Visibility.PUBLIC, info.visibility());
+        assertEquals(start.plusMonths(2), info.deadline());
+        assertTrue(hasFieldVersion("PROJECT", project.id(), "visibility"));
+        assertThrows(IllegalArgumentException.class, () -> projectService.update(project.id(), "Проект", MARIA, Map.of(),
+                new ProjectInfo(null, Visibility.PUBLIC, start, start.minusDays(1))));
+
+        assertTrue(projectService.setArchived(project.id(), true).archived());
+        assertTrue(hasFieldVersion("PROJECT", project.id(), "status"));
+        assertFalse(projectService.setArchived(project.id(), false).archived());
     }
 
     @Test

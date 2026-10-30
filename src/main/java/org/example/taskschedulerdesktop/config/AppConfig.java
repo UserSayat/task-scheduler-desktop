@@ -35,12 +35,15 @@ import org.example.taskschedulerdesktop.shared.api.ServerConfig;
 import org.example.taskschedulerdesktop.shared.database.DatabaseConnection;
 import org.example.taskschedulerdesktop.shared.database.UnitOfWork;
 import org.example.taskschedulerdesktop.shell.AppShell;
+import org.example.taskschedulerdesktop.shell.RejectedChangesController;
 import org.example.taskschedulerdesktop.sync.SyncScheduler;
 import org.example.taskschedulerdesktop.sync.SyncService;
 import org.example.taskschedulerdesktop.sync.local.ChangeTracker;
 import org.example.taskschedulerdesktop.sync.local.SyncStateRepository;
 import org.example.taskschedulerdesktop.sync.protocol.HttpSyncApi;
 import org.example.taskschedulerdesktop.tag.H2TagRepository;
+import org.example.taskschedulerdesktop.tag.TagAdminService;
+import org.example.taskschedulerdesktop.tag.TagsController;
 import org.example.taskschedulerdesktop.tag.TagService;
 import org.example.taskschedulerdesktop.tag.TagSyncAdapter;
 import org.example.taskschedulerdesktop.task.AsyncTaskService;
@@ -56,6 +59,8 @@ import org.example.taskschedulerdesktop.team.H2TeamRepository;
 import org.example.taskschedulerdesktop.team.TeamController;
 import org.example.taskschedulerdesktop.team.TeamService;
 import org.example.taskschedulerdesktop.user.AsyncUserService;
+import org.example.taskschedulerdesktop.user.ProfileController;
+import org.example.taskschedulerdesktop.user.ProfileService;
 import org.example.taskschedulerdesktop.user.H2UserRepository;
 import org.example.taskschedulerdesktop.user.UserService;
 import org.example.taskschedulerdesktop.user.UserSyncAdapter;
@@ -89,6 +94,7 @@ public class AppConfig {
     private final AsyncUserService asyncUserService;
     private final AsyncTeamService asyncTeamService;
     private final EmployeeAdminService employeeAdminService;
+    private final ProfileService profileService;
     private final AsyncPermissionService asyncPermissionService;
     private final AsyncNotificationService asyncNotificationService;
 
@@ -120,6 +126,8 @@ public class AppConfig {
         PermissionService permissionService = new PermissionService(unitOfWork, new H2PermissionRepository(unitOfWork), session);
         this.asyncPermissionService = new AsyncPermissionService(permissionService);
         TagService tagService = new TagService(new H2TagRepository(unitOfWork), changeTracker, session, permissionService);
+        TagAdminService tagAdminService = new TagAdminService(unitOfWork, new H2TagRepository(unitOfWork), changeTracker,
+                session, permissionService);
 
         this.asyncTaskService = new AsyncTaskService(
                 new TaskServiceImpl(unitOfWork, taskRepository, tagService, changeTracker, session),
@@ -152,6 +160,8 @@ public class AppConfig {
         this.asyncNotificationService = new AsyncNotificationService(
                 new NotificationService(unitOfWork, notificationRepository, session, syncScheduler::syncNow));
 
+        this.profileService = new ProfileService(unitOfWork, new H2UserRepository(unitOfWork), changeTracker, session, apiClient);
+
         this.employeeAdminService = new EmployeeAdminService(unitOfWork, new H2EmployeeRepository(unitOfWork),
                 new EmployeeAdminApi(apiClient), syncScheduler::syncNow);
         if (!demoMode) {
@@ -182,6 +192,15 @@ public class AppConfig {
             }
             if (clazz == EditProjectController.class) {
                 return new EditProjectController(asyncProjectService, asyncUserService);
+            }
+            if (clazz == RejectedChangesController.class) {
+                return new RejectedChangesController(syncService, syncScheduler);
+            }
+            if (clazz == TagsController.class) {
+                return new TagsController(tagAdminService);
+            }
+            if (clazz == ProfileController.class) {
+                return new ProfileController(profileService);
             }
             if (clazz == EmployeesController.class) {
                 return new EmployeesController(employeeAdminService, session);

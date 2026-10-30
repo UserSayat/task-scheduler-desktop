@@ -2,6 +2,13 @@ package org.example.taskschedulerdesktop.sync;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.f4b6a3.uuid.UuidCreator;
+import org.example.taskschedulerdesktop.user.ProfileService;
+import org.example.taskschedulerdesktop.user.H2UserRepository;
+import org.example.taskschedulerdesktop.task.TaskExtras;
+import org.example.taskschedulerdesktop.tag.TagAdminService;
+import org.example.taskschedulerdesktop.sync.protocol.EntityType;
+import org.example.taskschedulerdesktop.project.Visibility;
+import org.example.taskschedulerdesktop.project.ProjectInfo;
 import org.example.taskschedulerdesktop.access.H2PermissionRepository;
 import org.example.taskschedulerdesktop.access.PermissionService;
 import org.example.taskschedulerdesktop.admin.Employee;
@@ -46,6 +53,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
 
 import java.net.URI;
+import java.time.LocalDate;
 import java.sql.DriverManager;
 import java.util.List;
 import java.util.Map;
@@ -225,6 +233,73 @@ class ServerIntegrationTest {
         adminDevice.auth.logout();
     }
 
+    @Test
+    void cardFieldsProfileTagsAndRejectedChangesGoThroughServer() {
+        Device adminDevice = new Device();
+        AuthUser admin = adminDevice.auth.login(ADMIN_EMAIL, ADMIN_PASSWORD);
+        adminDevice.sync.initialLoad();
+        EmployeeAdminApi adminApi = new EmployeeAdminApi(adminDevice.api);
+        UUID staffId = UuidCreator.getTimeOrderedEpoch();
+        String email = "card." + staffId.toString().substring(24) + "@taskhub.test";
+        String password = "Temp-" + UUID.randomUUID().toString().substring(0, 8);
+        adminApi.create(new EmployeeAdminApi.CreateRequest(staffId, "Ольга Белова", email, null, "Europe/Moscow",
+                password, List.of()));
+        adminDevice.sync.synchronize();
+
+        // Тег администратора
+        String tagName = "e2e-" + UUID.randomUUID().toString().substring(0, 6);
+        adminDevice.tags.create(tagName, "#1A3A8F");
+
+        // Проект с описанием, видимостью и датами; сотрудник — наблюдатель
+        ProjectView project = adminDevice.projects.create("Карточки " + UUID.randomUUID().toString().substring(0, 6), admin.id());
+        LocalDate start = LocalDate.now();
+        adminDevice.projects.update(project.id(), project.name(), admin.id(), Map.of(staffId, MemberRole.OBSERVER),
+                new ProjectInfo("Цели проекта", Visibility.PRIVATE, start, start.plusMonths(1)));
+
+        // Задача: описание, дата начала, соисполнитель и наблюдатель
+        TaskView task = adminDevice.tasks.create(new NewTask("Подготовить отчёт", project.id(), admin.id(),
+                TaskPriority.MEDIUM, start.plusDays(7), List.of(tagName)));
+        adminDevice.tasks.update(new TaskEdit(task.id(), task.title(), "Подробности", task.status(), task.priority(),
+                task.deadline(), admin.id(), task.tagNames(), new TaskExtras(start, List.of(staffId), List.of())));
+        SyncStatus pushed = adminDevice.sync.synchronize();
+        assertEquals(0, pushed.errors(), "сервер принял тег, проект и задачу");
+        assertEquals(0, pushed.pending());
+
+        Device staffDevice = new Device();
+        staffDevice.auth.login(email, password);
+        staffDevice.sync.initialLoad();
+        TaskExtras received = staffDevice.tasks.findExtras(task.id());
+        assertEquals(start, received.startDate());
+        assertEquals(List.of(staffId), received.coExecutorIds());
+        assertEquals("Подробности", staffDevice.tasks.findViewById(task.id()).description());
+        assertEquals(List.of(tagName), staffDevice.tasks.findViewById(task.id()).tagNames());
+        assertEquals("Цели проекта", staffDevice.projects.findInfo(project.id()).description());
+
+        // Профиль: должность и часовой пояс уходят синхронизацией, пустая должность допустима
+        staffDevice.profile.update("Ольга Белова", "Аналитик", "Asia/Novosibirsk");
+        assertEquals(0, staffDevice.sync.synchronize().errors());
+        adminDevice.sync.synchronize();
+        assertTrue(employees(adminDevice).stream().anyMatch(e -> e.id().equals(staffId)
+                && "Аналитик".equals(e.position()) && "Asia/Novosibirsk".equals(e.timezone())));
+
+        // Наблюдатель меняет название — сервер отклоняет; «отменить мою правку» возвращает серверное
+        TaskView seen = staffDevice.tasks.findViewById(task.id());
+        staffDevice.tasks.update(new TaskEdit(task.id(), "Чужая правка", seen.description(), seen.status(), seen.priority(),
+                seen.deadline(), seen.responsibleId(), seen.tagNames()));
+        assertEquals(1, staffDevice.sync.synchronize().errors());
+        staffDevice.sync.discardRejected(EntityType.TASK, task.id(), false);
+        assertEquals("Подготовить отчёт", staffDevice.tasks.findViewById(task.id()).title());
+        assertEquals(0, staffDevice.sync.status().errors());
+        assertEquals(0, staffDevice.sync.status().pending());
+
+        // Смена пароля: неверный текущий — понятная ошибка, верный — новый пароль работает
+        assertThrows(IllegalArgumentException.class, () -> staffDevice.profile.changePassword("wrong-password", "NewPass-123"));
+        staffDevice.profile.changePassword(password, "NewPass-123");
+        new Device().auth.login(email, "NewPass-123");
+
+        adminDevice.auth.logout();
+    }
+
     private static Employee employee(Device device, UUID id) {
         return employees(device).stream().filter(e -> e.id().equals(id)).findFirst().orElseThrow();
     }
@@ -273,6 +348,8 @@ class ServerIntegrationTest {
         final SyncService sync;
         final TaskServiceImpl tasks;
         final ProjectServiceImpl projects;
+        final ProfileService profile;
+        final TagAdminService tags;
 
         Device() {
             String url = "jdbc:h2:mem:e2e_" + UUID.randomUUID() + ";DB_CLOSE_DELAY=-1";
@@ -291,6 +368,9 @@ class ServerIntegrationTest {
             tasks = new TaskServiceImpl(uow, taskRepository, new TagService(new H2TagRepository(uow), tracker, session,
                     new PermissionService(uow, new H2PermissionRepository(uow), session)), tracker, session);
             projects = new ProjectServiceImpl(uow, projectRepository, tracker, session);
+            profile = new ProfileService(uow, new H2UserRepository(uow), tracker, session, api);
+            tags = new TagAdminService(uow, new H2TagRepository(uow), tracker, session,
+                    new PermissionService(uow, new H2PermissionRepository(uow), session));
 
             UserSyncAdapter users = new UserSyncAdapter(uow);
             H2NotificationRepository notificationRepository = new H2NotificationRepository(uow);

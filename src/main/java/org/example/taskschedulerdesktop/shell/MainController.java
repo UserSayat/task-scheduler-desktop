@@ -26,6 +26,7 @@ import java.util.function.Consumer;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.scene.layout.HBox;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -48,6 +49,10 @@ public class MainController implements Shutdownable {
     @FXML private Button projectsButton;
     @FXML private Button teamButton;
     @FXML private Button employeesButton;
+    @FXML private Button tagsButton;
+    @FXML private HBox userBox;
+
+    private final Consumer<UsersChangedEvent> usersListener = event -> showCurrentUser();
     @FXML private Button notificationsButton;
     @FXML private Label unreadBadge;
 
@@ -101,8 +106,16 @@ public class MainController implements Shutdownable {
         projectsButton.setOnAction(event -> NavigationManager.navigateTo(Routes.PROJECTS, "Проекты"));
         teamButton.setOnAction(event -> NavigationManager.navigateTo(Routes.TEAM, "Команда"));
         employeesButton.setOnAction(event -> NavigationManager.navigateTo(Routes.EMPLOYEES, "Сотрудники"));
+        tagsButton.setOnAction(event -> NavigationManager.navigateTo(Routes.TAGS, "Теги"));
 
         showCurrentUser();
+        // Профиль — по нажатию на имя внизу меню (кнопка «Выйти» обрабатывает своё нажатие сама)
+        userBox.setOnMouseClicked(event -> {
+            if (!(event.getTarget() instanceof Button)) {
+                NavigationManager.openDialog(Routes.PROFILE, "Профиль", appConfig.getPrimaryStage());
+            }
+        });
+        EventBus.getInstance().subscribe(UsersChangedEvent.class, usersListener);
         setUpSync();
         setUpNotifications();
 
@@ -128,6 +141,8 @@ public class MainController implements Shutdownable {
         appConfig.getEmployeeAdminService().isAdmin(userId, admin -> {
             employeesButton.setVisible(admin);
             employeesButton.setManaged(admin);
+            tagsButton.setVisible(admin);
+            tagsButton.setManaged(admin);
         });
 
         if (appConfig.isDemoMode()) {
@@ -210,7 +225,14 @@ public class MainController implements Shutdownable {
             syncStatusButton.setDisable(true);
             return;
         }
-        syncStatusButton.setOnAction(event -> appConfig.getSyncScheduler().syncNow());
+        // Есть отклонённые изменения — показать их; иначе синхронизировать сейчас
+        syncStatusButton.setOnAction(event -> {
+            if (appConfig.getSyncService().status().errors() > 0) {
+                NavigationManager.openDialog(Routes.REJECTED_CHANGES, "Отклонённые изменения", appConfig.getPrimaryStage());
+            } else {
+                appConfig.getSyncScheduler().syncNow();
+            }
+        });
         appConfig.getSyncService().addStatusListener(syncStatusListener);
         appConfig.getSyncService().addChangeListener(serverChangesListener);
     }
@@ -242,7 +264,7 @@ public class MainController implements Shutdownable {
                 if (status.errors() > 0) {
                     text = "⚠ Отклонено сервером: " + status.errors();
                     style = "sync-error";
-                    details = "Эти изменения сервер не принял (нет прав или некорректные данные).";
+                    details = "Эти изменения сервер не принял (нет прав или некорректные данные). Нажмите, чтобы разобраться.";
                 } else if (status.pending() > 0) {
                     text = "● Не отправлено: " + status.pending();
                     style = "sync-pending";
@@ -269,7 +291,6 @@ public class MainController implements Shutdownable {
         changes.revokedProjects().forEach(id -> bus.fire(new ProjectChangedEvent(id, ChangeType.DELETED)));
         changes.taskProjects().forEach(id -> bus.fire(new TaskChangedEvent(id, null)));
         if (changes.usersChanged()) {
-            showCurrentUser();
             bus.fire(new UsersChangedEvent());
         }
     }
@@ -284,6 +305,7 @@ public class MainController implements Shutdownable {
     public void shutdown() {
         EventBus.getInstance().unsubscribe(PageTitleChangedEvent.class, titleUpdateListener);
         EventBus.getInstance().unsubscribe(NotificationsChangedEvent.class, notificationsListener);
+        EventBus.getInstance().unsubscribe(UsersChangedEvent.class, usersListener);
         appConfig.getSyncService().removeStatusListener(syncStatusListener);
         appConfig.getSyncService().removeChangeListener(serverChangesListener);
     }

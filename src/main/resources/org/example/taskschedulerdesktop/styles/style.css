@@ -826,3 +826,22 @@ dashboard-list-view .scroll-bar:horizontal {
 .notification-title-unread { -fx-font-size: 13px; -fx-font-weight: 600; -fx-text-fill: #111110; }
 .notification-body { -fx-font-size: 12px; -fx-text-fill: #5a5a56; }
 .notification-time { -fx-font-size: 11px; -fx-text-fill: #9b9b95; }
+
+/* ── Карточка задачи: люди и описание ───────────────── */
+.detail-people { -fx-font-size: 13px; -fx-text-fill: #111110; }
+.text-area-styled { -fx-font-size: 13px; }
+
+.sidebar-user-box { -fx-cursor: hand; }
+
+/* ── Вход: ссылки и сообщения ───────────────────────── */
+.login-link { -fx-text-fill: #1a3a8f; -fx-font-size: 12px; -fx-padding: 0; -fx-border-width: 0; }
+.login-info { -fx-text-fill: #15803d; -fx-font-size: 13px; }
+
+.project-description { -fx-font-size: 13px; -fx-text-fill: #5a5a56; -fx-padding: 4 0 0 0; }
+
+.tag-swatch {
+  -fx-min-width: 18; -fx-min-height: 18; -fx-max-width: 18; -fx-max-height: 18;
+  -fx-background-radius: 4; -fx-border-color: #e2e2dc; -fx-border-radius: 4;
+}
+
+.rejected-row { -fx-padding: 10 0 10 0; -fx-border-color: transparent transparent #f0f0ec transparent; }

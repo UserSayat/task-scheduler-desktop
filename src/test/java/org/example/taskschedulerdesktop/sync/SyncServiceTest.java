@@ -181,6 +181,69 @@ class SyncServiceTest {
         assertFalse(taskService.findViewById(task.id()).synced(), "задача остаётся помеченной как неотправленная");
     }
 
+    @Test
+    void retryResendsRejectedChange() throws SQLException {
+        TaskView task = createTask("Задача");
+        server.onPush = change -> change.entityType() == EntityType.TASK
+                ? new PushResult(change.entityType(), change.entityId(), "REJECTED", null, new ErrorBody("FORBIDDEN", "Нет прав", null))
+                : new PushResult(change.entityType(), change.entityId(), "APPLIED", List.of(), null);
+        sync.synchronize();
+        assertEquals(1, sync.rejectedChanges().size());
+        assertEquals("Задача", sync.rejectedChanges().get(0).name());
+        assertEquals(Operation.CREATE, sync.rejectedChanges().get(0).operation());
+
+        // Права выдали — повторяем
+        server.onPush = change -> new PushResult(change.entityType(), change.entityId(), "APPLIED", List.of(), null);
+        sync.retryRejected(EntityType.TASK, task.id());
+        SyncStatus status = sync.synchronize();
+
+        assertEquals(0, status.errors());
+        assertEquals(0, status.pending());
+        assertTrue(sync.rejectedChanges().isEmpty());
+        assertTrue(taskService.findViewById(task.id()).synced());
+    }
+
+    @Test
+    void discardingRejectedCreationRemovesLocalTask() throws SQLException {
+        TaskView task = createTask("Задача");
+        server.onPush = change -> change.entityType() == EntityType.TASK
+                ? new PushResult(change.entityType(), change.entityId(), "REJECTED", null, new ErrorBody("FORBIDDEN", "Нет прав", null))
+                : new PushResult(change.entityType(), change.entityId(), "APPLIED", List.of(), null);
+        sync.synchronize();
+
+        sync.discardRejected(EntityType.TASK, task.id(), true);
+
+        assertEquals(0, count("SELECT COUNT(*) FROM tasks WHERE id = '" + task.id() + "'"));
+        assertEquals(0, count("SELECT COUNT(*) FROM sync_log WHERE synced = FALSE"));
+        assertEquals(0, sync.status().errors());
+    }
+
+    @Test
+    void discardingRejectedEditRestoresServerValues() throws SQLException {
+        UUID projectId = UUID.randomUUID();
+        UUID taskId = UUID.randomUUID();
+        SyncedEntity serverProject = project(projectId, "Проект", MARIA, T0);
+        SyncedEntity serverTask = task(taskId, projectId, "Название с сервера", MARIA, T0);
+        applyFromServer(serverProject);
+        applyFromServer(serverTask);
+        server.projectSnapshots.put(projectId, List.of(serverProject, serverTask));
+
+        TaskView local = taskService.findViewById(taskId);
+        taskService.update(new TaskEdit(taskId, "Моя правка", local.description(), local.status(), local.priority(),
+                local.deadline(), local.responsibleId(), local.tagNames()));
+        server.onPush = change -> new PushResult(change.entityType(), change.entityId(), "REJECTED", null,
+                new ErrorBody("FORBIDDEN", "Нет прав", null));
+        sync.synchronize();
+        assertEquals(Operation.UPDATE, sync.rejectedChanges().get(0).operation());
+
+        sync.discardRejected(EntityType.TASK, taskId, false);
+
+        assertEquals("Название с сервера", taskService.findViewById(taskId).title(), "серверное значение выиграло");
+        assertEquals(0, count("SELECT COUNT(*) FROM sync_log WHERE synced = FALSE"));
+        assertEquals(0, sync.status().errors());
+        assertTrue(taskService.findViewById(taskId).synced());
+    }
+
     // ===== pull =====
 
     @Test
