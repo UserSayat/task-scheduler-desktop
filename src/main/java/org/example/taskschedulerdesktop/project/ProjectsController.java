@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.TilePane;
+import org.example.taskschedulerdesktop.access.AsyncPermissionService;
 import org.example.taskschedulerdesktop.config.AppConfig;
 import org.example.taskschedulerdesktop.shared.ui.Shutdownable;
 import org.example.taskschedulerdesktop.shared.event.EventBus;
@@ -23,6 +24,7 @@ public class ProjectsController implements Shutdownable {
     private static final Logger log = LoggerFactory.getLogger(ProjectsController.class);
 
     private final AsyncProjectService projectService;
+    private final AsyncPermissionService permissions;
     private final Service<List<Node>> projectsLoader;
 
     @FXML private Button createProjectButton;
@@ -35,8 +37,9 @@ public class ProjectsController implements Shutdownable {
         refreshProjects();
     };
 
-    public ProjectsController(AsyncProjectService projectService) {
+    public ProjectsController(AsyncProjectService projectService, AsyncPermissionService permissions) {
         this.projectService = projectService;
+        this.permissions = permissions;
         projectsLoader = projectService.createProjectsLoader();
 
     }
@@ -44,6 +47,14 @@ public class ProjectsController implements Shutdownable {
     @FXML
     public void initialize() {
         EventBus.getInstance().subscribe(ProjectChangedEvent.class, projectChangedListener);
+
+        // Создавать проекты могут администратор и руководитель проектов (API.md, 8.7)
+        createProjectButton.setVisible(false);
+        createProjectButton.setManaged(false);
+        permissions.globalRights(rights -> {
+            createProjectButton.setVisible(rights.canCreateProjects());
+            createProjectButton.setManaged(rights.canCreateProjects());
+        });
 
         projectsLoadingIndicator.visibleProperty().bind(projectsLoader.runningProperty());
 

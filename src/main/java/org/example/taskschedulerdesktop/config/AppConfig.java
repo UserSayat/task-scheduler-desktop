@@ -1,6 +1,9 @@
 package org.example.taskschedulerdesktop.config;
 
 import com.github.f4b6a3.uuid.UuidCreator;
+import org.example.taskschedulerdesktop.access.AsyncPermissionService;
+import org.example.taskschedulerdesktop.access.H2PermissionRepository;
+import org.example.taskschedulerdesktop.access.PermissionService;
 import org.example.taskschedulerdesktop.admin.EmployeeAdminApi;
 import org.example.taskschedulerdesktop.admin.EmployeeAdminService;
 import org.example.taskschedulerdesktop.admin.EmployeeDialogController;
@@ -79,6 +82,7 @@ public class AppConfig {
     private final AsyncUserService asyncUserService;
     private final AsyncTeamService asyncTeamService;
     private final EmployeeAdminService employeeAdminService;
+    private final AsyncPermissionService asyncPermissionService;
 
     private final AuthService authService;
     private final TokenStore tokenStore;
@@ -105,7 +109,9 @@ public class AppConfig {
         H2ProjectRepository projectRepository = new H2ProjectRepository(unitOfWork);
 
         ChangeTracker changeTracker = new ChangeTracker(unitOfWork, session);
-        TagService tagService = new TagService(new H2TagRepository(unitOfWork), changeTracker, session);
+        PermissionService permissionService = new PermissionService(unitOfWork, new H2PermissionRepository(unitOfWork), session);
+        this.asyncPermissionService = new AsyncPermissionService(permissionService);
+        TagService tagService = new TagService(new H2TagRepository(unitOfWork), changeTracker, session, permissionService);
 
         this.asyncTaskService = new AsyncTaskService(
                 new TaskServiceImpl(unitOfWork, taskRepository, tagService, changeTracker, session),
@@ -145,16 +151,16 @@ public class AppConfig {
                 return new TaskTableController(asyncTaskService);
             }
             if (clazz == ProjectDetailsController.class) {
-                return new ProjectDetailsController(asyncTaskService, asyncProjectService);
+                return new ProjectDetailsController(asyncTaskService, asyncProjectService, asyncPermissionService);
             }
             if (clazz == CreateTaskController.class) {
-                return new CreateTaskController(asyncTaskService, asyncProjectService, asyncUserService);
+                return new CreateTaskController(asyncTaskService, asyncProjectService, asyncUserService, asyncPermissionService);
             }
             if (clazz == TaskDetailsController.class) {
-                return new TaskDetailsController(asyncTaskService, asyncUserService);
+                return new TaskDetailsController(asyncTaskService, asyncUserService, asyncPermissionService);
             }
             if (clazz == ProjectsController.class) {
-                return new ProjectsController(asyncProjectService);
+                return new ProjectsController(asyncProjectService, asyncPermissionService);
             }
             if (clazz == CreateProjectController.class) {
                 return new CreateProjectController(asyncProjectService, asyncUserService);
@@ -172,7 +178,7 @@ public class AppConfig {
                 return new TeamController(asyncTeamService);
             }
             if (clazz == ProjectCardController.class) {
-                return new ProjectCardController(asyncProjectService);
+                return new ProjectCardController(asyncProjectService, asyncTaskService);
             }
             try {
                 return clazz.getDeclaredConstructor().newInstance();

@@ -3,6 +3,7 @@ package org.example.taskschedulerdesktop.task;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import org.example.taskschedulerdesktop.access.AsyncPermissionService;
 import org.example.taskschedulerdesktop.project.ProjectView;
 import org.example.taskschedulerdesktop.user.User;
 import org.example.taskschedulerdesktop.shared.navigation.NavigationManager;
@@ -14,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class CreateTaskController {
 
@@ -22,6 +24,7 @@ public class CreateTaskController {
     private final AsyncTaskService taskService;
     private final AsyncProjectService projectService;
     private final AsyncUserService userService;
+    private final AsyncPermissionService permissions;
 
     @FXML private TextField taskNameTextField;
 
@@ -43,10 +46,11 @@ public class CreateTaskController {
     @FXML private Button cancelButton;
 
     public CreateTaskController(AsyncTaskService taskService, AsyncProjectService projectService,
-                                AsyncUserService userService) {
+                                AsyncUserService userService, AsyncPermissionService permissions) {
         this.taskService = taskService;
         this.projectService = projectService;
         this.userService = userService;
+        this.permissions = permissions;
     }
 
     @FXML
@@ -56,11 +60,18 @@ public class CreateTaskController {
                 error -> NavigationManager.showToast("Ошибка загрузки сотрудников", "error")
         );
 
+        // Задачи создают администратор и участники проекта, кроме наблюдателей (API.md, 8.7)
         projectService.findAllProjects(
-                projects -> {
+                projects -> permissions.projectsForNewTasks(allowed -> {
+                    List<ProjectView> available = allowed == null ? projects
+                            : projects.stream().filter(project -> allowed.contains(project.id())).toList();
                     projectComboBox.setConverter(new ProjectStringConverter());
-                    projectComboBox.getItems().setAll(projects);
-                },
+                    projectComboBox.getItems().setAll(available);
+                    if (available.isEmpty()) {
+                        createTaskButton.setDisable(true);
+                        projectComboBox.setPromptText("Нет проектов, где вы можете создавать задачи");
+                    }
+                }),
                 error -> {
                     log.error("Ошибка загрузки проектов", error);
                     NavigationManager.showToast("Ошибка загрузки проектов", "error");
@@ -109,7 +120,8 @@ public class CreateTaskController {
                             NavigationManager.showToast("Задача сохранена", "success");
                         }
                     },
-                    error -> NavigationManager.showToast("Ошибка создания задачи", "error")
+                    error -> NavigationManager.showToast(error instanceof IllegalArgumentException
+                            ? error.getMessage() : "Ошибка создания задачи", "error")
             );
         });
 

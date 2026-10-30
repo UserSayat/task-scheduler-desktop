@@ -5,6 +5,8 @@ import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import org.example.taskschedulerdesktop.access.AsyncPermissionService;
+import org.example.taskschedulerdesktop.access.PermissionService;
 import org.example.taskschedulerdesktop.shared.ui.RightSidebar;
 import org.example.taskschedulerdesktop.user.User;
 import org.example.taskschedulerdesktop.shared.navigation.NavigationManager;
@@ -24,6 +26,7 @@ public class TaskDetailsController implements RightSidebar {
     private static final Logger log = LoggerFactory.getLogger(TaskDetailsController.class);
     private final AsyncTaskService taskService;
     private final AsyncUserService userService;
+    private final AsyncPermissionService permissions;
 
     @FXML private Label projectNameLabel;
     @FXML private Button closeButton;
@@ -67,9 +70,14 @@ public class TaskDetailsController implements RightSidebar {
     private TaskView contextTask;
     private boolean editMode = false;
 
-    public TaskDetailsController(AsyncTaskService taskService, AsyncUserService userService) {
+    /** Права на открытую задачу; до проверки — никаких. */
+    private PermissionService.TaskRights rights = new PermissionService.TaskRights(false, false);
+
+    public TaskDetailsController(AsyncTaskService taskService, AsyncUserService userService,
+                                 AsyncPermissionService permissions) {
         this.taskService = taskService;
         this.userService = userService;
+        this.permissions = permissions;
     }
 
     @FXML
@@ -95,11 +103,20 @@ public class TaskDetailsController implements RightSidebar {
         });
 
         acceptButton.setOnAction(event -> {
-            log.debug("Click on button accept");
-
-            //taskService.assignExecutor();
-
-
+            if (contextTask == null) {
+                return;
+            }
+            TaskEdit edit = new TaskEdit(contextTask.id(), contextTask.title(), contextTask.description(),
+                    TaskStatus.IN_PROGRESS, contextTask.priority(), contextTask.deadline(),
+                    contextTask.responsibleId(), contextTask.tagNames());
+            taskService.updateTask(edit,
+                    updated -> {
+                        contextTask = updated;
+                        updateUI();
+                        applyRights(rights);
+                        NavigationManager.showToast("Задача в работе", "success");
+                    },
+                    error -> NavigationManager.showToast("Не удалось взять задачу в работу", "error"));
         });
 
         editButton.setOnAction(event -> {
@@ -117,7 +134,8 @@ public class TaskDetailsController implements RightSidebar {
 
         saveEditedTaskButton.setOnAction(event -> {
             LocalDate deadline = deadlineDatePicker.getValue();
-            if (deadline == null) {
+            // Исполнитель меняет только статус — срок он не выбирает
+            if (deadline == null && rights.canEdit()) {
                 NavigationManager.showToast("Выберите дату!", "info");
                 return;
             }
@@ -151,7 +169,8 @@ public class TaskDetailsController implements RightSidebar {
                     },
                     error -> {
                         exitEditMode();
-                        NavigationManager.showToast("Возникла ошибка при обновлении данных", "error");
+                        NavigationManager.showToast(error instanceof IllegalArgumentException
+                                ? error.getMessage() : "Возникла ошибка при обновлении данных", "error");
                     });
         });
 
@@ -201,6 +220,7 @@ public class TaskDetailsController implements RightSidebar {
         log.info("context saved: {}", contextTask.title());
         exitEditMode();
         updateUI();
+        loadRights();
     }
 
     @Override
@@ -233,12 +253,35 @@ public class TaskDetailsController implements RightSidebar {
         TagChips.fill(tagsFlowPane, contextTask.tagNames());
     }
 
+    /**
+     * «Изменить» видят те, кто может менять задачу целиком или только её статус (исполнители),
+     * «Удалить» — только первые (API.md, 8.7).
+     */
+    private void loadRights() {
+        applyRights(new PermissionService.TaskRights(false, false));
+        permissions.taskRights(contextTask.id(), this::applyRights);
+    }
+
+    private void applyRights(PermissionService.TaskRights taskRights) {
+        this.rights = taskRights;
+        editButton.setVisible(taskRights.canChangeStatus());
+        editButton.setManaged(taskRights.canChangeStatus());
+        boolean canTake = taskRights.canChangeStatus() && contextTask.status() == TaskStatus.NEW;
+        acceptButton.setVisible(canTake);
+        acceptButton.setManaged(canTake);
+        if (!taskRights.canEdit()) {
+            resetDeleteUI();
+        }
+        deleteButton.setVisible(taskRights.canEdit());
+        deleteButton.setManaged(taskRights.canEdit());
+    }
+
     private void resetDeleteUI() {
         confirmDeletePanelVBox.setVisible(false);
         confirmDeletePanelVBox.setManaged(false);
 
-        deleteButton.setVisible(true);
-        deleteButton.setManaged(true);
+        deleteButton.setVisible(rights.canEdit());
+        deleteButton.setManaged(rights.canEdit());
     }
 
     private void enterEditMode() {
@@ -285,6 +328,13 @@ public class TaskDetailsController implements RightSidebar {
                 .findFirst()
                 .orElse(null));
         tagsTextField.setText(contextTask.tagsAsText());
+
+        boolean statusOnly = !rights.canEdit();
+        newTaskNameLabel.setDisable(statusOnly);
+        priorityComboBox.setDisable(statusOnly);
+        deadlineDatePicker.setDisable(statusOnly);
+        executorComboBox.setDisable(statusOnly);
+        tagsTextField.setDisable(statusOnly);
     }
 
     private void exitEditMode() {

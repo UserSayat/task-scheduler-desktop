@@ -11,6 +11,7 @@ import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import org.example.taskschedulerdesktop.access.AsyncPermissionService;
 import org.example.taskschedulerdesktop.config.AppConfig;
 import org.example.taskschedulerdesktop.shared.ui.Shutdownable;
 import org.example.taskschedulerdesktop.shared.event.ChangeType;
@@ -33,6 +34,7 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
 
     private AsyncTaskService asyncTaskService;
     private AsyncProjectService asyncProjectService;
+    private final AsyncPermissionService permissions;
     private static final Logger log = LoggerFactory.getLogger(ProjectDetailsController.class);
 
     @FXML private Label projectNameLabel;
@@ -120,6 +122,7 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
 
         if (event.getChangeType() == ChangeType.UPDATED) {
             loadMembers();
+            loadRights(); // состав участников мог измениться — вместе с ним и права
             asyncProjectService.findProjectById(
                     context.id(),
                     project -> {
@@ -138,9 +141,11 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
         }
     };
 
-    public ProjectDetailsController(AsyncTaskService taskService, AsyncProjectService projectService) {
+    public ProjectDetailsController(AsyncTaskService taskService, AsyncProjectService projectService,
+                                    AsyncPermissionService permissions) {
         this.asyncTaskService = taskService;
         this.asyncProjectService = projectService;
+        this.permissions = permissions;
     }
 
     private Service<List<Node>> setupLoaderService(TaskStatus status, VBox container, ProgressIndicator indicator) {
@@ -256,6 +261,7 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
             loadTasksStatisticByStatus();
             loadTasksStatisticByPriority();
             loadMembers();
+            loadRights();
         } else {
             log.error("Context isn't an instance of Project");
         }
@@ -315,6 +321,22 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
                     NavigationManager.showToast("Не удалось загрузить задачи!", "warn");
                 }
         );
+    }
+
+    /** Менять и удалять проект могут администратор, руководитель и менеджеры проекта. */
+    private void loadRights() {
+        showManageButtons(false);
+        permissions.projectRights(context.id(), rights -> showManageButtons(rights.canManage()));
+    }
+
+    private void showManageButtons(boolean visible) {
+        editProjectButton.setVisible(visible);
+        editProjectButton.setManaged(visible);
+        if (!visible) {
+            resetDeleteUI();
+        }
+        deleteProjectButton.setVisible(visible);
+        deleteProjectButton.setManaged(visible);
     }
 
     private void loadMembers() {

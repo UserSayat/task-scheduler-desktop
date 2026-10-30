@@ -2,6 +2,8 @@ package org.example.taskschedulerdesktop.sync;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.f4b6a3.uuid.UuidCreator;
+import org.example.taskschedulerdesktop.access.H2PermissionRepository;
+import org.example.taskschedulerdesktop.access.PermissionService;
 import org.example.taskschedulerdesktop.admin.Employee;
 import org.example.taskschedulerdesktop.admin.EmployeeAdminApi;
 import org.example.taskschedulerdesktop.admin.EmployeeAdminService;
@@ -115,12 +117,15 @@ class ServerIntegrationTest {
         employeeDevice.sync.synchronize();
         assertEquals("Проверить сборку", employeeDevice.tasks.findViewById(second.id()).title());
 
-        // Тег может создать только администратор: сервер отклоняет тег и задачу, которая на него ссылается
-        employeeDevice.tasks.create(new NewTask("Задача с новым тегом", project.id(), employeeId,
-                TaskPriority.LOW, null, List.of("e2e-" + UUID.randomUUID().toString().substring(0, 6))));
-        SyncStatus rejected = employeeDevice.sync.synchronize();
-        assertEquals(SyncStatus.State.SYNCED, rejected.state());
-        assertEquals(2, rejected.errors(), "тег (FORBIDDEN) и задача с тегом (VALIDATION_ERROR)");
+        // Тег может создать только администратор: клиент не создаёт ни тег, ни задачу с ним,
+        // поэтому на сервер не уходит изменение, которое он бы отклонил
+        assertThrows(IllegalArgumentException.class, () -> employeeDevice.tasks.create(new NewTask(
+                "Задача с новым тегом", project.id(), employeeId, TaskPriority.LOW, null,
+                List.of("e2e-" + UUID.randomUUID().toString().substring(0, 6)))));
+        SyncStatus afterRefusal = employeeDevice.sync.synchronize();
+        assertEquals(SyncStatus.State.SYNCED, afterRefusal.state());
+        assertEquals(0, afterRefusal.pending());
+        assertEquals(0, afterRefusal.errors());
 
         laptop.auth.logout();
         desktop.auth.logout();
@@ -254,7 +259,8 @@ class ServerIntegrationTest {
             ChangeTracker tracker = new ChangeTracker(uow, session);
             H2TaskRepository taskRepository = new H2TaskRepository(uow);
             H2ProjectRepository projectRepository = new H2ProjectRepository(uow);
-            tasks = new TaskServiceImpl(uow, taskRepository, new TagService(new H2TagRepository(uow), tracker, session), tracker, session);
+            tasks = new TaskServiceImpl(uow, taskRepository, new TagService(new H2TagRepository(uow), tracker, session,
+                    new PermissionService(uow, new H2PermissionRepository(uow), session)), tracker, session);
             projects = new ProjectServiceImpl(uow, projectRepository, tracker, session);
 
             UserSyncAdapter users = new UserSyncAdapter(uow);

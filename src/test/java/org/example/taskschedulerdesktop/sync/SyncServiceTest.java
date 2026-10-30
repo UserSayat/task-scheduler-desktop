@@ -1,6 +1,8 @@
 package org.example.taskschedulerdesktop.sync;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.example.taskschedulerdesktop.access.H2PermissionRepository;
+import org.example.taskschedulerdesktop.access.PermissionService;
 import org.example.taskschedulerdesktop.config.DevDataSeeder;
 import org.example.taskschedulerdesktop.project.H2ProjectRepository;
 import org.example.taskschedulerdesktop.project.ProjectServiceImpl;
@@ -88,7 +90,8 @@ class SyncServiceTest {
         H2TaskRepository taskRepository = new H2TaskRepository(uow);
         H2ProjectRepository projectRepository = new H2ProjectRepository(uow);
         taskService = new TaskServiceImpl(uow, taskRepository,
-                new TagService(new H2TagRepository(uow), tracker, session), tracker, session);
+                new TagService(new H2TagRepository(uow), tracker, session,
+                        new PermissionService(uow, new H2PermissionRepository(uow), session)), tracker, session);
         projectService = new ProjectServiceImpl(uow, projectRepository, tracker, session);
 
         UserSyncAdapter users = new UserSyncAdapter(uow);
