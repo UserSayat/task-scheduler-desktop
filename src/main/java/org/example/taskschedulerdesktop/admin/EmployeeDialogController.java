@@ -10,10 +10,10 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import org.example.taskschedulerdesktop.shared.navigation.ContextAware;
 import org.example.taskschedulerdesktop.shared.navigation.NavigationManager;
+import org.example.taskschedulerdesktop.user.Timezones;
 
 import java.time.DateTimeException;
 import java.time.ZoneId;
-import java.util.List;
 import java.util.regex.Pattern;
 
 /**
@@ -21,14 +21,6 @@ import java.util.regex.Pattern;
  * При создании задаётся временный пароль — сотрудник сменит его после входа.
  */
 public class EmployeeDialogController implements ContextAware {
-
-    private static final String DEFAULT_TIMEZONE = "Europe/Moscow";
-
-    /** Часовые пояса для выбора; можно ввести и любой другой из базы IANA. */
-    private static final List<String> TIMEZONES = List.of(
-            "Europe/Kaliningrad", "Europe/Moscow", "Europe/Samara", "Asia/Yekaterinburg", "Asia/Omsk",
-            "Asia/Novosibirsk", "Asia/Krasnoyarsk", "Asia/Irkutsk", "Asia/Yakutsk", "Asia/Vladivostok",
-            "Asia/Magadan", "Asia/Kamchatka", "Asia/Almaty", "Asia/Tashkent");
 
     private static final Pattern EMAIL = Pattern.compile("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$");
 
@@ -59,8 +51,8 @@ public class EmployeeDialogController implements ContextAware {
 
     @FXML
     public void initialize() {
-        timezoneComboBox.getItems().setAll(TIMEZONES);
-        timezoneComboBox.setValue(DEFAULT_TIMEZONE);
+        timezoneComboBox.getItems().setAll(Timezones.COMMON);
+        timezoneComboBox.setValue(Timezones.DEFAULT);
         passwordField.setText(TemporaryPasswords.generate());
 
         generatePasswordButton.setOnAction(event -> passwordField.setText(TemporaryPasswords.generate()));
@@ -143,7 +135,7 @@ public class EmployeeDialogController implements ContextAware {
 
     private String timezone() {
         String value = timezoneComboBox.getEditor().getText();
-        return value == null || value.isBlank() ? DEFAULT_TIMEZONE : value.trim();
+        return value == null || value.isBlank() ? Timezones.DEFAULT : value.trim();
     }
 
     private void showError(String message) {

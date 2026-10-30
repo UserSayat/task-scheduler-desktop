@@ -71,6 +71,25 @@ public class AuthService {
         return response.user();
     }
 
+    record ForgotPasswordRequest(String email) {}
+
+    record ResetPasswordRequest(String token, String newPassword) {}
+
+    /**
+     * Запросить код сброса пароля (API.md, 5.6). Сервер отвечает одинаково, есть такой email или нет.
+     */
+    public void requestPasswordReset(String email) {
+        api.postAnonymous("/auth/forgot-password", new ForgotPasswordRequest(email.trim()), new TypeReference<Object>() {});
+    }
+
+    /**
+     * Задать новый пароль по коду из письма (API.md, 5.7). Неверный или устаревший код — 422.
+     */
+    public void resetPassword(String token, String newPassword) {
+        api.postAnonymous("/auth/reset-password", new ResetPasswordRequest(token.trim(), newPassword),
+                new TypeReference<Object>() {});
+    }
+
     /**
      * Есть ли на устройстве вход, который можно продолжить без пароля. Если есть — пользователь становится текущим.
      */

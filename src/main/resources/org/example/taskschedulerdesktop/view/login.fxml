@@ -17,10 +17,11 @@
             </VBox>
         </HBox>
 
-        <Label text="Вход в систему" styleClass="page-title">
+        <Label fx:id="formTitle" text="Вход в систему" styleClass="page-title">
             <VBox.margin><Insets top="10"/></VBox.margin>
         </Label>
 
+        <VBox fx:id="loginBox" spacing="14">
         <VBox spacing="0">
             <Label text="EMAIL" styleClass="field-label"/>
             <TextField fx:id="emailField" promptText="ivanov@company.ru" styleClass="text-field-styled"/>
@@ -30,9 +31,43 @@
             <PasswordField fx:id="passwordField" styleClass="text-field-styled"/>
         </VBox>
 
-        <Label fx:id="errorLabel" styleClass="login-error" wrapText="true" managed="false" visible="false"/>
-
         <Button fx:id="loginButton" text="Войти" defaultButton="true" maxWidth="Infinity" styleClass="btn-primary"/>
+        <Hyperlink fx:id="forgotLink" text="Забыли пароль?" styleClass="login-link"/>
+        </VBox>
+
+        <!-- Сброс пароля: email → код из письма и новый пароль -->
+        <VBox fx:id="resetBox" spacing="14" managed="false" visible="false">
+            <VBox fx:id="resetEmailBox" spacing="14">
+                <Label text="Укажите email — пришлём код для сброса пароля." wrapText="true" styleClass="page-date"/>
+                <VBox spacing="0">
+                    <Label text="EMAIL" styleClass="field-label"/>
+                    <TextField fx:id="resetEmailField" promptText="ivanov@company.ru" styleClass="text-field-styled"/>
+                </VBox>
+                <Button fx:id="sendCodeButton" text="Получить код" maxWidth="Infinity" styleClass="btn-primary"/>
+                <Hyperlink fx:id="haveCodeLink" text="У меня уже есть код" styleClass="login-link"/>
+            </VBox>
+            <VBox fx:id="resetCodeBox" spacing="14" managed="false" visible="false">
+                <Label text="Если адрес зарегистрирован, код отправлен на почту. Он действует 1 час."
+                       wrapText="true" styleClass="page-date"/>
+                <VBox spacing="0">
+                    <Label text="КОД ИЗ ПИСЬМА" styleClass="field-label"/>
+                    <TextField fx:id="resetCodeField" styleClass="text-field-styled"/>
+                </VBox>
+                <VBox spacing="0">
+                    <Label text="НОВЫЙ ПАРОЛЬ" styleClass="field-label"/>
+                    <PasswordField fx:id="newPasswordField" promptText="Не короче 8 символов" styleClass="text-field-styled"/>
+                </VBox>
+                <VBox spacing="0">
+                    <Label text="ПОВТОРИТЕ ПАРОЛЬ" styleClass="field-label"/>
+                    <PasswordField fx:id="repeatPasswordField" styleClass="text-field-styled"/>
+                </VBox>
+                <Button fx:id="resetButton" text="Сменить пароль" maxWidth="Infinity" styleClass="btn-primary"/>
+            </VBox>
+            <Hyperlink fx:id="backToLoginLink" text="← Вернуться ко входу" styleClass="login-link"/>
+        </VBox>
+
+        <Label fx:id="errorLabel" styleClass="login-error" wrapText="true" managed="false" visible="false"/>
+        <Label fx:id="infoLabel" styleClass="login-info" wrapText="true" managed="false" visible="false"/>
 
         <HBox fx:id="progressBox" spacing="8" alignment="CENTER_LEFT" managed="false" visible="false">
             <ProgressIndicator prefWidth="16" prefHeight="16"/>

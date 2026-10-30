@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox styleClass="modal-root" prefWidth="460"
+      fx:controller="org.example.taskschedulerdesktop.user.ProfileController"
+      xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1">
+
+    <VBox styleClass="modal-body">
+        <Label text="Профиль" styleClass="modal-title"/>
+        <Label fx:id="emailLabel" styleClass="section-mono"/>
+
+        <Label text="ИМЯ *" styleClass="field-label"/>
+        <TextField fx:id="nameField" styleClass="text-field-styled"/>
+
+        <HBox spacing="12">
+            <VBox HBox.hgrow="ALWAYS" spacing="5">
+                <Label text="ДОЛЖНОСТЬ" styleClass="field-label"/>
+                <TextField fx:id="positionField" styleClass="text-field-styled"/>
+            </VBox>
+            <VBox HBox.hgrow="ALWAYS" spacing="5">
+                <Label text="ЧАСОВОЙ ПОЯС" styleClass="field-label"/>
+                <ComboBox fx:id="timezoneComboBox" editable="true" maxWidth="Infinity"
+                          styleClass="combo-box-styled"/>
+            </VBox>
+        </HBox>
+        <Button fx:id="saveProfileButton" text="Сохранить профиль" styleClass="btn-primary" maxWidth="Infinity"/>
+
+        <Separator style="-fx-padding: 8 0 4 0;"/>
+
+        <Label text="СМЕНА ПАРОЛЯ" styleClass="field-label"/>
+        <PasswordField fx:id="currentPasswordField" promptText="Текущий пароль" styleClass="text-field-styled"/>
+        <PasswordField fx:id="newPasswordField" promptText="Новый пароль, не короче 8 символов"
+                       styleClass="text-field-styled"/>
+        <PasswordField fx:id="repeatPasswordField" promptText="Новый пароль ещё раз" styleClass="text-field-styled"/>
+        <Label text="Пароль меняется на сервере, нужна связь. На других устройствах потребуется войти заново."
+               wrapText="true" styleClass="employees-hint"/>
+        <HBox spacing="8">
+            <Button fx:id="changePasswordButton" text="Сменить пароль" styleClass="btn-secondary"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button fx:id="closeButton" text="Закрыть" styleClass="btn-secondary"/>
+        </HBox>
+    </VBox>
+</VBox>

@@ -1,5 +1,8 @@
 package org.example.taskschedulerdesktop.auth;
 
+import org.example.taskschedulerdesktop.user.ProfileService;
+import javafx.scene.layout.VBox;
+import javafx.scene.control.Hyperlink;
 import org.example.taskschedulerdesktop.shared.api.ApiException;
 import org.example.taskschedulerdesktop.shared.api.OfflineException;
 import org.example.taskschedulerdesktop.shared.api.ServerConfig;
@@ -34,6 +37,23 @@ public class LoginController {
     @FXML private Label progressLabel;
     @FXML private Label serverLabel;
 
+    @FXML private Label formTitle;
+    @FXML private VBox loginBox;
+    @FXML private Hyperlink forgotLink;
+    @FXML private Label infoLabel;
+
+    @FXML private VBox resetBox;
+    @FXML private VBox resetEmailBox;
+    @FXML private TextField resetEmailField;
+    @FXML private Button sendCodeButton;
+    @FXML private Hyperlink haveCodeLink;
+    @FXML private VBox resetCodeBox;
+    @FXML private TextField resetCodeField;
+    @FXML private PasswordField newPasswordField;
+    @FXML private PasswordField repeatPasswordField;
+    @FXML private Button resetButton;
+    @FXML private Hyperlink backToLoginLink;
+
     public LoginController(AuthService authService, SyncService syncService, Runnable onSignedIn) {
         this.authService = authService;
         this.syncService = syncService;
@@ -44,6 +64,115 @@ public class LoginController {
     public void initialize() {
         serverLabel.setText("Сервер: " + ServerConfig.serverUrl());
         loginButton.setOnAction(event -> login());
+
+        forgotLink.setOnAction(event -> showReset());
+        backToLoginLink.setOnAction(event -> showLogin(null));
+        haveCodeLink.setOnAction(event -> showCodeStep());
+        sendCodeButton.setOnAction(event -> sendCode());
+        resetButton.setOnAction(event -> resetPassword());
+    }
+
+    // ===== Сброс пароля =====
+
+    private void showReset() {
+        resetEmailField.setText(emailField.getText());
+        hideMessages();
+        formTitle.setText("Восстановление пароля");
+        show(loginBox, false);
+        show(resetBox, true);
+        show(resetEmailBox, true);
+        show(resetCodeBox, false);
+    }
+
+    private void showCodeStep() {
+        hideMessages();
+        show(resetEmailBox, false);
+        show(resetCodeBox, true);
+    }
+
+    private void showLogin(String info) {
+        hideMessages();
+        formTitle.setText("Вход в систему");
+        show(resetBox, false);
+        show(loginBox, true);
+        if (info != null) {
+            infoLabel.setText(info);
+            show(infoLabel, true);
+        }
+    }
+
+    private void sendCode() {
+        String email = resetEmailField.getText() == null ? "" : resetEmailField.getText().trim();
+        if (!email.contains("@")) {
+            showError("Введите email");
+            return;
+        }
+        sendCodeButton.setDisable(true);
+        runInBackground(() -> authService.requestPasswordReset(email), () -> {
+            sendCodeButton.setDisable(false);
+            emailField.setText(email);
+            showCodeStep();
+        }, error -> {
+            sendCodeButton.setDisable(false);
+            showError(describe(error));
+        });
+    }
+
+    private void resetPassword() {
+        String code = resetCodeField.getText() == null ? "" : resetCodeField.getText().trim();
+        if (code.isEmpty()) {
+            showError("Введите код из письма");
+            return;
+        }
+        if (!newPasswordField.getText().equals(repeatPasswordField.getText())) {
+            showError("Пароли не совпадают");
+            return;
+        }
+        try {
+            ProfileService.validatePassword(newPasswordField.getText());
+        } catch (IllegalArgumentException e) {
+            showError(e.getMessage());
+            return;
+        }
+        String password = newPasswordField.getText();
+        resetButton.setDisable(true);
+        runInBackground(() -> authService.resetPassword(code, password), () -> {
+            resetButton.setDisable(false);
+            resetCodeField.clear();
+            newPasswordField.clear();
+            repeatPasswordField.clear();
+            passwordField.clear();
+            showLogin("Пароль изменён. Войдите с новым паролем.");
+        }, error -> {
+            resetButton.setDisable(false);
+            showError(error instanceof ApiException api && api.is("VALIDATION_ERROR")
+                    ? "Код неверный или устарел. Запросите новый." : describe(error));
+        });
+    }
+
+    private void runInBackground(Runnable work, Runnable onSuccess, java.util.function.Consumer<Throwable> onError) {
+        Task<Void> task = new Task<>() {
+            @Override
+            protected Void call() {
+                work.run();
+                return null;
+            }
+        };
+        task.setOnSucceeded(event -> onSuccess.run());
+        task.setOnFailed(event -> onError.accept(task.getException()));
+        Thread thread = new Thread(task, "password-reset");
+        thread.setDaemon(true);
+        thread.start();
+    }
+
+    private void hideMessages() {
+        show(errorLabel, false);
+        show(infoLabel, false);
+    }
+
+    private static void show(javafx.scene.Node node, boolean visible) {
+        node.setVisible(visible);
+        node.setManaged(visible);
     }
 
     /** Сообщение над формой, например «Сессия истекла». */
@@ -118,6 +247,7 @@ public class LoginController {
     }
 
     private void showError(String message) {
+        show(infoLabel, false);
         errorLabel.setText(message);
         errorLabel.setVisible(true);
         errorLabel.setManaged(true);
