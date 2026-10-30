@@ -2,7 +2,6 @@ package org.example.taskschedulerdesktop.shared.navigation;
 
 import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
-import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.EventHandler;
@@ -20,6 +19,7 @@ import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.Duration;
+import org.example.taskschedulerdesktop.shared.ui.Animations;
 import org.example.taskschedulerdesktop.shared.ui.DateFormatter;
 import org.example.taskschedulerdesktop.config.AppConfig;
 import org.example.taskschedulerdesktop.shared.ui.RightSidebar;
@@ -54,14 +54,22 @@ public class NavigationManager {
     private static final double RIGHT_SIDEBAR_WIDTH = 400.0;
     private static Region sidebarOverlay = null;
 
-    // История переходов
+    /**
+     * Запись истории. При переходе вглубь страница сохраняется целиком ({@code node} и {@code controller}):
+     * «Назад» показывает её мгновенно и в том же состоянии, как в macOS. После переключения
+     * раздела меню хранится только путь — страница загрузится заново.
+     */
     private static class PageInfo {
         final String fxmlPath;
         final String title;
+        final Parent node;
+        final Object controller;
 
-        public PageInfo(String fxmlPath, String title) {
+        PageInfo(String fxmlPath, String title, Parent node, Object controller) {
             this.fxmlPath = fxmlPath;
             this.title = title;
+            this.node = node;
+            this.controller = controller;
         }
     }
     private static final Stack<PageInfo> history = new Stack<>();
@@ -82,6 +90,7 @@ public class NavigationManager {
 
     // Храним ссылку на контроллер ТЕКУЩЕЙ страницы, чтобы вовремя вызывать shutdown
     private static Object currentController = null;
+    private static Parent currentNode = null;
 
     // ============================================================
     // ИНИЦИАЛИЗАЦИЯ
@@ -92,6 +101,8 @@ public class NavigationManager {
         NavigationManager.globalStackPane = globalStackPane;
         NavigationManager.contentArea = contentArea;
         NavigationManager.controllerFactory = controllerFactory;
+        // Сдвигаемые при переходах экраны не должны заезжать на меню и шапку
+        Animations.clipToBounds(contentArea);
 
     }
 
@@ -104,10 +115,25 @@ public class NavigationManager {
     }
 
     public static void navigateTo(String fxmlPath, String title, Object context) {
-        // Сохраняем текущую страницу в историю (если есть)
-        if (!isBackNavigation && currentPage != null && !fxmlPath.equals(currentPage)) {
-            history.push(new PageInfo(currentPage, currentTitle));
+        // Уже на этой странице (например, повторное нажатие на пункт меню) — не перезагружаем, без моргания
+        if (!isBackNavigation && context == null && fxmlPath.equals(currentPage)) {
+            return;
         }
+
+        // Направление анимации определяем сразу: флаг «Назад» действует только во время этого вызова
+        Animations.Direction direction = isBackNavigation ? Animations.Direction.BACK
+                : context != null ? Animations.Direction.FORWARD
+                : Animations.Direction.SECTION;
+
+        // Сохраняем текущую страницу в историю (если есть). При переходе вглубь — вместе с её состоянием
+        boolean keepLeaving = false;
+        if (!isBackNavigation && currentPage != null && !fxmlPath.equals(currentPage)) {
+            keepLeaving = direction == Animations.Direction.FORWARD && currentNode != null;
+            history.push(keepLeaving
+                    ? new PageInfo(currentPage, currentTitle, currentNode, currentController)
+                    : new PageInfo(currentPage, currentTitle, null, null));
+        }
+        boolean leavingKept = keepLeaving;
 
         log.debug("Start async loading page: {}", fxmlPath);
 
@@ -129,11 +155,13 @@ public class NavigationManager {
                 Parent page = loader.getRoot();
                 Object newController = loader.getController();
 
-                if (currentController instanceof Shutdownable shutdownable) {
+                // Страница, сохранённая в истории целиком, продолжит жить — её не закрываем
+                if (!leavingKept && currentController instanceof Shutdownable shutdownable) {
                     shutdownable.shutdown();
                 }
 
                 currentController = newController;
+                currentNode = page;
 
                 if (newController instanceof ContextAware aware) {
                     aware.setContext(context);
@@ -142,7 +170,7 @@ public class NavigationManager {
                     sidebarController.setContext(context);
                 }
 
-                contentArea.getChildren().setAll(page);
+                Animations.swapPage(contentArea, page, direction);
                 currentPage = fxmlPath;
 
                 if (title != null) {
@@ -174,6 +202,20 @@ public class NavigationManager {
      * Возврат на предыдущую страницу.
      */
     public static void goBack() {
+        if (!history.isEmpty() && history.peek().node != null) {
+            // Страница сохранена целиком: показываем её сразу, текущую закрываем
+            PageInfo previousPage = history.pop();
+            if (currentController instanceof Shutdownable shutdownable) {
+                shutdownable.shutdown();
+            }
+            Animations.swapPage(contentArea, previousPage.node, Animations.Direction.BACK);
+            currentNode = previousPage.node;
+            currentController = previousPage.controller;
+            currentPage = previousPage.fxmlPath;
+            currentTitle = previousPage.title;
+            EventBus.getInstance().fire(new PageTitleChangedEvent(currentTitle));
+            return;
+        }
         if (!history.isEmpty()) {
             PageInfo previousPage = history.pop();
             isBackNavigation = true;
@@ -204,6 +246,11 @@ public class NavigationManager {
      */
     public static String getCurrentPage() {
         return currentPage;
+    }
+
+    /** Эта страница сейчас на экране (а не лежит в истории для «Назад»). */
+    public static boolean isCurrent(Object controller) {
+        return controller != null && controller == currentController;
     }
 
     public static void setCurrentTitle(String title) {
@@ -248,6 +295,7 @@ public class NavigationManager {
             );
 
             dialogStage.setScene(scene);
+            dialogStage.setOnShown(event -> Animations.popIn(root));
             dialogStage.showAndWait();
             return dialogStage;
 
@@ -260,7 +308,13 @@ public class NavigationManager {
     public static void closeDialog(Stage stage) {
         if (stage != null) {
             log.debug("Close Stage: {}", stage.getTitle());
-            Platform.runLater(stage::close);
+            Platform.runLater(() -> {
+                if (stage.getScene() != null && stage.isShowing()) {
+                    Animations.popOut(stage.getScene().getRoot(), stage::close);
+                } else {
+                    stage.close();
+                }
+            });
         } else {
             log.debug("Stage is null");
         }
@@ -352,15 +406,7 @@ public class NavigationManager {
 
             globalStackPane.getChildren().addAll(sidebarOverlay, rightSidebar);
 
-            FadeTransition fadeInOverlay = new FadeTransition(Duration.millis(200), sidebarOverlay);
-            fadeInOverlay.setFromValue(0);
-            fadeInOverlay.setToValue(1);
-            fadeInOverlay.play();
-
-            TranslateTransition animate = new TranslateTransition(Duration.millis(200), rightSidebar);
-            animate.setFromX(RIGHT_SIDEBAR_WIDTH);
-            animate.setToX(0);
-            animate.play();
+            Animations.slidePanel(rightSidebar, sidebarOverlay, RIGHT_SIDEBAR_WIDTH, true).play();
         } catch (IOException e) {
             log.error("Sidebar loading error", e);
         }
@@ -377,26 +423,13 @@ public class NavigationManager {
 
         rightSidebarController = null;
 
-        TranslateTransition animateSidebar = new TranslateTransition(Duration.millis(200), rightSidebar);
-        animateSidebar.setToX(RIGHT_SIDEBAR_WIDTH);
+        Parent closingSidebar = rightSidebar;
+        Region closingOverlay = sidebarOverlay;
+        rightSidebar = null;
+        sidebarOverlay = null;
 
-        if (sidebarOverlay != null) {
-            FadeTransition fadeOutOverlay = new FadeTransition(Duration.millis(200), sidebarOverlay);
-            fadeOutOverlay.setFromValue(sidebarOverlay.getOpacity());
-            fadeOutOverlay.setToValue(0);
-            fadeOutOverlay.play();
-        }
-
-        animateSidebar.setOnFinished(event -> {
-            globalStackPane.getChildren().remove(rightSidebar);
-            rightSidebar = null;
-
-            if (sidebarOverlay != null) {
-                globalStackPane.getChildren().remove(sidebarOverlay);
-                sidebarOverlay = null;
-            }
-        });
-
+        var animateSidebar = Animations.slidePanel(closingSidebar, closingOverlay, RIGHT_SIDEBAR_WIDTH, false);
+        animateSidebar.setOnFinished(event -> globalStackPane.getChildren().removeAll(closingSidebar, closingOverlay));
         animateSidebar.play();
     }
 
@@ -500,9 +533,16 @@ public class NavigationManager {
             rightSidebar = null;
         }
         rightSidebarController = null;
+        // Страницы, сохранённые в истории целиком, ещё подписаны на события — закрываем их
+        for (PageInfo page : history) {
+            if (page.controller instanceof Shutdownable shutdownable) {
+                shutdownable.shutdown();
+            }
+        }
         history.clear();
         currentPage = null;
         currentController = null;
+        currentNode = null;
         log.debug("NavigationManager disposed");
     }
 }

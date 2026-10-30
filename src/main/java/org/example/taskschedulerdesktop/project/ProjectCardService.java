@@ -2,9 +2,7 @@ package org.example.taskschedulerdesktop.project;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.input.MouseButton;
 import org.example.taskschedulerdesktop.config.AppConfig;
-import org.example.taskschedulerdesktop.shared.navigation.NavigationManager;
 import org.example.taskschedulerdesktop.shared.navigation.Routes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,12 +30,6 @@ public class ProjectCardService {
 
             Node card = loader.load();
             ProjectCardController controller = loader.getController();
-
-            card.setOnMouseClicked(event -> {
-                if (event.getButton() == MouseButton.PRIMARY) {
-                    NavigationManager.navigateTo(Routes.PROJECT_DETAILS);
-                }
-            });
 
             controller.setContext(project);
 

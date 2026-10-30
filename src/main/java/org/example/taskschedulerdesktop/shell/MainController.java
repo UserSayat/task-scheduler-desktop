@@ -1,5 +1,6 @@
 package org.example.taskschedulerdesktop.shell;
 
+import org.example.taskschedulerdesktop.shared.ui.Animations;
 import org.example.taskschedulerdesktop.config.AppConfig;
 import org.example.taskschedulerdesktop.notification.NotificationsChangedEvent;
 import org.example.taskschedulerdesktop.notification.NotificationsPanel;
@@ -21,8 +22,10 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.function.Consumer;
+import javafx.animation.Animation;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -59,6 +62,11 @@ public class MainController implements Shutdownable {
 
     private NotificationsPanel notificationsPanel;
 
+    /** −1 — счётчик ещё не загружен (первая загрузка не «подпрыгивает»). */
+    private int lastUnreadCount = -1;
+
+    private Animation syncBreathing;
+
     private final Consumer<NotificationsChangedEvent> notificationsListener = event -> showUnreadCount();
 
     @FXML private Button backButton;
@@ -77,7 +85,32 @@ public class MainController implements Shutdownable {
     private final Consumer<PageTitleChangedEvent> titleUpdateListener = event -> {
         pageTitleLabel.setText(event.getPageTitle());
         updateBackButtonState();
+        highlightCurrentSection();
     };
+
+    /** Какой пункт меню подсвечивать на странице. Страница проекта относится к «Проектам». */
+    private Map<String, Button> sectionButtons() {
+        return Map.of(
+                Routes.DASHBOARD, reviewButton,
+                Routes.TASKS, tasksButton,
+                Routes.PROJECTS, projectsButton,
+                Routes.PROJECT_DETAILS, projectsButton,
+                Routes.TEAM, teamButton,
+                Routes.EMPLOYEES, employeesButton,
+                Routes.TAGS, tagsButton,
+                Routes.SETTINGS, settingsButton);
+    }
+
+    private void highlightCurrentSection() {
+        Button active = sectionButtons().get(NavigationManager.getCurrentPage());
+        for (Button button : List.of(reviewButton, tasksButton, projectsButton, teamButton,
+                employeesButton, tagsButton, settingsButton)) {
+            button.getStyleClass().remove("nav-btn-active");
+            if (button == active) {
+                button.getStyleClass().add("nav-btn-active");
+            }
+        }
+    }
 
     private final Consumer<SyncStatus> syncStatusListener = status -> Platform.runLater(() -> showSyncStatus(status));
 
@@ -215,6 +248,10 @@ public class MainController implements Shutdownable {
     /** Счётчик на колокольчике; «99+», чтобы не растягивать шапку. */
     private void showUnreadCount() {
         appConfig.getAsyncNotificationService().unreadCount(count -> {
+            if (count > lastUnreadCount && lastUnreadCount >= 0) {
+                Animations.pulse(unreadBadge); // пришло новое уведомление
+            }
+            lastUnreadCount = count;
             unreadBadge.setText(count > 99 ? "99+" : String.valueOf(count));
             unreadBadge.setVisible(count > 0);
             unreadBadge.setManaged(count > 0);
@@ -244,6 +281,14 @@ public class MainController implements Shutdownable {
     }
 
     private void showSyncStatus(SyncStatus status) {
+        // Пока идёт обмен с сервером, индикатор мягко «дышит»
+        if (status.state() == SyncStatus.State.SYNCING && syncBreathing == null) {
+            syncBreathing = Animations.breathe(syncStatusButton);
+        } else if (status.state() != SyncStatus.State.SYNCING && syncBreathing != null) {
+            syncBreathing.stop();
+            syncBreathing = null;
+            syncStatusButton.setOpacity(1);
+        }
         String text;
         String style;
         String details = null;

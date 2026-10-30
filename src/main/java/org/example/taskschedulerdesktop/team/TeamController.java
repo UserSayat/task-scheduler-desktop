@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
+import org.example.taskschedulerdesktop.shared.ui.Animations;
 import org.example.taskschedulerdesktop.shared.event.EventBus;
 import org.example.taskschedulerdesktop.shared.navigation.NavigationManager;
 import org.example.taskschedulerdesktop.shared.ui.Shutdownable;
@@ -30,6 +31,8 @@ public class TeamController implements Shutdownable {
 
     @FXML private TilePane teamTilePane;
     @FXML private Label emptyLabel;
+
+    private boolean firstLoad = true;
 
     private final Consumer<TaskChangedEvent> taskListener = event -> loadTeam();
     private final Consumer<UsersChangedEvent> usersListener = event -> loadTeam();
@@ -60,12 +63,17 @@ public class TeamController implements Shutdownable {
             for (TeamMember member : team) {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource(CARD));
                 VBox card = loader.load();
+                Animations.hoverLift(card);
                 EmployeeCardController cardController = loader.getController();
                 cardController.setMember(member);
                 teamTilePane.getChildren().add(card);
             }
         } catch (IOException e) {
             log.error("Employee card loading failed", e);
+        }
+        if (firstLoad) {
+            Animations.staggerIn(teamTilePane.getChildren());
+            firstLoad = false;
         }
     }
 

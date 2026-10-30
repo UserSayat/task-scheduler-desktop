@@ -444,6 +444,10 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
                 context.percentDone());
 
         this.projectNameLabel.setText(context.name() + (context.archived() ? " · в архиве" : ""));
+        // Заголовок в шапке — название проекта (например, после переименования), если страница на экране
+        if (NavigationManager.isCurrent(this) && !context.name().equals(NavigationManager.getCurrentTitle())) {
+            NavigationManager.setCurrentTitle(context.name());
+        }
         this.archiveButton.setText(context.archived() ? "Вернуть из архива" : "В архив");
         this.projectSupervisorLabel.setText(context.ownerName());
         this.numberOfTasksLabel.setText(String.valueOf(context.totalTasks()));

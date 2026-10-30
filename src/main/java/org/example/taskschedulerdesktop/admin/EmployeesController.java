@@ -68,18 +68,8 @@ public class EmployeesController implements Shutdownable {
         setUpColumn(positionColumn, employee -> employee.position() != null ? employee.position() : "");
         setUpColumn(rolesColumn, Employee::rolesText);
         setUpColumn(statusColumn, Employee::statusText);
-        statusColumn.setCellFactory(column -> new TableCell<>() {
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                getStyleClass().remove("employee-blocked");
-                setText(empty ? null : item);
-                if (!empty && getTableRow() != null && getTableRow().getItem() != null
-                        && getTableRow().getItem().isBlocked()) {
-                    getStyleClass().add("employee-blocked");
-                }
-            }
-        });
+        statusColumn.setCellFactory(column -> labelCell(status ->
+                "Заблокирован".equals(status) ? "employee-blocked-pill" : "employee-active"));
 
         employeesTable.setItems(employees);
         employeesTable.setPlaceholder(new Label("Сотрудники появятся после синхронизации с сервером"));
@@ -197,6 +187,24 @@ public class EmployeesController implements Shutdownable {
 
     private Window window() {
         return employeesTable.getScene() != null ? employeesTable.getScene().getWindow() : null;
+    }
+
+    /** Ячейка с подписью нужного стиля — как в таблице задач. */
+    private static TableCell<Employee, String> labelCell(java.util.function.Function<String, String> style) {
+        return new TableCell<>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(null);
+                if (empty || item == null) {
+                    setGraphic(null);
+                    return;
+                }
+                Label label = new Label(item);
+                label.getStyleClass().add(style.apply(item));
+                setGraphic(label);
+            }
+        };
     }
 
     private static void setUpColumn(TableColumn<Employee, String> column, Function<Employee, String> value) {

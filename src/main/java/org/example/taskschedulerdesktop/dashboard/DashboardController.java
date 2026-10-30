@@ -79,11 +79,7 @@ public class DashboardController implements Shutdownable {
 
                             if (event.getClickCount() == 1) {
                                 ProjectView item = cell.getItem();
-                                NavigationManager.navigateTo(
-                                        Routes.PROJECT_DETAILS,
-                                        null,
-                                        item
-                                );
+                                NavigationManager.navigateTo(Routes.PROJECT_DETAILS, item.name(), item);
                             }
                         });
                         return cell;

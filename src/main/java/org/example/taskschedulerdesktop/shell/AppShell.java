@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import org.example.taskschedulerdesktop.shared.ui.Animations;
 import org.example.taskschedulerdesktop.sync.SyncStatus;
 import org.example.taskschedulerdesktop.auth.LoginController;
 import org.example.taskschedulerdesktop.config.AppConfig;
@@ -84,6 +85,7 @@ public class AppShell {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(Routes.MAIN));
         loader.setControllerFactory(config.getControllerFactory());
         scene.setRoot(load(loader));
+        Animations.fadeIn(scene.getRoot());
         mainController = loader.getController();
         loginController = null;
         if (!config.isDemoMode()) {
@@ -109,6 +111,7 @@ public class AppShell {
                     ? new LoginController(config.getAuthService(), config.getSyncService(), this::showMain)
                     : config.getControllerFactory().call(clazz));
             scene.setRoot(load(loader));
+            Animations.fadeIn(scene.getRoot());
             loginController = loader.getController();
         }
         if (message != null) {

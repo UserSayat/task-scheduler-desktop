@@ -15,7 +15,7 @@
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="org.example.taskschedulerdesktop.tag.TagsController">
 
-    <TableView fx:id="tagsTable" HBox.hgrow="ALWAYS" styleClass="table-view">
+    <TableView fx:id="tagsTable" HBox.hgrow="ALWAYS" styleClass="task-table">
         <columns>
             <TableColumn fx:id="colorColumn" prefWidth="60" text="Цвет" sortable="false"/>
             <TableColumn fx:id="nameColumn" prefWidth="260" text="Тег"/>
@@ -39,6 +39,6 @@
             <Button fx:id="deleteButton" text="Удалить" styleClass="btn-ghost-danger"/>
         </HBox>
         <Label text="Создавать, менять и удалять теги может только администратор. Изменения уйдут на сервер при синхронизации."
-               wrapText="true" styleClass="employees-hint"/>
+               wrapText="true" minHeight="-Infinity" styleClass="employees-hint"/>
     </VBox>
 </HBox>

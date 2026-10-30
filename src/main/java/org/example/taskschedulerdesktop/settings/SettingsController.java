@@ -4,9 +4,9 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
-import javafx.scene.control.Label;
 import org.example.taskschedulerdesktop.shared.api.OfflineException;
 import org.example.taskschedulerdesktop.shared.navigation.NavigationManager;
 import org.example.taskschedulerdesktop.user.Timezones;
@@ -19,10 +19,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Экран «Настройки» для администратора (API.md, раздел 10). Сохраняются на сервере — нужна связь;
- * остальные сотрудники получат их при следующей синхронизации.
+ * остальные сотрудники получат их при следующей синхронизации. «Сохранить» и «Отменить»
+ * активны, только когда что-то изменено.
  */
 public class SettingsController {
 
@@ -30,6 +32,7 @@ public class SettingsController {
 
     /** Те же форматы, что разрешает сервер. */
     private static final List<String> DATE_FORMATS = List.of("dd.MM.yyyy", "d MMMM yyyy", "yyyy-MM-dd", "MM/dd/yyyy");
+    private static final String DEFAULT_HINT = "Настройки действуют для всех сотрудников. Сохраняются на сервере — нужна связь.";
 
     private final SettingsService service;
 
@@ -38,7 +41,12 @@ public class SettingsController {
     @FXML private ComboBox<String> timezoneComboBox;
     @FXML private Spinner<Integer> intervalSpinner;
     @FXML private Spinner<Integer> batchSpinner;
+    @FXML private Label statusLabel;
+    @FXML private Button revertButton;
     @FXML private Button saveButton;
+
+    /** Значения, которые сейчас действуют, — с ними сравниваются поля формы. */
+    private Map<String, String> saved = Map.of();
 
     public SettingsController(SettingsService service) {
         this.service = service;
@@ -47,41 +55,84 @@ public class SettingsController {
     @FXML
     public void initialize() {
         dateFormatComboBox.getItems().setAll(DATE_FORMATS);
-        dateFormatComboBox.valueProperty().addListener((obs, old, pattern) -> showExample(pattern));
         timezoneComboBox.getItems().setAll(Timezones.COMMON);
         intervalSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(30, 3600, 120, 30));
         batchSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(10, 500, 100, 10));
         intervalSpinner.setEditable(true);
         batchSpinner.setEditable(true);
 
-        Map<String, String> current = service.current();
-        dateFormatComboBox.setValue(current.getOrDefault(AppSettings.DATE_FORMAT, "dd.MM.yyyy"));
-        timezoneComboBox.setValue(current.getOrDefault(AppSettings.TIMEZONE_DEFAULT, Timezones.defaultZone()));
-        intervalSpinner.getValueFactory().setValue(number(current.get(AppSettings.SYNC_INTERVAL), 120));
-        batchSpinner.getValueFactory().setValue(number(current.get(AppSettings.SYNC_BATCH), 100));
+        dateFormatComboBox.valueProperty().addListener((obs, old, pattern) -> {
+            showExample(pattern);
+            updateButtons();
+        });
+        timezoneComboBox.valueProperty().addListener((obs, old, zone) -> updateButtons());
+        timezoneComboBox.getEditor().textProperty().addListener((obs, old, zone) -> updateButtons());
+        intervalSpinner.valueProperty().addListener((obs, old, value) -> updateButtons());
+        batchSpinner.valueProperty().addListener((obs, old, value) -> updateButtons());
 
+        revertButton.setOnAction(event -> fill(saved));
         saveButton.setOnAction(event -> save());
+
+        saved = service.current();
+        fill(saved);
+    }
+
+    /** Поля формы — по действующим значениям. */
+    private void fill(Map<String, String> values) {
+        dateFormatComboBox.setValue(values.getOrDefault(AppSettings.DATE_FORMAT, "dd.MM.yyyy"));
+        timezoneComboBox.setValue(values.getOrDefault(AppSettings.TIMEZONE_DEFAULT, Timezones.defaultZone()));
+        timezoneComboBox.getEditor().setText(timezoneComboBox.getValue());
+        intervalSpinner.getValueFactory().setValue(number(values.get(AppSettings.SYNC_INTERVAL), 120));
+        batchSpinner.getValueFactory().setValue(number(values.get(AppSettings.SYNC_BATCH), 100));
+        statusLabel.setText(DEFAULT_HINT);
+        updateButtons();
+    }
+
+    private Map<String, String> form() {
+        Map<String, String> values = new LinkedHashMap<>();
+        values.put(AppSettings.DATE_FORMAT, dateFormatComboBox.getValue());
+        values.put(AppSettings.TIMEZONE_DEFAULT, timezoneComboBox.getEditor().getText().strip());
+        values.put(AppSettings.SYNC_INTERVAL, String.valueOf(intervalSpinner.getValue()));
+        values.put(AppSettings.SYNC_BATCH, String.valueOf(batchSpinner.getValue()));
+        return values;
+    }
+
+    /** Только изменённые значения: их и отправляем на сервер. */
+    private Map<String, String> changes() {
+        Map<String, String> changes = new LinkedHashMap<>();
+        form().forEach((key, value) -> {
+            if (!Objects.equals(value, saved.get(key))) {
+                changes.put(key, value);
+            }
+        });
+        return changes;
+    }
+
+    private void updateButtons() {
+        boolean dirty = !changes().isEmpty();
+        saveButton.setDisable(!dirty);
+        revertButton.setDisable(!dirty);
     }
 
     private void showExample(String pattern) {
         if (pattern == null) {
             return;
         }
+        LocalDate today = LocalDate.now();
         String example = pattern.contains("MMMM")
-                ? LocalDate.now().getDayOfMonth() + " " + LocalDate.now().format(DateTimeFormatter.ofPattern("MMMM yyyy",
-                Locale.forLanguageTag("ru")))
-                : LocalDate.now().format(DateTimeFormatter.ofPattern(pattern));
+                ? today.getDayOfMonth() + " " + today.format(DateTimeFormatter.ofPattern("MMMM yyyy", Locale.forLanguageTag("ru")))
+                : today.format(DateTimeFormatter.ofPattern(pattern));
         dateExampleLabel.setText("Например: " + example);
     }
 
     private void save() {
-        Map<String, String> changes = new LinkedHashMap<>();
-        changes.put(AppSettings.DATE_FORMAT, dateFormatComboBox.getValue());
-        changes.put(AppSettings.TIMEZONE_DEFAULT, timezoneComboBox.getEditor().getText());
-        changes.put(AppSettings.SYNC_INTERVAL, String.valueOf(intervalSpinner.getValue()));
-        changes.put(AppSettings.SYNC_BATCH, String.valueOf(batchSpinner.getValue()));
-
+        Map<String, String> changes = changes();
+        if (changes.isEmpty()) {
+            return;
+        }
         saveButton.setDisable(true);
+        revertButton.setDisable(true);
+        statusLabel.setText("Сохранение…");
         Task<Map<String, String>> task = new Task<>() {
             @Override
             protected Map<String, String> call() {
@@ -89,18 +140,20 @@ public class SettingsController {
             }
         };
         task.setOnSucceeded(event -> {
-            saveButton.setDisable(false);
-            NavigationManager.showToast("Настройки сохранены. Сотрудники получат их при синхронизации", "success");
+            saved = task.getValue();
+            fill(saved);
+            statusLabel.setText("Сохранено. Сотрудники получат настройки при следующей синхронизации.");
         });
         task.setOnFailed(event -> {
-            saveButton.setDisable(false);
+            updateButtons();
             Throwable error = task.getException();
             if (error instanceof IllegalArgumentException) {
-                NavigationManager.showToast(error.getMessage(), "info");
+                statusLabel.setText(error.getMessage());
             } else if (error instanceof OfflineException) {
-                NavigationManager.showToast("Нет связи с сервером. Настройки сохраняются только онлайн", "info");
+                statusLabel.setText("Нет связи с сервером. Настройки сохраняются только онлайн.");
             } else {
                 log.error("Settings saving failed", error);
+                statusLabel.setText(DEFAULT_HINT);
                 NavigationManager.showToast("Не удалось сохранить настройки", "error");
             }
         });

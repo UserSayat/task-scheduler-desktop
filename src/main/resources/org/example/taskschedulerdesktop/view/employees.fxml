@@ -21,13 +21,13 @@
         <Button fx:id="addButton" text="+ Сотрудник" styleClass="btn-primary"/>
     </HBox>
 
-    <TableView fx:id="employeesTable" VBox.vgrow="ALWAYS" styleClass="table-view">
+    <TableView fx:id="employeesTable" VBox.vgrow="ALWAYS" styleClass="task-table">
         <columns>
             <TableColumn fx:id="nameColumn" prefWidth="200" text="Имя"/>
             <TableColumn fx:id="emailColumn" prefWidth="200" text="Email"/>
             <TableColumn fx:id="positionColumn" prefWidth="170" text="Должность"/>
-            <TableColumn fx:id="rolesColumn" prefWidth="220" text="Роли"/>
-            <TableColumn fx:id="statusColumn" prefWidth="110" text="Статус"/>
+            <TableColumn fx:id="rolesColumn" prefWidth="200" text="Роли"/>
+            <TableColumn fx:id="statusColumn" prefWidth="150" minWidth="140" text="Статус"/>
         </columns>
         <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
