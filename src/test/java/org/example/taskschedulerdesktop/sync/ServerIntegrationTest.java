@@ -172,9 +172,10 @@ class ServerIntegrationTest {
         assertEquals(List.of(admin.id(), id), members.stream().map(ProjectMemberView::userId).toList());
         assertEquals(MemberRole.MEMBER, members.get(1).role());
 
-        // Блокировка запрещает вход и отзывает refresh-токены (API.md, 6.4); уже выданный
-        // access-токен сервер принимает до его истечения. Разблокировка и сброс пароля возвращают доступ.
+        // Блокировка действует сразу, даже с неистёкшим access-токеном (API.md, 6.4).
+        // Разблокировка и сброс пароля возвращают доступ.
         adminApi.setStatus(id, Employee.BLOCKED);
+        assertEquals(SyncStatus.State.SIGNED_OUT, staffDevice.sync.synchronize().state());
         ApiException blocked = assertThrows(ApiException.class, () -> new Device().auth.login(email, password));
         assertTrue(blocked.is("USER_BLOCKED"), blocked.code());
         adminApi.setStatus(id, Employee.ACTIVE);
