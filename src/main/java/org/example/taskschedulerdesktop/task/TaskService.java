@@ -14,6 +14,8 @@ public interface TaskService {
 
     List<TaskView> findUpcomingDeadlines(int maxDaysUntilDeadline);
 
+    List<TaskView> findTopOpenViews(UUID projectId, int limit);
+
     TaskView create(NewTask newTask);
 
     /**

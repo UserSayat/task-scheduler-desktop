@@ -251,6 +251,16 @@ public class H2TaskRepository implements TaskRepository {
     }
 
     @Override
+    public List<TaskView> findTopOpenViews(UUID projectId, int limit) throws SQLException {
+        return queryViews(VIEW_SELECT + """
+                 AND t.project_id = ? AND t.status <> 'DONE'
+                 ORDER BY CASE t.priority WHEN 'CRITICAL' THEN 0 WHEN 'HIGH' THEN 1 WHEN 'MEDIUM' THEN 2 ELSE 3 END,
+                          t.deadline NULLS LAST, t.created_at
+                 LIMIT ?
+                """, projectId, limit);
+    }
+
+    @Override
     public List<TaskView> findUpcomingDeadlines(int maxDaysUntilDeadline) throws SQLException {
         return queryViews(VIEW_SELECT + """
                  AND t.deadline IS NOT NULL

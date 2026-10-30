@@ -42,26 +42,7 @@
             <Label fx:id="remainingTasksLabel" text="5"         style="-fx-font-weight:600;"/>
         </VBox>
     </HBox>
-    <VBox spacing="6">
-        <HBox spacing="6" alignment="CENTER_LEFT">
-            <Region style="-fx-background-color:#7c3aed;-fx-min-width:6;-fx-min-height:6;-fx-max-width:6;-fx-max-height:6;-fx-background-radius:3;"/>
-            <Label text="Утвердить макеты главной страницы"
-                   style="-fx-font-size:12px;-fx-text-fill:#5a5a56;" HBox.hgrow="ALWAYS"/>
-            <Label text="03 авг" styleClass="section-mono"/>
-        </HBox>
-        <HBox spacing="6" alignment="CENTER_LEFT">
-            <Region style="-fx-background-color:#1a3a8f;-fx-min-width:6;-fx-min-height:6;-fx-max-width:6;-fx-max-height:6;-fx-background-radius:3;"/>
-            <Label text="Оптимизация загрузки изображений"
-                   style="-fx-font-size:12px;-fx-text-fill:#5a5a56;" HBox.hgrow="ALWAYS"/>
-            <Label text="06 авг" styleClass="section-mono"/>
-        </HBox>
-        <HBox spacing="6" alignment="CENTER_LEFT">
-            <Region style="-fx-background-color:#14532d;-fx-min-width:6;-fx-min-height:6;-fx-max-width:6;-fx-max-height:6;-fx-background-radius:3;"/>
-            <Label text="Компонент навигационного меню"
-                   style="-fx-font-size:12px;-fx-text-fill:#5a5a56;" HBox.hgrow="ALWAYS"/>
-            <Label text="31 июл" styleClass="section-mono"/>
-        </HBox>
-    </VBox>
+    <VBox fx:id="topTasksVBox" spacing="6"/>
     <Label text="Открыть проект →" styleClass="section-mono"
            style="-fx-padding:12 0 0 0; -fx-cursor:hand;"/>
 </VBox>

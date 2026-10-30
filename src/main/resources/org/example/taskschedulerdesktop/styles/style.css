@@ -784,3 +784,5 @@ dashboard-list-view .scroll-bar:horizontal {
 /* ── Экран «Сотрудники» ─────────────────────────────── */
 .employees-hint { -fx-font-size: 12px; -fx-text-fill: #9b9b95; }
 .employee-blocked { -fx-text-fill: #b91c1c; -fx-font-weight: 600; }
+
+.project-card-task { -fx-font-size: 12px; -fx-text-fill: #5a5a56; }

@@ -1,5 +1,7 @@
 package org.example.taskschedulerdesktop.persistence;
 
+import org.example.taskschedulerdesktop.access.H2PermissionRepository;
+import org.example.taskschedulerdesktop.access.PermissionService;
 import org.example.taskschedulerdesktop.config.DevDataSeeder;
 import org.example.taskschedulerdesktop.admin.Employee;
 import org.example.taskschedulerdesktop.admin.H2EmployeeRepository;
@@ -66,7 +68,8 @@ class DataLayerTest {
 
         Session session = new Session(UUID.randomUUID(), DevDataSeeder.DEV_ADMIN_ID);
         ChangeTracker tracker = new ChangeTracker(uow, session);
-        TagService tagService = new TagService(new H2TagRepository(uow), tracker, session);
+        TagService tagService = new TagService(new H2TagRepository(uow), tracker, session,
+                new PermissionService(uow, new H2PermissionRepository(uow), session));
         taskService = new TaskServiceImpl(uow, new H2TaskRepository(uow), tagService, tracker, session);
         projectService = new ProjectServiceImpl(uow, new H2ProjectRepository(uow), tracker, session);
     }
@@ -168,6 +171,21 @@ class DataLayerTest {
         assertEquals(List.of("Критический", "Высокий"), maria.topTasks().stream().map(MemberTask::title).toList(),
                 "сначала приоритет, потом срок");
         assertTrue(team.stream().noneMatch(m -> m.id().equals(blocked)), "заблокированных на экране нет");
+    }
+
+    @Test
+    void projectCardShowsMostImportantOpenTasks() {
+        ProjectView project = projectService.create("Проект", MARIA);
+        LocalDate today = LocalDate.now();
+        newTask(project, "Низкий", TaskPriority.LOW, today.plusDays(1));
+        newTask(project, "Высокий позже", TaskPriority.HIGH, today.plusDays(9));
+        newTask(project, "Высокий раньше", TaskPriority.HIGH, today.plusDays(2));
+        TaskView done = newTask(project, "Готовая критическая", TaskPriority.CRITICAL, today);
+        taskService.update(edit(done, done.title(), TaskStatus.DONE, done.tagNames()));
+
+        List<String> top = taskService.findTopOpenViews(project.id(), 2).stream().map(TaskView::title).toList();
+
+        assertEquals(List.of("Высокий раньше", "Высокий позже"), top, "без выполненных, по приоритету, потом по сроку");
     }
 
     @Test

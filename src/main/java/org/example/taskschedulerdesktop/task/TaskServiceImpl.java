@@ -68,6 +68,11 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    public List<TaskView> findTopOpenViews(UUID projectId, int limit) {
+        return uow.read(() -> repository.findTopOpenViews(projectId, limit));
+    }
+
+    @Override
     public int countByProjectIdAndStatus(UUID projectId, TaskStatus status) {
         return uow.read(() -> repository.countByProjectIdAndStatus(projectId, status));
     }
