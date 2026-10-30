@@ -1,13 +1,12 @@
 package org.example.taskschedulerdesktop.admin;
 
+import org.example.taskschedulerdesktop.shared.ui.Dialogs;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -178,11 +177,7 @@ public class EmployeesController implements Shutdownable {
     }
 
     private boolean confirm(String title, String text) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, text, ButtonType.OK, ButtonType.CANCEL);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.initOwner(window());
-        return alert.showAndWait().filter(ButtonType.OK::equals).isPresent();
+        return Dialogs.confirm(window(), title, null, text);
     }
 
     private Window window() {

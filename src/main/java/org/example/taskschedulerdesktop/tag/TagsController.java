@@ -1,12 +1,11 @@
 package org.example.taskschedulerdesktop.tag;
 
+import org.example.taskschedulerdesktop.shared.ui.Dialogs;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
@@ -116,14 +115,9 @@ public class TagsController {
         if (selected == null) {
             return;
         }
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
+        if (!Dialogs.confirm(tagsTable.getScene().getWindow(), "Удаление тега", null,
                 "Удалить тег «" + selected.name() + "»? Он пропадёт у " + selected.tasks()
-                        + " задач. Имя тега останется занятым.",
-                ButtonType.OK, ButtonType.CANCEL);
-        alert.setHeaderText(null);
-        alert.setTitle("Удаление тега");
-        alert.initOwner(tagsTable.getScene().getWindow());
-        if (alert.showAndWait().filter(ButtonType.OK::equals).isEmpty()) {
+                        + " задач. Имя тега останется занятым.")) {
             return;
         }
         run(() -> {

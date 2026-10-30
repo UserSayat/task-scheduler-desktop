@@ -1,11 +1,10 @@
 package org.example.taskschedulerdesktop.shell;
 
+import org.example.taskschedulerdesktop.shared.ui.Dialogs;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -138,10 +137,7 @@ public class RejectedChangesController {
     }
 
     private boolean confirm(String text) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, text, ButtonType.OK, ButtonType.CANCEL);
-        alert.setHeaderText(null);
-        alert.initOwner(rowsVBox.getScene().getWindow());
-        return alert.showAndWait().filter(ButtonType.OK::equals).isPresent();
+        return Dialogs.confirm(rowsVBox.getScene().getWindow(), null, null, text);
     }
 
     private <T> void run(Callable<T> work, Consumer<T> onSuccess) {

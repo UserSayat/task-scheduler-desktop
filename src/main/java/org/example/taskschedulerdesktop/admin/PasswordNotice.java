@@ -1,7 +1,6 @@
 package org.example.taskschedulerdesktop.admin;
 
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
+import org.example.taskschedulerdesktop.shared.ui.Dialogs;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
@@ -23,11 +22,8 @@ final class PasswordNotice {
         Label hint = new Label("Передайте пароль сотруднику. После закрытия окна его больше не будет видно.");
         hint.setWrapText(true);
 
-        Alert alert = new Alert(Alert.AlertType.INFORMATION, null, ButtonType.OK);
-        alert.setTitle("Временный пароль");
-        alert.setHeaderText("Временный пароль для «" + employeeName + "»");
-        alert.getDialogPane().setContent(new VBox(8, password, hint));
-        alert.initOwner(owner);
-        alert.showAndWait();
+        VBox content = new VBox(8, password, hint);
+        content.setPrefWidth(380);
+        Dialogs.inform(owner, "Временный пароль", "Временный пароль для «" + employeeName + "»", content);
     }
 }

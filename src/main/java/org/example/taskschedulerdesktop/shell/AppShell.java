@@ -38,6 +38,8 @@ public class AppShell {
     private final Stage stage;
     private final AppConfig config;
     private Scene scene;
+    /** Своя рамка окна; null — системная ({@code -Dtaskhub.nativeFrame=true}). */
+    private WindowFrame frame;
     private MainController mainController;
     private LoginController loginController;
 
@@ -47,7 +49,13 @@ public class AppShell {
     }
 
     public void start() {
-        scene = new Scene(new StackPane(), 1280, 720);
+        if (WindowFrame.enabled()) {
+            frame = new WindowFrame(stage);
+            scene = new Scene(frame.root(), WindowFrame.outerSize(1280), WindowFrame.outerSize(720));
+            frame.install(scene);
+        } else {
+            scene = new Scene(new StackPane(), 1280, 720);
+        }
         for (String cssPath : STYLES) {
             URL cssUrl = getClass().getResource(cssPath);
             if (cssUrl != null) {
@@ -84,9 +92,13 @@ public class AppShell {
     public void showMain() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(Routes.MAIN));
         loader.setControllerFactory(config.getControllerFactory());
-        scene.setRoot(load(loader));
-        Animations.fadeIn(scene.getRoot());
+        show(load(loader), SIDEBAR_WIDTH);
         mainController = loader.getController();
+        if (frame != null) {
+            // Кнопки окна — в общей верхней полосе, рядом с профилем, как в макете
+            frame.attachHeader(mainController.header(), mainController.headerLogoCell(),
+                    mainController.logoBox(), mainController.headerRight());
+        }
         loginController = null;
         if (!config.isDemoMode()) {
             config.getSyncScheduler().start();
@@ -110,8 +122,10 @@ public class AppShell {
             loader.setControllerFactory(clazz -> clazz == LoginController.class
                     ? new LoginController(config.getAuthService(), config.getSyncService(), this::showMain)
                     : config.getControllerFactory().call(clazz));
-            scene.setRoot(load(loader));
-            Animations.fadeIn(scene.getRoot());
+            if (frame != null) {
+                frame.detachHeader();
+            }
+            show(load(loader), 0);
             loginController = loader.getController();
         }
         if (message != null) {
@@ -121,6 +135,20 @@ public class AppShell {
 
     public void stop() {
         config.getSyncScheduler().stop();
+    }
+
+    /** Ширина левого меню: над ним заголовок своей рамки тёмный. */
+    private static final double SIDEBAR_WIDTH = 220;
+
+    /** Показать экран: внутри своей рамки или корнем сцены. */
+    private void show(Parent screen, double sidebarWidth) {
+        if (frame != null) {
+            frame.setContent(screen);
+            frame.setSidebarWidth(sidebarWidth);
+        } else {
+            scene.setRoot(screen);
+        }
+        Animations.fadeIn(screen);
     }
 
     private Parent load(FXMLLoader loader) {

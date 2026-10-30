@@ -1,104 +1,112 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.SVGPath?>
 
+<!--
+  Главное окно: сверху общая полоса (логотип, синхронизация, уведомления, профиль; в неё же своя рамка окна
+  встраивает кнопки окна), слева навигация, справа заголовок страницы и сам экран.
+  Иконки — Bootstrap Icons (MIT).
+-->
 <StackPane fx:id="globalStackPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
            minHeight="600.0" minWidth="900.0" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21"
            xmlns:fx="http://javafx.com/fxml/1"
            fx:controller="org.example.taskschedulerdesktop.shell.MainController">
     <BorderPane>
-        <left>
-            <VBox styleClass="sidebar">
-                <!-- Логотип -->
-                <VBox styleClass="sidebar-logo-box">
-                    <HBox spacing="10" alignment="CENTER_LEFT">
+        <top>
+            <HBox fx:id="appHeader" styleClass="app-header">
+                <!-- Над меню: логотип -->
+                <StackPane fx:id="headerLogoCell" styleClass="app-header-logo" alignment="CENTER_LEFT">
+                    <HBox fx:id="logoBox" spacing="10" alignment="CENTER_LEFT">
+                        <padding><Insets left="20"/></padding>
                         <StackPane styleClass="logo-icon">
-                            <Label text="TF" style="-fx-text-fill:white;-fx-font-size:10px;-fx-font-weight:bold;"/>
+                            <SVGPath styleClass="logo-glyph"
+                                     content="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zm8 0A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm-8 8A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm8 0A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3z"/>
                         </StackPane>
-                        <VBox spacing="2">
-                            <Label text="TaskFlow" styleClass="logo-text"/>
-                            <Label text="КОРПОРАТИВНЫЙ ПОРТАЛ" styleClass="logo-sub"/>
+                        <Label text="TaskFlow" styleClass="logo-text"/>
+                    </HBox>
+                </StackPane>
+
+                <!-- Справа: синхронизация, уведомления, профиль -->
+                <HBox fx:id="headerRight" styleClass="app-header-right" spacing="12" alignment="CENTER_RIGHT"
+                      HBox.hgrow="ALWAYS">
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Button fx:id="syncStatusButton" styleClass="sync-indicator" text="Синхронизация">
+                        <graphic>
+                            <SVGPath fx:id="syncIcon" styleClass="sync-icon"
+                                     content="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z"/>
+                        </graphic>
+                    </Button>
+                    <Button fx:id="notificationsButton" styleClass="bell-btn">
+                        <graphic>
+                            <StackPane>
+                                <SVGPath styleClass="bell-icon"
+                                         content="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zm.995-14.901a1 1 0 1 0-1.99 0A5.002 5.002 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901z"/>
+                                <Label fx:id="unreadBadge" styleClass="bell-badge" visible="false" managed="false"
+                                       StackPane.alignment="TOP_RIGHT" translateX="8" translateY="-6"/>
+                            </StackPane>
+                        </graphic>
+                        <tooltip><Tooltip text="Уведомления"/></tooltip>
+                    </Button>
+                    <!-- Системные настройки — только администратору, при работе с сервером -->
+                    <Button fx:id="settingsButton" styleClass="bell-btn" visible="false" managed="false">
+                        <graphic>
+                            <SVGPath styleClass="bell-icon"
+                                     content="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872l-.1-.34zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z"/>
+                        </graphic>
+                        <tooltip><Tooltip text="Настройки"/></tooltip>
+                    </Button>
+                    <Separator orientation="VERTICAL" styleClass="app-header-separator"/>
+                    <!-- Профиль: нажатие открывает меню «Профиль / Выйти» -->
+                    <HBox fx:id="userBox" styleClass="header-user" spacing="10" alignment="CENTER_LEFT">
+                        <StackPane styleClass="header-avatar">
+                            <Label fx:id="userInitialsLabel" text="—" styleClass="avatar-text"/>
+                        </StackPane>
+                        <VBox spacing="1" alignment="CENTER_LEFT">
+                            <Label fx:id="userNameLabel" text="Пользователь" styleClass="header-user-name"/>
+                            <Label fx:id="userPositionLabel" styleClass="header-user-role"/>
                         </VBox>
                     </HBox>
-                </VBox>
+                </HBox>
+            </HBox>
+        </top>
 
-                <!-- Навигация -->
+        <left>
+            <VBox styleClass="sidebar">
                 <VBox VBox.vgrow="ALWAYS">
                     <Label text="НАВИГАЦИЯ" styleClass="nav-section-label"/>
-                    <Button fx:id="reviewButton" text="Обзор" maxWidth="Infinity"
-                            styleClass="nav-btn, nav-btn"/>
-                    <Button fx:id="tasksButton" text="Задачи" maxWidth="Infinity"
-                            styleClass="nav-btn"/>
-                    <Button fx:id="projectsButton" text="Проекты" maxWidth="Infinity"
-                            styleClass="nav-btn"/>
-                    <Button fx:id="teamButton" text="Команда" maxWidth="Infinity"
-                            styleClass="nav-btn"/>
+                    <Button fx:id="reviewButton" text="Обзор" maxWidth="Infinity" styleClass="nav-btn"/>
+                    <Button fx:id="tasksButton" text="Задачи" maxWidth="Infinity" styleClass="nav-btn"/>
+                    <Button fx:id="projectsButton" text="Проекты" maxWidth="Infinity" styleClass="nav-btn"/>
+                    <Button fx:id="teamButton" text="Команда" maxWidth="Infinity" styleClass="nav-btn"/>
                     <Button fx:id="employeesButton" text="Сотрудники" maxWidth="Infinity"
                             styleClass="nav-btn" visible="false" managed="false"/>
                     <Button fx:id="tagsButton" text="Теги" maxWidth="Infinity"
                             styleClass="nav-btn" visible="false" managed="false"/>
-                    <Button fx:id="settingsButton" text="Настройки" maxWidth="Infinity"
-                            styleClass="nav-btn" visible="false" managed="false"/>
-
-<!--                    <Label text="ПРОЕКТЫ" styleClass="nav-section-label"/>-->
-<!--                    <Button text="● Редизайн портала"-->
-<!--                            maxWidth="Infinity" styleClass="nav-project-btn"/>-->
-<!--                    &lt;!&ndash;                                onAction="#showProjects"/>&ndash;&gt;-->
-<!--                    <Button text="● Миграция CRM"-->
-<!--                            maxWidth="Infinity" styleClass="nav-project-btn"/>-->
-<!--                    &lt;!&ndash;                                onAction="#showProjects"/>&ndash;&gt;-->
-<!--                    <Button text="● Мобильное приложение"-->
-<!--                            maxWidth="Infinity" styleClass="nav-project-btn"/>-->
-<!--                    &lt;!&ndash;                                onAction="#showProjects"/>&ndash;&gt;-->
-<!--                    <Button text="● Отчётность Q3"-->
-<!--                            maxWidth="Infinity" styleClass="nav-project-btn"/>-->
-<!--                    &lt;!&ndash;                                onAction="#showProjects"/>&ndash;&gt;-->
                     <Region VBox.vgrow="ALWAYS"/>
                 </VBox>
-
-                <!-- Пользователь -->
-                <HBox fx:id="userBox" styleClass="sidebar-user-box" spacing="10" alignment="CENTER_LEFT">
-                    <StackPane styleClass="avatar-box-rm">
-                        <Label fx:id="userInitialsLabel" text="—" styleClass="avatar-text"/>
-                    </StackPane>
-                    <VBox spacing="2" HBox.hgrow="ALWAYS">
-                        <Label fx:id="userNameLabel" text="Пользователь" styleClass="user-name"/>
-                        <Label fx:id="userPositionLabel" styleClass="user-role"/>
-                    </VBox>
-                    <Button fx:id="logoutButton" text="Выйти" styleClass="logout-btn"/>
-                </HBox>
             </VBox>
         </left>
 
         <center>
             <VBox>
-                <!-- Хедер -->
+                <!-- Заголовок страницы -->
                 <HBox styleClass="topbar" spacing="12" alignment="CENTER_LEFT">
                     <Button fx:id="backButton" styleClass="page-back-button" mnemonicParsing="false" text="← Назад"/>
                     <VBox spacing="2" HBox.hgrow="ALWAYS">
                         <Label fx:id="pageTitleLabel" text="Обзор" styleClass="page-title"/>
-                        <Label fx:id="pageDate"  styleClass="page-date"/>
+                        <Label fx:id="pageDate" styleClass="page-date"/>
                     </VBox>
-                    <Button fx:id="notificationsButton" styleClass="bell-btn">
-                        <graphic>
-                            <HBox spacing="4" alignment="CENTER">
-                                <SVGPath styleClass="bell-icon"
-                                         content="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zm.995-14.901a1 1 0 1 0-1.99 0A5.002 5.002 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901z"/>
-                                <Label fx:id="unreadBadge" styleClass="bell-badge" visible="false" managed="false"/>
-                            </HBox>
-                        </graphic>
-                        <tooltip><Tooltip text="Уведомления"/></tooltip>
-                    </Button>
-                    <Button fx:id="syncStatusButton" styleClass="sync-indicator" text="● Синхронизация"/>
-                    <Button fx:id="createTaskButton" text="+ Новая задача"
-                            styleClass="btn-secondary"/>
-                    <!--                        <TextField fx:id="searchField" promptText="Поиск задач..."-->
-                    <!--                                   styleClass="search-field"/>-->
+                    <Button fx:id="createTaskButton" text="+ Новая задача" styleClass="btn-secondary"/>
                 </HBox>
 
                 <!-- Динамическая область -->

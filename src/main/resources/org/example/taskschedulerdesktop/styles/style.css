@@ -762,7 +762,7 @@ dashboard-list-view .scroll-bar:horizontal {
 }
 .sync-indicator:hover { -fx-background-color: #f6f6f4; }
 .sync-indicator:disabled { -fx-opacity: 1; }
-.sync-ok      { -fx-text-fill: #15803d; }
+.sync-ok      { -fx-text-fill: #5a5a56; }
 .sync-pending { -fx-text-fill: #92400e; }
 .sync-offline { -fx-text-fill: #9b9b95; }
 .sync-error   { -fx-text-fill: #b91c1c; }
@@ -900,3 +900,96 @@ dashboard-list-view .scroll-bar:horizontal {
   -fx-text-fill: #b91c1c; -fx-background-color: #fef2f2;
   -fx-padding: 2px 10px; -fx-font-size: 12px; -fx-font-weight: 600;
 }
+
+/* ── Своя рамка окна ─────────────────────────────────── */
+.window-root { -fx-background-color: transparent; }
+.window { -fx-background-color: #f6f6f4; }
+/* Рамка и верхняя полоса — один тёмно-серый цвет, без линий между ними */
+.window-titlebar, .window-titlebar-dark, .window-titlebar-plain {
+  -fx-background-color: #232322; -fx-background-insets: 0 0 -1 0;
+}
+
+/* Windows: кнопки справа, во всю высоту заголовка */
+.window-button {
+  -fx-background-color: transparent; -fx-background-radius: 0; -fx-border-width: 0;
+  -fx-min-width: 46; -fx-pref-width: 46; -fx-max-height: Infinity; -fx-pref-height: 32;
+  -fx-padding: 0; -fx-cursor: default;
+}
+.window-glyph { -fx-fill: rgba(255,255,255,0.75); }
+.window-button-plain:hover { -fx-background-color: rgba(255,255,255,0.08); }
+.window-button-plain:pressed { -fx-background-color: rgba(255,255,255,0.14); }
+.window-button-close:hover { -fx-background-color: #c42b1c; }
+.window-button-close:hover .window-glyph { -fx-fill: white; }
+.window-button-close:pressed { -fx-background-color: #b22a1c; }
+
+/* macOS: три круглые кнопки слева; значки появляются при наведении на группу */
+.window-light {
+  -fx-min-width: 12; -fx-min-height: 12; -fx-max-width: 12; -fx-max-height: 12;
+  -fx-background-radius: 6; -fx-border-radius: 6; -fx-border-width: 0.5;
+  -fx-padding: 0; -fx-cursor: default;
+}
+.window-light-close    { -fx-background-color: #ff5f57; -fx-border-color: #e0443e; }
+.window-light-minimize { -fx-background-color: #febc2e; -fx-border-color: #dea123; }
+.window-light-zoom     { -fx-background-color: #28c840; -fx-border-color: #1aab29; }
+.window-lights:hover .window-light-close    { -fx-background-color: #ff5f57, radial-gradient(radius 30%, rgba(77,0,0,0.75) 40%, transparent 41%); }
+.window-lights:hover .window-light-minimize { -fx-background-color: #febc2e, linear-gradient(to right, transparent 25%, rgba(153,87,0,0.85) 25%, rgba(153,87,0,0.85) 75%, transparent 75%); -fx-background-insets: 0, 5.3 0 5.3 0; }
+.window-lights:hover .window-light-zoom     { -fx-background-color: #28c840, radial-gradient(radius 30%, rgba(0,100,0,0.75) 40%, transparent 41%); }
+.window-light:pressed { -fx-opacity: 0.8; }
+.window-light-disabled, .window-lights:hover .window-light-disabled {
+  -fx-background-color: rgba(255,255,255,0.18); -fx-border-color: rgba(255,255,255,0.08); -fx-background-insets: 0;
+}
+
+/* ── Диалоги в рамке приложения ─────────────────────── */
+.dialog-window { -fx-background-color: white; }
+.dialog-title { -fx-text-fill: rgba(255,255,255,0.85); -fx-font-size: 12px; }
+.dialog-body { -fx-background-color: white; -fx-padding: 20 24 18 24; -fx-min-width: 360; -fx-pref-width: 420; }
+.dialog-header { -fx-font-size: 15px; -fx-font-weight: 600; -fx-text-fill: #111110; }
+.dialog-text { -fx-font-size: 13px; -fx-text-fill: #5a5a56; -fx-line-spacing: 2; }
+.dialog-actions { -fx-padding: 8 0 0 0; }
+
+/* ── Верхняя полоса приложения ───────────────────────── */
+/* Чуть выше системного заголовка — чтобы поместился небольшой аватар с именем */
+.app-header { -fx-min-height: 44; -fx-pref-height: 44; -fx-max-height: 44; }
+.app-header { -fx-background-color: #232322; }
+.app-header-logo { -fx-min-width: 220; -fx-pref-width: 220; -fx-max-width: 220; }
+.app-header-right { -fx-padding: 0 16 0 24; }
+.logo-glyph { -fx-fill: white; -fx-scale-x: 0.85; -fx-scale-y: 0.85; }
+.app-header-separator { -fx-padding: 10 0 10 0; }
+.app-header-separator .line { -fx-border-color: rgba(255,255,255,0.12); -fx-border-width: 0 0 0 1; }
+/* На тёмной полосе — светлые подписи и более яркие цвета состояний */
+.app-header .sync-indicator:hover { -fx-background-color: rgba(255,255,255,0.08); }
+.app-header .sync-indicator { -fx-background-radius: 6; }
+.app-header .sync-ok      { -fx-text-fill: rgba(255,255,255,0.7); }
+.app-header .sync-pending { -fx-text-fill: #fbbf24; }
+.app-header .sync-offline { -fx-text-fill: rgba(255,255,255,0.45); }
+.app-header .sync-error   { -fx-text-fill: #f87171; }
+.sync-icon { -fx-fill: rgba(255,255,255,0.45); }
+.sync-ok .sync-icon      { -fx-fill: #4ade80; }
+.sync-pending .sync-icon { -fx-fill: #fbbf24; }
+.sync-offline .sync-icon { -fx-fill: rgba(255,255,255,0.45); }
+.sync-error .sync-icon   { -fx-fill: #f87171; }
+.sync-indicator { -fx-graphic-text-gap: 8; }
+.header-user {
+  -fx-padding: 3 8 3 4; -fx-background-radius: 7; -fx-cursor: hand;
+}
+.header-user:hover { -fx-background-color: rgba(255,255,255,0.08); }
+.header-avatar {
+  -fx-background-color: #1a3a8f; -fx-background-radius: 5;
+  -fx-min-width: 26; -fx-min-height: 26; -fx-max-width: 26; -fx-max-height: 26;
+}
+.header-avatar .avatar-text { -fx-font-size: 10px; }
+.header-user-name { -fx-font-size: 12px; -fx-text-fill: rgba(255,255,255,0.92); -fx-font-weight: 600; }
+.header-user-role { -fx-font-size: 10px; -fx-text-fill: rgba(255,255,255,0.5); }
+.profile-menu .menu-item { -fx-padding: 6 18 6 14; }
+.header-with-window-controls { -fx-padding: 0 0 0 24; }
+.window-controls-in-header { -fx-padding: 0 0 0 10; }
+.window-controls-in-header .window-button { -fx-pref-height: 44; }
+/* Логотип в полосе — компактнее */
+.app-header-logo .logo-icon { -fx-min-width: 24px; -fx-min-height: 24px; -fx-max-width: 24px; -fx-max-height: 24px; }
+.app-header-logo .logo-glyph { -fx-scale-x: 0.75; -fx-scale-y: 0.75; }
+.app-header-logo .logo-text { -fx-font-size: 13px; }
+.bell-btn { -fx-background-radius: 6; }
+.app-header .bell-btn:hover { -fx-background-color: rgba(255,255,255,0.08); }
+.app-header .bell-icon { -fx-fill: rgba(255,255,255,0.7); }
+.app-header .header-icon-active, .app-header .header-icon-active:hover { -fx-background-color: rgba(255,255,255,0.14); }
+.app-header .header-icon-active .bell-icon { -fx-fill: white; }

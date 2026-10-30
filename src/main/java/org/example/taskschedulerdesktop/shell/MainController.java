@@ -1,5 +1,6 @@
 package org.example.taskschedulerdesktop.shell;
 
+import org.example.taskschedulerdesktop.shared.ui.Dialogs;
 import org.example.taskschedulerdesktop.shared.ui.Animations;
 import org.example.taskschedulerdesktop.config.AppConfig;
 import org.example.taskschedulerdesktop.notification.NotificationsChangedEvent;
@@ -29,10 +30,11 @@ import javafx.animation.Animation;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.scene.control.SeparatorMenuItem;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.layout.HBox;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.StackPane;
@@ -80,7 +82,15 @@ public class MainController implements Shutdownable {
     @FXML private Label userInitialsLabel;
     @FXML private Label userNameLabel;
     @FXML private Label userPositionLabel;
-    @FXML private Button logoutButton;
+
+    // Общая полоса сверху: в неё своя рамка окна встраивает кнопки окна
+    @FXML private HBox appHeader;
+    @FXML private StackPane headerLogoCell;
+    @FXML private HBox logoBox;
+    @FXML private HBox headerRight;
+
+    private final MenuItem logoutItem = new MenuItem("Выйти");
+    private boolean loggingOut;
 
     private final Consumer<PageTitleChangedEvent> titleUpdateListener = event -> {
         pageTitleLabel.setText(event.getPageTitle());
@@ -97,14 +107,18 @@ public class MainController implements Shutdownable {
                 Routes.PROJECT_DETAILS, projectsButton,
                 Routes.TEAM, teamButton,
                 Routes.EMPLOYEES, employeesButton,
-                Routes.TAGS, tagsButton,
-                Routes.SETTINGS, settingsButton);
+                Routes.TAGS, tagsButton);
     }
 
     private void highlightCurrentSection() {
         Button active = sectionButtons().get(NavigationManager.getCurrentPage());
+        // Настройки открываются шестерёнкой в верхней полосе — подсвечиваем её
+        settingsButton.getStyleClass().remove("header-icon-active");
+        if (Routes.SETTINGS.equals(NavigationManager.getCurrentPage())) {
+            settingsButton.getStyleClass().add("header-icon-active");
+        }
         for (Button button : List.of(reviewButton, tasksButton, projectsButton, teamButton,
-                employeesButton, tagsButton, settingsButton)) {
+                employeesButton, tagsButton)) {
             button.getStyleClass().remove("nav-btn-active");
             if (button == active) {
                 button.getStyleClass().add("nav-btn-active");
@@ -144,12 +158,7 @@ public class MainController implements Shutdownable {
         settingsButton.setOnAction(event -> NavigationManager.navigateTo(Routes.SETTINGS, "Настройки"));
 
         showCurrentUser();
-        // Профиль — по нажатию на имя внизу меню (кнопка «Выйти» обрабатывает своё нажатие сама)
-        userBox.setOnMouseClicked(event -> {
-            if (!(event.getTarget() instanceof Button)) {
-                NavigationManager.openDialog(Routes.PROFILE, "Профиль", appConfig.getPrimaryStage());
-            }
-        });
+        setUpProfileMenu();
         EventBus.getInstance().subscribe(UsersChangedEvent.class, usersListener);
         setUpSync();
         setUpNotifications();
@@ -184,12 +193,43 @@ public class MainController implements Shutdownable {
             settingsButton.setManaged(settings);
         });
 
-        if (appConfig.isDemoMode()) {
-            logoutButton.setVisible(false);
-            logoutButton.setManaged(false);
-        } else {
-            logoutButton.setOnAction(event -> logout());
+    }
+
+    /** Нажатие на профиль в верхней полосе — меню «Профиль / Выйти». */
+    private void setUpProfileMenu() {
+        MenuItem profileItem = new MenuItem("Профиль");
+        profileItem.setOnAction(event -> NavigationManager.openDialog(Routes.PROFILE, "Профиль", appConfig.getPrimaryStage()));
+        logoutItem.setOnAction(event -> logout());
+        ContextMenu menu = new ContextMenu(profileItem);
+        if (!appConfig.isDemoMode()) {
+            menu.getItems().addAll(new SeparatorMenuItem(), logoutItem); // в демо-режиме выходить некуда
         }
+        menu.getStyleClass().add("profile-menu");
+        userBox.setOnMouseClicked(event -> {
+            event.consume(); // двойной щелчок по профилю не должен разворачивать окно
+            if (menu.isShowing()) {
+                menu.hide();
+            } else {
+                menu.show(userBox, javafx.geometry.Side.BOTTOM, 0, 6);
+            }
+        });
+    }
+
+    /** Верхняя полоса и её левая ячейка (над меню) — для своей рамки окна. */
+    public HBox header() {
+        return appHeader;
+    }
+
+    public StackPane headerLogoCell() {
+        return headerLogoCell;
+    }
+
+    public HBox logoBox() {
+        return logoBox;
+    }
+
+    public HBox headerRight() {
+        return headerRight;
     }
 
     /**
@@ -197,7 +237,11 @@ public class MainController implements Shutdownable {
      * пользователь решает, выходить ли: изменения сохранятся на этом компьютере и уйдут после следующего входа.
      */
     private void logout() {
-        logoutButton.setDisable(true);
+        if (loggingOut) {
+            return;
+        }
+        loggingOut = true;
+        logoutItem.setDisable(true);
         Task<SyncStatus> sync = new Task<>() {
             @Override
             protected SyncStatus call() {
@@ -207,7 +251,8 @@ public class MainController implements Shutdownable {
         sync.setOnSucceeded(event -> {
             SyncStatus status = sync.getValue();
             if (status.pending() > 0 && !confirmLogout(status.pending())) {
-                logoutButton.setDisable(false);
+                loggingOut = false;
+                logoutItem.setDisable(false);
                 return;
             }
             Task<Void> logout = new Task<>() {
@@ -221,19 +266,17 @@ public class MainController implements Shutdownable {
             logout.setOnFailed(e -> appConfig.getAppShell().showLogin(null));
             startDaemon(logout, "logout");
         });
-        sync.setOnFailed(event -> logoutButton.setDisable(false));
+        sync.setOnFailed(event -> {
+            loggingOut = false;
+            logoutItem.setDisable(false);
+        });
         startDaemon(sync, "logout-sync");
     }
 
     private boolean confirmLogout(int pending) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
+        return Dialogs.confirm(appConfig.getPrimaryStage(), "Выход", "Выйти из аккаунта?",
                 "Не отправлено изменений: " + pending + " (нет связи с сервером).\n"
-                        + "Они сохранятся на этом компьютере и будут отправлены после следующего входа.",
-                ButtonType.OK, ButtonType.CANCEL);
-        alert.setTitle("Выход");
-        alert.setHeaderText("Выйти из аккаунта?");
-        alert.initOwner(appConfig.getPrimaryStage());
-        return alert.showAndWait().filter(ButtonType.OK::equals).isPresent();
+                        + "Они сохранятся на этом компьютере и будут отправлены после следующего входа.");
     }
 
     // ===== Уведомления =====
@@ -294,36 +337,36 @@ public class MainController implements Shutdownable {
         String details = null;
         switch (status.state()) {
             case SYNCING -> {
-                text = "⟳ Синхронизация…";
+                text = "Синхронизация…";
                 style = "sync-pending";
             }
             case OFFLINE -> {
-                text = "● Офлайн" + (status.pending() > 0 ? " · не отправлено: " + status.pending() : "");
+                text = "Офлайн" + (status.pending() > 0 ? " · не отправлено: " + status.pending() : "");
                 style = "sync-offline";
                 details = "Нет связи с сервером. Изменения сохраняются на компьютере и будут отправлены позже.";
             }
             case ERROR -> {
-                text = "⚠ Ошибка синхронизации";
+                text = "Ошибка синхронизации";
                 style = "sync-error";
                 details = status.message();
             }
             case SIGNED_OUT -> {
-                text = "⚠ Требуется вход";
+                text = "Требуется вход";
                 style = "sync-error";
             }
             default -> {
                 if (status.errors() > 0) {
-                    text = "⚠ Отклонено сервером: " + status.errors();
+                    text = "Отклонено сервером: " + status.errors();
                     style = "sync-error";
                     details = "Эти изменения сервер не принял (нет прав или некорректные данные). Нажмите, чтобы разобраться.";
                 } else if (status.pending() > 0) {
-                    text = "● Не отправлено: " + status.pending();
+                    text = "Не отправлено: " + status.pending();
                     style = "sync-pending";
                 } else if (status.lastSyncedAt() != null) {
-                    text = "● Синхронизировано · " + TIME.format(status.lastSyncedAt());
+                    text = "Последняя синхронизация: " + TIME.format(status.lastSyncedAt());
                     style = "sync-ok";
                 } else {
-                    text = "● Синхронизация";
+                    text = "Синхронизация";
                     style = "sync-pending";
                 }
             }

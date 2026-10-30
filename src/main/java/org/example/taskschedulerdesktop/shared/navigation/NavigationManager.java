@@ -20,6 +20,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.Duration;
 import org.example.taskschedulerdesktop.shared.ui.Animations;
+import org.example.taskschedulerdesktop.shared.ui.DialogFrame;
 import org.example.taskschedulerdesktop.shared.ui.DateFormatter;
 import org.example.taskschedulerdesktop.config.AppConfig;
 import org.example.taskschedulerdesktop.shared.ui.RightSidebar;
@@ -289,13 +290,9 @@ public class NavigationManager {
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(owner);
 
-            Scene scene = new Scene(root);
-            scene.getStylesheets().addAll(
-                    NavigationManager.class.getResource("/org/example/taskschedulerdesktop/styles/style.css").toExternalForm()
-            );
-
+            Scene scene = DialogFrame.scene(dialogStage, root);
             dialogStage.setScene(scene);
-            dialogStage.setOnShown(event -> Animations.popIn(root));
+            dialogStage.setOnShown(event -> Animations.popIn(scene.getRoot()));
             dialogStage.showAndWait();
             return dialogStage;
 
@@ -344,7 +341,7 @@ public class NavigationManager {
 
             Stage newStage = new Stage();
             newStage.setTitle(title);
-            newStage.setScene(new Scene(root));
+            newStage.setScene(DialogFrame.scene(newStage, root));
             newStage.show();
 
         } catch (IOException e) {
