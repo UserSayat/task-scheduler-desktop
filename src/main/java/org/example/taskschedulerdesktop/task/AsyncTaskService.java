@@ -84,6 +84,10 @@ public class AsyncTaskService {
         submit(() -> delegate.findUpcomingDeadlines(maxDaysUntilDeadline), onSuccess, onError);
     }
 
+    public void findTaskView(UUID taskId, Consumer<TaskView> onSuccess, Consumer<Throwable> onError) {
+        submit(() -> delegate.findViewById(taskId), onSuccess, onError);
+    }
+
     public void findTopOpenTasks(UUID projectId, int limit, Consumer<List<TaskView>> onSuccess, Consumer<Throwable> onError) {
         submit(() -> delegate.findTopOpenViews(projectId, limit), onSuccess, onError);
     }

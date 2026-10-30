@@ -13,6 +13,10 @@ import org.example.taskschedulerdesktop.admin.RoleAssignment;
 import org.example.taskschedulerdesktop.auth.AuthService;
 import org.example.taskschedulerdesktop.auth.AuthUser;
 import org.example.taskschedulerdesktop.auth.TokenStore;
+import org.example.taskschedulerdesktop.notification.H2NotificationRepository;
+import org.example.taskschedulerdesktop.notification.Notification;
+import org.example.taskschedulerdesktop.notification.NotificationService;
+import org.example.taskschedulerdesktop.notification.NotificationSync;
 import org.example.taskschedulerdesktop.project.H2ProjectRepository;
 import org.example.taskschedulerdesktop.project.MemberRole;
 import org.example.taskschedulerdesktop.project.ProjectMemberView;
@@ -33,6 +37,7 @@ import org.example.taskschedulerdesktop.task.NewTask;
 import org.example.taskschedulerdesktop.task.TaskEdit;
 import org.example.taskschedulerdesktop.task.TaskPriority;
 import org.example.taskschedulerdesktop.task.TaskServiceImpl;
+import org.example.taskschedulerdesktop.task.TaskStatus;
 import org.example.taskschedulerdesktop.task.TaskSyncAdapter;
 import org.example.taskschedulerdesktop.task.TaskView;
 import org.example.taskschedulerdesktop.user.UserSyncAdapter;
@@ -116,6 +121,29 @@ class ServerIntegrationTest {
         laptop.sync.synchronize();
         employeeDevice.sync.synchronize();
         assertEquals("Проверить сборку", employeeDevice.tasks.findViewById(second.id()).title());
+
+        // Уведомления приходят вместе с синхронизацией; отметка «прочитано» уходит на сервер при следующей
+        List<Notification> received = employeeDevice.notifications.findAll();
+        assertTrue(received.stream().anyMatch(n -> n.type().equals("TASK_ASSIGNED") && second.id().equals(n.entityId())),
+                "назначение задачи");
+        int unread = employeeDevice.notifications.unreadCount();
+        assertTrue(unread > 0);
+        employeeDevice.notifications.markAllRead();
+        assertEquals(0, employeeDevice.notifications.unreadCount());
+        employeeDevice.sync.synchronize();
+        Map<String, Object> serverCount = employeeDevice.api.get("/notifications/unread-count",
+                new TypeReference<Map<String, Object>>() {});
+        assertEquals(0, ((Number) serverCount.get("count")).intValue(), "отметки дошли до сервера");
+
+        // Сотрудник меняет статус — автор задачи (администратор) получает уведомление
+        TaskView fromEmployee = employeeDevice.tasks.findViewById(second.id());
+        employeeDevice.tasks.update(new TaskEdit(second.id(), fromEmployee.title(), fromEmployee.description(),
+                TaskStatus.IN_PROGRESS, fromEmployee.priority(), fromEmployee.deadline(),
+                fromEmployee.responsibleId(), fromEmployee.tagNames()));
+        employeeDevice.sync.synchronize();
+        laptop.sync.synchronize();
+        assertTrue(laptop.notifications.findAll().stream().anyMatch(n -> n.type().equals("STATUS_CHANGED")
+                && second.id().equals(n.entityId()) && n.body().contains("К выполнению → В работе")));
 
         // Тег может создать только администратор: клиент не создаёт ни тег, ни задачу с ним,
         // поэтому на сервер не уходит изменение, которое он бы отклонил
@@ -240,6 +268,7 @@ class ServerIntegrationTest {
 
         final UnitOfWork uow;
         final ApiClient api;
+        final NotificationService notifications;
         final AuthService auth;
         final SyncService sync;
         final TaskServiceImpl tasks;
@@ -264,8 +293,11 @@ class ServerIntegrationTest {
             projects = new ProjectServiceImpl(uow, projectRepository, tracker, session);
 
             UserSyncAdapter users = new UserSyncAdapter(uow);
+            H2NotificationRepository notificationRepository = new H2NotificationRepository(uow);
+            notifications = new NotificationService(uow, notificationRepository, session, () -> {});
             sync = SyncService.create(uow, new HttpSyncApi(api), session, users, List.of(users, new TagSyncAdapter(uow),
                     new ProjectSyncAdapter(uow, projectRepository, users), new TaskSyncAdapter(uow, taskRepository, users)));
+            sync.addStep(new NotificationSync(api, uow, notificationRepository, session, () -> {}));
         }
     }
 }

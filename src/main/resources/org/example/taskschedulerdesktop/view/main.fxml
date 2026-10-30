@@ -5,6 +5,7 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
 
 <StackPane fx:id="globalStackPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
            minHeight="600.0" minWidth="900.0" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21"
@@ -79,6 +80,16 @@
                         <Label fx:id="pageTitleLabel" text="Обзор" styleClass="page-title"/>
                         <Label fx:id="pageDate"  styleClass="page-date"/>
                     </VBox>
+                    <Button fx:id="notificationsButton" styleClass="bell-btn">
+                        <graphic>
+                            <HBox spacing="4" alignment="CENTER">
+                                <SVGPath styleClass="bell-icon"
+                                         content="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zm.995-14.901a1 1 0 1 0-1.99 0A5.002 5.002 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901z"/>
+                                <Label fx:id="unreadBadge" styleClass="bell-badge" visible="false" managed="false"/>
+                            </HBox>
+                        </graphic>
+                        <tooltip><Tooltip text="Уведомления"/></tooltip>
+                    </Button>
                     <Button fx:id="syncStatusButton" styleClass="sync-indicator" text="● Синхронизация"/>
                     <Button fx:id="createTaskButton" text="+ Новая задача"
                             styleClass="btn-secondary"/>

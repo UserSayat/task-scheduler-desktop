@@ -1,5 +1,7 @@
 package org.example.taskschedulerdesktop.config;
 
+import org.example.taskschedulerdesktop.shared.event.EventBus;
+import javafx.application.Platform;
 import com.github.f4b6a3.uuid.UuidCreator;
 import org.example.taskschedulerdesktop.access.AsyncPermissionService;
 import org.example.taskschedulerdesktop.access.H2PermissionRepository;
@@ -12,6 +14,11 @@ import org.example.taskschedulerdesktop.admin.H2EmployeeRepository;
 import org.example.taskschedulerdesktop.auth.AuthService;
 import org.example.taskschedulerdesktop.auth.TokenStore;
 import org.example.taskschedulerdesktop.dashboard.DashboardController;
+import org.example.taskschedulerdesktop.notification.AsyncNotificationService;
+import org.example.taskschedulerdesktop.notification.H2NotificationRepository;
+import org.example.taskschedulerdesktop.notification.NotificationService;
+import org.example.taskschedulerdesktop.notification.NotificationSync;
+import org.example.taskschedulerdesktop.notification.NotificationsChangedEvent;
 import org.example.taskschedulerdesktop.project.AsyncProjectService;
 import org.example.taskschedulerdesktop.project.CreateProjectController;
 import org.example.taskschedulerdesktop.project.EditProjectController;
@@ -83,6 +90,7 @@ public class AppConfig {
     private final AsyncTeamService asyncTeamService;
     private final EmployeeAdminService employeeAdminService;
     private final AsyncPermissionService asyncPermissionService;
+    private final AsyncNotificationService asyncNotificationService;
 
     private final AuthService authService;
     private final TokenStore tokenStore;
@@ -137,6 +145,13 @@ public class AppConfig {
                 new ProjectSyncAdapter(unitOfWork, projectRepository, userSync),
                 new TaskSyncAdapter(unitOfWork, taskRepository, userSync)));
         this.syncScheduler = new SyncScheduler(syncService);
+        // Уведомления: обмен с сервером в конце синхронизации, отметки «прочитано» уходят при ближайшей
+        H2NotificationRepository notificationRepository = new H2NotificationRepository(unitOfWork);
+        syncService.addStep(new NotificationSync(apiClient, unitOfWork, notificationRepository, session,
+                () -> Platform.runLater(() -> EventBus.getInstance().fire(new NotificationsChangedEvent()))));
+        this.asyncNotificationService = new AsyncNotificationService(
+                new NotificationService(unitOfWork, notificationRepository, session, syncScheduler::syncNow));
+
         this.employeeAdminService = new EmployeeAdminService(unitOfWork, new H2EmployeeRepository(unitOfWork),
                 new EmployeeAdminApi(apiClient), syncScheduler::syncNow);
         if (!demoMode) {
@@ -266,6 +281,10 @@ public class AppConfig {
 
     public SyncService getSyncService() {
         return syncService;
+    }
+
+    public AsyncNotificationService getAsyncNotificationService() {
+        return asyncNotificationService;
     }
 
     public EmployeeAdminService getEmployeeAdminService() {

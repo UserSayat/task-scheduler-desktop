@@ -62,6 +62,7 @@ public class SyncService {
 
     private final List<Consumer<SyncStatus>> statusListeners = new CopyOnWriteArrayList<>();
     private final List<Consumer<AppliedChanges>> changeListeners = new CopyOnWriteArrayList<>();
+    private final List<SyncStep> steps = new CopyOnWriteArrayList<>();
     private volatile SyncStatus status = SyncStatus.idle();
 
     /**
@@ -108,6 +109,11 @@ public class SyncService {
         changeListeners.remove(listener);
     }
 
+    /** Дополнительный шаг в конце каждой синхронизации (например, уведомления). */
+    public void addStep(SyncStep step) {
+        steps.add(step);
+    }
+
     public SyncStatus status() {
         return status;
     }
@@ -138,6 +144,9 @@ public class SyncService {
         try {
             push(changes);
             pull(changes);
+            for (SyncStep step : steps) {
+                step.run();
+            }
             result = SyncStatus.State.SYNCED;
             syncedAt = Instant.now();
         } catch (OfflineException e) {

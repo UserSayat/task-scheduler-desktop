@@ -1,6 +1,8 @@
 package org.example.taskschedulerdesktop.shell;
 
 import org.example.taskschedulerdesktop.config.AppConfig;
+import org.example.taskschedulerdesktop.notification.NotificationsChangedEvent;
+import org.example.taskschedulerdesktop.notification.NotificationsPanel;
 import org.example.taskschedulerdesktop.project.ProjectChangedEvent;
 import org.example.taskschedulerdesktop.shared.event.ChangeType;
 import org.example.taskschedulerdesktop.shared.event.EventBus;
@@ -46,6 +48,12 @@ public class MainController implements Shutdownable {
     @FXML private Button projectsButton;
     @FXML private Button teamButton;
     @FXML private Button employeesButton;
+    @FXML private Button notificationsButton;
+    @FXML private Label unreadBadge;
+
+    private NotificationsPanel notificationsPanel;
+
+    private final Consumer<NotificationsChangedEvent> notificationsListener = event -> showUnreadCount();
 
     @FXML private Button backButton;
 
@@ -96,6 +104,7 @@ public class MainController implements Shutdownable {
 
         showCurrentUser();
         setUpSync();
+        setUpNotifications();
 
         NavigationManager.navigateTo(Routes.DASHBOARD, "Обзор");
     }
@@ -171,6 +180,25 @@ public class MainController implements Shutdownable {
         alert.setHeaderText("Выйти из аккаунта?");
         alert.initOwner(appConfig.getPrimaryStage());
         return alert.showAndWait().filter(ButtonType.OK::equals).isPresent();
+    }
+
+    // ===== Уведомления =====
+
+    private void setUpNotifications() {
+        notificationsPanel = new NotificationsPanel(appConfig.getAsyncNotificationService(), appConfig.getAsyncTaskService());
+        notificationsButton.setOnAction(event -> notificationsPanel.toggle(notificationsButton));
+        EventBus.getInstance().subscribe(NotificationsChangedEvent.class, notificationsListener);
+        showUnreadCount();
+    }
+
+    /** Счётчик на колокольчике; «99+», чтобы не растягивать шапку. */
+    private void showUnreadCount() {
+        appConfig.getAsyncNotificationService().unreadCount(count -> {
+            unreadBadge.setText(count > 99 ? "99+" : String.valueOf(count));
+            unreadBadge.setVisible(count > 0);
+            unreadBadge.setManaged(count > 0);
+            notificationsPanel.refresh();
+        });
     }
 
     // ===== Синхронизация =====
@@ -255,6 +283,7 @@ public class MainController implements Shutdownable {
     @Override
     public void shutdown() {
         EventBus.getInstance().unsubscribe(PageTitleChangedEvent.class, titleUpdateListener);
+        EventBus.getInstance().unsubscribe(NotificationsChangedEvent.class, notificationsListener);
         appConfig.getSyncService().removeStatusListener(syncStatusListener);
         appConfig.getSyncService().removeChangeListener(serverChangesListener);
     }
