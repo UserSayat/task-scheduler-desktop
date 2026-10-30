@@ -76,13 +76,11 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
     private int amountOfNewTasks = 0;
     private int amountOfCompletedTasks = 0;
 
+    @FXML private Label amountOfCriticalPriorityTasksLabel;
     @FXML private Label amountOfHighPriorityTasksLabel;
     @FXML private Label amountOfMediumPriorityTasksLabel;
     @FXML private Label amountOfLowPriorityTasksLabel;
 
-    private int amountOfHighPriorityTasks = 0;
-    private int amountOfMediumPriorityTasks = 0;
-    private int amountOfLowPriorityTasks = 0;
 
     private ProjectView context;
 
@@ -318,33 +316,15 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
             throw new RuntimeException("Context is null");
         }
 
-        asyncTaskService.countTasksByProjectIdAndPriority(context.id(), TaskPriority.HIGH,
-                amount -> {
-                    amountOfHighPriorityTasks = amount;
-                    amountOfHighPriorityTasksLabel.setText(String.valueOf(amountOfHighPriorityTasks));
-                },
-                error -> {
-                    log.error("Tasks loading error", error);
-                    NavigationManager.showToast("Не удалось загрузить задачи!", "warn");
-                }
-        );
+        loadPriorityCount(TaskPriority.CRITICAL, amountOfCriticalPriorityTasksLabel);
+        loadPriorityCount(TaskPriority.HIGH, amountOfHighPriorityTasksLabel);
+        loadPriorityCount(TaskPriority.MEDIUM, amountOfMediumPriorityTasksLabel);
+        loadPriorityCount(TaskPriority.LOW, amountOfLowPriorityTasksLabel);
+    }
 
-        asyncTaskService.countTasksByProjectIdAndPriority(context.id(), TaskPriority.MEDIUM,
-                amount -> {
-                    amountOfMediumPriorityTasks = amount;
-                    amountOfMediumPriorityTasksLabel.setText(String.valueOf(amountOfMediumPriorityTasks));
-                },
-                error -> {
-                    log.error("Tasks loading error", error);
-                    NavigationManager.showToast("Не удалось загрузить задачи!", "warn");
-                }
-        );
-
-        asyncTaskService.countTasksByProjectIdAndPriority(context.id(), TaskPriority.LOW,
-                amount -> {
-                    amountOfLowPriorityTasks = amount;
-                    amountOfLowPriorityTasksLabel.setText(String.valueOf(amountOfLowPriorityTasks));
-                },
+    private void loadPriorityCount(TaskPriority priority, Label label) {
+        asyncTaskService.countTasksByProjectIdAndPriority(context.id(), priority,
+                amount -> label.setText(String.valueOf(amount)),
                 error -> {
                     log.error("Tasks loading error", error);
                     NavigationManager.showToast("Не удалось загрузить задачи!", "warn");
@@ -375,9 +355,6 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
         this.amountOfTasksUnderReviewLabelSidePanel.setText(String.valueOf(amountOfTasksUnderReview));
         this.amountOfNewTasksLabelSidePanel.setText(String.valueOf(amountOfNewTasks));
         this.amountOfCompletedTasksLabelSidePanel.setText(String.valueOf(amountOfCompletedTasks));
-        this.amountOfHighPriorityTasksLabel.setText(String.valueOf(amountOfHighPriorityTasks));
-        this.amountOfMediumPriorityTasksLabel.setText(String.valueOf(amountOfMediumPriorityTasks));
-        this.amountOfLowPriorityTasksLabel.setText(String.valueOf(amountOfLowPriorityTasks));
 
     }
 
