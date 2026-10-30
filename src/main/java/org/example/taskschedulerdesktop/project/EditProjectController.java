@@ -4,7 +4,9 @@ import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -46,6 +48,11 @@ public class EditProjectController implements ContextAware {
     @FXML private ComboBox<MemberRole> newMemberRoleComboBox;
     @FXML private Button addMemberButton;
 
+    @FXML private TextArea descriptionTextArea;
+    @FXML private ComboBox<Visibility> visibilityComboBox;
+    @FXML private DatePicker startDatePicker;
+    @FXML private DatePicker deadlinePicker;
+
     @FXML private Button saveProjectButton;
     @FXML private Button cancelButton;
 
@@ -64,6 +71,7 @@ public class EditProjectController implements ContextAware {
 
     @FXML
     public void initialize() {
+        visibilityComboBox.getItems().setAll(Visibility.values());
         newMemberRoleComboBox.getItems().setAll(ASSIGNABLE_ROLES);
         newMemberRoleComboBox.setValue(MemberRole.MEMBER);
 
@@ -97,7 +105,15 @@ public class EditProjectController implements ContextAware {
                 return;
             }
 
-            projectService.updateProject(context.id(), projectNameTextField.getText(), owner.getId(), Map.copyOf(members),
+            if (startDatePicker.getValue() != null && deadlinePicker.getValue() != null
+                    && deadlinePicker.getValue().isBefore(startDatePicker.getValue())) {
+                NavigationManager.showToast("Срок проекта раньше даты начала", "info");
+                return;
+            }
+            ProjectInfo info = new ProjectInfo(descriptionTextArea.getText(), visibilityComboBox.getValue(),
+                    startDatePicker.getValue(), deadlinePicker.getValue());
+
+            projectService.updateProject(context.id(), projectNameTextField.getText(), owner.getId(), Map.copyOf(members), info,
                     updated -> {
                         close();
                         NavigationManager.showToast("Проект обновлен", "success");
@@ -115,6 +131,12 @@ public class EditProjectController implements ContextAware {
 
         this.context = project;
         projectNameTextField.setText(project.name());
+        projectService.findInfo(project.id(), info -> {
+            descriptionTextArea.setText(info.description());
+            visibilityComboBox.setValue(info.visibility());
+            startDatePicker.setValue(info.startDate());
+            deadlinePicker.setValue(info.deadline());
+        }, error -> NavigationManager.showToast("Ошибка загрузки проекта", "error"));
 
         userService.findActiveUsers(
                 activeUsers -> {

@@ -118,7 +118,8 @@ public class ProjectCardController implements ContextAware, Shutdownable {
     }
 
     private void updateUI(ProjectView project) {
-        projectNameLabel.setText(project.name());
+        projectNameLabel.setText(project.name() + (project.archived() ? " · в архиве" : ""));
+        rootVBox.setOpacity(project.archived() ? 0.6 : 1.0);
         projectSupervisorLabel.setText("Руководитель: " + project.ownerName());
         numberOfTasksLabel.setText(String.valueOf(project.totalTasks()));
         completedTasksLabel.setText(String.valueOf(project.doneTasks()));

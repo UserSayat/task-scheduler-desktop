@@ -13,6 +13,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import org.example.taskschedulerdesktop.access.AsyncPermissionService;
 import org.example.taskschedulerdesktop.config.AppConfig;
+import org.example.taskschedulerdesktop.shared.ui.DateFormatter;
 import org.example.taskschedulerdesktop.shared.ui.Shutdownable;
 import org.example.taskschedulerdesktop.shared.event.ChangeType;
 import org.example.taskschedulerdesktop.shared.event.EventBus;
@@ -46,6 +47,9 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
     @FXML private ProgressBar progressBar;
 
     @FXML private Button editProjectButton;
+    @FXML private Button archiveButton;
+    @FXML private Label projectMetaLabel;
+    @FXML private Label projectDescriptionLabel;
     @FXML private Button deleteProjectButton;
     @FXML private HBox confirmDeleteVBox;
     @FXML private Button confirmDeleteButton;
@@ -122,6 +126,7 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
 
         if (event.getChangeType() == ChangeType.UPDATED) {
             loadMembers();
+            loadInfo();
             loadRights(); // состав участников мог измениться — вместе с ним и права
             asyncProjectService.findProjectById(
                     context.id(),
@@ -262,6 +267,14 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
             loadTasksStatisticByPriority();
             loadMembers();
             loadRights();
+            loadInfo();
+
+            archiveButton.setOnAction(event -> {
+                boolean archive = !this.context.archived();
+                asyncProjectService.setArchived(this.context.id(), archive,
+                        updated -> NavigationManager.showToast(archive ? "Проект в архиве" : "Проект возвращён из архива", "success"),
+                        error -> NavigationManager.showToast("Не удалось изменить проект", "error"));
+            });
         } else {
             log.error("Context isn't an instance of Project");
         }
@@ -332,11 +345,32 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
     private void showManageButtons(boolean visible) {
         editProjectButton.setVisible(visible);
         editProjectButton.setManaged(visible);
+        archiveButton.setVisible(visible);
+        archiveButton.setManaged(visible);
         if (!visible) {
             resetDeleteUI();
         }
         deleteProjectButton.setVisible(visible);
         deleteProjectButton.setManaged(visible);
+    }
+
+    /** Описание, сроки и видимость. */
+    private void loadInfo() {
+        asyncProjectService.findInfo(context.id(), info -> {
+            boolean hasDescription = info.description() != null && !info.description().isBlank();
+            projectDescriptionLabel.setText(hasDescription ? info.description() : "");
+            projectDescriptionLabel.setVisible(hasDescription);
+            projectDescriptionLabel.setManaged(hasDescription);
+
+            StringBuilder meta = new StringBuilder(info.visibility() == Visibility.PUBLIC ? "Открытый" : "Закрытый");
+            if (info.startDate() != null || info.deadline() != null) {
+                meta.append(" · ")
+                        .append(info.startDate() != null ? DateFormatter.formatShortWithYear(info.startDate()) : "…")
+                        .append(" — ")
+                        .append(info.deadline() != null ? DateFormatter.formatShortWithYear(info.deadline()) : "…");
+            }
+            projectMetaLabel.setText(meta.toString());
+        }, error -> log.error("Project info loading error", error));
     }
 
     private void loadMembers() {
@@ -409,7 +443,8 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
                 context.doneTasks(),
                 context.percentDone());
 
-        this.projectNameLabel.setText(context.name());
+        this.projectNameLabel.setText(context.name() + (context.archived() ? " · в архиве" : ""));
+        this.archiveButton.setText(context.archived() ? "Вернуть из архива" : "В архив");
         this.projectSupervisorLabel.setText(context.ownerName());
         this.numberOfTasksLabel.setText(String.valueOf(context.totalTasks()));
         this.completedTasksLabel.setText(String.valueOf(context.doneTasks()));

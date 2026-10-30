@@ -77,6 +77,25 @@ public class AsyncProjectService {
         }, onError);
     }
 
+    public void updateProject(UUID projectId, String name, UUID ownerId, Map<UUID, MemberRole> members,
+                              ProjectInfo info, Consumer<ProjectView> onSuccess, Consumer<Throwable> onError) {
+        submit(() -> delegate.update(projectId, name, ownerId, members, info), updated -> {
+            EventBus.getInstance().fire(new ProjectChangedEvent(projectId, ChangeType.UPDATED));
+            onSuccess.accept(updated);
+        }, onError);
+    }
+
+    public void findInfo(UUID projectId, Consumer<ProjectInfo> onSuccess, Consumer<Throwable> onError) {
+        submit(() -> delegate.findInfo(projectId), onSuccess, onError);
+    }
+
+    public void setArchived(UUID projectId, boolean archived, Consumer<ProjectView> onSuccess, Consumer<Throwable> onError) {
+        submit(() -> delegate.setArchived(projectId, archived), updated -> {
+            EventBus.getInstance().fire(new ProjectChangedEvent(projectId, ChangeType.UPDATED));
+            onSuccess.accept(updated);
+        }, onError);
+    }
+
     public void findMembers(UUID projectId, Consumer<List<ProjectMemberView>> onSuccess, Consumer<Throwable> onError) {
         submit(() -> delegate.findMembers(projectId), onSuccess, onError);
     }

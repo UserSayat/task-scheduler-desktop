@@ -14,8 +14,13 @@ public record ProjectView(
         String ownerName,
         int totalTasks,
         int doneTasks,
-        boolean synced
+        boolean synced,
+        ProjectStatus status
 ) {
+
+    public boolean archived() {
+        return status == ProjectStatus.ARCHIVED;
+    }
 
     public int remainingTasks() {
         return totalTasks - doneTasks;

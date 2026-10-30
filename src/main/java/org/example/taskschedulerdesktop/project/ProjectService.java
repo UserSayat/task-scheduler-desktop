@@ -25,6 +25,18 @@ public interface ProjectService {
      */
     ProjectView update(UUID id, String name, UUID ownerId, Map<UUID, MemberRole> members);
 
+    /**
+     * То же, плюс описание, видимость и даты.
+     *
+     * @param info {@code null} — эти поля не меняются
+     */
+    ProjectView update(UUID id, String name, UUID ownerId, Map<UUID, MemberRole> members, ProjectInfo info);
+
+    ProjectInfo findInfo(UUID id);
+
+    /** В архив или обратно. Архивный проект виден, но в нём не создают задачи. */
+    ProjectView setArchived(UUID id, boolean archived);
+
     List<ProjectMemberView> findMembers(UUID projectId);
 
     void delete(UUID id);

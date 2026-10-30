@@ -89,17 +89,26 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public ProjectView update(UUID id, String name, UUID ownerId) {
-        return save(id, name, ownerId,
+        return save(id, name, ownerId, null,
                 (project, now) -> withOwner(project.getMembers(), project.getOwnerId(), ownerId, now));
     }
 
     @Override
     public ProjectView update(UUID id, String name, UUID ownerId, Map<UUID, MemberRole> members) {
+        return update(id, name, ownerId, members, null);
+    }
+
+    @Override
+    public ProjectView update(UUID id, String name, UUID ownerId, Map<UUID, MemberRole> members, ProjectInfo info) {
         Objects.requireNonNull(members, "members");
         if (members.containsValue(MemberRole.OWNER)) {
             throw new IllegalArgumentException("Руководитель у проекта один — он задаётся отдельно");
         }
-        return save(id, name, ownerId, (project, now) -> {
+        if (info != null && info.startDate() != null && info.deadline() != null
+                && info.deadline().isBefore(info.startDate())) {
+            throw new IllegalArgumentException("Срок проекта раньше даты начала");
+        }
+        return save(id, name, ownerId, info, (project, now) -> {
             List<ProjectMember> result = new ArrayList<>();
             result.add(new ProjectMember(ownerId, MemberRole.OWNER, joinedAt(project.getMembers(), ownerId, now)));
             members.forEach((userId, role) -> {
@@ -121,7 +130,7 @@ public class ProjectServiceImpl implements ProjectService {
      *
      * @param newMembers новый состав по текущему проекту (ещё со старым руководителем) и моменту изменения
      */
-    private ProjectView save(UUID id, String name, UUID ownerId,
+    private ProjectView save(UUID id, String name, UUID ownerId, ProjectInfo info,
                              BiFunction<Project, Instant, List<ProjectMember>> newMembers) {
         String validName = validName(name);
         Objects.requireNonNull(ownerId, "ownerId");
@@ -145,6 +154,9 @@ public class ProjectServiceImpl implements ProjectService {
                 project.setMembers(members);
                 changed.add(Fields.MEMBERS);
             }
+            if (info != null) {
+                applyInfo(project, info, changed);
+            }
 
             if (!changed.isEmpty()) {
                 project.setUpdatedAt(now);
@@ -154,6 +166,51 @@ public class ProjectServiceImpl implements ProjectService {
                 log.debug("Project {} updated, fields: {}", id, changed);
             }
 
+            return requireView(id);
+        });
+    }
+
+    private static void applyInfo(Project project, ProjectInfo info, List<String> changed) {
+        String description = info.description() == null || info.description().isBlank() ? null : info.description().strip();
+        if (!Objects.equals(project.getDescription(), description)) {
+            project.setDescription(description);
+            changed.add(Fields.DESCRIPTION);
+        }
+        if (info.visibility() != null && project.getVisibility() != info.visibility()) {
+            project.setVisibility(info.visibility());
+            changed.add(Fields.VISIBILITY);
+        }
+        if (!Objects.equals(project.getStartDate(), info.startDate())) {
+            project.setStartDate(info.startDate());
+            changed.add(Fields.START_DATE);
+        }
+        if (!Objects.equals(project.getDeadline(), info.deadline())) {
+            project.setDeadline(info.deadline());
+            changed.add(Fields.DEADLINE);
+        }
+    }
+
+    @Override
+    public ProjectInfo findInfo(UUID id) {
+        Project project = uow.read(() -> repository.findById(id))
+                .orElseThrow(() -> new NotFoundException("Project not found: " + id));
+        return new ProjectInfo(project.getDescription(), project.getVisibility(), project.getStartDate(), project.getDeadline());
+    }
+
+    @Override
+    public ProjectView setArchived(UUID id, boolean archived) {
+        return uow.inTransaction(() -> {
+            Project project = repository.findById(id)
+                    .orElseThrow(() -> new NotFoundException("Project not found: " + id));
+            ProjectStatus status = archived ? ProjectStatus.ARCHIVED : ProjectStatus.ACTIVE;
+            if (project.getStatus() != status) {
+                Instant now = Instant.now();
+                project.setStatus(status);
+                project.setUpdatedAt(now);
+                project.setUpdatedBy(session.getCurrentUserId());
+                repository.update(project);
+                changeTracker.updated(EntityType.PROJECT, id, List.of(Fields.STATUS), now);
+            }
             return requireView(id);
         });
     }

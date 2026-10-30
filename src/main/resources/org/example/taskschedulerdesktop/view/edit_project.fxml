@@ -6,7 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox styleClass="modal-root" prefWidth="520"
+<VBox styleClass="modal-root" prefWidth="540"
       fx:controller="org.example.taskschedulerdesktop.project.EditProjectController"
       xmlns="http://javafx.com/javafx/21"
       xmlns:fx="http://javafx.com/fxml/1">
@@ -29,39 +29,22 @@
             <Button fx:id="addMemberButton" text="Добавить" styleClass="btn-secondary"/>
         </HBox>
 
-        <Label text="ЦВЕТ" styleClass="field-label"/>
-        <HBox spacing="8">
-            <ToggleButton fx:id="c1" styleClass="toggle-high"
-                          style="-fx-background-color:#1a3a8f;-fx-text-fill:transparent;
-                                     -fx-min-width:28;-fx-min-height:28;-fx-max-width:28;-fx-max-height:28;"/>
-            <ToggleButton fx:id="c2"
-                          style="-fx-background-color:#7c3aed;-fx-text-fill:transparent;
-                                     -fx-min-width:28;-fx-min-height:28;-fx-max-width:28;-fx-max-height:28;
-                                     -fx-border-width:0;"/>
-            <ToggleButton fx:id="c3"
-                          style="-fx-background-color:#0f766e;-fx-text-fill:transparent;
-                                     -fx-min-width:28;-fx-min-height:28;-fx-max-width:28;-fx-max-height:28;
-                                     -fx-border-width:0;"/>
-            <ToggleButton fx:id="c4"
-                          style="-fx-background-color:#92400e;-fx-text-fill:transparent;
-                                     -fx-min-width:28;-fx-min-height:28;-fx-max-width:28;-fx-max-height:28;
-                                     -fx-border-width:0;"/>
-            <ToggleButton fx:id="c5"
-                          style="-fx-background-color:#be185d;-fx-text-fill:transparent;
-                                     -fx-min-width:28;-fx-min-height:28;-fx-max-width:28;-fx-max-height:28;
-                                     -fx-border-width:0;"/>
-            <ToggleButton fx:id="c6"
-                          style="-fx-background-color:#0369a1;-fx-text-fill:transparent;
-                                     -fx-min-width:28;-fx-min-height:28;-fx-max-width:28;-fx-max-height:28;
-                                     -fx-border-width:0;"/>
-            <ToggleButton fx:id="c7"
-                          style="-fx-background-color:#15803d;-fx-text-fill:transparent;
-                                     -fx-min-width:28;-fx-min-height:28;-fx-max-width:28;-fx-max-height:28;
-                                     -fx-border-width:0;"/>
-            <ToggleButton fx:id="c8"
-                          style="-fx-background-color:#b45309;-fx-text-fill:transparent;
-                                     -fx-min-width:28;-fx-min-height:28;-fx-max-width:28;-fx-max-height:28;
-                                     -fx-border-width:0;"/>
+        <Label text="ОПИСАНИЕ" styleClass="field-label"/>
+        <TextArea fx:id="descriptionTextArea" wrapText="true" prefRowCount="3"
+                  promptText="Цели и границы проекта" styleClass="text-area-styled"/>
+
+        <Label text="ВИДИМОСТЬ" styleClass="field-label"/>
+        <ComboBox fx:id="visibilityComboBox" maxWidth="Infinity" styleClass="combo-box-styled"/>
+
+        <HBox spacing="12">
+            <VBox HBox.hgrow="ALWAYS" spacing="5">
+                <Label text="НАЧАЛО" styleClass="field-label"/>
+                <DatePicker fx:id="startDatePicker" maxWidth="Infinity"/>
+            </VBox>
+            <VBox HBox.hgrow="ALWAYS" spacing="5">
+                <Label text="СРОК" styleClass="field-label"/>
+                <DatePicker fx:id="deadlinePicker" maxWidth="Infinity"/>
+            </VBox>
         </HBox>
 
         <HBox spacing="8" style="-fx-padding:6 0 0 0;">
