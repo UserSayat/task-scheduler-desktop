@@ -192,11 +192,7 @@ public class TaskTableController implements Shutdownable {
     }
 
     private String getStyleClassForPriority(TaskPriority priority) {
-        return switch (priority) {
-            case LOW -> "priority-low";
-            case MEDIUM -> "priority-middle";
-            case HIGH, CRITICAL -> "priority-high";
-        };
+        return "priority-" + priority.styleName();
     }
 
     private String getStyleClassForStatus(TaskStatus status) {

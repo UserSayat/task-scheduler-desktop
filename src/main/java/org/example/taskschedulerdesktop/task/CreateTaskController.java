@@ -29,10 +29,11 @@ public class CreateTaskController {
 
     @FXML private ComboBox<User> executorComboBox;
 
+    @FXML private ToggleGroup priorityGroup;
+    @FXML private ToggleButton tCritical;
     @FXML private ToggleButton tHigh;
     @FXML private ToggleButton tMedium;
     @FXML private ToggleButton tLow;
-    private TaskPriority currentPriority = TaskPriority.LOW;
 
     @FXML private DatePicker deadlineDatePicker;
 
@@ -66,9 +67,16 @@ public class CreateTaskController {
                 }
         );
 
-        tHigh.setOnAction(event -> this.currentPriority = TaskPriority.HIGH);
-        tMedium.setOnAction(event -> this.currentPriority = TaskPriority.MEDIUM);
-        tLow.setOnAction(event -> this.currentPriority = TaskPriority.LOW);
+        tCritical.setUserData(TaskPriority.CRITICAL);
+        tHigh.setUserData(TaskPriority.HIGH);
+        tMedium.setUserData(TaskPriority.MEDIUM);
+        tLow.setUserData(TaskPriority.LOW);
+        // Приоритет выбран всегда: повторное нажатие на выбранную кнопку не снимает выбор.
+        priorityGroup.selectedToggleProperty().addListener((obs, oldToggle, newToggle) -> {
+            if (newToggle == null) {
+                oldToggle.setSelected(true);
+            }
+        });
 
         createTaskButton.setOnAction(event -> {
             ProjectView project = projectComboBox.getValue();
@@ -89,7 +97,7 @@ public class CreateTaskController {
                     taskNameTextField.getText(),
                     project.id(),
                     executor.getId(),
-                    currentPriority,
+                    (TaskPriority) priorityGroup.getSelectedToggle().getUserData(),
                     deadline,
                     Tags.parse(tagsTextField.getText()));
 

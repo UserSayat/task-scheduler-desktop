@@ -42,29 +42,34 @@
             </VBox>
         </HBox>
 
+        <Label text="ПРИОРИТЕТ" styleClass="field-label"/>
+        <HBox spacing="4">
+            <fx:define>
+                <ToggleGroup fx:id="priorityGroup"/>
+            </fx:define>
+            <ToggleButton fx:id="tCritical" text="Критический"
+                          styleClass="toggle-critical" toggleGroup="$priorityGroup"/>
+            <ToggleButton fx:id="tHigh"   text="Высокий"
+                          styleClass="toggle-high" toggleGroup="$priorityGroup"/>
+            <ToggleButton fx:id="tMedium" text="Средний"
+                          styleClass="toggle-medium" toggleGroup="$priorityGroup" selected="true"/>
+            <ToggleButton fx:id="tLow"    text="Низкий"
+                          styleClass="toggle-low" toggleGroup="$priorityGroup"/>
+        </HBox>
+
         <HBox spacing="12">
-            <VBox HBox.hgrow="ALWAYS" spacing="5">
-                <Label text="ПРИОРИТЕТ" styleClass="field-label"/>
-                <HBox spacing="4">
-                    <ToggleButton fx:id="tHigh"   text="Высокий"
-                                  styleClass="toggle-high"/>
-                    <ToggleButton fx:id="tMedium" text="Средний"
-                                  styleClass="toggle-medium" selected="true"/>
-                    <ToggleButton fx:id="tLow"    text="Низкий"
-                                  styleClass="toggle-low"/>
-                </HBox>
-            </VBox>
             <VBox HBox.hgrow="ALWAYS" spacing="5">
                 <Label text="СРОК" styleClass="field-label"/>
                 <DatePicker fx:id="deadlineDatePicker" maxWidth="Infinity"
                             styleClass="date-picker-styled"/>
             </VBox>
+            <VBox HBox.hgrow="ALWAYS" spacing="5">
+                <Label text="ТЕГИ" styleClass="field-label"/>
+                <TextField fx:id="tagsTextField"
+                           promptText="backend, дизайн — через запятую"
+                           styleClass="text-field-styled"/>
+            </VBox>
         </HBox>
-
-        <Label text="ТЕГИ" styleClass="field-label"/>
-        <TextField fx:id="tagsTextField"
-                   promptText="backend, дизайн — через запятую"
-                   styleClass="text-field-styled"/>
 
         <HBox spacing="8" style="-fx-padding:6 0 0 0;">
             <Button fx:id="createTaskButton" text="Создать задачу" styleClass="btn-primary"

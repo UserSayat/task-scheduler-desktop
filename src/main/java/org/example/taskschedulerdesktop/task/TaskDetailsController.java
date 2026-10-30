@@ -219,7 +219,7 @@ public class TaskDetailsController implements RightSidebar {
         projectNameLabel.setText(contextTask.projectName());
         taskNameLabel.setText(contextTask.title());
         statusLabel.setText(contextTask.status().getDisplayName());
-        priorityLabel.setText(contextTask.priority().getDisplayName());
+        PriorityBadge.apply(priorityLabel, contextTask.priority());
         executorAvatarLabel.setText(Initials.of(contextTask.responsibleName()));
         executorNameLabel.setText(contextTask.responsibleName() != null ? contextTask.responsibleName() : "Не назначен");
         deadlineLabel.setText(formatFull(contextTask.deadline()));

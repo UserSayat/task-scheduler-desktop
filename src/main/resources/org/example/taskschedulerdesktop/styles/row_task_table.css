@@ -30,6 +30,14 @@
     -fx-font-weight: 500;
 }
 
+.priority-critical {
+    -fx-text-fill: white;
+    -fx-background-color: #b91c1c;
+    -fx-padding: 2px 10px;
+    -fx-font-size: 12px;
+    -fx-font-weight: 700;
+}
+
 .priority-high {
     -fx-text-fill: #b91c1c;
     -fx-background-color: #fef2f2;
@@ -38,7 +46,7 @@
     -fx-font-weight: 600;
 }
 
-.priority-middle {
+.priority-medium {
     -fx-text-fill: #92400e;
     -fx-background-color: #fffbeb;
     -fx-padding: 2px 10px;

@@ -43,7 +43,7 @@ public class TaskDescriptionCardController implements ContextAware, Shutdownable
        TagChips.fill(tagsFlowPane, contextTask.tagNames());
        taskDeadlineLabel.setText(formatShort(contextTask.deadline()));
        executorInitialsLabel.setText(Initials.of(contextTask.responsibleName()));
-       priorityLabel.setText(contextTask.priority().getDisplayName());
+        PriorityBadge.apply(priorityLabel, contextTask.priority());
     }
 
     public Label getTaskSequenceNumberLabel() {

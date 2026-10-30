@@ -1,5 +1,8 @@
 package org.example.taskschedulerdesktop.task;
 
+import java.util.Arrays;
+import java.util.List;
+
 public enum TaskPriority {
     LOW("Низкий"),
     MEDIUM("Средний"),
@@ -14,6 +17,23 @@ public enum TaskPriority {
 
     public String getDisplayName() {
         return displayName;
+    }
+
+    /**
+     * Окончание CSS-классов приоритета: {@code badge-critical}, {@code priority-high}, {@code toggle-low}...
+     */
+    public String styleName() {
+        return name().toLowerCase();
+    }
+
+    /** Стиль бейджа приоритета (карточки и детали задачи). */
+    public String badgeStyleClass() {
+        return "badge-" + styleName();
+    }
+
+    /** Все стили бейджей — чтобы снять старый перед установкой нового. */
+    public static List<String> badgeStyleClasses() {
+        return Arrays.stream(values()).map(TaskPriority::badgeStyleClass).toList();
     }
 
     public static TaskPriority fromString(String text) {
