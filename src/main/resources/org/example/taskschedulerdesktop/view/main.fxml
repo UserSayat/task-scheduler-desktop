@@ -37,6 +37,8 @@
                             styleClass="nav-btn"/>
                     <Button fx:id="teamButton" text="Команда" maxWidth="Infinity"
                             styleClass="nav-btn"/>
+                    <Button fx:id="employeesButton" text="Сотрудники" maxWidth="Infinity"
+                            styleClass="nav-btn" visible="false" managed="false"/>
 
 <!--                    <Label text="ПРОЕКТЫ" styleClass="nav-section-label"/>-->
 <!--                    <Button text="● Редизайн портала"-->

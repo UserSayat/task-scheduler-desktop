@@ -1,6 +1,11 @@
 package org.example.taskschedulerdesktop.config;
 
 import com.github.f4b6a3.uuid.UuidCreator;
+import org.example.taskschedulerdesktop.admin.EmployeeAdminApi;
+import org.example.taskschedulerdesktop.admin.EmployeeAdminService;
+import org.example.taskschedulerdesktop.admin.EmployeeDialogController;
+import org.example.taskschedulerdesktop.admin.EmployeesController;
+import org.example.taskschedulerdesktop.admin.H2EmployeeRepository;
 import org.example.taskschedulerdesktop.auth.AuthService;
 import org.example.taskschedulerdesktop.auth.TokenStore;
 import org.example.taskschedulerdesktop.dashboard.DashboardController;
@@ -73,6 +78,7 @@ public class AppConfig {
     private final AsyncProjectService asyncProjectService;
     private final AsyncUserService asyncUserService;
     private final AsyncTeamService asyncTeamService;
+    private final EmployeeAdminService employeeAdminService;
 
     private final AuthService authService;
     private final TokenStore tokenStore;
@@ -125,6 +131,8 @@ public class AppConfig {
                 new ProjectSyncAdapter(unitOfWork, projectRepository, userSync),
                 new TaskSyncAdapter(unitOfWork, taskRepository, userSync)));
         this.syncScheduler = new SyncScheduler(syncService);
+        this.employeeAdminService = new EmployeeAdminService(unitOfWork, new H2EmployeeRepository(unitOfWork),
+                new EmployeeAdminApi(apiClient), syncScheduler::syncNow);
         if (!demoMode) {
             changeTracker.setOnChange(syncScheduler::changeRecorded);
         }
@@ -153,6 +161,12 @@ public class AppConfig {
             }
             if (clazz == EditProjectController.class) {
                 return new EditProjectController(asyncProjectService, asyncUserService);
+            }
+            if (clazz == EmployeesController.class) {
+                return new EmployeesController(employeeAdminService, session);
+            }
+            if (clazz == EmployeeDialogController.class) {
+                return new EmployeeDialogController(employeeAdminService);
             }
             if (clazz == TeamController.class) {
                 return new TeamController(asyncTeamService);
@@ -246,6 +260,10 @@ public class AppConfig {
 
     public SyncService getSyncService() {
         return syncService;
+    }
+
+    public EmployeeAdminService getEmployeeAdminService() {
+        return employeeAdminService;
     }
 
     public SyncScheduler getSyncScheduler() {

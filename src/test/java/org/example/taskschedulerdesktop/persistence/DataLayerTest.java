@@ -1,7 +1,12 @@
 package org.example.taskschedulerdesktop.persistence;
 
 import org.example.taskschedulerdesktop.config.DevDataSeeder;
+import org.example.taskschedulerdesktop.admin.Employee;
+import org.example.taskschedulerdesktop.admin.H2EmployeeRepository;
+import org.example.taskschedulerdesktop.admin.RoleAssignment;
 import org.example.taskschedulerdesktop.project.H2ProjectRepository;
+import org.example.taskschedulerdesktop.project.MemberRole;
+import org.example.taskschedulerdesktop.project.ProjectMemberView;
 import org.example.taskschedulerdesktop.project.ProjectService;
 import org.example.taskschedulerdesktop.project.ProjectServiceImpl;
 import org.example.taskschedulerdesktop.project.ProjectView;
@@ -33,7 +38,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -161,6 +168,65 @@ class DataLayerTest {
         assertEquals(List.of("Критический", "Высокий"), maria.topTasks().stream().map(MemberTask::title).toList(),
                 "сначала приоритет, потом срок");
         assertTrue(team.stream().noneMatch(m -> m.id().equals(blocked)), "заблокированных на экране нет");
+    }
+
+    @Test
+    void projectMembersAreSavedWithRolesAndLogged() throws SQLException {
+        UUID elena = UUID.fromString("00000000-0000-7000-8000-0000000000a3");
+        UUID pavel = UUID.fromString("00000000-0000-7000-8000-0000000000a4");
+        ProjectView project = projectService.create("Проект", MARIA);
+        newTask(project, "Открытая задача Марии", TaskPriority.LOW, null);
+
+        Map<UUID, MemberRole> members = new LinkedHashMap<>();
+        members.put(elena, MemberRole.MEMBER);
+        members.put(pavel, MemberRole.OBSERVER);
+        projectService.update(project.id(), project.name(), MARIA, members);
+
+        List<ProjectMemberView> saved = projectService.findMembers(project.id());
+        assertEquals(List.of(MARIA, elena, pavel), saved.stream().map(ProjectMemberView::userId).toList(),
+                "руководитель первым, дальше по роли");
+        assertEquals(MemberRole.OWNER, saved.get(0).role());
+        assertEquals(1, saved.get(0).openTasks());
+        assertFalse(saved.stream().anyMatch(m -> m.userId().equals(DevDataSeeder.DEV_ADMIN_ID)),
+                "создатель-менеджер убран из состава вместе с остальными");
+        assertEquals(1, syncLog("PROJECT", project.id(), "UPDATE"));
+
+        // Тот же состав в другом порядке — не изменение
+        Map<UUID, MemberRole> reordered = new LinkedHashMap<>();
+        reordered.put(pavel, MemberRole.OBSERVER);
+        reordered.put(elena, MemberRole.MEMBER);
+        projectService.update(project.id(), project.name(), MARIA, reordered);
+        assertEquals(1, syncLog("PROJECT", project.id(), "UPDATE"));
+
+        // Смена руководителя тем же методом: новый — OWNER, прежний остаётся только если его передали
+        projectService.update(project.id(), project.name(), elena, Map.of(MARIA, MemberRole.MANAGER));
+        List<ProjectMemberView> afterOwnerChange = projectService.findMembers(project.id());
+        assertEquals(elena, afterOwnerChange.get(0).userId());
+        assertEquals(MemberRole.OWNER, afterOwnerChange.get(0).role());
+        assertEquals(MemberRole.MANAGER, afterOwnerChange.get(1).role());
+        assertEquals(2, afterOwnerChange.size());
+
+        assertThrows(IllegalArgumentException.class,
+                () -> projectService.update(project.id(), project.name(), elena, Map.of(pavel, MemberRole.OWNER)));
+    }
+
+    @Test
+    void employeesComeWithRolesAndWithoutDeletedUsers() throws SQLException {
+        UUID blocked = UUID.fromString("00000000-0000-7000-8000-0000000000a3");
+        UUID deleted = UUID.fromString("00000000-0000-7000-8000-0000000000a4");
+        execute("UPDATE users SET status = 'BLOCKED' WHERE id = '" + blocked + "'");
+        execute("UPDATE users SET status = 'DELETED', deleted_at = CURRENT_TIMESTAMP WHERE id = '" + deleted + "'");
+        H2EmployeeRepository repository = new H2EmployeeRepository(uow);
+
+        List<Employee> employees = uow.read(repository::findAll);
+
+        Employee admin = employees.stream().filter(e -> e.id().equals(DevDataSeeder.DEV_ADMIN_ID)).findFirst().orElseThrow();
+        assertTrue(admin.hasGlobalRole(RoleAssignment.ADMIN));
+        assertEquals("Администратор", admin.rolesText());
+        assertTrue(employees.stream().anyMatch(e -> e.id().equals(blocked) && e.isBlocked()));
+        assertTrue(employees.stream().noneMatch(e -> e.id().equals(deleted)), "удалённых на экране нет");
+        assertTrue(uow.read(() -> repository.hasGlobalRole(DevDataSeeder.DEV_ADMIN_ID, RoleAssignment.ADMIN)));
+        assertFalse(uow.read(() -> repository.hasGlobalRole(MARIA, RoleAssignment.ADMIN)));
     }
 
     private TaskView newTask(ProjectView project, String title, TaskPriority priority, LocalDate deadline) {

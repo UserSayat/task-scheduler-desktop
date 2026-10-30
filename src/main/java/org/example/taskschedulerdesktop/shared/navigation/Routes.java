@@ -24,4 +24,7 @@ public final class Routes {
 
     public static final String TEAM = "/org/example/taskschedulerdesktop/view/team.fxml";
 
+    public static final String EMPLOYEES = "/org/example/taskschedulerdesktop/view/employees.fxml";
+    public static final String EMPLOYEE_DIALOG = "/org/example/taskschedulerdesktop/view/employee_dialog.fxml";
+
 }

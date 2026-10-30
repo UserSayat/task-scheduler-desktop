@@ -54,7 +54,8 @@ org.example.taskschedulerdesktop
 ├── project/     проекты: Project, ProjectView, ProjectRepository, ProjectService, контроллеры
 ├── user/        сотрудники
 ├── tag/         теги
-├── team/        экран «Команда»
+├── team/        экран «Команда»: сотрудники и их нагрузка
+├── admin/       экран «Сотрудники» для администратора: создание, роли, блокировка, сброс пароля
 ├── dashboard/   дашборд «Мои задачи»
 ├── shell/       главное окно (AppShell — вход или рабочее пространство, MainController)
 ├── sync/        синхронизация: SyncScheduler (когда), SyncService (в каком порядке), SyncStatus

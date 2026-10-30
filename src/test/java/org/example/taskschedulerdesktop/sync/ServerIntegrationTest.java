@@ -2,15 +2,24 @@ package org.example.taskschedulerdesktop.sync;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.f4b6a3.uuid.UuidCreator;
+import org.example.taskschedulerdesktop.admin.Employee;
+import org.example.taskschedulerdesktop.admin.EmployeeAdminApi;
+import org.example.taskschedulerdesktop.admin.EmployeeAdminService;
+import org.example.taskschedulerdesktop.admin.EmployeeForm;
+import org.example.taskschedulerdesktop.admin.H2EmployeeRepository;
+import org.example.taskschedulerdesktop.admin.RoleAssignment;
 import org.example.taskschedulerdesktop.auth.AuthService;
 import org.example.taskschedulerdesktop.auth.AuthUser;
 import org.example.taskschedulerdesktop.auth.TokenStore;
 import org.example.taskschedulerdesktop.project.H2ProjectRepository;
+import org.example.taskschedulerdesktop.project.MemberRole;
+import org.example.taskschedulerdesktop.project.ProjectMemberView;
 import org.example.taskschedulerdesktop.project.ProjectServiceImpl;
 import org.example.taskschedulerdesktop.project.ProjectSyncAdapter;
 import org.example.taskschedulerdesktop.project.ProjectView;
 import org.example.taskschedulerdesktop.session.Session;
 import org.example.taskschedulerdesktop.shared.api.ApiClient;
+import org.example.taskschedulerdesktop.shared.api.ApiException;
 import org.example.taskschedulerdesktop.shared.database.UnitOfWork;
 import org.example.taskschedulerdesktop.sync.local.ChangeTracker;
 import org.example.taskschedulerdesktop.sync.protocol.HttpSyncApi;
@@ -118,6 +127,79 @@ class ServerIntegrationTest {
         employeeDevice.auth.logout();
     }
 
+    @Test
+    void adminManagesEmployeesAndProjectMembers() {
+        Device adminDevice = new Device();
+        AuthUser admin = adminDevice.auth.login(ADMIN_EMAIL, ADMIN_PASSWORD);
+        adminDevice.sync.initialLoad();
+        EmployeeAdminApi adminApi = new EmployeeAdminApi(adminDevice.api);
+        ProjectView project = adminDevice.projects.create("Проект команды " + UUID.randomUUID().toString().substring(0, 8), admin.id());
+        assertEquals(SyncStatus.State.SYNCED, adminDevice.sync.synchronize().state());
+
+        // Создание: тот же JSON, что отправляет диалог «Сотрудник»
+        UUID id = UuidCreator.getTimeOrderedEpoch();
+        String email = "staff." + id.toString().substring(24) + "@taskhub.test";
+        String password = "Temp-" + UUID.randomUUID().toString().substring(0, 8);
+        adminApi.create(new EmployeeAdminApi.CreateRequest(id, "Анна Смирнова", email, null, "Europe/Moscow",
+                password, List.of(RoleAssignment.global(RoleAssignment.PROJECT_MANAGER))));
+        adminDevice.sync.synchronize();
+        Employee created = employee(adminDevice, id);
+        assertTrue(created.hasGlobalRole(RoleAssignment.PROJECT_MANAGER), "роль пришла через pull");
+
+        // Роль в проекте (её выдают не на этом экране) должна пережить смену глобальных ролей
+        RoleAssignment projectRole = new RoleAssignment(RoleAssignment.PROJECT_MANAGER, "PROJECT", project.id());
+        adminApi.setRoles(id, List.of(RoleAssignment.global(RoleAssignment.PROJECT_MANAGER), projectRole));
+        adminDevice.sync.synchronize();
+        Employee withProjectRole = employee(adminDevice, id);
+        EmployeeForm form = new EmployeeForm("Анна Смирнова-Иванова", email, "Аналитик", "Asia/Omsk", true, false);
+        adminApi.update(id, new EmployeeAdminApi.UpdateRequest(form.name(), email, form.position(), form.timezone()));
+        adminApi.setRoles(id, EmployeeAdminService.newRoles(withProjectRole, form));
+        adminDevice.sync.synchronize();
+        Employee updated = employee(adminDevice, id);
+        assertEquals("Анна Смирнова-Иванова", updated.name());
+        assertEquals("Asia/Omsk", updated.timezone());
+        assertTrue(updated.hasGlobalRole(RoleAssignment.ADMIN));
+        assertFalse(updated.hasGlobalRole(RoleAssignment.PROJECT_MANAGER));
+        assertTrue(updated.roles().contains(projectRole), "проектная роль сохранилась");
+
+        // Участник приватного проекта получает его на своё устройство
+        adminDevice.projects.update(project.id(), project.name(), admin.id(), Map.of(id, MemberRole.MEMBER));
+        assertEquals(SyncStatus.State.SYNCED, adminDevice.sync.synchronize().state());
+        Device staffDevice = new Device();
+        staffDevice.auth.login(email, password);
+        staffDevice.sync.initialLoad();
+        List<ProjectMemberView> members = staffDevice.projects.findMembers(project.id());
+        assertEquals(List.of(admin.id(), id), members.stream().map(ProjectMemberView::userId).toList());
+        assertEquals(MemberRole.MEMBER, members.get(1).role());
+
+        // Блокировка запрещает вход и отзывает refresh-токены (API.md, 6.4); уже выданный
+        // access-токен сервер принимает до его истечения. Разблокировка и сброс пароля возвращают доступ.
+        adminApi.setStatus(id, Employee.BLOCKED);
+        ApiException blocked = assertThrows(ApiException.class, () -> new Device().auth.login(email, password));
+        assertTrue(blocked.is("USER_BLOCKED"), blocked.code());
+        adminApi.setStatus(id, Employee.ACTIVE);
+        String newPassword = "Reset-" + UUID.randomUUID().toString().substring(0, 8);
+        adminApi.resetPassword(id, newPassword);
+        assertThrows(ApiException.class, () -> new Device().auth.login(email, password), "старый пароль больше не подходит");
+        new Device().auth.login(email, newPassword);
+
+        // Удалённый сотрудник пропадает с экрана администратора
+        adminApi.delete(id);
+        adminDevice.sync.synchronize();
+        assertTrue(employees(adminDevice).stream().noneMatch(e -> e.id().equals(id)));
+
+        adminDevice.auth.logout();
+    }
+
+    private static Employee employee(Device device, UUID id) {
+        return employees(device).stream().filter(e -> e.id().equals(id)).findFirst().orElseThrow();
+    }
+
+    private static List<Employee> employees(Device device) {
+        H2EmployeeRepository repository = new H2EmployeeRepository(device.uow);
+        return device.uow.read(repository::findAll);
+    }
+
     private String employeeEmail;
 
     private UUID createEmployee(ApiClient api, String password) {
@@ -150,6 +232,7 @@ class ServerIntegrationTest {
     /** Отдельное устройство: своя база H2, свой deviceId, свои токены. */
     private static final class Device {
 
+        final UnitOfWork uow;
         final ApiClient api;
         final AuthService auth;
         final SyncService sync;
@@ -159,7 +242,7 @@ class ServerIntegrationTest {
         Device() {
             String url = "jdbc:h2:mem:e2e_" + UUID.randomUUID() + ";DB_CLOSE_DELAY=-1";
             Flyway.configure().dataSource(url, "sa", "").locations("classpath:migration").load().migrate();
-            UnitOfWork uow = new UnitOfWork(() -> DriverManager.getConnection(url, "sa", ""));
+            uow = new UnitOfWork(() -> DriverManager.getConnection(url, "sa", ""));
             Session session = new Session(UuidCreator.getTimeOrderedEpoch(), null);
 
             api = new ApiClient(URI.create(SERVER + "/api/v1"));

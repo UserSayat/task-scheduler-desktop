@@ -45,6 +45,7 @@ public class MainController implements Shutdownable {
     @FXML private Button tasksButton;
     @FXML private Button projectsButton;
     @FXML private Button teamButton;
+    @FXML private Button employeesButton;
 
     @FXML private Button backButton;
 
@@ -91,6 +92,7 @@ public class MainController implements Shutdownable {
         tasksButton.setOnAction(event -> NavigationManager.navigateTo(Routes.TASKS, "Задачи"));
         projectsButton.setOnAction(event -> NavigationManager.navigateTo(Routes.PROJECTS, "Проекты"));
         teamButton.setOnAction(event -> NavigationManager.navigateTo(Routes.TEAM, "Команда"));
+        employeesButton.setOnAction(event -> NavigationManager.navigateTo(Routes.EMPLOYEES, "Сотрудники"));
 
         showCurrentUser();
         setUpSync();
@@ -113,6 +115,11 @@ public class MainController implements Shutdownable {
             userInitialsLabel.setText(Initials.of(u.getName()));
             userPositionLabel.setText(u.getPosition() != null ? u.getPosition() : "");
         }));
+        // Пункт «Сотрудники» — только администратору; роль могли выдать или снять на сервере
+        appConfig.getEmployeeAdminService().isAdmin(userId, admin -> {
+            employeesButton.setVisible(admin);
+            employeesButton.setManaged(admin);
+        });
 
         if (appConfig.isDemoMode()) {
             logoutButton.setVisible(false);

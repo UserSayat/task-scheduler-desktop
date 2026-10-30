@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox styleClass="modal-root" prefWidth="460"
+      fx:controller="org.example.taskschedulerdesktop.admin.EmployeeDialogController"
+      xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1">
+
+    <VBox styleClass="modal-body">
+        <Label fx:id="titleLabel" text="Новый сотрудник" styleClass="modal-title"/>
+
+        <Label text="ИМЯ *" styleClass="field-label"/>
+        <TextField fx:id="nameField" promptText="Иванов Иван" styleClass="text-field-styled"/>
+
+        <Label text="EMAIL *" styleClass="field-label"/>
+        <TextField fx:id="emailField" promptText="ivanov@company.ru" styleClass="text-field-styled"/>
+
+        <HBox spacing="12">
+            <VBox HBox.hgrow="ALWAYS" spacing="5">
+                <Label text="ДОЛЖНОСТЬ" styleClass="field-label"/>
+                <TextField fx:id="positionField" promptText="Backend-разработчик" styleClass="text-field-styled"/>
+            </VBox>
+            <VBox HBox.hgrow="ALWAYS" spacing="5">
+                <Label text="ЧАСОВОЙ ПОЯС" styleClass="field-label"/>
+                <ComboBox fx:id="timezoneComboBox" editable="true" maxWidth="Infinity"
+                          styleClass="combo-box-styled"/>
+            </VBox>
+        </HBox>
+
+        <Label text="РОЛИ" styleClass="field-label"/>
+        <HBox spacing="16">
+            <CheckBox fx:id="adminCheckBox" text="Администратор"/>
+            <CheckBox fx:id="projectManagerCheckBox" text="Руководитель проектов"/>
+        </HBox>
+
+        <Label fx:id="passwordLabel" text="ВРЕМЕННЫЙ ПАРОЛЬ *" styleClass="field-label"/>
+        <HBox fx:id="passwordBox" spacing="8">
+            <TextField fx:id="passwordField" styleClass="text-field-styled" HBox.hgrow="ALWAYS"/>
+            <Button fx:id="generatePasswordButton" text="Сгенерировать" styleClass="btn-secondary"/>
+        </HBox>
+
+        <HBox spacing="8" style="-fx-padding:6 0 0 0;">
+            <Button fx:id="saveButton" text="Создать сотрудника" styleClass="btn-primary"
+                    HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+            <Button fx:id="cancelButton" text="Отмена" styleClass="btn-secondary"/>
+        </HBox>
+    </VBox>
+</VBox>

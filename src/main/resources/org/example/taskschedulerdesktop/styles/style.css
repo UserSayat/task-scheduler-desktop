@@ -770,3 +770,17 @@ dashboard-list-view .scroll-bar:horizontal {
 .team-task-dot-high     { -fx-background-color: #b91c1c; }
 .team-task-dot-medium   { -fx-background-color: #92400e; }
 .team-task-dot-low      { -fx-background-color: #14532d; }
+
+/* ── Участники проекта ──────────────────────────────── */
+.members-empty { -fx-font-size: 12px; -fx-text-fill: #9b9b95; }
+.member-name { -fx-font-size: 13px; -fx-text-fill: #111110; }
+.member-remove-btn {
+  -fx-background-color: transparent; -fx-text-fill: #9b9b95;
+  -fx-font-size: 16px; -fx-cursor: hand; -fx-padding: 0 6;
+}
+.member-remove-btn:hover { -fx-text-fill: #b91c1c; }
+.member-role { -fx-font-size: 10px; -fx-text-fill: #9b9b95; }
+
+/* ── Экран «Сотрудники» ─────────────────────────────── */
+.employees-hint { -fx-font-size: 12px; -fx-text-fill: #9b9b95; }
+.employee-blocked { -fx-text-fill: #b91c1c; -fx-font-weight: 600; }

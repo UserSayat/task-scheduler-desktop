@@ -81,6 +81,18 @@ public class ApiClient {
         send("POST", path, body, true);
     }
 
+    public void put(String path, Object body) {
+        send("PUT", path, body, true);
+    }
+
+    public void patch(String path, Object body) {
+        send("PATCH", path, body, true);
+    }
+
+    public void delete(String path) {
+        send("DELETE", path, null, true);
+    }
+
     // ===== Запросы без авторизации (вход, обновление токена) =====
 
     public <T> T postAnonymous(String path, Object body, TypeReference<T> type) {
