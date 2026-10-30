@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import org.example.taskschedulerdesktop.sync.SyncStatus;
 import org.example.taskschedulerdesktop.auth.LoginController;
 import org.example.taskschedulerdesktop.config.AppConfig;
 import org.example.taskschedulerdesktop.shared.navigation.NavigationManager;
@@ -61,6 +62,15 @@ public class AppShell {
 
         config.getTokenStore().setOnSessionExpired(() ->
                 Platform.runLater(() -> showLogin("Сессия истекла. Войдите снова.")));
+        // Заблокировали или требуется сменить временный пароль — сервер не отдаёт данные, нужен повторный вход
+        config.getSyncService().addStatusListener(status -> {
+            if (status.state() == SyncStatus.State.SIGNED_OUT && mainController != null) {
+                Platform.runLater(() -> {
+                    showLogin(status.message() != null ? status.message() : "Войдите снова.");
+                    config.getTokenStore().clear();
+                });
+            }
+        });
 
         if (config.isDemoMode() || config.getAuthService().restoreSession()) {
             showMain();

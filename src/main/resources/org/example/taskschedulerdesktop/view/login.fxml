@@ -66,6 +66,21 @@
             <Hyperlink fx:id="backToLoginLink" text="← Вернуться ко входу" styleClass="login-link"/>
         </VBox>
 
+        <!-- Временный пароль от администратора нужно сменить сразу после входа -->
+        <VBox fx:id="changeBox" spacing="14" managed="false" visible="false">
+            <Label text="Пароль выдал администратор. Придумайте свой — после этого откроется приложение."
+                   wrapText="true" styleClass="page-date"/>
+            <VBox spacing="0">
+                <Label text="НОВЫЙ ПАРОЛЬ" styleClass="field-label"/>
+                <PasswordField fx:id="firstPasswordField" promptText="Не короче 8 символов" styleClass="text-field-styled"/>
+            </VBox>
+            <VBox spacing="0">
+                <Label text="ПОВТОРИТЕ ПАРОЛЬ" styleClass="field-label"/>
+                <PasswordField fx:id="firstRepeatField" styleClass="text-field-styled"/>
+            </VBox>
+            <Button fx:id="firstChangeButton" text="Сохранить и продолжить" maxWidth="Infinity" styleClass="btn-primary"/>
+        </VBox>
+
         <Label fx:id="errorLabel" styleClass="login-error" wrapText="true" managed="false" visible="false"/>
         <Label fx:id="infoLabel" styleClass="login-info" wrapText="true" managed="false" visible="false"/>
 

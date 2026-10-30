@@ -119,7 +119,7 @@ class ServerIntegrationTest {
         assertEquals(SyncStatus.State.SYNCED, laptop.sync.synchronize().state());
 
         Device employeeDevice = new Device();
-        employeeDevice.auth.login(employeeEmail, employeePassword);
+        firstLogin(employeeDevice, employeeEmail, employeePassword);
         employeeDevice.sync.initialLoad();
         assertEquals("Подготовить релиз 2.0", employeeDevice.tasks.findViewById(task.id()).title());
 
@@ -207,7 +207,7 @@ class ServerIntegrationTest {
         adminDevice.projects.update(project.id(), project.name(), admin.id(), Map.of(id, MemberRole.MEMBER));
         assertEquals(SyncStatus.State.SYNCED, adminDevice.sync.synchronize().state());
         Device staffDevice = new Device();
-        staffDevice.auth.login(email, password);
+        String ownPassword = firstLogin(staffDevice, email, password);
         staffDevice.sync.initialLoad();
         List<ProjectMemberView> members = staffDevice.projects.findMembers(project.id());
         assertEquals(List.of(admin.id(), id), members.stream().map(ProjectMemberView::userId).toList());
@@ -217,13 +217,13 @@ class ServerIntegrationTest {
         // Разблокировка и сброс пароля возвращают доступ.
         adminApi.setStatus(id, Employee.BLOCKED);
         assertEquals(SyncStatus.State.SIGNED_OUT, staffDevice.sync.synchronize().state());
-        ApiException blocked = assertThrows(ApiException.class, () -> new Device().auth.login(email, password));
+        ApiException blocked = assertThrows(ApiException.class, () -> new Device().auth.login(email, ownPassword));
         assertTrue(blocked.is("USER_BLOCKED"), blocked.code());
         adminApi.setStatus(id, Employee.ACTIVE);
         String newPassword = "Reset-" + UUID.randomUUID().toString().substring(0, 8);
         adminApi.resetPassword(id, newPassword);
-        assertThrows(ApiException.class, () -> new Device().auth.login(email, password), "старый пароль больше не подходит");
-        new Device().auth.login(email, newPassword);
+        assertThrows(ApiException.class, () -> new Device().auth.login(email, ownPassword), "старый пароль больше не подходит");
+        assertTrue(new Device().auth.login(email, newPassword).mustChangePassword(), "после сброса пароль снова временный");
 
         // Удалённый сотрудник пропадает с экрана администратора
         adminApi.delete(id);
@@ -266,7 +266,7 @@ class ServerIntegrationTest {
         assertEquals(0, pushed.pending());
 
         Device staffDevice = new Device();
-        staffDevice.auth.login(email, password);
+        String ownPassword = firstLogin(staffDevice, email, password);
         staffDevice.sync.initialLoad();
         TaskExtras received = staffDevice.tasks.findExtras(task.id());
         assertEquals(start, received.startDate());
@@ -294,10 +294,25 @@ class ServerIntegrationTest {
 
         // Смена пароля: неверный текущий — понятная ошибка, верный — новый пароль работает
         assertThrows(IllegalArgumentException.class, () -> staffDevice.profile.changePassword("wrong-password", "NewPass-123"));
-        staffDevice.profile.changePassword(password, "NewPass-123");
+        staffDevice.profile.changePassword(ownPassword, "NewPass-123");
         new Device().auth.login(email, "NewPass-123");
 
         adminDevice.auth.logout();
+    }
+
+    /**
+     * Первый вход сотрудника: временный пароль от администратора нужно сменить, иначе сервер не отдаст данные.
+     *
+     * @return новый пароль
+     */
+    private static String firstLogin(Device device, String email, String temporaryPassword) {
+        AuthUser user = device.auth.login(email, temporaryPassword);
+        assertTrue(user.mustChangePassword(), "пароль от администратора — временный");
+        ApiException blocked = assertThrows(ApiException.class, () -> device.sync.initialLoad());
+        assertTrue(blocked.is("PASSWORD_CHANGE_REQUIRED"), blocked.code());
+        String ownPassword = temporaryPassword + "-own";
+        device.auth.changePassword(temporaryPassword, ownPassword);
+        return ownPassword;
     }
 
     private static Employee employee(Device device, UUID id) {

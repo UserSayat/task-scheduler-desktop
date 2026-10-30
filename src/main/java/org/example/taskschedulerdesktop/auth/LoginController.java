@@ -54,6 +54,14 @@ public class LoginController {
     @FXML private Button resetButton;
     @FXML private Hyperlink backToLoginLink;
 
+    @FXML private VBox changeBox;
+    @FXML private PasswordField firstPasswordField;
+    @FXML private PasswordField firstRepeatField;
+    @FXML private Button firstChangeButton;
+
+    /** Временный пароль, которым только что вошли, — нужен как «текущий» при смене. */
+    private String temporaryPassword;
+
     public LoginController(AuthService authService, SyncService syncService, Runnable onSignedIn) {
         this.authService = authService;
         this.syncService = syncService;
@@ -70,6 +78,58 @@ public class LoginController {
         haveCodeLink.setOnAction(event -> showCodeStep());
         sendCodeButton.setOnAction(event -> sendCode());
         resetButton.setOnAction(event -> resetPassword());
+        firstChangeButton.setOnAction(event -> changeTemporaryPassword());
+    }
+
+    // ===== Смена временного пароля =====
+
+    private void showChangeStep() {
+        hideMessages();
+        formTitle.setText("Смените пароль");
+        show(loginBox, false);
+        show(resetBox, false);
+        show(changeBox, true);
+        firstPasswordField.requestFocus();
+    }
+
+    private void changeTemporaryPassword() {
+        String next = firstPasswordField.getText();
+        if (!next.equals(firstRepeatField.getText())) {
+            showError("Пароли не совпадают");
+            return;
+        }
+        try {
+            ProfileService.validatePassword(next);
+        } catch (IllegalArgumentException e) {
+            showError(e.getMessage());
+            return;
+        }
+        if (next.equals(temporaryPassword)) {
+            showError("Новый пароль должен отличаться от временного");
+            return;
+        }
+        firstChangeButton.setDisable(true);
+        hideMessages();
+        show(progressBox, true);
+        progressLabel.setText("Сохранение пароля…");
+        runInBackground(() -> {
+            authService.changePassword(temporaryPassword, next);
+            syncService.initialLoad();
+        }, () -> {
+            temporaryPassword = null;
+            firstPasswordField.clear();
+            firstRepeatField.clear();
+            firstChangeButton.setDisable(false);
+            show(progressBox, false);
+            show(changeBox, false);
+            show(loginBox, true);
+            formTitle.setText("Вход в систему");
+            onSignedIn.run();
+        }, error -> {
+            firstChangeButton.setDisable(false);
+            show(progressBox, false);
+            showError(describe(error));
+        });
     }
 
     // ===== Сброс пароля =====
@@ -189,14 +249,17 @@ public class LoginController {
         }
 
         setBusy(true, "Вход…");
-        Task<Void> task = new Task<>() {
+        Task<Boolean> task = new Task<>() {
             @Override
-            protected Void call() {
+            protected Boolean call() {
                 updateMessage("Вход…");
-                authService.login(email, password);
+                AuthUser user = authService.login(email, password);
+                if (user.mustChangePassword()) {
+                    return false; // данные загрузим после смены пароля
+                }
                 updateMessage("Загрузка данных…");
                 syncService.initialLoad();
-                return null;
+                return true;
             }
         };
         progressLabel.textProperty().bind(task.messageProperty());
@@ -204,7 +267,13 @@ public class LoginController {
         task.setOnSucceeded(event -> {
             progressLabel.textProperty().unbind();
             passwordField.clear();
-            onSignedIn.run();
+            if (task.getValue()) {
+                onSignedIn.run();
+            } else {
+                setBusy(false, null);
+                temporaryPassword = password;
+                showChangeStep();
+            }
         });
         task.setOnFailed(event -> {
             progressLabel.textProperty().unbind();

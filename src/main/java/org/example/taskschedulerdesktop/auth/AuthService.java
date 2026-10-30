@@ -71,6 +71,13 @@ public class AuthService {
         return response.user();
     }
 
+    record ChangePasswordRequest(String currentPassword, String newPassword) {}
+
+    /** Смена своего пароля (API.md, 5.5) — например, временного сразу после входа. */
+    public void changePassword(String currentPassword, String newPassword) {
+        api.post("/auth/change-password", new ChangePasswordRequest(currentPassword, newPassword));
+    }
+
     record ForgotPasswordRequest(String email) {}
 
     record ResetPasswordRequest(String token, String newPassword) {}
