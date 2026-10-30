@@ -97,6 +97,16 @@
                 </configuration>
             </plugin>
 
+            <!-- Запуск из IDE и терминала: mvn javafx:run (флаги — через -Djavafx.args или jvmArgs ниже) -->
+            <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>0.0.8</version>
+                <configuration>
+                    <mainClass>org.example.taskschedulerdesktop.MainLauncher</mainClass>
+                </configuration>
+            </plugin>
+
             <!-- Запуск тестов JUnit 5 (встроенная версия surefire их не видит) -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
