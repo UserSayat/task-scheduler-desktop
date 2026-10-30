@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="16" styleClass="content-area"
+      xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.example.taskschedulerdesktop.settings.SettingsController">
+
+    <VBox spacing="10" maxWidth="560" styleClass="card">
+        <Label text="Даты" styleClass="team-name"/>
+        <Label text="ФОРМАТ ДАТЫ" styleClass="field-label"/>
+        <ComboBox fx:id="dateFormatComboBox" maxWidth="Infinity" styleClass="combo-box-styled"/>
+        <Label fx:id="dateExampleLabel" styleClass="employees-hint"/>
+        <Label text="Применяется к полным датам и полям ввода дат. В списках остаются короткие даты («18 сен»)."
+               wrapText="true" styleClass="employees-hint"/>
+
+        <Label text="Сотрудники" styleClass="team-name"/>
+        <Label text="ЧАСОВОЙ ПОЯС ПО УМОЛЧАНИЮ" styleClass="field-label"/>
+        <ComboBox fx:id="timezoneComboBox" editable="true" maxWidth="Infinity" styleClass="combo-box-styled"/>
+        <Label text="Подставляется при создании нового сотрудника." wrapText="true" styleClass="employees-hint"/>
+
+        <Label text="Синхронизация" styleClass="team-name"/>
+        <HBox spacing="12">
+            <VBox spacing="5" HBox.hgrow="ALWAYS">
+                <Label text="ИНТЕРВАЛ, СЕКУНД" styleClass="field-label"/>
+                <Spinner fx:id="intervalSpinner" maxWidth="Infinity"/>
+            </VBox>
+            <VBox spacing="5" HBox.hgrow="ALWAYS">
+                <Label text="ИЗМЕНЕНИЙ ЗА ОДНУ ОТПРАВКУ" styleClass="field-label"/>
+                <Spinner fx:id="batchSpinner" maxWidth="Infinity"/>
+            </VBox>
+        </HBox>
+        <Label text="Как часто приложение само обменивается данными с сервером (от 30 до 3600 секунд) и сколько изменений отправляет за раз (от 10 до 500)."
+               wrapText="true" styleClass="employees-hint"/>
+
+        <Button fx:id="saveButton" text="Сохранить настройки" styleClass="btn-primary" maxWidth="Infinity"/>
+        <Label text="Настройки сохраняются на сервере, нужна связь. Остальные сотрудники получат их при следующей синхронизации."
+               wrapText="true" styleClass="employees-hint"/>
+    </VBox>
+</VBox>

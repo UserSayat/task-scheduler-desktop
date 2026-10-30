@@ -2,6 +2,9 @@ package org.example.taskschedulerdesktop.sync;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.f4b6a3.uuid.UuidCreator;
+import org.example.taskschedulerdesktop.settings.SettingsService;
+import org.example.taskschedulerdesktop.settings.SettingsRepository;
+import org.example.taskschedulerdesktop.settings.AppSettings;
 import org.example.taskschedulerdesktop.user.ProfileService;
 import org.example.taskschedulerdesktop.user.H2UserRepository;
 import org.example.taskschedulerdesktop.task.TaskExtras;
@@ -53,6 +56,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
 
 import java.net.URI;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.sql.DriverManager;
 import java.util.List;
@@ -300,6 +304,30 @@ class ServerIntegrationTest {
         adminDevice.auth.logout();
     }
 
+    @Test
+    void adminSettingsReachOtherDevices() {
+        Device adminDevice = new Device();
+        adminDevice.auth.login(ADMIN_EMAIL, ADMIN_PASSWORD);
+        adminDevice.sync.initialLoad();
+        Device secondDevice = new Device();
+        secondDevice.auth.login(ADMIN_EMAIL, ADMIN_PASSWORD);
+        secondDevice.sync.initialLoad();
+
+        try {
+            assertThrows(IllegalArgumentException.class,
+                    () -> adminDevice.settings.save(Map.of("sync.interval_seconds", "5")), "сервер проверяет значения");
+            adminDevice.settings.save(Map.of("sync.interval_seconds", "300", "date.format", "yyyy-MM-dd"));
+
+            assertEquals(SyncStatus.State.SYNCED, secondDevice.sync.synchronize().state());
+            assertEquals(Duration.ofSeconds(300), secondDevice.appSettings.syncInterval());
+            assertEquals("yyyy-MM-dd", secondDevice.appSettings.all().get("date.format"));
+        } finally {
+            adminDevice.settings.save(Map.of("sync.interval_seconds", "120", "date.format", "dd.MM.yyyy"));
+            adminDevice.auth.logout();
+            secondDevice.auth.logout();
+        }
+    }
+
     /**
      * Первый вход сотрудника: временный пароль от администратора нужно сменить, иначе сервер не отдаст данные.
      *
@@ -364,6 +392,8 @@ class ServerIntegrationTest {
         final TaskServiceImpl tasks;
         final ProjectServiceImpl projects;
         final ProfileService profile;
+        final AppSettings appSettings = new AppSettings();
+        final SettingsService settings;
         final TagAdminService tags;
 
         Device() {
@@ -392,6 +422,8 @@ class ServerIntegrationTest {
             notifications = new NotificationService(uow, notificationRepository, session, () -> {});
             sync = SyncService.create(uow, new HttpSyncApi(api), session, users, List.of(users, new TagSyncAdapter(uow),
                     new ProjectSyncAdapter(uow, projectRepository, users), new TaskSyncAdapter(uow, taskRepository, users)));
+            settings = new SettingsService(api, uow, new SettingsRepository(uow), appSettings, () -> {});
+            sync.addStep(settings);
             sync.addStep(new NotificationSync(api, uow, notificationRepository, session, () -> {}));
         }
     }

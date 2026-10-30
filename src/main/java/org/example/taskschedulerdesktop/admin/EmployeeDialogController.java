@@ -52,7 +52,7 @@ public class EmployeeDialogController implements ContextAware {
     @FXML
     public void initialize() {
         timezoneComboBox.getItems().setAll(Timezones.COMMON);
-        timezoneComboBox.setValue(Timezones.DEFAULT);
+        timezoneComboBox.setValue(Timezones.defaultZone());
         passwordField.setText(TemporaryPasswords.generate());
 
         generatePasswordButton.setOnAction(event -> passwordField.setText(TemporaryPasswords.generate()));
@@ -135,7 +135,7 @@ public class EmployeeDialogController implements ContextAware {
 
     private String timezone() {
         String value = timezoneComboBox.getEditor().getText();
-        return value == null || value.isBlank() ? Timezones.DEFAULT : value.trim();
+        return value == null || value.isBlank() ? Timezones.defaultZone() : value.trim();
     }
 
     private void showError(String message) {

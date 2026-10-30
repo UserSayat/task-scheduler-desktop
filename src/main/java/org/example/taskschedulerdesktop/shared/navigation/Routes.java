@@ -25,6 +25,7 @@ public final class Routes {
     public static final String TEAM = "/org/example/taskschedulerdesktop/view/team.fxml";
 
     public static final String REJECTED_CHANGES = "/org/example/taskschedulerdesktop/view/rejected_changes.fxml";
+    public static final String SETTINGS = "/org/example/taskschedulerdesktop/view/settings.fxml";
     public static final String TAGS = "/org/example/taskschedulerdesktop/view/tags.fxml";
     public static final String PROFILE = "/org/example/taskschedulerdesktop/view/profile.fxml";
 

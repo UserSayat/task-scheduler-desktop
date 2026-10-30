@@ -36,6 +36,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Consumer;
+import java.util.function.IntSupplier;
 
 /**
  * Синхронизация с сервером (API.md, 8.1): сначала push всех локальных изменений, затем pull по курсору.
@@ -49,7 +50,8 @@ public class SyncService {
 
     private static final Logger log = LoggerFactory.getLogger(SyncService.class);
 
-    private static final int PUSH_BATCH = 100;
+    /** Размер пачки push по умолчанию, пока не загружены системные настройки. */
+    private static final int DEFAULT_PUSH_BATCH = 100;
     /** Защита от бесконечного цикла, если сервер почему-то не принимает изменения. */
     private static final int MAX_ROUNDS = 50;
 
@@ -67,6 +69,7 @@ public class SyncService {
     private final List<Consumer<SyncStatus>> statusListeners = new CopyOnWriteArrayList<>();
     private final List<Consumer<AppliedChanges>> changeListeners = new CopyOnWriteArrayList<>();
     private final List<SyncStep> steps = new CopyOnWriteArrayList<>();
+    private volatile IntSupplier pushBatch = () -> DEFAULT_PUSH_BATCH;
     private volatile SyncStatus status = SyncStatus.idle();
 
     /**
@@ -113,6 +116,11 @@ public class SyncService {
 
     public void removeChangeListener(Consumer<AppliedChanges> listener) {
         changeListeners.remove(listener);
+    }
+
+    /** Сколько изменений отправлять за один push — из системных настроек ({@code sync.batch_size}). */
+    public void setPushBatch(IntSupplier pushBatch) {
+        this.pushBatch = pushBatch;
     }
 
     /** Дополнительный шаг в конце каждой синхронизации (например, уведомления). */
@@ -272,7 +280,7 @@ public class SyncService {
 
     private void push(AppliedChanges changes) {
         for (int round = 0; round < MAX_ROUNDS; round++) {
-            List<Change> batch = uow.inTransaction(() -> outgoing.nextBatch(PUSH_BATCH));
+            List<Change> batch = uow.inTransaction(() -> outgoing.nextBatch(pushBatch.getAsInt()));
             if (batch.isEmpty()) {
                 return;
             }

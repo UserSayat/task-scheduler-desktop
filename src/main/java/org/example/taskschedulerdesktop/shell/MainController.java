@@ -50,6 +50,7 @@ public class MainController implements Shutdownable {
     @FXML private Button teamButton;
     @FXML private Button employeesButton;
     @FXML private Button tagsButton;
+    @FXML private Button settingsButton;
     @FXML private HBox userBox;
 
     private final Consumer<UsersChangedEvent> usersListener = event -> showCurrentUser();
@@ -107,6 +108,7 @@ public class MainController implements Shutdownable {
         teamButton.setOnAction(event -> NavigationManager.navigateTo(Routes.TEAM, "Команда"));
         employeesButton.setOnAction(event -> NavigationManager.navigateTo(Routes.EMPLOYEES, "Сотрудники"));
         tagsButton.setOnAction(event -> NavigationManager.navigateTo(Routes.TAGS, "Теги"));
+        settingsButton.setOnAction(event -> NavigationManager.navigateTo(Routes.SETTINGS, "Настройки"));
 
         showCurrentUser();
         // Профиль — по нажатию на имя внизу меню (кнопка «Выйти» обрабатывает своё нажатие сама)
@@ -143,6 +145,10 @@ public class MainController implements Shutdownable {
             employeesButton.setManaged(admin);
             tagsButton.setVisible(admin);
             tagsButton.setManaged(admin);
+            // В демо-режиме сервера нет — настройки не сохранить
+            boolean settings = admin && !appConfig.isDemoMode();
+            settingsButton.setVisible(settings);
+            settingsButton.setManaged(settings);
         });
 
         if (appConfig.isDemoMode()) {

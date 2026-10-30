@@ -34,6 +34,10 @@ import org.example.taskschedulerdesktop.shared.api.ApiClient;
 import org.example.taskschedulerdesktop.shared.api.ServerConfig;
 import org.example.taskschedulerdesktop.shared.database.DatabaseConnection;
 import org.example.taskschedulerdesktop.shared.database.UnitOfWork;
+import org.example.taskschedulerdesktop.settings.AppSettings;
+import org.example.taskschedulerdesktop.settings.SettingsController;
+import org.example.taskschedulerdesktop.settings.SettingsRepository;
+import org.example.taskschedulerdesktop.settings.SettingsService;
 import org.example.taskschedulerdesktop.shell.AppShell;
 import org.example.taskschedulerdesktop.shell.RejectedChangesController;
 import org.example.taskschedulerdesktop.sync.SyncScheduler;
@@ -95,6 +99,7 @@ public class AppConfig {
     private final AsyncTeamService asyncTeamService;
     private final EmployeeAdminService employeeAdminService;
     private final ProfileService profileService;
+    private final SettingsService settingsService;
     private final AsyncPermissionService asyncPermissionService;
     private final AsyncNotificationService asyncNotificationService;
 
@@ -153,6 +158,15 @@ public class AppConfig {
                 new ProjectSyncAdapter(unitOfWork, projectRepository, userSync),
                 new TaskSyncAdapter(unitOfWork, taskRepository, userSync)));
         this.syncScheduler = new SyncScheduler(syncService);
+
+        // Системные настройки: последние известные — сразу, свежие — с каждой синхронизацией
+        AppSettings appSettings = new AppSettings();
+        this.settingsService = new SettingsService(apiClient, unitOfWork, new SettingsRepository(unitOfWork), appSettings,
+                () -> log.info("System settings updated: {}", appSettings.all()));
+        settingsService.loadLocal();
+        syncService.addStep(settingsService);
+        syncService.setPushBatch(appSettings::pushBatch);
+        syncScheduler.setInterval(appSettings::syncInterval);
         // Уведомления: обмен с сервером в конце синхронизации, отметки «прочитано» уходят при ближайшей
         H2NotificationRepository notificationRepository = new H2NotificationRepository(unitOfWork);
         syncService.addStep(new NotificationSync(apiClient, unitOfWork, notificationRepository, session,
@@ -195,6 +209,9 @@ public class AppConfig {
             }
             if (clazz == RejectedChangesController.class) {
                 return new RejectedChangesController(syncService, syncScheduler);
+            }
+            if (clazz == SettingsController.class) {
+                return new SettingsController(settingsService);
             }
             if (clazz == TagsController.class) {
                 return new TagsController(tagAdminService);

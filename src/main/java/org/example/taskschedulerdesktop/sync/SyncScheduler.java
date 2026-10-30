@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
+import java.util.function.Supplier;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -20,11 +21,13 @@ public class SyncScheduler {
 
     private static final Logger log = LoggerFactory.getLogger(SyncScheduler.class);
 
-    private static final Duration INTERVAL = Duration.ofSeconds(120);
+    /** Интервал по умолчанию, пока не загружены системные настройки. */
+    private static final Duration DEFAULT_INTERVAL = Duration.ofSeconds(120);
     private static final Duration OFFLINE_RETRY = Duration.ofSeconds(30);
     private static final Duration AFTER_CHANGE = Duration.ofSeconds(5);
 
     private final SyncService syncService;
+    private volatile Supplier<Duration> interval = () -> DEFAULT_INTERVAL;
     private ScheduledExecutorService executor;
     private ScheduledFuture<?> next;
 
@@ -53,6 +56,11 @@ public class SyncScheduler {
         executor = null;
         next = null;
         log.info("Sync scheduler stopped");
+    }
+
+    /** Интервал автоматической синхронизации — из системных настроек ({@code sync.interval_seconds}). */
+    public void setInterval(Supplier<Duration> interval) {
+        this.interval = interval;
     }
 
     /** Синхронизировать сейчас — кнопка индикатора. */
@@ -91,6 +99,6 @@ public class SyncScheduler {
         if (result.state() == SyncStatus.State.SIGNED_OUT) {
             return; // ждём повторного входа
         }
-        schedule(result.state() == SyncStatus.State.OFFLINE ? OFFLINE_RETRY : INTERVAL);
+        schedule(result.state() == SyncStatus.State.OFFLINE ? OFFLINE_RETRY : interval.get());
     }
 }

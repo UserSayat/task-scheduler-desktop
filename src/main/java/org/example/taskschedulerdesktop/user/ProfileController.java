@@ -54,7 +54,7 @@ public class ProfileController {
             emailLabel.setText(user.getEmail());
             nameField.setText(user.getName());
             positionField.setText(user.getPosition());
-            timezoneComboBox.setValue(user.getTimezone() != null ? user.getTimezone() : Timezones.DEFAULT);
+            timezoneComboBox.setValue(user.getTimezone() != null ? user.getTimezone() : Timezones.defaultZone());
         }, error -> NavigationManager.showToast("Не удалось загрузить профиль", "error"));
     }
 

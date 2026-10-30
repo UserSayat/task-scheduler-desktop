@@ -85,6 +85,10 @@ public class ApiClient {
         send("PUT", path, body, true);
     }
 
+    public <T> T put(String path, Object body, TypeReference<T> type) {
+        return read(send("PUT", path, body, true), type);
+    }
+
     public void patch(String path, Object body) {
         send("PATCH", path, body, true);
     }

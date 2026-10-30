@@ -42,6 +42,8 @@
                             styleClass="nav-btn" visible="false" managed="false"/>
                     <Button fx:id="tagsButton" text="Теги" maxWidth="Infinity"
                             styleClass="nav-btn" visible="false" managed="false"/>
+                    <Button fx:id="settingsButton" text="Настройки" maxWidth="Infinity"
+                            styleClass="nav-btn" visible="false" managed="false"/>
 
 <!--                    <Label text="ПРОЕКТЫ" styleClass="nav-section-label"/>-->
 <!--                    <Button text="● Редизайн портала"-->

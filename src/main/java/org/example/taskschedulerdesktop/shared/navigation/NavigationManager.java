@@ -20,6 +20,7 @@ import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.Duration;
+import org.example.taskschedulerdesktop.shared.ui.DateFormatter;
 import org.example.taskschedulerdesktop.config.AppConfig;
 import org.example.taskschedulerdesktop.shared.ui.RightSidebar;
 import org.example.taskschedulerdesktop.shared.ui.Shutdownable;
@@ -117,7 +118,7 @@ public class NavigationManager {
                         NavigationManager.class.getResource(fxmlPath)
                 );
                 loader.setControllerFactory(controllerFactory);
-                loader.load();
+                DateFormatter.applyToPickers(loader.load());
                 return loader;
             }
         };
@@ -230,6 +231,7 @@ public class NavigationManager {
             loader.setControllerFactory(controllerFactory);
 
             Parent root = loader.load();
+            DateFormatter.applyToPickers(root);
 
             if (loader.getController() instanceof ContextAware aware) {
                 aware.setContext(context);
@@ -280,6 +282,7 @@ public class NavigationManager {
             loader.setControllerFactory(controllerFactory);
 
             Parent root = loader.load();
+            DateFormatter.applyToPickers(root);
 
             if (loader.getController() instanceof ContextAware aware) {
                 aware.setContext(context);
@@ -314,6 +317,7 @@ public class NavigationManager {
             loader.setControllerFactory(AppConfig.getInstance().getControllerFactory());
 
             Parent sidebar = loader.load();
+            DateFormatter.applyToPickers(sidebar);
 
             Object controller = loader.getController();
 

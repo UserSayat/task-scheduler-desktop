@@ -7,7 +7,18 @@ import java.util.List;
  */
 public final class Timezones {
 
-    public static final String DEFAULT = "Europe/Moscow";
+    /** Часовой пояс для новых сотрудников; меняется системной настройкой {@code timezone.default}. */
+    private static volatile String defaultZone = "Europe/Moscow";
+
+    public static String defaultZone() {
+        return defaultZone;
+    }
+
+    public static void setDefaultZone(String zone) {
+        if (zone != null && !zone.isBlank()) {
+            defaultZone = zone;
+        }
+    }
 
     public static final List<String> COMMON = List.of(
             "Europe/Kaliningrad", "Europe/Moscow", "Europe/Samara", "Asia/Yekaterinburg", "Asia/Omsk",
