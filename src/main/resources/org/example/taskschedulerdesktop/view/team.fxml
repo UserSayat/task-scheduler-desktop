@@ -1,21 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.TilePane?>
+<?import javafx.scene.layout.VBox?>
 
 <ScrollPane fitToWidth="true" styleClass="scroll-pane-clean"
             xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="org.example.taskschedulerdesktop.team.TeamController">
-    <TilePane fx:id="teamTilePane"
-              styleClass="content-area"
-              hgap="12"
-              vgap="12"
-              prefTileWidth="300"
-              prefTileHeight="200"
-              alignment="CENTER">
-    </TilePane>
+    <VBox>
+        <Label fx:id="emptyLabel" styleClass="team-empty" visible="false" managed="false"
+               text="Сотрудников пока нет. Они появятся после синхронизации с сервером."/>
+        <TilePane fx:id="teamTilePane"
+                  styleClass="content-area"
+                  hgap="12"
+                  vgap="12"
+                  prefTileWidth="300"
+                  prefTileHeight="200"
+                  alignment="CENTER">
+        </TilePane>
+    </VBox>
 </ScrollPane>

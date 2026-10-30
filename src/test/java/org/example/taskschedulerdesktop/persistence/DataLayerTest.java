@@ -19,6 +19,9 @@ import org.example.taskschedulerdesktop.task.TaskService;
 import org.example.taskschedulerdesktop.task.TaskServiceImpl;
 import org.example.taskschedulerdesktop.task.TaskStatus;
 import org.example.taskschedulerdesktop.task.TaskView;
+import org.example.taskschedulerdesktop.team.H2TeamRepository;
+import org.example.taskschedulerdesktop.team.MemberTask;
+import org.example.taskschedulerdesktop.team.TeamMember;
 import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -135,6 +138,39 @@ class DataLayerTest {
         assertEquals(1, count("SELECT COUNT(*) FROM tasks WHERE deleted_at IS NOT NULL"));
         assertEquals(1, syncLog("TASK", task.id(), "DELETE"));
         assertTrue(hasFieldVersion("TASK", task.id(), "deletedAt"));
+    }
+
+    @Test
+    void teamShowsWorkloadAndMostImportantOpenTasks() throws SQLException {
+        ProjectView project = projectService.create("Проект", MARIA);
+        LocalDate today = LocalDate.now();
+        newTask(project, "Низкий скоро", TaskPriority.LOW, today.plusDays(1));
+        newTask(project, "Критический", TaskPriority.CRITICAL, today.plusDays(10));
+        newTask(project, "Высокий", TaskPriority.HIGH, today.plusDays(5));
+        TaskView done = newTask(project, "Готовая", TaskPriority.CRITICAL, today.plusDays(1));
+        taskService.update(edit(done, done.title(), TaskStatus.DONE, done.tagNames()));
+        taskService.delete(newTask(project, "Удалённая", TaskPriority.CRITICAL, today).id());
+        UUID blocked = UUID.fromString("00000000-0000-7000-8000-0000000000a3");
+        execute("UPDATE users SET status = 'BLOCKED' WHERE id = '" + blocked + "'");
+
+        List<TeamMember> team = uow.read(() -> new H2TeamRepository(uow).findTeam(2));
+
+        TeamMember maria = team.stream().filter(m -> m.id().equals(MARIA)).findFirst().orElseThrow();
+        assertEquals(3, maria.openTasks(), "выполненная и удалённая задачи не считаются открытыми");
+        assertEquals(1, maria.doneTasks());
+        assertEquals(List.of("Критический", "Высокий"), maria.topTasks().stream().map(MemberTask::title).toList(),
+                "сначала приоритет, потом срок");
+        assertTrue(team.stream().noneMatch(m -> m.id().equals(blocked)), "заблокированных на экране нет");
+    }
+
+    private TaskView newTask(ProjectView project, String title, TaskPriority priority, LocalDate deadline) {
+        return taskService.create(new NewTask(title, project.id(), MARIA, priority, deadline, List.of()));
+    }
+
+    private void execute(String sql) throws SQLException {
+        try (Connection c = DriverManager.getConnection(url, "sa", ""); PreparedStatement ps = c.prepareStatement(sql)) {
+            ps.executeUpdate();
+        }
     }
 
     private TaskView createTask() {

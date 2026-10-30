@@ -36,6 +36,10 @@ import org.example.taskschedulerdesktop.task.TaskDetailsController;
 import org.example.taskschedulerdesktop.task.TaskServiceImpl;
 import org.example.taskschedulerdesktop.task.TaskSyncAdapter;
 import org.example.taskschedulerdesktop.task.TaskTableController;
+import org.example.taskschedulerdesktop.team.AsyncTeamService;
+import org.example.taskschedulerdesktop.team.H2TeamRepository;
+import org.example.taskschedulerdesktop.team.TeamController;
+import org.example.taskschedulerdesktop.team.TeamService;
 import org.example.taskschedulerdesktop.user.AsyncUserService;
 import org.example.taskschedulerdesktop.user.H2UserRepository;
 import org.example.taskschedulerdesktop.user.UserService;
@@ -68,6 +72,7 @@ public class AppConfig {
     private final AsyncTaskService asyncTaskService;
     private final AsyncProjectService asyncProjectService;
     private final AsyncUserService asyncUserService;
+    private final AsyncTeamService asyncTeamService;
 
     private final AuthService authService;
     private final TokenStore tokenStore;
@@ -104,6 +109,8 @@ public class AppConfig {
                 new ProjectCardService());
         this.asyncUserService = new AsyncUserService(
                 new UserService(unitOfWork, new H2UserRepository(unitOfWork)));
+        this.asyncTeamService = new AsyncTeamService(
+                new TeamService(unitOfWork, new H2TeamRepository(unitOfWork)));
 
         // ===== Сервер и синхронизация =====
         ApiClient apiClient = new ApiClient(ServerConfig.apiBase());
@@ -146,6 +153,9 @@ public class AppConfig {
             }
             if (clazz == EditProjectController.class) {
                 return new EditProjectController(asyncProjectService, asyncUserService);
+            }
+            if (clazz == TeamController.class) {
+                return new TeamController(asyncTeamService);
             }
             if (clazz == ProjectCardController.class) {
                 return new ProjectCardController(asyncProjectService);

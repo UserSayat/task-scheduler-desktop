@@ -13,6 +13,7 @@ import org.example.taskschedulerdesktop.sync.SyncStatus;
 import org.example.taskschedulerdesktop.sync.pull.AppliedChanges;
 import org.example.taskschedulerdesktop.task.TaskChangedEvent;
 import org.example.taskschedulerdesktop.user.Initials;
+import org.example.taskschedulerdesktop.user.UsersChangedEvent;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -234,6 +235,7 @@ public class MainController implements Shutdownable {
         changes.taskProjects().forEach(id -> bus.fire(new TaskChangedEvent(id, null)));
         if (changes.usersChanged()) {
             showCurrentUser();
+            bus.fire(new UsersChangedEvent());
         }
     }
 

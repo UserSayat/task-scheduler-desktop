@@ -1,25 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.Region?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 
 <VBox styleClass="team-card" spacing="12" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.taskschedulerdesktop.team.EmployeeCardController">
    <HBox spacing="12" alignment="CENTER_LEFT">
-      <StackPane>
-         <StackPane styleClass="avatar-box-lg">
-            <Label text="АК" styleClass="avatar-text"/>
-         </StackPane>
-         <Region styleClass="online-dot" StackPane.alignment="BOTTOM_RIGHT"
-                 style="-fx-translate-x:2; -fx-translate-y:2;"/>
+      <StackPane styleClass="avatar-box-lg">
+         <Label fx:id="avatarLabel" text="—" styleClass="avatar-text"/>
       </StackPane>
       <VBox spacing="2">
-         <Label fx:id="employeeNameLabel" text="Алексей Козлов"        styleClass="team-name"/>
-         <Label fx:id="employeePositionLabel" text="Фронтенд-разработчик"  styleClass="team-role"/>
+         <Label fx:id="employeeNameLabel" styleClass="team-name"/>
+         <Label fx:id="employeePositionLabel" styleClass="team-role"/>
       </VBox>
    </HBox>
    <GridPane hgap="8">
@@ -28,22 +23,13 @@
          <ColumnConstraints hgrow="ALWAYS" percentWidth="50"/>
       </columnConstraints>
       <VBox GridPane.columnIndex="0" styleClass="mini-stat-box" alignment="CENTER" spacing="2">
-         <Label fx:id="numberOfTasksLabel" text="2" styleClass="mini-stat-val"/>
-         <Label text="задач" styleClass="mini-stat-lbl"/>
+         <Label fx:id="openTasksLabel" text="0" styleClass="mini-stat-val"/>
+         <Label text="в работе" styleClass="mini-stat-lbl"/>
       </VBox>
       <VBox GridPane.columnIndex="1" styleClass="mini-stat-box" alignment="CENTER" spacing="2">
-         <Label fx:id="completedTasksLabel" text="0" styleClass="mini-stat-val"/>
+         <Label fx:id="doneTasksLabel" text="0" styleClass="mini-stat-val"/>
          <Label text="готово" styleClass="mini-stat-lbl"/>
       </VBox>
    </GridPane>
-   <VBox spacing="5">
-      <HBox spacing="6" alignment="CENTER_LEFT">
-         <Region style="-fx-background-color:#b91c1c;-fx-min-width:6;-fx-min-height:6;-fx-max-width:6;-fx-max-height:6;-fx-background-radius:3;"/>
-         <Label fx:id="firstTaskDescriptionLabel" text="Утвердить макеты" style="-fx-font-size:11px;-fx-text-fill:#5a5a56;" wrapText="true"/>
-      </HBox>
-      <HBox spacing="6" alignment="CENTER_LEFT">
-         <Region style="-fx-background-color:#92400e;-fx-min-width:6;-fx-min-height:6;-fx-max-width:6;-fx-max-height:6;-fx-background-radius:3;"/>
-         <Label fx:id="secondTaskDescriptionLabel" text="Оптимизация изображений" style="-fx-font-size:11px;-fx-text-fill:#5a5a56;" wrapText="true"/>
-      </HBox>
-   </VBox>
+   <VBox fx:id="topTasksVBox" spacing="5"/>
 </VBox>

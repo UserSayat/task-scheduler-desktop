@@ -2,68 +2,76 @@ package org.example.taskschedulerdesktop.team;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Label;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
+import org.example.taskschedulerdesktop.shared.event.EventBus;
+import org.example.taskschedulerdesktop.shared.navigation.NavigationManager;
+import org.example.taskschedulerdesktop.shared.ui.Shutdownable;
+import org.example.taskschedulerdesktop.task.TaskChangedEvent;
+import org.example.taskschedulerdesktop.user.UsersChangedEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.function.Consumer;
 
-public class TeamController {
+/**
+ * Экран «Команда»: активные сотрудники и их задачи. Сотрудников присылает сервер при синхронизации,
+ * экран читает их из локальной базы и перечитывает, когда меняются задачи или сотрудники.
+ */
+public class TeamController implements Shutdownable {
 
-    @FXML
-    private TilePane teamTilePane;
+    private static final Logger log = LoggerFactory.getLogger(TeamController.class);
+    private static final String CARD = "/org/example/taskschedulerdesktop/view/employee_card.fxml";
+
+    private final AsyncTeamService teamService;
+
+    @FXML private TilePane teamTilePane;
+    @FXML private Label emptyLabel;
+
+    private final Consumer<TaskChangedEvent> taskListener = event -> loadTeam();
+    private final Consumer<UsersChangedEvent> usersListener = event -> loadTeam();
+
+    public TeamController(AsyncTeamService teamService) {
+        this.teamService = teamService;
+    }
 
     @FXML
     public void initialize() {
-        //NavigationManager.setCurrentTitle("Команда");
+        EventBus.getInstance().subscribe(TaskChangedEvent.class, taskListener);
+        EventBus.getInstance().subscribe(UsersChangedEvent.class, usersListener);
         loadTeam();
     }
 
-    public void loadTeam() {
+    private void loadTeam() {
+        teamService.findTeam(
+                this::showTeam,
+                error -> NavigationManager.showToast("Не удалось загрузить сотрудников", "error"));
+    }
 
-        //TODO Сделать заполнение карточек данными из БД
-        EmployeeCard[] tempEmployees = {
-                new EmployeeCard("Алексей Козлов", "Frontend-разработчик",
-                        2, 0,
-                        "Утвердить макеты главной страницы",
-                        "Оптимизация загрузки изображений"),
-                new EmployeeCard("Мария Волкова", "Backend-разработчик",
-                        1, 0,
-                        "Настроить интеграцию 1С",
-                        null),
-                new EmployeeCard("Елена Никитина", "QA-инженер",
-                        2, 1,
-                        "Тестирование push-уведомлений",
-                        "Релиз бета-версии 2.1"),
-                new EmployeeCard("Павел Сорокин", "Аналитик данных",
-                        2, 0,
-                        "Подготовить данные по выручке",
-                        "Согласовать KPI с отделами"),
-                new EmployeeCard("Дмитрий Лебедев", "Backend-разработчик",
-                        2, 0,
-                        "Перенос базы клиентов",
-                        "Документация API"),
-                new EmployeeCard("Ирина Федорова", "UI/UX Дизайнер",
-                        1, 1,
-                        "Компонент навигационного меню",
-                        null)
-        };
+    private void showTeam(List<TeamMember> team) {
+        teamTilePane.getChildren().clear();
+        emptyLabel.setVisible(team.isEmpty());
+        emptyLabel.setManaged(team.isEmpty());
 
         try {
-            for (EmployeeCard employee : tempEmployees) {
-                FXMLLoader loader = new FXMLLoader(
-                        getClass().getResource("/org/example/taskschedulerdesktop/view/employee_card.fxml")
-                );
-
-                VBox employeeCard = loader.load();
-
+            for (TeamMember member : team) {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource(CARD));
+                VBox card = loader.load();
                 EmployeeCardController cardController = loader.getController();
-
-                cardController.setEmployeeData(employee);
-
-                teamTilePane.getChildren().add(employeeCard);
+                cardController.setMember(member);
+                teamTilePane.getChildren().add(card);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Employee card loading failed", e);
         }
+    }
+
+    @Override
+    public void shutdown() {
+        EventBus.getInstance().unsubscribe(TaskChangedEvent.class, taskListener);
+        EventBus.getInstance().unsubscribe(UsersChangedEvent.class, usersListener);
     }
 }
