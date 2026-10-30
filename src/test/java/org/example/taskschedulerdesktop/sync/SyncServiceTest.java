@@ -54,6 +54,7 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -317,6 +318,29 @@ class SyncServiceTest {
     }
 
     @Test
+    void fullSnapshotRemovesWhatServerNoLongerHas() throws SQLException {
+        TaskView kept = createTask("Есть на сервере");
+        sync.synchronize();
+        TaskView gone = taskService.create(new NewTask("Удалена на сервере", kept.projectId(), MARIA,
+                TaskPriority.LOW, null, List.of()));
+        sync.synchronize();
+        TaskView rejected = taskService.create(new NewTask("Отклонена сервером", kept.projectId(), MARIA,
+                TaskPriority.LOW, null, List.of()));
+
+        // На сервере задачу удалили, а журнал pull устарел — клиент загружает всё заново
+        server.known.remove(gone.id());
+        server.onPush = change -> change.entityId().equals(rejected.id())
+                ? new PushResult(change.entityType(), change.entityId(), "REJECTED", null, new ErrorBody("FORBIDDEN", "Нет прав", null))
+                : new PushResult(change.entityType(), change.entityId(), "APPLIED", List.of(), null);
+        server.pulls.add(new ApiException(422, "VALIDATION_ERROR", "outdated cursor", null));
+        sync.synchronize();
+
+        assertEquals(1, count("SELECT COUNT(*) FROM tasks WHERE id = '" + kept.id() + "'"));
+        assertEquals(0, count("SELECT COUNT(*) FROM tasks WHERE id = '" + gone.id() + "'"), "призрак удалён");
+        assertEquals(1, count("SELECT COUNT(*) FROM tasks WHERE id = '" + rejected.id() + "'"), "отклонённую решает пользователь");
+    }
+
+    @Test
     void revokeRemovesProjectAndMovesUnsentChangesToErrors() throws SQLException {
         UUID projectId = UUID.randomUUID();
         server.pulls.add(page(project(projectId, "Чужой проект", MARIA, T0)));
@@ -410,6 +434,8 @@ class SyncServiceTest {
         final Deque<Object> pulls = new ArrayDeque<>();
         final Map<UUID, List<SyncedEntity>> projectSnapshots = new HashMap<>();
         final List<UUID> snapshotCalls = new ArrayList<>();
+        /** Что есть на «сервере»: принятые изменения и заданные проекты. Полный snapshot отдаёт их id. */
+        final Map<UUID, EntityType> known = new LinkedHashMap<>();
 
         @Override
         public PushResponse push(List<Change> changes) {
@@ -420,6 +446,9 @@ class SyncServiceTest {
                     throw new org.example.taskschedulerdesktop.shared.api.OfflineException("offline", null);
                 }
                 results.add(result);
+                if (result.applied()) {
+                    known.put(change.entityId(), change.entityType());
+                }
             }
             pushes.add(changes);
             return new PushResponse(results, Instant.now());
@@ -437,8 +466,16 @@ class SyncServiceTest {
         @Override
         public SnapshotResponse snapshot(UUID projectId, int page) {
             snapshotCalls.add(projectId);
-            List<SyncedEntity> changes = projectId != null ? projectSnapshots.getOrDefault(projectId, List.of()) : List.of();
-            return new SnapshotResponse(changes, page, false, "cursor-0", Instant.now());
+            if (projectId != null) {
+                return new SnapshotResponse(projectSnapshots.getOrDefault(projectId, List.of()), page, false,
+                        "cursor-0", Instant.now());
+            }
+            // Полный snapshot: всё известное серверу. Пустые поля ничего не меняют локально,
+            // но говорят клиенту, что сущность на сервере есть
+            List<SyncedEntity> all = new ArrayList<>();
+            projectSnapshots.values().forEach(entities -> entities.forEach(e -> known.putIfAbsent(e.entityId(), e.entityType())));
+            known.forEach((id, type) -> all.add(new SyncedEntity(type, id, Operation.UPDATE, null, Instant.now(), List.of())));
+            return new SnapshotResponse(all, page, false, "cursor-0", Instant.now());
         }
     }
 }

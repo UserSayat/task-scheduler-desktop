@@ -27,6 +27,7 @@ import org.slf4j.LoggerFactory;
 
 import java.time.Instant;
 import java.util.EnumMap;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -158,7 +159,7 @@ public class SyncService {
             log.info("Server is unavailable: {}", e.getCause() != null ? e.getCause().toString() : e.getMessage());
             result = SyncStatus.State.OFFLINE;
         } catch (ApiException e) {
-            boolean signedOut = e.status() == 401 || e.is("USER_BLOCKED");
+            boolean signedOut = e.status() == 401 || e.is("USER_BLOCKED") || e.is("PASSWORD_CHANGE_REQUIRED");
             log.warn("Sync failed: {} {}", e.code(), e.getMessage());
             result = signedOut ? SyncStatus.State.SIGNED_OUT : SyncStatus.State.ERROR;
             message = e.getMessage();
@@ -351,17 +352,24 @@ public class SyncService {
         String cursor = null;
         int page = 1;
         boolean hasMore = true;
+        Map<EntityType, Set<UUID>> present = new EnumMap<>(EntityType.class);
         while (hasMore) {
             SnapshotResponse response = api.snapshot(null, page);
             if (cursor == null) {
                 cursor = response.cursor();
             }
+            response.changes().forEach(entity ->
+                    present.computeIfAbsent(entity.entityType(), type -> new HashSet<>()).add(entity.entityId()));
             changes.addAll(uow.inTransaction(() -> applier.apply(response.changes())));
             hasMore = response.hasMore();
             page++;
         }
         String firstCursor = cursor;
-        uow.inTransaction(() -> syncState.set(SyncStateRepository.PULL_CURSOR, firstCursor));
+        uow.inTransaction(() -> {
+            // Snapshot — полная картина: всё, чего в нём нет, на сервере удалено или недоступно
+            replica.removeMissing(present, Instant.now()).forEach(changes::projectRevoked);
+            syncState.set(SyncStateRepository.PULL_CURSOR, firstCursor);
+        });
         log.info("Snapshot loaded: {} pages", page - 1);
     }
 

@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -137,5 +138,60 @@ public class LocalReplica {
             Jdbc.setUuid(ps, 1, id);
             ps.executeUpdate();
         }
+    }
+
+    /**
+     * После полного snapshot: убрать то, чего на сервере больше нет (удалили или закрыли доступ,
+     * пока журнал pull был недоступен). Не трогает записи с неотправленными изменениями или
+     * отклонённые сервером — их судьбу решает пользователь. Сотрудники не удаляются: на них ссылаются задачи.
+     *
+     * @param present id, пришедшие в snapshot, по типам
+     * @return проекты, которые были удалены (для обновления экранов)
+     */
+    public List<UUID> removeMissing(Map<EntityType, Set<UUID>> present, Instant at) throws SQLException {
+        List<UUID> removedProjects = new ArrayList<>();
+        for (UUID id : ghosts("projects", EntityType.PROJECT, present)) {
+            fieldVersions.deleteForEntities(EntityType.PROJECT, List.of(id));
+            execute("DELETE FROM projects WHERE id = ?", id); // задачи и участники удалятся каскадом
+            removedProjects.add(id);
+        }
+        List<UUID> tasks = ghosts("tasks", EntityType.TASK, present);
+        for (UUID id : tasks) {
+            execute("DELETE FROM tasks WHERE id = ?", id);
+        }
+        fieldVersions.deleteForEntities(EntityType.TASK, tasks);
+        // Тег помечается удалённым, а не стирается: его имя остаётся занятым (API.md, 8.2)
+        for (UUID id : ghosts("tags", EntityType.TAG, present)) {
+            try (PreparedStatement ps = uow.connection().prepareStatement(
+                    "UPDATE tags SET deleted_at = ?, updated_at = ? WHERE id = ?")) {
+                Jdbc.setInstant(ps, 1, at);
+                Jdbc.setInstant(ps, 2, at);
+                Jdbc.setUuid(ps, 3, id);
+                ps.executeUpdate();
+            }
+        }
+        if (!removedProjects.isEmpty() || !tasks.isEmpty()) {
+            log.info("Removed after full snapshot: {} projects, {} tasks", removedProjects.size(), tasks.size());
+        }
+        return removedProjects;
+    }
+
+    /** Локальные неудалённые записи, которых нет в snapshot и которые не ждут отправки. */
+    private List<UUID> ghosts(String table, EntityType type, Map<EntityType, Set<UUID>> present) throws SQLException {
+        Set<UUID> known = present.getOrDefault(type, Set.of());
+        String sql = "SELECT id FROM " + table + " t WHERE t.deleted_at IS NULL"
+                + " AND NOT EXISTS (SELECT 1 FROM sync_log s WHERE s.entity_id = t.id AND s.synced = FALSE)"
+                + " AND NOT EXISTS (SELECT 1 FROM sync_errors e WHERE e.entity_id = t.id AND e.resolved_at IS NULL)";
+        List<UUID> ghosts = new ArrayList<>();
+        try (PreparedStatement ps = uow.connection().prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                UUID id = Jdbc.getUuid(rs, "id");
+                if (!known.contains(id)) {
+                    ghosts.add(id);
+                }
+            }
+        }
+        return ghosts;
     }
 }
