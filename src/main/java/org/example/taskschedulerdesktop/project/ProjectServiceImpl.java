@@ -14,8 +14,11 @@ import java.sql.SQLException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.function.BiFunction;
+import java.util.stream.Collectors;
 
 /**
  * Проекты. Каждая запись — одна транзакция вместе с field_versions и sync_log.
@@ -86,6 +89,40 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public ProjectView update(UUID id, String name, UUID ownerId) {
+        return save(id, name, ownerId,
+                (project, now) -> withOwner(project.getMembers(), project.getOwnerId(), ownerId, now));
+    }
+
+    @Override
+    public ProjectView update(UUID id, String name, UUID ownerId, Map<UUID, MemberRole> members) {
+        Objects.requireNonNull(members, "members");
+        if (members.containsValue(MemberRole.OWNER)) {
+            throw new IllegalArgumentException("Руководитель у проекта один — он задаётся отдельно");
+        }
+        return save(id, name, ownerId, (project, now) -> {
+            List<ProjectMember> result = new ArrayList<>();
+            result.add(new ProjectMember(ownerId, MemberRole.OWNER, joinedAt(project.getMembers(), ownerId, now)));
+            members.forEach((userId, role) -> {
+                if (!userId.equals(ownerId)) {
+                    result.add(new ProjectMember(userId, role, joinedAt(project.getMembers(), userId, now)));
+                }
+            });
+            return result;
+        });
+    }
+
+    @Override
+    public List<ProjectMemberView> findMembers(UUID projectId) {
+        return uow.read(() -> repository.findMemberViews(projectId));
+    }
+
+    /**
+     * Общая часть изменения проекта: в журнал попадают только реально изменившиеся поля.
+     *
+     * @param newMembers новый состав по текущему проекту (ещё со старым руководителем) и моменту изменения
+     */
+    private ProjectView save(UUID id, String name, UUID ownerId,
+                             BiFunction<Project, Instant, List<ProjectMember>> newMembers) {
         String validName = validName(name);
         Objects.requireNonNull(ownerId, "ownerId");
 
@@ -99,10 +136,13 @@ public class ProjectServiceImpl implements ProjectService {
                 project.setName(validName);
                 changed.add(Fields.NAME);
             }
+            List<ProjectMember> members = newMembers.apply(project, now);
             if (!Objects.equals(project.getOwnerId(), ownerId)) {
-                project.setMembers(withOwner(project.getMembers(), project.getOwnerId(), ownerId, now));
                 project.setOwnerId(ownerId);
                 changed.add(Fields.OWNER_ID);
+            }
+            if (!roles(project.getMembers()).equals(roles(members))) {
+                project.setMembers(members);
                 changed.add(Fields.MEMBERS);
             }
 
@@ -116,6 +156,11 @@ public class ProjectServiceImpl implements ProjectService {
 
             return requireView(id);
         });
+    }
+
+    /** Состав для сравнения: кто и с какой ролью (порядок и дата вступления не важны). */
+    private static Map<UUID, MemberRole> roles(List<ProjectMember> members) {
+        return members.stream().collect(Collectors.toMap(ProjectMember::userId, ProjectMember::role));
     }
 
     @Override

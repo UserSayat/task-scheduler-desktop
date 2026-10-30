@@ -6,7 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox styleClass="modal-root" prefWidth="420"
+<VBox styleClass="modal-root" prefWidth="520"
       fx:controller="org.example.taskschedulerdesktop.project.EditProjectController"
       xmlns="http://javafx.com/javafx/21"
       xmlns:fx="http://javafx.com/fxml/1">
@@ -19,6 +19,15 @@
         <Label text="РУКОВОДИТЕЛЬ" styleClass="field-label"/>
         <ComboBox fx:id="supervisorComboBox" maxWidth="Infinity"
                   styleClass="combo-box-styled" promptText="Выбрать"/>
+
+        <Label text="УЧАСТНИКИ" styleClass="field-label"/>
+        <VBox fx:id="membersVBox" spacing="6"/>
+        <HBox spacing="8" alignment="CENTER_LEFT">
+            <ComboBox fx:id="newMemberComboBox" maxWidth="Infinity" HBox.hgrow="ALWAYS"
+                      styleClass="combo-box-styled" promptText="Добавить сотрудника"/>
+            <ComboBox fx:id="newMemberRoleComboBox" prefWidth="150" styleClass="combo-box-styled"/>
+            <Button fx:id="addMemberButton" text="Добавить" styleClass="btn-secondary"/>
+        </HBox>
 
         <Label text="ЦВЕТ" styleClass="field-label"/>
         <HBox spacing="8">

@@ -190,6 +190,36 @@ public class H2ProjectRepository implements ProjectRepository {
         }
     }
 
+    @Override
+    public List<ProjectMemberView> findMemberViews(UUID projectId) throws SQLException {
+        String sql = """
+                SELECT m.user_id, u.name, u.position, m.role,
+                       (SELECT COUNT(*) FROM tasks t JOIN task_assignees a ON a.task_id = t.id
+                         WHERE t.project_id = m.project_id AND a.user_id = m.user_id
+                           AND t.deleted_at IS NULL AND t.status <> 'DONE') AS open_tasks
+                  FROM project_members m
+                  JOIN users u ON u.id = m.user_id
+                 WHERE m.project_id = ?
+                 ORDER BY CASE m.role WHEN 'OWNER' THEN 0 WHEN 'MANAGER' THEN 1 WHEN 'MEMBER' THEN 2 ELSE 3 END,
+                          u.name
+                """;
+        List<ProjectMemberView> members = new ArrayList<>();
+        try (PreparedStatement ps = uow.connection().prepareStatement(sql)) {
+            Jdbc.setUuid(ps, 1, projectId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    members.add(new ProjectMemberView(
+                            Jdbc.getUuid(rs, "user_id"),
+                            rs.getString("name"),
+                            rs.getString("position"),
+                            Jdbc.getEnum(rs, "role", MemberRole.class),
+                            rs.getInt("open_tasks")));
+                }
+            }
+        }
+        return members;
+    }
+
     private ProjectView mapView(ResultSet rs) throws SQLException {
         return new ProjectView(
                 Jdbc.getUuid(rs, "id"),

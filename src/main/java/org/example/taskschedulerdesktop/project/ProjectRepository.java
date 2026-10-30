@@ -24,4 +24,9 @@ public interface ProjectRepository {
     List<ProjectView> findAllViews() throws SQLException;
 
     Optional<ProjectView> findViewById(UUID id) throws SQLException;
+
+    /**
+     * Участники проекта: сначала руководитель, потом по роли и имени.
+     */
+    List<ProjectMemberView> findMemberViews(UUID projectId) throws SQLException;
 }

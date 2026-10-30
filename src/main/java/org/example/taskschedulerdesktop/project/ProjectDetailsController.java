@@ -7,7 +7,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ProgressIndicator;
+import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import org.example.taskschedulerdesktop.config.AppConfig;
 import org.example.taskschedulerdesktop.shared.ui.Shutdownable;
@@ -20,6 +22,7 @@ import org.example.taskschedulerdesktop.shared.navigation.Routes;
 import org.example.taskschedulerdesktop.task.AsyncTaskService;
 import org.example.taskschedulerdesktop.task.TaskPriority;
 import org.example.taskschedulerdesktop.task.TaskStatus;
+import org.example.taskschedulerdesktop.user.Initials;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -81,6 +84,8 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
     @FXML private Label amountOfMediumPriorityTasksLabel;
     @FXML private Label amountOfLowPriorityTasksLabel;
 
+    @FXML private VBox membersVBox;
+
 
     private ProjectView context;
 
@@ -93,6 +98,7 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
 
             loadTasksStatisticByStatus();
             loadTasksStatisticByPriority();
+            loadMembers();
 
             asyncProjectService.findProjectById(
                     context.id(),
@@ -113,6 +119,7 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
         }
 
         if (event.getChangeType() == ChangeType.UPDATED) {
+            loadMembers();
             asyncProjectService.findProjectById(
                     context.id(),
                     project -> {
@@ -218,7 +225,7 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
                 NavigationManager.openDialog(Routes.EDIT_PROJECT,
                         "РЕДАКТИРОВАНИЕ",
                         AppConfig.getInstance().getPrimaryStage(),
-                        context);
+                        this.context);
             });
 
             deleteProjectButton.setOnAction(event -> {
@@ -248,6 +255,7 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
 
             loadTasksStatisticByStatus();
             loadTasksStatisticByPriority();
+            loadMembers();
         } else {
             log.error("Context isn't an instance of Project");
         }
@@ -307,6 +315,41 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
                     NavigationManager.showToast("Не удалось загрузить задачи!", "warn");
                 }
         );
+    }
+
+    private void loadMembers() {
+        asyncProjectService.findMembers(context.id(), this::showMembers,
+                error -> log.error("Members loading error", error));
+    }
+
+    private void showMembers(List<ProjectMemberView> members) {
+        membersVBox.getChildren().clear();
+        for (ProjectMemberView member : members) {
+            Label initials = new Label(Initials.of(member.name()));
+            initials.getStyleClass().add("avatar-text");
+            StackPane avatar = new StackPane(initials);
+            avatar.getStyleClass().add("avatar-box");
+
+            Label name = new Label(member.name());
+            name.getStyleClass().add("member-name");
+            Label details = new Label(member.role().getDisplayName() + " · " + tasksText(member.openTasks()));
+            details.getStyleClass().add("member-role");
+
+            HBox row = new HBox(10, avatar, new VBox(1, name, details));
+            row.setAlignment(Pos.CENTER_LEFT);
+            membersVBox.getChildren().add(row);
+        }
+    }
+
+    /** «1 задача», «3 задачи», «5 задач». */
+    static String tasksText(int count) {
+        int lastTwo = count % 100;
+        int last = count % 10;
+        String word = (lastTwo >= 11 && lastTwo <= 14) ? "задач"
+                : last == 1 ? "задача"
+                : (last >= 2 && last <= 4) ? "задачи"
+                : "задач";
+        return count + " " + word;
     }
 
     private void loadTasksStatisticByPriority() {

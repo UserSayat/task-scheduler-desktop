@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
@@ -66,6 +67,18 @@ public class AsyncProjectService {
             EventBus.getInstance().fire(new ProjectChangedEvent(projectId, ChangeType.UPDATED));
             onSuccess.accept(updated);
         }, onError);
+    }
+
+    public void updateProject(UUID projectId, String name, UUID ownerId, Map<UUID, MemberRole> members,
+                              Consumer<ProjectView> onSuccess, Consumer<Throwable> onError) {
+        submit(() -> delegate.update(projectId, name, ownerId, members), updated -> {
+            EventBus.getInstance().fire(new ProjectChangedEvent(projectId, ChangeType.UPDATED));
+            onSuccess.accept(updated);
+        }, onError);
+    }
+
+    public void findMembers(UUID projectId, Consumer<List<ProjectMemberView>> onSuccess, Consumer<Throwable> onError) {
+        submit(() -> delegate.findMembers(projectId), onSuccess, onError);
     }
 
     public void deleteProject(UUID projectId, Runnable onSuccess, Consumer<Throwable> onError) {

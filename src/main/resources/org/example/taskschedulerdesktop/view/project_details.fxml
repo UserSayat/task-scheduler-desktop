@@ -111,26 +111,7 @@
                 <!-- Участники -->
                 <VBox prefWidth="200.0" spacing="12" styleClass="card">
                     <Label styleClass="section-mono" text="УЧАСТНИКИ" />
-                    <HBox alignment="CENTER_LEFT" spacing="10">
-                        <StackPane styleClass="avatar-box">
-                            <Label styleClass="avatar-text" text="АК" />
-                        </StackPane>
-                        <VBox spacing="1">
-                            <Label style="-fx-font-size:12px;-fx-font-weight:600;-fx-text-fill:#111110;" text="Алексей" />
-                            <Label style="-fx-font-size:10px;-fx-text-fill:#9b9b95;" text="2 задачи" />
-                        </VBox>
-                        <Region style="-fx-background-color:#22c55e;-fx-min-width:8;-fx-min-height:8;                            -fx-max-width:8;-fx-max-height:8;-fx-background-radius:4;" />
-                    </HBox>
-                    <HBox alignment="CENTER_LEFT" spacing="10">
-                        <StackPane styleClass="avatar-box">
-                            <Label styleClass="avatar-text" text="ИФ" />
-                        </StackPane>
-                        <VBox spacing="1">
-                            <Label style="-fx-font-size:12px;-fx-font-weight:600;-fx-text-fill:#111110;" text="Ирина" />
-                            <Label style="-fx-font-size:10px;-fx-text-fill:#9b9b95;" text="1 задача" />
-                        </VBox>
-                        <Region style="-fx-background-color:#22c55e;-fx-min-width:8;-fx-min-height:8;                            -fx-max-width:8;-fx-max-height:8;-fx-background-radius:4;" />
-                    </HBox>
+                    <VBox fx:id="membersVBox" spacing="10" />
                 </VBox>
 
                 <!-- По статусам -->
