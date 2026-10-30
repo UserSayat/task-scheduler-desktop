@@ -59,6 +59,9 @@ public class TagService {
             }
 
             Optional<Tag> existing = repository.findByNameIgnoreCase(name);
+            if (existing.isPresent() && repository.isDeleted(existing.get().id())) {
+                throw new IllegalArgumentException("Тег «" + existing.get().name() + "» удалён администратором");
+            }
             ids.add(existing.isPresent() ? existing.get().id() : create(name, now));
         }
         return new ArrayList<>(ids);

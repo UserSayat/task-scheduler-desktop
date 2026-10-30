@@ -14,4 +14,6 @@ public interface TagRepository {
     Optional<Tag> findByNameIgnoreCase(String name) throws SQLException;
 
     void insert(Tag tag, Instant createdAt, UUID createdBy) throws SQLException;
+
+    boolean isDeleted(UUID id) throws SQLException;
 }

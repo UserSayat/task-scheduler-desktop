@@ -48,4 +48,14 @@ public class H2TagRepository implements TagRepository {
             ps.executeUpdate();
         }
     }
+
+    @Override
+    public boolean isDeleted(UUID id) throws SQLException {
+        try (PreparedStatement ps = uow.connection().prepareStatement("SELECT deleted_at FROM tags WHERE id = ?")) {
+            Jdbc.setUuid(ps, 1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next() && rs.getObject("deleted_at") != null;
+            }
+        }
+    }
 }
