@@ -23,6 +23,9 @@ public interface TaskService {
      */
     TaskView update(TaskEdit edit);
 
+    /** Дата начала, соисполнители и наблюдатели. */
+    TaskExtras findExtras(UUID id);
+
     void delete(UUID id);
 
     int countByProjectIdAndStatus(UUID projectId, TaskStatus status);

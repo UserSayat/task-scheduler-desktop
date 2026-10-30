@@ -88,6 +88,10 @@ public class AsyncTaskService {
         submit(() -> delegate.findViewById(taskId), onSuccess, onError);
     }
 
+    public void findTaskExtras(UUID taskId, Consumer<TaskExtras> onSuccess, Consumer<Throwable> onError) {
+        submit(() -> delegate.findExtras(taskId), onSuccess, onError);
+    }
+
     public void findTopOpenTasks(UUID projectId, int limit, Consumer<List<TaskView>> onSuccess, Consumer<Throwable> onError) {
         submit(() -> delegate.findTopOpenViews(projectId, limit), onSuccess, onError);
     }

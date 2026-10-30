@@ -16,6 +16,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -145,8 +146,14 @@ public class TaskServiceImpl implements TaskService {
                 task.setPriority(edit.priority());
                 changed.add(Fields.PRIORITY);
             }
+            TaskExtras extras = edit.extras();
+            LocalDate startDate = extras != null ? extras.startDate() : task.getStartDate();
+            validateDates(startDate, edit.deadline());
+            if (!Objects.equals(task.getStartDate(), startDate)) {
+                task.setStartDate(startDate);
+                changed.add(Fields.START_DATE);
+            }
             if (!Objects.equals(task.getDeadline(), edit.deadline())) {
-                validateDates(task.getStartDate(), edit.deadline());
                 task.setDeadline(edit.deadline());
                 changed.add(Fields.DEADLINE);
             }
@@ -154,10 +161,17 @@ public class TaskServiceImpl implements TaskService {
                 changeStatus(task, edit.status(), now, changed);
             }
 
-            List<TaskAssignee> assignees = withResponsible(task.getAssignees(), edit.responsibleId());
+            List<TaskAssignee> assignees = extras != null
+                    ? withCoExecutors(edit.responsibleId(), extras.coExecutorIds())
+                    : withResponsible(task.getAssignees(), edit.responsibleId());
             if (!new HashSet<>(assignees).equals(new HashSet<>(task.getAssignees()))) {
                 task.setAssignees(assignees);
                 changed.add(Fields.ASSIGNEES);
+            }
+
+            if (extras != null && !new HashSet<>(extras.observerIds()).equals(new HashSet<>(task.getObserverIds()))) {
+                task.setObserverIds(extras.observerIds());
+                changed.add(Fields.OBSERVERS);
             }
 
             List<UUID> tagIds = tagService.resolveTagIds(edit.tagNames(), now);
@@ -222,6 +236,29 @@ public class TaskServiceImpl implements TaskService {
             }
         }
         return result;
+    }
+
+    /** Ответственный и соисполнители из формы. Ответственный соисполнителем не бывает. */
+    private List<TaskAssignee> withCoExecutors(UUID responsibleId, List<UUID> coExecutorIds) {
+        List<TaskAssignee> result = new ArrayList<>();
+        if (responsibleId != null) {
+            result.add(new TaskAssignee(responsibleId, AssigneeRole.RESPONSIBLE));
+        }
+        new LinkedHashSet<>(coExecutorIds).stream()
+                .filter(userId -> !userId.equals(responsibleId))
+                .forEach(userId -> result.add(new TaskAssignee(userId, AssigneeRole.CO_EXECUTOR)));
+        return result;
+    }
+
+    @Override
+    public TaskExtras findExtras(UUID id) {
+        Task task = uow.read(() -> repository.findById(id))
+                .orElseThrow(() -> new NotFoundException("Task not found: " + id));
+        List<UUID> coExecutors = task.getAssignees().stream()
+                .filter(a -> a.role() == AssigneeRole.CO_EXECUTOR)
+                .map(TaskAssignee::userId)
+                .toList();
+        return new TaskExtras(task.getStartDate(), coExecutors, task.getObserverIds());
     }
 
     private TaskView requireView(UUID id) throws SQLException {

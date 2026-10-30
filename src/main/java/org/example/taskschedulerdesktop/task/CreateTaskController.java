@@ -63,8 +63,10 @@ public class CreateTaskController {
         // Задачи создают администратор и участники проекта, кроме наблюдателей (API.md, 8.7)
         projectService.findAllProjects(
                 projects -> permissions.projectsForNewTasks(allowed -> {
-                    List<ProjectView> available = allowed == null ? projects
-                            : projects.stream().filter(project -> allowed.contains(project.id())).toList();
+                    List<ProjectView> available = projects.stream()
+                            .filter(project -> !project.archived())
+                            .filter(project -> allowed == null || allowed.contains(project.id()))
+                            .toList();
                     projectComboBox.setConverter(new ProjectStringConverter());
                     projectComboBox.getItems().setAll(available);
                     if (available.isEmpty()) {

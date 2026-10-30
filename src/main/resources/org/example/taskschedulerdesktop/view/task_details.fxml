@@ -77,14 +77,43 @@
                           visible="false" managed="false"/>
             </VBox>
 
-            <!-- Дедлайн -->
+            <!-- Соисполнители -->
             <VBox spacing="6">
-                <Label text="ДЕДЛАЙН" styleClass="detail-field-label"/>
-                <Label fx:id="deadlineLabel" text="03 авг"
-                       style="-fx-font-family:'Courier New';-fx-font-size:13px;-fx-text-fill:#111110;"/>
-                <DatePicker fx:id="deadlineDatePicker"
-                           visible="false" managed="false"/>
+                <Label text="СОИСПОЛНИТЕЛИ" styleClass="detail-field-label"/>
+                <Label fx:id="coExecutorsLabel" wrapText="true" styleClass="detail-people"/>
+                <MenuButton fx:id="coExecutorsMenu" maxWidth="Infinity" styleClass="combo-box-styled"
+                            visible="false" managed="false"/>
             </VBox>
+
+            <!-- Наблюдатели -->
+            <VBox spacing="6">
+                <Label text="НАБЛЮДАТЕЛИ" styleClass="detail-field-label"/>
+                <Label fx:id="observersLabel" wrapText="true" styleClass="detail-people"/>
+                <MenuButton fx:id="observersMenu" maxWidth="Infinity" styleClass="combo-box-styled"
+                            visible="false" managed="false"/>
+            </VBox>
+
+            <!-- Сроки -->
+            <GridPane hgap="16">
+                <columnConstraints>
+                    <ColumnConstraints hgrow="ALWAYS" percentWidth="50"/>
+                    <ColumnConstraints hgrow="ALWAYS" percentWidth="50"/>
+                </columnConstraints>
+                <VBox GridPane.columnIndex="0" spacing="6">
+                    <Label text="НАЧАЛО" styleClass="detail-field-label"/>
+                    <Label fx:id="startDateLabel"
+                           style="-fx-font-family:'Courier New';-fx-font-size:13px;-fx-text-fill:#111110;"/>
+                    <DatePicker fx:id="startDatePicker" maxWidth="Infinity"
+                                visible="false" managed="false"/>
+                </VBox>
+                <VBox GridPane.columnIndex="1" spacing="6">
+                    <Label text="ДЕДЛАЙН" styleClass="detail-field-label"/>
+                    <Label fx:id="deadlineLabel" text="03 авг"
+                           style="-fx-font-family:'Courier New';-fx-font-size:13px;-fx-text-fill:#111110;"/>
+                    <DatePicker fx:id="deadlineDatePicker" maxWidth="Infinity"
+                                visible="false" managed="false"/>
+                </VBox>
+            </GridPane>
 
             <!-- Теги -->
             <VBox spacing="6">
@@ -99,10 +128,12 @@
             <!-- Описание -->
             <VBox spacing="6">
                 <Label text="ОПИСАНИЕ" styleClass="detail-field-label"/>
-                <VBox styleClass="detail-desc-box">
-                    <Label fx:id="taskDescriptionLabel" wrapText="true" styleClass="detail-desc"
-                           text="Задача в рамках проекта «Редизайн портала». Требует координации с командой и соответствия установленным срокам. Приоритет: высокий."/>
+                <VBox fx:id="descriptionBox" styleClass="detail-desc-box">
+                    <Label fx:id="taskDescriptionLabel" wrapText="true" styleClass="detail-desc"/>
                 </VBox>
+                <TextArea fx:id="descriptionTextArea" wrapText="true" prefRowCount="5"
+                          promptText="Подробности задачи" styleClass="text-area-styled"
+                          visible="false" managed="false"/>
             </VBox>
 
             <!-- Кнопки действий — режим просмотра -->

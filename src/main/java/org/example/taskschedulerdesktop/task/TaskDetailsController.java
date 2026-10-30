@@ -1,6 +1,7 @@
 package org.example.taskschedulerdesktop.task;
 
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
@@ -18,6 +19,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static org.example.taskschedulerdesktop.shared.ui.DateFormatter.formatFull;
 
@@ -40,6 +46,7 @@ public class TaskDetailsController implements RightSidebar {
     @FXML private Label priorityLabel;
     @FXML private ComboBox<String> priorityComboBox;
 
+    @FXML private HBox assigneeView;
     @FXML private Label executorAvatarLabel;
     @FXML private Label executorNameLabel;
     @FXML private ComboBox<User> executorComboBox;
@@ -51,8 +58,24 @@ public class TaskDetailsController implements RightSidebar {
     @FXML private TextField tagsTextField;
 
     @FXML private Label taskDescriptionLabel;
-    //TODO добавить в режиме редактирования
-    //@FXML private TextArea taskDescriptionTextArea;
+    @FXML private VBox descriptionBox;
+    @FXML private TextArea descriptionTextArea;
+
+    @FXML private Label coExecutorsLabel;
+    @FXML private MenuButton coExecutorsMenu;
+    @FXML private Label observersLabel;
+    @FXML private MenuButton observersMenu;
+    @FXML private Label startDateLabel;
+    @FXML private DatePicker startDatePicker;
+
+    private UserPicker coExecutorsPicker;
+    private UserPicker observersPicker;
+
+    /** Дата начала, соисполнители и наблюдатели открытой задачи; до загрузки — null. */
+    private TaskExtras extras;
+
+    /** Имена всех сотрудников, в том числе заблокированных, — для подписей. */
+    private Map<UUID, String> userNames = Map.of();
 
     @FXML private HBox viewActionsHBox;
     @FXML private Button acceptButton;
@@ -92,8 +115,15 @@ public class TaskDetailsController implements RightSidebar {
             priorityComboBox.getItems().add(priority.getDisplayName());
         }
 
+        coExecutorsPicker = new UserPicker(coExecutorsMenu, "Нет соисполнителей");
+        observersPicker = new UserPicker(observersMenu, "Нет наблюдателей");
+
         userService.findActiveUsers(
-                users -> executorComboBox.getItems().setAll(users),
+                users -> {
+                    executorComboBox.getItems().setAll(users);
+                    userNames = users.stream().collect(Collectors.toMap(User::getId, User::getName));
+                    showExtras();
+                },
                 error -> NavigationManager.showToast("Ошибка загрузки сотрудников", "error")
         );
 
@@ -134,6 +164,11 @@ public class TaskDetailsController implements RightSidebar {
 
         saveEditedTaskButton.setOnAction(event -> {
             LocalDate deadline = deadlineDatePicker.getValue();
+            LocalDate startDate = startDatePicker.getValue();
+            if (startDate != null && deadline != null && deadline.isBefore(startDate)) {
+                NavigationManager.showToast("Дедлайн раньше даты начала", "info");
+                return;
+            }
             // Исполнитель меняет только статус — срок он не выбирает
             if (deadline == null && rights.canEdit()) {
                 NavigationManager.showToast("Выберите дату!", "info");
@@ -153,18 +188,21 @@ public class TaskDetailsController implements RightSidebar {
             TaskEdit edit = new TaskEdit(
                     contextTask.id(),
                     newTaskNameLabel.getText(),
-                    contextTask.description(),
+                    blankToNull(descriptionTextArea.getText()),
                     TaskStatus.fromString(statusComboBox.getValue()),
                     TaskPriority.fromString(priorityComboBox.getValue()),
                     deadline,
                     executor != null ? executor.getId() : contextTask.responsibleId(),
-                    Tags.parse(tagsTextField.getText()));
+                    Tags.parse(tagsTextField.getText()),
+                    extras == null ? null
+                            : new TaskExtras(startDate, coExecutorsPicker.selected(), observersPicker.selected()));
 
             taskService.updateTask(
                     edit,
                     updated -> {
                         contextTask = updated;
                         exitEditMode();
+                        loadExtras();
                         NavigationManager.showToast("Данные обновлены", "success");
                     },
                     error -> {
@@ -221,6 +259,7 @@ public class TaskDetailsController implements RightSidebar {
         exitEditMode();
         updateUI();
         loadRights();
+        loadExtras();
     }
 
     @Override
@@ -244,9 +283,55 @@ public class TaskDetailsController implements RightSidebar {
         executorNameLabel.setText(contextTask.responsibleName() != null ? contextTask.responsibleName() : "Не назначен");
         deadlineLabel.setText(formatFull(contextTask.deadline()));
         updateTags();
-        taskDescriptionLabel.setText(contextTask.description());
+        boolean hasDescription = contextTask.description() != null && !contextTask.description().isBlank();
+        taskDescriptionLabel.setText(hasDescription ? contextTask.description() : "Описания нет");
 
         log.info("UI updated");
+    }
+
+    private void loadExtras() {
+        taskService.findTaskExtras(contextTask.id(), loaded -> {
+            extras = loaded;
+            showExtras();
+        }, error -> log.error("Task extras loading error", error));
+    }
+
+    private void showExtras() {
+        if (extras == null) {
+            return;
+        }
+        coExecutorsLabel.setText(names(extras.coExecutorIds(), "Нет"));
+        observersLabel.setText(names(extras.observerIds(), "Нет"));
+        startDateLabel.setText(extras.startDate() != null ? formatFull(extras.startDate()) : "—");
+    }
+
+    private String names(List<UUID> ids, String empty) {
+        if (ids.isEmpty()) {
+            return empty;
+        }
+        return ids.stream().map(id -> userNames.getOrDefault(id, "Неактивный сотрудник")).collect(Collectors.joining(", "));
+    }
+
+    private static String blankToNull(String text) {
+        return text == null || text.isBlank() ? null : text.strip();
+    }
+
+    private static void show(Node node, boolean visible) {
+        node.setVisible(visible);
+        node.setManaged(visible);
+    }
+
+    /** Поля «Описание», «Начало», «Соисполнители», «Наблюдатели»: просмотр или правка. */
+    private void showEditExtras(boolean editing) {
+        show(assigneeView, !editing);
+        show(descriptionBox, !editing);
+        show(descriptionTextArea, editing);
+        show(startDateLabel, !editing);
+        show(startDatePicker, editing);
+        show(coExecutorsLabel, !editing);
+        show(coExecutorsMenu, editing);
+        show(observersLabel, !editing);
+        show(observersMenu, editing);
     }
 
     private void updateTags() {
@@ -328,8 +413,19 @@ public class TaskDetailsController implements RightSidebar {
                 .findFirst()
                 .orElse(null));
         tagsTextField.setText(contextTask.tagsAsText());
+        descriptionTextArea.setText(contextTask.description());
+        showEditExtras(true);
+        if (extras != null) {
+            startDatePicker.setValue(extras.startDate());
+            coExecutorsPicker.show(executorComboBox.getItems(), Set.copyOf(extras.coExecutorIds()), userNames);
+            observersPicker.show(executorComboBox.getItems(), Set.copyOf(extras.observerIds()), userNames);
+        }
 
         boolean statusOnly = !rights.canEdit();
+        descriptionTextArea.setDisable(statusOnly);
+        startDatePicker.setDisable(statusOnly || extras == null);
+        coExecutorsMenu.setDisable(statusOnly || extras == null);
+        observersMenu.setDisable(statusOnly || extras == null);
         newTaskNameLabel.setDisable(statusOnly);
         priorityComboBox.setDisable(statusOnly);
         deadlineDatePicker.setDisable(statusOnly);
@@ -371,6 +467,7 @@ public class TaskDetailsController implements RightSidebar {
         tagsTextField.setManaged(false);
         editActionsHBox.setVisible(false);
         editActionsHBox.setManaged(false);
+        showEditExtras(false);
 
         updateUI();
     }
