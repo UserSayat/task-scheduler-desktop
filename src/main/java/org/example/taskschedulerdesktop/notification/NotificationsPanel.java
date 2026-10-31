@@ -1,5 +1,6 @@
 package org.example.taskschedulerdesktop.notification;
 
+import org.example.taskschedulerdesktop.shared.ui.Clicks;
 import javafx.geometry.Bounds;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -107,7 +108,7 @@ public class NotificationsPanel {
         HBox.setHgrow(text, Priority.ALWAYS);
         HBox row = new HBox(10, dot, text);
         row.getStyleClass().add("notification-row");
-        row.setOnMouseClicked(event -> open(item));
+        Clicks.onClick(row, () -> open(item));
         return row;
     }
 

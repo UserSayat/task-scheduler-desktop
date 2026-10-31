@@ -1,5 +1,6 @@
 package org.example.taskschedulerdesktop.project;
 
+import org.example.taskschedulerdesktop.shared.ui.Clicks;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -92,7 +93,7 @@ public class ProjectCardController implements ContextAware, Shutdownable {
             EventBus.getInstance().subscribe(TaskChangedEvent.class, taskChangedListener);
 
             Animations.hoverLift(rootVBox);
-            rootVBox.setOnMouseClicked(event -> {
+            Clicks.onClick(rootVBox, () -> {
                 log.debug("Click on the card, context = {}", context);
                 NavigationManager.navigateTo(Routes.PROJECT_DETAILS, this.context.name(), this.context);
             });

@@ -448,6 +448,9 @@ public class NavigationManager {
         rightSidebar = null;
         sidebarOverlay = null;
 
+        // Пока панель уезжает, щелчки проходят сквозь неё и затемнение к странице
+        closingSidebar.setMouseTransparent(true);
+        closingOverlay.setMouseTransparent(true);
         var animateSidebar = Animations.slidePanel(closingSidebar, closingOverlay, RIGHT_SIDEBAR_WIDTH, false);
         animateSidebar.setOnFinished(event -> globalStackPane.getChildren().removeAll(closingSidebar, closingOverlay));
         animateSidebar.play();

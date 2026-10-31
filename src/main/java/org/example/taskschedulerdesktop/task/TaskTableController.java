@@ -1,5 +1,6 @@
 package org.example.taskschedulerdesktop.task;
 
+import org.example.taskschedulerdesktop.shared.ui.Clicks;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
@@ -66,16 +67,11 @@ public class TaskTableController implements Shutdownable {
         taskTable.setRowFactory(tv -> {
             TableRow<TaskView> row = new TableRow<>();
 
-            row.setOnMouseClicked(event -> {
-                if (row.isEmpty()) return;
-                // Задача открывается одним щелчком
-                if (event.getButton() != javafx.scene.input.MouseButton.PRIMARY || event.getClickCount() != 1) return;
-
-                TaskView item = row.getItem();
-                NavigationManager.openRightSidebar(
-                        Routes.TASK_DETAILS,
-                        item
-                );
+            // Задача открывается одним щелчком
+            Clicks.onClick(row, () -> {
+                if (!row.isEmpty()) {
+                    NavigationManager.openRightSidebar(Routes.TASK_DETAILS, row.getItem());
+                }
             });
 
             return row;

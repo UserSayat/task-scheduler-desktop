@@ -1,5 +1,6 @@
 package org.example.taskschedulerdesktop.dashboard;
 
+import org.example.taskschedulerdesktop.shared.ui.Clicks;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -74,11 +75,9 @@ public class DashboardController implements Shutdownable {
                     projectListView.setItems(observableList);
                     projectListView.setCellFactory(listView -> {
                         ProjectListCell cell = new ProjectListCell();
-                        cell.setOnMouseClicked(event -> {
-                            if (cell.isEmpty() || cell.getItem() == null) return;
-
-                            if (event.getClickCount() == 1) {
-                                ProjectView item = cell.getItem();
+                        Clicks.onClick(cell, () -> {
+                            ProjectView item = cell.getItem();
+                            if (!cell.isEmpty() && item != null) {
                                 NavigationManager.navigateTo(Routes.PROJECT_DETAILS, item.name(), item);
                             }
                         });
@@ -102,15 +101,10 @@ public class DashboardController implements Shutdownable {
                     log.debug("deadlinesListView size : {}", deadlinesListView.getItems().size());
                     deadlinesListView.setCellFactory(listViews -> {
                         DeadlineListCell cell = new DeadlineListCell();
-                        cell.setOnMouseClicked(event -> {
-                            if (cell.isEmpty() || cell.getItem() == null) return;
-
-                            if (event.getClickCount() == 1) {
-                                TaskView item = cell.getItem();
-                                NavigationManager.openRightSidebar(
-                                        Routes.TASK_DETAILS,
-                                        item
-                                );
+                        Clicks.onClick(cell, () -> {
+                            TaskView item = cell.getItem();
+                            if (!cell.isEmpty() && item != null) {
+                                NavigationManager.openRightSidebar(Routes.TASK_DETAILS, item);
                             }
                         });
                         return cell;
