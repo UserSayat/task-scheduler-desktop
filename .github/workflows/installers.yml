@@ -1,0 +1,106 @@
+# Сборка установщиков TaskFlow: .msi для Windows и .dmg для macOS (Apple Silicon).
+#
+# Адрес сервера берётся из переменной репозитория TASKHUB_SERVER_URL
+# (Settings → Secrets and variables → Actions → Variables), а при ручном запуске
+# его можно указать в поле server_url.
+#
+# Запуск:
+#   • вручную: Actions → «Установщики» → Run workflow — файлы появятся в разделе Artifacts запуска;
+#   • выпуск версии: git tag v1.0.0 && git push origin v1.0.0 — файлы прикрепятся к GitHub Release.
+name: Установщики
+
+on:
+  workflow_dispatch:
+    inputs:
+      server_url:
+        description: "Адрес сервера (пусто — из переменной TASKHUB_SERVER_URL)"
+        required: false
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+env:
+  SERVER_URL: ${{ inputs.server_url || vars.TASKHUB_SERVER_URL }}
+
+jobs:
+  windows:
+    name: Windows (.msi)
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: maven
+
+      # jpackage собирает .msi с помощью WiX Toolset 3
+      - name: WiX Toolset 3.14
+        shell: pwsh
+        run: |
+          $dir = Join-Path $env:RUNNER_TEMP "wix314"
+          Invoke-WebRequest -Uri "https://github.com/wixtoolset/wix3/releases/download/wix3141rtm/wix314-binaries.zip" -OutFile "$env:RUNNER_TEMP\wix.zip"
+          Expand-Archive "$env:RUNNER_TEMP\wix.zip" -DestinationPath $dir
+          "WIX_DIR=$dir" | Out-File -FilePath $env:GITHUB_ENV -Append
+
+      - name: Проверка адреса сервера
+        shell: bash
+        run: |
+          if [ -z "$SERVER_URL" ]; then
+            echo "::error::Не задан адрес сервера: переменная TASKHUB_SERVER_URL или поле server_url"; exit 1
+          fi
+
+      - name: Сборка и тесты
+        shell: bash
+        run: mvn -B clean package -Pinstaller "-Dtaskhub.server.url=$SERVER_URL" "-Dwix.dir=$WIX_DIR"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: TaskFlow-windows
+          path: target/dist/*.msi
+
+  macos:
+    name: macOS (.dmg)
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: maven
+
+      - name: Проверка адреса сервера
+        run: |
+          if [ -z "$SERVER_URL" ]; then
+            echo "::error::Не задан адрес сервера: переменная TASKHUB_SERVER_URL или поле server_url"; exit 1
+          fi
+
+      - name: Сборка и тесты
+        run: mvn -B clean package -Pmac-installer "-Dtaskhub.server.url=$SERVER_URL"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: TaskFlow-macos
+          path: target/dist/*.dmg
+
+  release:
+    name: GitHub Release
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: [windows, macos]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*
+          generate_release_notes: true

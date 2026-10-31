@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
+    <!-- Журналы — в папке пользователя рядом с локальной базой: установленное приложение
+         не может писать в свою папку в Program Files. Другая папка: -Dtaskhub.logDir=... -->
+    <property name="LOG_DIR" value="${taskhub.logDir:-${user.home}/.taskschedulerdb/logs}"/>
+
     <!-- ============================================================
     ВЫВОД В КОНСОЛЬ (цветной)
     ============================================================ -->
@@ -21,11 +25,11 @@
     ВЫВОД В ФАЙЛ (с ротацией)
     ============================================================ -->
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>logs/app.log</file>
+        <file>${LOG_DIR}/app.log</file>
 
         <!-- Политика ротации: каждый день новый файл -->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>logs/app.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>${LOG_DIR}/app.%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>7</maxHistory> <!-- Хранить 7 дней -->
         </rollingPolicy>
 
@@ -38,8 +42,9 @@
     НАСТРОЙКИ УРОВНЕЙ ЛОГИРОВАНИЯ
     ============================================================ -->
 
-    <!-- Логи нашего приложения (уровень DEBUG) -->
-    <logger name="org.example.taskschedulerdesktop" level="DEBUG"/>
+    <!-- Логи нашего приложения: в разработке DEBUG, в установленном приложении INFO
+         (уровень задаётся при сборке установщика: -Dtaskhub.logLevel=INFO) -->
+    <logger name="org.example.taskschedulerdesktop" level="${taskhub.logLevel:-DEBUG}"/>
 
     <!-- Логи самой JavaFX (менее важные) -->
     <logger name="javafx" level="WARN"/>

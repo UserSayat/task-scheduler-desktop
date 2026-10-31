@@ -48,6 +48,40 @@ JavaFX-клиент корпоративного планировщика зад
 
 H2 TCP-сервер для просмотра базы из IDE: `-Dtaskhub.h2.tcp=true` (порт 9092, только localhost).
 
+Локальная база и журналы — в папке пользователя: `~/.taskschedulerdb/data` и `~/.taskschedulerdb/logs`.
+
+## Сборка для Windows
+
+Адрес сервера вшивается в приложение при сборке (`-Dtaskhub.server.url`), сотрудникам ничего настраивать не нужно.
+
+**Установщик `.msi`** — ярлыки в «Пуске» и на рабочем столе, удаление через «Приложения»; новая версия ставится поверх старой:
+
+```bash
+mvn clean package -Pinstaller -Dtaskhub.server.url=https://203-0-113-10.sslip.io
+```
+
+Результат — `target/dist/TaskFlow-1.0.0.msi`. Для сборки нужен [WiX Toolset 3.14](https://github.com/wixtoolset/wix3/releases): архив `wix314-binaries.zip`, распакованный в `~/tools/wix314` (другая папка — `-Dwix.dir=...`). Номер версии — свойство `app.version` в `pom.xml`: перед выпуском новой версии его нужно увеличить, иначе установщик не обновит старую.
+
+**Папка с программой** (без установки, WiX не нужен): `mvn clean package -Dtaskhub.server.url=https://...` → `target/dist/TaskFlow/TaskFlow.exe`.
+
+Java на компьютерах сотрудников не нужна: она входит в сборку.
+
+## Сборка для macOS
+
+```bash
+mvn clean package -Pmac-installer -Dtaskhub.server.url=https://203-0-113-10.sslip.io
+```
+
+Только на Mac: результат — `target/dist/TaskFlow-1.0.0.dmg` для процессора, на котором шла сборка (Apple Silicon или Intel). Значок `.icns` подставляется сам. Приложение не подписано сертификатом Apple, поэтому при первом запуске macOS попросит подтвердить открытие: правый щелчок по TaskFlow → «Открыть».
+
+## Сборка в GitHub Actions
+
+Workflow `.github/workflows/installers.yml` собирает `.msi` (Windows) и `.dmg` (macOS, Apple Silicon) на серверах GitHub — свой Mac не нужен.
+
+1. Один раз задать адрес сервера: Settings → Secrets and variables → Actions → Variables → `TASKHUB_SERVER_URL` = `https://203-0-113-10.sslip.io`.
+2. Собрать вручную: Actions → «Установщики» → Run workflow (адрес можно указать в поле) — файлы появятся в разделе Artifacts.
+3. Выпустить версию: увеличить `app.version` в `pom.xml`, затем `git tag v1.0.1 && git push origin v1.0.1` — установщики прикрепятся к GitHub Release.
+
 ## Структура (package by feature)
 
 Код сгруппирован по фичам, как и на бэкенде: всё о задачах — в `task`, о проектах — в `project` и т. д.
