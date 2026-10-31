@@ -64,6 +64,8 @@ public class AppShell {
                 log.error("Not found: {}", cssPath);
             }
         }
+        // «Назад» кнопкой мыши, клавишами и свайпом — только на главном экране
+        BackNavigation.install(scene, () -> mainController != null);
         stage.setMinWidth(900);
         stage.setMinHeight(600);
         stage.setTitle("Корпоративный планировщик");

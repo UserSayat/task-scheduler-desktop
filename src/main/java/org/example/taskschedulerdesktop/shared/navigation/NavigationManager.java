@@ -314,6 +314,13 @@ public class NavigationManager {
             dialogStage.initOwner(owner);
 
             Scene scene = DialogFrame.scene(dialogStage, root);
+            // Esc закрывает окно (если клавишу не забрал, например, открытый выпадающий список)
+            scene.addEventHandler(javafx.scene.input.KeyEvent.KEY_PRESSED, event -> {
+                if (event.getCode() == javafx.scene.input.KeyCode.ESCAPE && !event.isConsumed()) {
+                    closeDialog(dialogStage);
+                    event.consume();
+                }
+            });
             dialogStage.setScene(scene);
             dialogStage.setOnShown(event -> Animations.popIn(scene.getRoot()));
             dialogStage.showAndWait();
@@ -430,6 +437,11 @@ public class NavigationManager {
         } catch (IOException e) {
             log.error("Sidebar loading error", e);
         }
+    }
+
+    /** Открыта ли сейчас боковая панель (например, задача). */
+    public static boolean isRightSidebarOpen() {
+        return rightSidebar != null;
     }
 
     public static void closeRightSidebar() {
