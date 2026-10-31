@@ -49,7 +49,7 @@ public final class DialogFrame {
 
     /** Отступ под тень вокруг окна. */
     public static final double SHADOW = 14;
-    /** Радиус скругления углов окна — как у окон системы. */
+    /** Радиус скругления углов окна — как у окон системы: Windows 11 — 8, macOS — 10. */
     public static final double RADIUS = MAC ? 10 : 8;
     public static final double TITLE_HEIGHT = MAC ? 30 : 32;
     /** Крестик Windows 11 (10×10). */
@@ -86,6 +86,18 @@ public final class DialogFrame {
         shadow.setEffect(drop);
         shadow.setStyle("-fx-background-color: #f6f6f4; -fx-background-radius: " + RADIUS + ";");
         return shadow;
+    }
+
+    /**
+     * Тонкий контур по краю окна, как рисует система у своих окон: без него скруглённый край
+     * на светлом фоне расплывается, с ним выглядит чётким. Щелчки проходит насквозь.
+     */
+    public static Region outlineLayer() {
+        Region outline = new Region();
+        outline.getStyleClass().add("window-outline");
+        outline.setMouseTransparent(true);
+        outline.setStyle("-fx-border-radius: " + RADIUS + "; -fx-background-radius: " + RADIUS + ";");
+        return outline;
     }
 
     /** Обрезка по скруглённому прямоугольнику размером с узел. */
@@ -147,7 +159,7 @@ public final class DialogFrame {
         VBox.setVgrow(content, Priority.ALWAYS);
         clipRounded(window);
 
-        root.getChildren().addAll(shadowLayer(), window);
+        root.getChildren().addAll(shadowLayer(), window, outlineLayer());
         return root;
     }
 

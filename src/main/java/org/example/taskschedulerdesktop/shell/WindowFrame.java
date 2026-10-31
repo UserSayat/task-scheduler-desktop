@@ -61,6 +61,7 @@ public class WindowFrame {
     private final StackPane root = new StackPane();
     private final Region shadow = new Region();
     private final VBox window = new VBox();
+    private final Region outline = DialogFrame.outlineLayer();
     private final Region titleLeft = new Region();
     private HBox titleBar;
     /** Кнопки окна: на Windows — «свернуть / развернуть / закрыть», на macOS — три круглые. */
@@ -155,7 +156,7 @@ public class WindowFrame {
 
         VBox.setVgrow(content, Priority.ALWAYS);
         window.getChildren().addAll(titleBar(), content);
-        root.getChildren().addAll(shadow, window);
+        root.getChildren().addAll(shadow, window, outline);
 
         stage.maximizedProperty().addListener((obs, was, now) -> {
             // Системные сочетания (например, Win+↑) разворачивают окно сами — подстраиваем рамку
@@ -163,6 +164,11 @@ public class WindowFrame {
                 stage.setMaximized(false);
                 maximize();
             }
+        });
+        // На весь экран — прямоугольное окно без тени; при выходе возвращается прежний вид
+        stage.fullScreenProperty().addListener((obs, was, now) -> {
+            setFrameless(now || maximized);
+            setRounded(!now);
         });
     }
 
@@ -351,6 +357,14 @@ public class WindowFrame {
     private void setFrameless(boolean frameless) {
         root.setPadding(frameless ? Insets.EMPTY : new Insets(SHADOW));
         shadow.setVisible(!frameless);
+    }
+
+    /** Скруглённые углы окна; на весь экран — прямые, иначе по углам видно то, что под окном. */
+    private void setRounded(boolean rounded) {
+        double arc = rounded ? RADIUS * 2 : 0;
+        clip.setArcWidth(arc);
+        clip.setArcHeight(arc);
+        outline.setVisible(rounded);
     }
 
     private void updateMaximizeIcon() {

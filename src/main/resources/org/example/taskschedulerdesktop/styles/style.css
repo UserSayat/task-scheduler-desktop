@@ -920,6 +920,12 @@ dashboard-list-view .scroll-bar:horizontal {
 /* ── Своя рамка окна ─────────────────────────────────── */
 .window-root { -fx-background-color: transparent; }
 .window { -fx-background-color: #f6f6f4; }
+/* Контур окна в 1 px, как у окон Windows 11 и macOS: виден и на тёмной шапке, и на светлом фоне */
+.window-outline {
+    -fx-background-color: transparent;
+    -fx-border-color: rgba(128, 128, 128, 0.45);
+    -fx-border-width: 1;
+}
 /* Рамка и верхняя полоса — один тёмно-серый цвет, без линий между ними */
 .window-titlebar, .window-titlebar-dark, .window-titlebar-plain {
   -fx-background-color: #232322; -fx-background-insets: 0 0 -1 0;
