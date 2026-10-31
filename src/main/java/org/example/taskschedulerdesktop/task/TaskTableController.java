@@ -68,7 +68,8 @@ public class TaskTableController implements Shutdownable {
 
             row.setOnMouseClicked(event -> {
                 if (row.isEmpty()) return;
-                if (event.getClickCount() != 2) return;
+                // Задача открывается одним щелчком
+                if (event.getButton() != javafx.scene.input.MouseButton.PRIMARY || event.getClickCount() != 1) return;
 
                 TaskView item = row.getItem();
                 NavigationManager.openRightSidebar(

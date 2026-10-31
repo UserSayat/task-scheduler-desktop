@@ -148,17 +148,17 @@
                 <VBox prefWidth="200.0" spacing="10" styleClass="card">
                     <Label styleClass="section-mono" text="ПО ПРИОРИТЕТУ" />
                     <HBox alignment="CENTER_LEFT" spacing="8">
-                        <Region style="-fx-background-color:#450a0a;-fx-min-width:6;-fx-min-height:6;-fx-max-width:6;-fx-max-height:6;-fx-background-radius:3;" />
+                        <Region style="-fx-background-color:#b91c1c;-fx-min-width:6;-fx-min-height:6;-fx-max-width:6;-fx-max-height:6;-fx-background-radius:3;" />
                         <Label style="-fx-font-size:12px;-fx-text-fill:#5a5a56;" text="Критический" HBox.hgrow="ALWAYS" />
                         <Label fx:id="amountOfCriticalPriorityTasksLabel" style="-fx-font-family:'Courier New';-fx-font-size:12px;-fx-text-fill:#111110;" text="0" />
                     </HBox>
                     <HBox alignment="CENTER_LEFT" spacing="8">
-                        <Region style="-fx-background-color:#b91c1c;-fx-min-width:6;-fx-min-height:6;-fx-max-width:6;-fx-max-height:6;-fx-background-radius:3;" />
+                        <Region style="-fx-background-color:#d08a12;-fx-min-width:6;-fx-min-height:6;-fx-max-width:6;-fx-max-height:6;-fx-background-radius:3;" />
                         <Label style="-fx-font-size:12px;-fx-text-fill:#5a5a56;" text="Высокий" HBox.hgrow="ALWAYS" />
                         <Label fx:id="amountOfHighPriorityTasksLabel" style="-fx-font-family:'Courier New';-fx-font-size:12px;-fx-text-fill:#111110;" text="2" />
                     </HBox>
                     <HBox alignment="CENTER_LEFT" spacing="8">
-                        <Region style="-fx-background-color:#92400e;-fx-min-width:6;-fx-min-height:6;-fx-max-width:6;-fx-max-height:6;-fx-background-radius:3;" />
+                        <Region style="-fx-background-color:#3d8fd1;-fx-min-width:6;-fx-min-height:6;-fx-max-width:6;-fx-max-height:6;-fx-background-radius:3;" />
                         <Label style="-fx-font-size:12px;-fx-text-fill:#5a5a56;" text="Средний" HBox.hgrow="ALWAYS" />
                         <Label fx:id="amountOfMediumPriorityTasksLabel" style="-fx-font-family:'Courier New';-fx-font-size:12px;-fx-text-fill:#111110;" text="1" />
                     </HBox>

@@ -75,7 +75,9 @@ public class EmployeesController implements Shutdownable {
         employeesTable.setRowFactory(table -> {
             TableRow<Employee> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
-                if (event.getClickCount() == 2 && !row.isEmpty()) {
+                // Карточка сотрудника открывается одним щелчком (второй щелчок двойного не открывает её снова)
+                if (event.getButton() == javafx.scene.input.MouseButton.PRIMARY
+                        && event.getClickCount() == 1 && !row.isEmpty()) {
                     openDialog(row.getItem());
                 }
             });

@@ -356,11 +356,12 @@
 }
 
 /* ── Бейджи приоритет/статус ────────────────────────── */
-.badge-critical { -fx-background-color: #b91c1c; -fx-text-fill: white; -fx-font-weight: bold;
+/* Приоритеты: низкий — зелёный, средний — голубой, высокий — жёлтый, критический — красный */
+.badge-critical { -fx-background-color: #fef2f2; -fx-text-fill: #b91c1c; -fx-font-weight: 600;
               -fx-font-size: 13px; -fx-padding: 2 7 2 7; }
-.badge-high   { -fx-background-color: #fef2f2; -fx-text-fill: #b91c1c;
+.badge-high   { -fx-background-color: #fffbeb; -fx-text-fill: #92400e;
               -fx-font-size: 13px; -fx-padding: 2 7 2 7; }
-.badge-medium { -fx-background-color: #fffbeb; -fx-text-fill: #92400e;
+.badge-medium { -fx-background-color: #eef6fd; -fx-text-fill: #1f6aa5;
               -fx-font-size: 13px; -fx-padding: 2 7 2 7; }
 .badge-low    { -fx-background-color: #f0fdf4; -fx-text-fill: #14532d;
               -fx-font-size: 13px; -fx-padding: 2 7 2 7; }
@@ -509,32 +510,31 @@
 
 /* ── ToggleButton приоритет ─────────────────────────── */
 .toggle-critical {
-  -fx-background-color: white; -fx-text-fill: #7f1d1d;
-  -fx-border-color: #b91c1c; -fx-border-width: 1;
-  -fx-font-size: 12px; -fx-padding: 5 10;
-  -fx-cursor: hand; -fx-background-radius: 0; -fx-border-radius: 0;
-}
-.toggle-critical:selected {
-  -fx-background-color: #b91c1c; -fx-text-fill: white;
-  -fx-border-color: #450a0a; -fx-border-width: 1.5;
-}
-.toggle-high {
   -fx-background-color: #fef2f2; -fx-text-fill: #b91c1c;
   -fx-border-color: #fecaca; -fx-border-width: 1;
   -fx-font-size: 12px; -fx-padding: 5 10;
   -fx-cursor: hand; -fx-background-radius: 0; -fx-border-radius: 0;
 }
-.toggle-high:selected {
+.toggle-critical:selected {
   -fx-border-color: #b91c1c; -fx-border-width: 1.5;
 }
-.toggle-medium {
+.toggle-high {
   -fx-background-color: #fffbeb; -fx-text-fill: #92400e;
   -fx-border-color: #fde68a; -fx-border-width: 1;
   -fx-font-size: 12px; -fx-padding: 5 10;
   -fx-cursor: hand; -fx-background-radius: 0; -fx-border-radius: 0;
 }
-.toggle-medium:selected {
+.toggle-high:selected {
   -fx-border-color: #92400e; -fx-border-width: 1.5;
+}
+.toggle-medium {
+  -fx-background-color: #eef6fd; -fx-text-fill: #1f6aa5;
+  -fx-border-color: #c5dff3; -fx-border-width: 1;
+  -fx-font-size: 12px; -fx-padding: 5 10;
+  -fx-cursor: hand; -fx-background-radius: 0; -fx-border-radius: 0;
+}
+.toggle-medium:selected {
+  -fx-border-color: #1f6aa5; -fx-border-width: 1.5;
 }
 .toggle-low {
   -fx-background-color: #f0fdf4; -fx-text-fill: #14532d;
@@ -793,9 +793,9 @@ dashboard-list-view .scroll-bar:horizontal {
   -fx-max-width: 6; -fx-max-height: 6;
   -fx-background-radius: 3;
 }
-.team-task-dot-critical { -fx-background-color: #450a0a; }
-.team-task-dot-high     { -fx-background-color: #b91c1c; }
-.team-task-dot-medium   { -fx-background-color: #92400e; }
+.team-task-dot-critical { -fx-background-color: #b91c1c; }
+.team-task-dot-high     { -fx-background-color: #d08a12; }
+.team-task-dot-medium   { -fx-background-color: #3d8fd1; }
 .team-task-dot-low      { -fx-background-color: #14532d; }
 
 /* ── Участники проекта ──────────────────────────────── */
