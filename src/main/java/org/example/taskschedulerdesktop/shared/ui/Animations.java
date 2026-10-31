@@ -2,6 +2,7 @@ package org.example.taskschedulerdesktop.shared.ui;
 
 import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
+import javafx.animation.TranslateTransition;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -9,23 +10,19 @@ import javafx.animation.ParallelTransition;
 import javafx.animation.ScaleTransition;
 import javafx.animation.SequentialTransition;
 import javafx.animation.Timeline;
-import javafx.animation.TranslateTransition;
 import javafx.scene.Node;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
-import java.util.List;
 
 /**
- * Анимации интерфейса в духе macOS: движение по пружинной кривой (быстрый старт, мягкая остановка),
- * переход вглубь — «проталкивание» экрана с параллаксом, разделы меню — перекрёстная смена.
- * Анимации не блокируют нажатия и не накапливаются при быстрых переходах.
+ * Небольшие анимации интерфейса: появление диалогов, приподнимание карточек при наведении,
+ * «подпрыгивание» счётчика уведомлений, «дыхание» значка синхронизации.
+ * Боковая панель выезжает справа. Переходы между экранами — без анимации: сразу.
  * <p>
  * Выключаются флагом {@code -Dtaskhub.animations=false}.
  */
@@ -48,18 +45,8 @@ public final class Animations {
     /** Пружина с едва заметным отскоком — для диалогов и всплывающих элементов. */
     public static final Interpolator SPRING_BOUNCE = new Spring(0.72, 11.0);
 
-    private static final Duration PUSH = Duration.millis(420);
-    private static final Duration CROSSFADE = Duration.millis(200);
-    /** Насколько уходит экран «под» новый (доля ширины) — эффект глубины. */
-    private static final double PARALLAX = 0.28;
-    /** Насколько темнеет экран, который уходит под новый. */
-    private static final double DIM = 0.55;
 
-    /** Фон области контента — подкладывается под экраны на время движения, чтобы они не просвечивали. */
-    private static final Background PAGE_BACKGROUND =
-            new Background(new BackgroundFill(Color.web("#f6f6f4"), null, null));
 
-    private static Animation pageTransition;
 
     private Animations() {}
 
@@ -80,139 +67,11 @@ public final class Animations {
     // ===== Смена экранов =====
 
     /**
-     * Сменить экран в контейнере. Если предыдущая смена ещё идёт, она мгновенно завершается.
+     * Сменить экран в контейнере — сразу, без анимации перехода.
+     * Направление оставлено в API: по нему навигация решает, хранить ли страницу для «Назад».
      */
     public static void swapPage(Pane container, Node page, Direction direction) {
-        if (pageTransition != null) {
-            pageTransition.jumpTo("end");
-            pageTransition.stop();
-            pageTransition = null;
-        }
-        List<Node> old = List.copyOf(container.getChildren());
-        double width = container.getWidth();
-        if (!ENABLED || old.isEmpty() || width <= 0) {
-            container.getChildren().setAll(page);
-            reset(page);
-            if (ENABLED && old.isEmpty()) {
-                pageTransition = crossfadeIn(page);
-                pageTransition.play();
-            }
-            return;
-        }
-
-        old.forEach(node -> node.setMouseTransparent(true));
-        Animation animation = switch (direction) {
-            case FORWARD -> push(container, old, page, width);
-            case BACK -> pop(container, old, page, width);
-            case SECTION -> crossfade(container, old, page);
-        };
-        animation.setOnFinished(event -> {
-            container.getChildren().removeAll(old);
-            old.forEach(Animations::reset);
-            reset(page);
-            pageTransition = null;
-        });
-        pageTransition = animation;
-        animation.play();
-    }
-
-    /** Вглубь: новый экран въезжает справа поверх, старый уходит влево на треть и притемняется. */
-    private static Animation push(Pane container, List<Node> old, Node page, double width) {
-        container.getChildren().add(page); // поверх старого
-        opaque(page);
-        old.forEach(Animations::opaque);
-        page.setEffect(edgeShadow());
-        page.setTranslateX(width);
-
-        ParallelTransition all = new ParallelTransition(slide(page, 0));
-        for (Node node : old) {
-            all.getChildren().addAll(slide(node, -width * PARALLAX), dim(node, DIM));
-        }
-        return all;
-    }
-
-    /** «Назад»: текущий экран уезжает вправо, предыдущий выходит из-под него слева и светлеет. */
-    private static Animation pop(Pane container, List<Node> old, Node page, double width) {
-        container.getChildren().add(0, page); // под старым
-        opaque(page);
-        old.forEach(Animations::opaque);
-        old.forEach(node -> node.setEffect(edgeShadow()));
-        page.setTranslateX(-width * PARALLAX);
-        page.setOpacity(DIM);
-
-        ParallelTransition all = new ParallelTransition(slide(page, 0), dim(page, 1));
-        for (Node node : old) {
-            all.getChildren().add(slide(node, width));
-        }
-        return all;
-    }
-
-    /** Разделы меню: старый экран гаснет, новый проявляется с едва заметным приближением. */
-    private static Animation crossfade(Pane container, List<Node> old, Node page) {
-        container.getChildren().add(page);
-        ParallelTransition all = new ParallelTransition(crossfadeIn(page));
-        for (Node node : old) {
-            FadeTransition out = new FadeTransition(Duration.millis(140), node);
-            out.setToValue(0);
-            all.getChildren().add(out);
-        }
-        return all;
-    }
-
-    private static Animation crossfadeIn(Node page) {
-        page.setOpacity(0);
-        page.setScaleX(0.992);
-        page.setScaleY(0.992);
-        FadeTransition fade = new FadeTransition(CROSSFADE, page);
-        fade.setToValue(1);
-        fade.setInterpolator(Interpolator.EASE_OUT);
-        ScaleTransition scale = new ScaleTransition(Duration.millis(260), page);
-        scale.setToX(1);
-        scale.setToY(1);
-        scale.setInterpolator(SPRING);
-        return new ParallelTransition(fade, scale);
-    }
-
-    private static Animation slide(Node node, double toX) {
-        TranslateTransition move = new TranslateTransition(PUSH, node);
-        move.setToX(toX);
-        move.setInterpolator(SPRING);
-        return move;
-    }
-
-    private static Animation dim(Node node, double toOpacity) {
-        FadeTransition fade = new FadeTransition(PUSH, node);
-        fade.setToValue(toOpacity);
-        fade.setInterpolator(SPRING);
-        return fade;
-    }
-
-    /** Мягкая тень по краю въезжающего экрана — как у листа, лежащего сверху. */
-    private static DropShadow edgeShadow() {
-        DropShadow shadow = new DropShadow(24, Color.rgb(0, 0, 0, 0.16));
-        shadow.setOffsetX(-6);
-        return shadow;
-    }
-
-    /** На время движения у экрана непрозрачный фон, иначе экраны просвечивают друг через друга. */
-    private static void opaque(Node node) {
-        if (node instanceof Region region && region.getBackground() == null) {
-            region.setBackground(PAGE_BACKGROUND);
-            region.getProperties().put("taskhub.temporaryBackground", Boolean.TRUE);
-        }
-    }
-
-    private static void reset(Node node) {
-        node.setOpacity(1);
-        node.setTranslateX(0);
-        node.setTranslateY(0);
-        node.setScaleX(1);
-        node.setScaleY(1);
-        node.setEffect(null);
-        node.setMouseTransparent(false);
-        if (node instanceof Region region && region.getProperties().remove("taskhub.temporaryBackground") != null) {
-            region.setBackground(null);
-        }
+        container.getChildren().setAll(page);
     }
 
     // ===== Диалоги и панели =====
@@ -250,6 +109,9 @@ public final class Animations {
         out.play();
     }
 
+
+    // ===== Боковая панель =====
+
     /** Боковая панель въезжает справа (или уезжает обратно), фон под ней плавно темнеет. */
     public static Animation slidePanel(Node panel, Node overlay, double width, boolean open) {
         if (open) {
@@ -268,41 +130,7 @@ public final class Animations {
         return both;
     }
 
-    /** Плавное появление (смена «вход ↔ главное окно»). */
-    public static void fadeIn(Node node) {
-        if (!ENABLED) {
-            return;
-        }
-        node.setOpacity(0);
-        FadeTransition fade = new FadeTransition(Duration.millis(280), node);
-        fade.setToValue(1);
-        fade.setInterpolator(Interpolator.EASE_OUT);
-        fade.play();
-    }
-
     // ===== Мелочи =====
-
-    /**
-     * Карточки появляются по очереди (шаг 30 мс, не больше 10 с задержкой — остальные сразу).
-     */
-    public static void staggerIn(List<? extends Node> nodes) {
-        if (!ENABLED) {
-            return;
-        }
-        for (int i = 0; i < nodes.size(); i++) {
-            Node node = nodes.get(i);
-            node.setOpacity(0);
-            node.setTranslateY(6);
-            FadeTransition fade = new FadeTransition(Duration.millis(240), node);
-            fade.setToValue(1);
-            TranslateTransition move = new TranslateTransition(Duration.millis(380), node);
-            move.setToY(0);
-            move.setInterpolator(SPRING);
-            ParallelTransition appear = new ParallelTransition(fade, move);
-            appear.setDelay(Duration.millis(30L * Math.min(i, 10)));
-            appear.play();
-        }
-    }
 
     /** Лёгкое «подпрыгивание» — счётчик на колокольчике при новом уведомлении. */
     public static void pulse(Node node) {
@@ -320,29 +148,26 @@ public final class Animations {
         new SequentialTransition(up, down).play();
     }
 
-    /** Карточка чуть приподнимается при наведении (тень становится глубже). */
-    public static void hoverLift(Node node) {
-        if (!ENABLED) {
-            return;
-        }
-        DropShadow shadow = new DropShadow(0, Color.rgb(0, 0, 0, 0.10));
-        shadow.setOffsetY(0);
-        node.setEffect(shadow);
-        Timeline raise = new Timeline(new KeyFrame(Duration.millis(220),
-                new KeyValue(shadow.radiusProperty(), 18, Interpolator.EASE_OUT),
-                new KeyValue(shadow.offsetYProperty(), 4, Interpolator.EASE_OUT),
-                new KeyValue(node.translateYProperty(), -2, Interpolator.EASE_OUT)));
-        Timeline lower = new Timeline(new KeyFrame(Duration.millis(260),
-                new KeyValue(shadow.radiusProperty(), 0, Interpolator.EASE_OUT),
-                new KeyValue(shadow.offsetYProperty(), 0, Interpolator.EASE_OUT),
-                new KeyValue(node.translateYProperty(), 0, Interpolator.EASE_OUT)));
+    /**
+     * При наведении по краю карточки проступает мягкая тень — без подъёма и сдвига.
+     * Эффект висит на карточке только при наведении: постоянная тень у каждой карточки
+     * заставляла перерисовывать их через промежуточный буфер.
+     */
+    public static void hoverShadow(Node node) {
+        DropShadow shadow = new DropShadow(0, Color.rgb(0, 0, 0, 0.08));
         node.setOnMouseEntered(event -> {
-            lower.stop();
-            raise.playFromStart();
+            if (!ENABLED) {
+                shadow.setRadius(10);
+                node.setEffect(shadow);
+                return;
+            }
+            node.setEffect(shadow);
+            new Timeline(new KeyFrame(Duration.millis(160),
+                    new KeyValue(shadow.radiusProperty(), 10, Interpolator.EASE_OUT))).play();
         });
         node.setOnMouseExited(event -> {
-            raise.stop();
-            lower.playFromStart();
+            shadow.setRadius(0);
+            node.setEffect(null);
         });
     }
 

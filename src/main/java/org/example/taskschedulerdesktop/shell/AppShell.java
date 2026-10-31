@@ -6,7 +6,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import org.example.taskschedulerdesktop.shared.ui.Animations;
 import org.example.taskschedulerdesktop.sync.SyncStatus;
 import org.example.taskschedulerdesktop.auth.LoginController;
 import org.example.taskschedulerdesktop.config.AppConfig;
@@ -150,7 +149,6 @@ public class AppShell {
         } else {
             scene.setRoot(screen);
         }
-        Animations.fadeIn(screen);
     }
 
     private Parent load(FXMLLoader loader) {

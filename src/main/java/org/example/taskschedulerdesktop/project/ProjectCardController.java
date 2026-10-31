@@ -92,7 +92,7 @@ public class ProjectCardController implements ContextAware, Shutdownable {
 
             EventBus.getInstance().subscribe(TaskChangedEvent.class, taskChangedListener);
 
-            Animations.hoverLift(rootVBox);
+            Animations.hoverShadow(rootVBox);
             Clicks.onClick(rootVBox, () -> {
                 log.debug("Click on the card, context = {}", context);
                 NavigationManager.navigateTo(Routes.PROJECT_DETAILS, this.context.name(), this.context);

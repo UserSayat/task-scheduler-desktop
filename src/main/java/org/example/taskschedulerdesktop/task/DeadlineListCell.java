@@ -1,40 +1,40 @@
 package org.example.taskschedulerdesktop.task;
 
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.layout.HBox;
-import org.example.taskschedulerdesktop.shared.navigation.Routes;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import org.example.taskschedulerdesktop.shared.ui.DateFormatter;
 import org.example.taskschedulerdesktop.user.Initials;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-
+/**
+ * Строка ближайшего срока на «Обзоре»: исполнитель, задача и дата.
+ * Собирается в коде, а не из FXML — так «Обзор» открывается без задержки (см. {@code ProjectListCell}).
+ */
 public class DeadlineListCell extends ListCell<TaskView> {
 
-    private static final Logger log = LoggerFactory.getLogger(DeadlineListCell.class);
-
-    @FXML private HBox root;
-    @FXML private Label deadlineExecutorInitialsLabel;
-    @FXML private Label deadlineTitleLabel;
-    @FXML private Label deadlineDateLabel;
+    private final Label initialsLabel = new Label();
+    private final Label titleLabel = new Label();
+    private final Label dateLabel = new Label();
+    private final HBox root;
 
     public DeadlineListCell() {
-        try {
-            log.debug("creating deadline list cell");
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource(Routes.DEADLINE_ROW)
-            );
-            loader.setController(this);
-            loader.load();
-            log.debug("deadline list cell loaded successfully");
-        } catch (IOException e) {
-            log.error("deadline list cell loading failed");
-            throw new RuntimeException("Не удалось загрузить project_description_card.fxml", e);
-        }
+        initialsLabel.getStyleClass().add("avatar-text");
+        StackPane avatar = new StackPane(initialsLabel);
+        avatar.getStyleClass().add("avatar-box");
+
+        titleLabel.getStyleClass().add("deadline-title");
+        titleLabel.setWrapText(true);
+        dateLabel.getStyleClass().add("deadline-date");
+        VBox text = new VBox(2, titleLabel, dateLabel);
+        HBox.setHgrow(text, Priority.ALWAYS);
+
+        root = new HBox(10, avatar, text);
+        root.setAlignment(Pos.CENTER_LEFT);
+        root.getStyleClass().add("deadline-row");
     }
 
     @Override
@@ -44,13 +44,13 @@ public class DeadlineListCell extends ListCell<TaskView> {
         if (empty || taskView == null) {
             setGraphic(null);
         } else {
-            deadlineExecutorInitialsLabel.setText(Initials.of(taskView.responsibleName()));
-            deadlineTitleLabel.setText(taskView.title());
-            deadlineDateLabel.setText(DateFormatter.formatShortWithYear(taskView.deadline()));
+            initialsLabel.setText(Initials.of(taskView.responsibleName()));
+            titleLabel.setText(taskView.title());
+            dateLabel.setText(DateFormatter.formatShortWithYear(taskView.deadline()));
 
             // Ячейки переиспользуются, поэтому класс прошлой задачи нужно снять
-            deadlineDateLabel.getStyleClass().removeAll("deadline-overdue", "deadline-normal");
-            deadlineDateLabel.getStyleClass().add(taskView.isOverdue() ? "deadline-overdue" : "deadline-normal");
+            dateLabel.getStyleClass().removeAll("deadline-overdue", "deadline-normal");
+            dateLabel.getStyleClass().add(taskView.isOverdue() ? "deadline-overdue" : "deadline-normal");
 
             setGraphic(root);
         }

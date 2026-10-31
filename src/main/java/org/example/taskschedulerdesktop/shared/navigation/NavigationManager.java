@@ -425,18 +425,30 @@ public class NavigationManager {
                     new BackgroundFill(Color.rgb(0, 0, 0, 0.4), null, null)
             ));
             sidebarOverlay.setPrefSize(Double.MAX_VALUE, Double.MAX_VALUE);
-            sidebarOverlay.setOpacity(0);
 
             sidebarOverlay.setOnMouseClicked(e -> closeRightSidebar());
 
             StackPane.setAlignment(sidebarOverlay, Pos.CENTER);
 
-            globalStackPane.getChildren().addAll(sidebarOverlay, rightSidebar);
+            // Панель и затемнение — под верхней полосой окна, не поверх неё
+            javafx.geometry.Insets belowHeader = new javafx.geometry.Insets(headerHeight(), 0, 0, 0);
+            StackPane.setMargin(rightSidebar, belowHeader);
+            StackPane.setMargin(sidebarOverlay, belowHeader);
 
+            globalStackPane.getChildren().addAll(sidebarOverlay, rightSidebar);
+            // Раскладка панели — до начала выезда, иначе первый кадр анимации запаздывает
+            globalStackPane.applyCss();
+            globalStackPane.layout();
             Animations.slidePanel(rightSidebar, sidebarOverlay, RIGHT_SIDEBAR_WIDTH, true).play();
         } catch (IOException e) {
             log.error("Sidebar loading error", e);
         }
+    }
+
+    /** Высота верхней полосы главного окна (логотип, синхронизация, профиль). */
+    private static double headerHeight() {
+        Node header = globalStackPane.lookup("#appHeader");
+        return header instanceof Region region ? region.getHeight() : 0;
     }
 
     /** Открыта ли сейчас боковая панель (например, задача). */

@@ -7,7 +7,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.TilePane;
-import org.example.taskschedulerdesktop.shared.ui.Animations;
 import org.example.taskschedulerdesktop.access.AsyncPermissionService;
 import org.example.taskschedulerdesktop.config.AppConfig;
 import org.example.taskschedulerdesktop.shared.ui.Shutdownable;
@@ -30,7 +29,6 @@ public class ProjectsController implements Shutdownable {
 
     @FXML private Button createProjectButton;
 
-    private boolean firstLoad = true;
 
     @FXML private TilePane projectsTilePane;
     @FXML private ProgressIndicator projectsLoadingIndicator;
@@ -69,10 +67,6 @@ public class ProjectsController implements Shutdownable {
                 projectsTilePane.getChildren().add(new Label("У вас еще нет созданных проектов"));
             } else {
                 projectsTilePane.getChildren().addAll(projects);
-                if (firstLoad) {
-                    Animations.staggerIn(projects); // при обновлениях из синхронизации карточки не «прыгают»
-                    firstLoad = false;
-                }
             }
         });
 
