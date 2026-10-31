@@ -15,7 +15,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
-import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.Duration;
@@ -82,7 +81,7 @@ public class NavigationManager {
     private static boolean isBackNavigation = false;
 
     //Уведомления
-    private static Popup activeToast = null;
+    private static StackPane activeToast = null;
 
     // Пул потоков специально для асинхронной загрузки интерфейсов (хватит 2-х потоков)
     private static final ExecutorService navigationExecutor = Executors.newFixedThreadPool(2, runnable -> {
@@ -477,13 +476,13 @@ public class NavigationManager {
             return;
         }
 
-        // Удаляем старый Toast, если есть
+        // Тост — слой внутри окна, а не отдельное всплывающее окно: у всплывающего окна на Windows
+        // вокруг скруглённой плашки просвечивал прямоугольник (особенно поверх затемнения у боковой панели)
         if (activeToast != null) {
-            activeToast.hide();
+            globalStackPane.getChildren().remove(activeToast);
             activeToast = null;
         }
 
-        // Определяем цвет
         String color = switch (type) {
             case "success" -> "#2ecc71";
             case "error" -> "#e74c3c";
@@ -491,55 +490,44 @@ public class NavigationManager {
             default -> "#333333";
         };
 
-        // Создаём контейнер
         Label label = new Label(message);
+        label.setWrapText(true);
         label.setStyle("-fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold;");
 
-        StackPane container = new StackPane(label);
-        container.setStyle(
+        StackPane toast = new StackPane(label);
+        toast.setStyle(
                 "-fx-background-color: " + color + "; " +
                         "-fx-padding: 12 24 12 24; " +
-                        "-fx-border-radius: 8; " +
                         "-fx-background-radius: 8; " +
-                        "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0, 0, 2);"
+                        "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 12, 0, 0, 3);"
         );
-        container.setMaxWidth(400);
+        label.setMaxWidth(352); // длинный текст переносится, а плашка не шире 400
+        toast.setMaxWidth(javafx.scene.layout.Region.USE_PREF_SIZE); // по размеру текста, не во всю ширину
+        toast.setMaxHeight(javafx.scene.layout.Region.USE_PREF_SIZE);
+        toast.setMouseTransparent(true); // не мешает нажимать то, что под ним
+        StackPane.setAlignment(toast, javafx.geometry.Pos.BOTTOM_CENTER);
+        StackPane.setMargin(toast, new javafx.geometry.Insets(0, 0, 40, 0));
 
-        // Создаём Popup
-        Popup popup = new Popup();
-        popup.getContent().add(container);
-        popup.setAutoHide(true);
-        popup.setAutoFix(true);
+        StackPane shownToast = toast;
+        globalStackPane.getChildren().add(toast); // поверх всего, в том числе боковой панели
+        activeToast = toast;
 
-        // Позиционируем внизу по центру
-        double popupX = (globalStackPane.getWidth() - container.getMaxWidth()) / 2;
-        double popupY = globalStackPane.getHeight() - 80;
-
-        // Если globalStackPane ещё не отрисовалась, ждём
-        if (popupX < 0) popupX = 0;
-        if (popupY < 0) popupY = 20;
-
-        popup.setX(globalStackPane.localToScreen(popupX, 0).getX());
-        popup.setY(globalStackPane.localToScreen(0, popupY).getY());
-
-        // Анимация
-        container.setOpacity(0);
-        popup.show(globalStackPane.getScene().getWindow());
-        activeToast = popup;
-
-        FadeTransition fadeIn = new FadeTransition(Duration.millis(300), container);
+        toast.setOpacity(0);
+        FadeTransition fadeIn = new FadeTransition(Duration.millis(300), toast);
         fadeIn.setFromValue(0);
         fadeIn.setToValue(1);
         fadeIn.play();
 
         PauseTransition stay = new PauseTransition(Duration.seconds(2.5));
         stay.setOnFinished(e -> {
-            FadeTransition fadeOut = new FadeTransition(Duration.millis(300), container);
+            FadeTransition fadeOut = new FadeTransition(Duration.millis(300), shownToast);
             fadeOut.setFromValue(1);
             fadeOut.setToValue(0);
             fadeOut.setOnFinished(ev -> {
-                popup.hide();
-                activeToast = null;
+                globalStackPane.getChildren().remove(shownToast);
+                if (activeToast == shownToast) {
+                    activeToast = null;
+                }
             });
             fadeOut.play();
         });
