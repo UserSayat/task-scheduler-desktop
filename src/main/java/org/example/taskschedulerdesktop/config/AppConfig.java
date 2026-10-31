@@ -135,7 +135,8 @@ public class AppConfig {
                 session, permissionService);
 
         this.asyncTaskService = new AsyncTaskService(
-                new TaskServiceImpl(unitOfWork, taskRepository, tagService, changeTracker, session),
+                new TaskServiceImpl(unitOfWork, taskRepository, tagService, changeTracker, session,
+                        new H2PermissionRepository(unitOfWork)),
                 new TaskCardService());
         this.asyncProjectService = new AsyncProjectService(
                 new ProjectServiceImpl(unitOfWork, projectRepository, changeTracker, session),

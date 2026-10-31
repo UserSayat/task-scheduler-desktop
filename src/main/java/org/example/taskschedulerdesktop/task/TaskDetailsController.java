@@ -19,6 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -76,6 +77,10 @@ public class TaskDetailsController implements RightSidebar {
 
     /** Имена всех сотрудников, в том числе заблокированных, — для подписей. */
     private Map<UUID, String> userNames = Map.of();
+    /** Все активные сотрудники. */
+    private List<User> allUsers = List.of();
+    /** Кто видит проект задачи; null — ещё не загружено. */
+    private Set<UUID> projectViewers;
 
     @FXML private HBox viewActionsHBox;
     @FXML private Button acceptButton;
@@ -120,6 +125,7 @@ public class TaskDetailsController implements RightSidebar {
 
         userService.findActiveUsers(
                 users -> {
+                    allUsers = users;
                     executorComboBox.getItems().setAll(users);
                     userNames = users.stream().collect(Collectors.toMap(User::getId, User::getName));
                     showExtras();
@@ -260,6 +266,36 @@ public class TaskDetailsController implements RightSidebar {
         updateUI();
         loadRights();
         loadExtras();
+        loadProjectViewers();
+    }
+
+    private void loadProjectViewers() {
+        projectViewers = null;
+        TaskView task = contextTask;
+        permissions.usersWhoCanView(task.projectId(), viewers -> {
+            if (task == contextTask) {
+                projectViewers = viewers;
+            }
+        });
+    }
+
+    /**
+     * Кого можно выбрать исполнителем, соисполнителем или наблюдателем: тех, кто видит проект (API.md, 8.7),
+     * и тех, кто уже есть в задаче, — чтобы их можно было оставить или снять.
+     */
+    private List<User> candidates() {
+        if (projectViewers == null) {
+            return allUsers;
+        }
+        Set<UUID> allowed = new HashSet<>(projectViewers);
+        if (contextTask.responsibleId() != null) {
+            allowed.add(contextTask.responsibleId());
+        }
+        if (extras != null) {
+            allowed.addAll(extras.coExecutorIds());
+            allowed.addAll(extras.observerIds());
+        }
+        return allUsers.stream().filter(user -> allowed.contains(user.getId())).toList();
     }
 
     @Override
@@ -408,6 +444,7 @@ public class TaskDetailsController implements RightSidebar {
         statusComboBox.setValue(contextTask.status().getDisplayName());
         priorityComboBox.setValue(contextTask.priority().getDisplayName());
         deadlineDatePicker.setValue(contextTask.deadline());
+        executorComboBox.getItems().setAll(candidates());
         executorComboBox.setValue(executorComboBox.getItems().stream()
                 .filter(user -> user.getId().equals(contextTask.responsibleId()))
                 .findFirst()

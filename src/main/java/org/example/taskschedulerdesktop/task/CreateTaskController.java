@@ -42,6 +42,9 @@ public class CreateTaskController {
 
     @FXML private TextField tagsTextField;
 
+    /** Все активные сотрудники; в списке исполнителей — только те, кто видит выбранный проект. */
+    private List<User> allUsers = List.of();
+
     @FXML private Button createTaskButton;
     @FXML private Button cancelButton;
 
@@ -55,10 +58,15 @@ public class CreateTaskController {
 
     @FXML
     public void initialize() {
+        executorComboBox.setPromptText("Сначала выберите проект");
         userService.findActiveUsers(
-                users -> executorComboBox.getItems().setAll(users),
+                users -> {
+                    allUsers = users;
+                    refreshExecutors();
+                },
                 error -> NavigationManager.showToast("Ошибка загрузки сотрудников", "error")
         );
+        projectComboBox.valueProperty().addListener((obs, oldProject, newProject) -> refreshExecutors());
 
         // Задачи создают администратор и участники проекта, кроме наблюдателей (API.md, 8.7)
         projectService.findAllProjects(
@@ -102,7 +110,7 @@ public class CreateTaskController {
             }
 
             if (deadline.isBefore(LocalDate.now())) {
-                NavigationManager.showToast("Дедлайн истек! Выберете корректную дату!", "info");
+                NavigationManager.showToast("Дедлайн истек! Выберите корректную дату!", "info");
                 return;
             }
 
@@ -131,6 +139,30 @@ public class CreateTaskController {
             Stage stage = (Stage) cancelButton.getScene().getWindow();
             if (stage != null) {
                 NavigationManager.closeDialog(stage);
+            }
+        });
+    }
+
+    /**
+     * Исполнителем закрытого проекта может быть только его участник или администратор (API.md, 8.7):
+     * список зависит от выбранного проекта.
+     */
+    private void refreshExecutors() {
+        ProjectView project = projectComboBox.getValue();
+        if (project == null) {
+            executorComboBox.getItems().clear();
+            return;
+        }
+        permissions.usersWhoCanView(project.id(), viewers -> {
+            if (project != projectComboBox.getValue()) {
+                return; // пока шёл запрос, выбрали другой проект
+            }
+            User selected = executorComboBox.getValue();
+            List<User> available = allUsers.stream().filter(user -> viewers.contains(user.getId())).toList();
+            executorComboBox.getItems().setAll(available);
+            executorComboBox.setPromptText(available.isEmpty() ? "Нет сотрудников с доступом к проекту" : "Назначить");
+            if (selected != null && available.stream().anyMatch(user -> user.getId().equals(selected.getId()))) {
+                executorComboBox.setValue(selected);
             }
         });
     }

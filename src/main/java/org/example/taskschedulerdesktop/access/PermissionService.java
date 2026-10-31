@@ -91,6 +91,11 @@ public class PermissionService {
         return uow.read(() -> isAdmin() ? null : repository.projectsWithRole(userId(), TASK_CREATORS));
     }
 
+    /** Кто может быть исполнителем или наблюдателем задач проекта (видит проект). */
+    public Set<UUID> usersWhoCanView(UUID projectId) {
+        return uow.read(() -> repository.usersWhoCanView(projectId));
+    }
+
     /**
      * Новые теги создаёт только администратор. Вызывается перед созданием тега,
      * чтобы задача не ушла на сервер со ссылкой на тег, который он отклонит.

@@ -21,6 +21,39 @@ public class H2PermissionRepository implements PermissionRepository {
     }
 
     @Override
+    public Set<UUID> usersWhoCanView(UUID projectId) throws SQLException {
+        String sql = """
+                SELECT u.id FROM users u
+                 WHERE u.deleted_at IS NULL
+                   AND (EXISTS (SELECT 1 FROM projects p WHERE p.id = ? AND p.visibility = 'PUBLIC')
+                        OR EXISTS (SELECT 1 FROM project_members m WHERE m.project_id = ? AND m.user_id = u.id)
+                        OR EXISTS (SELECT 1 FROM user_roles ur JOIN roles r ON r.id = ur.role_id
+                                    WHERE ur.user_id = u.id AND ur.scope_type = 'GLOBAL' AND r.code = 'ADMIN'))
+                """;
+        Set<UUID> ids = new HashSet<>();
+        try (PreparedStatement ps = uow.connection().prepareStatement(sql)) {
+            Jdbc.setUuid(ps, 1, projectId);
+            Jdbc.setUuid(ps, 2, projectId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    ids.add(Jdbc.getUuid(rs, "id"));
+                }
+            }
+        }
+        return ids;
+    }
+
+    @Override
+    public Optional<String> userName(UUID userId) throws SQLException {
+        try (PreparedStatement ps = uow.connection().prepareStatement("SELECT name FROM users WHERE id = ?")) {
+            Jdbc.setUuid(ps, 1, userId);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next() ? Optional.ofNullable(rs.getString(1)) : Optional.empty();
+            }
+        }
+    }
+
+    @Override
     public Set<String> globalRoles(UUID userId) throws SQLException {
         String sql = """
                 SELECT r.code FROM user_roles ur JOIN roles r ON r.id = ur.role_id

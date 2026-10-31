@@ -92,7 +92,8 @@ class SyncServiceTest {
         H2ProjectRepository projectRepository = new H2ProjectRepository(uow);
         taskService = new TaskServiceImpl(uow, taskRepository,
                 new TagService(new H2TagRepository(uow), tracker, session,
-                        new PermissionService(uow, new H2PermissionRepository(uow), session)), tracker, session);
+                        new PermissionService(uow, new H2PermissionRepository(uow), session)), tracker, session,
+                new H2PermissionRepository(uow));
         projectService = new ProjectServiceImpl(uow, projectRepository, tracker, session);
 
         UserSyncAdapter users = new UserSyncAdapter(uow);
@@ -359,6 +360,7 @@ class SyncServiceTest {
 
     private TaskView createTask(String title) {
         ProjectView project = projectService.create("Проект", DevDataSeeder.DEV_ADMIN_ID);
+        makePublic(project.id()); // исполнитель Мария не участник — открытый проект видят все
         return taskService.create(new NewTask(title, project.id(), MARIA, TaskPriority.HIGH, null, List.of()));
     }
 
@@ -407,6 +409,16 @@ class SyncServiceTest {
 
     private static JsonNode array() {
         return SyncValues.uuidArray(List.of());
+    }
+
+    private void makePublic(UUID projectId) {
+        try (Connection c = DriverManager.getConnection(url, "sa", "");
+             PreparedStatement ps = c.prepareStatement("UPDATE projects SET visibility = 'PUBLIC' WHERE id = ?")) {
+            ps.setObject(1, projectId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new IllegalStateException(e);
+        }
     }
 
     private int count(String sql) throws SQLException {

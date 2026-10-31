@@ -24,6 +24,15 @@ public interface PermissionRepository {
     /** Проект и автор задачи. */
     Optional<TaskFacts> taskFacts(UUID taskId) throws SQLException;
 
+    /**
+     * Кто видит проект и может быть исполнителем или наблюдателем его задач (API.md, 8.7):
+     * открытый — все сотрудники, закрытый — участники и администраторы.
+     */
+    Set<UUID> usersWhoCanView(UUID projectId) throws SQLException;
+
+    /** Имя сотрудника — для сообщений об ошибках. */
+    Optional<String> userName(UUID userId) throws SQLException;
+
     /** Исполнитель или соисполнитель задачи. */
     boolean isAssignee(UUID taskId, UUID userId) throws SQLException;
 

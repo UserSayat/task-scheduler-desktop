@@ -411,7 +411,8 @@ class ServerIntegrationTest {
             H2TaskRepository taskRepository = new H2TaskRepository(uow);
             H2ProjectRepository projectRepository = new H2ProjectRepository(uow);
             tasks = new TaskServiceImpl(uow, taskRepository, new TagService(new H2TagRepository(uow), tracker, session,
-                    new PermissionService(uow, new H2PermissionRepository(uow), session)), tracker, session);
+                    new PermissionService(uow, new H2PermissionRepository(uow), session)), tracker, session,
+                    new H2PermissionRepository(uow));
             projects = new ProjectServiceImpl(uow, projectRepository, tracker, session);
             profile = new ProfileService(uow, new H2UserRepository(uow), tracker, session, api);
             tags = new TagAdminService(uow, new H2TagRepository(uow), tracker, session,

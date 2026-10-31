@@ -12,6 +12,8 @@ import org.example.taskschedulerdesktop.tag.H2TagRepository;
 import org.example.taskschedulerdesktop.tag.TagService;
 import org.example.taskschedulerdesktop.task.H2TaskRepository;
 import org.example.taskschedulerdesktop.task.NewTask;
+import org.example.taskschedulerdesktop.task.TaskEdit;
+import org.example.taskschedulerdesktop.task.TaskExtras;
 import org.example.taskschedulerdesktop.task.TaskPriority;
 import org.example.taskschedulerdesktop.task.TaskServiceImpl;
 import org.example.taskschedulerdesktop.task.TaskView;
@@ -23,6 +25,7 @@ import java.sql.DriverManager;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -46,6 +49,7 @@ class PermissionServiceTest {
     private Session session;
     private PermissionService permissions;
     private TaskServiceImpl tasks;
+    private ProjectServiceImpl projects;
     private ProjectView project;
     private TaskView mariasTask;
 
@@ -60,8 +64,9 @@ class PermissionServiceTest {
         permissions = new PermissionService(uow, new H2PermissionRepository(uow), session);
         ChangeTracker tracker = new ChangeTracker(uow, session);
         tasks = new TaskServiceImpl(uow, new H2TaskRepository(uow),
-                new TagService(new H2TagRepository(uow), tracker, session, permissions), tracker, session);
-        ProjectServiceImpl projects = new ProjectServiceImpl(uow, new H2ProjectRepository(uow), tracker, session);
+                new TagService(new H2TagRepository(uow), tracker, session, permissions), tracker, session,
+                new H2PermissionRepository(uow));
+        projects = new ProjectServiceImpl(uow, new H2ProjectRepository(uow), tracker, session);
 
         project = projects.create("Проект Марии", MARIA);
         Map<UUID, MemberRole> members = new LinkedHashMap<>();
@@ -114,6 +119,34 @@ class PermissionServiceTest {
         assertTrue(refused.getMessage().contains("frontend"));
         // Существующий тег (без учёта регистра) использовать можно
         tasks.create(new NewTask("С существующим тегом", project.id(), ELENA, TaskPriority.LOW, null, List.of("Backend")));
+    }
+
+    @Test
+    void assigneesAndObserversOfPrivateProjectMustSeeIt() {
+        // Закрытый проект видят участники и администратор
+        Set<UUID> viewers = permissions.usersWhoCanView(project.id());
+        assertTrue(viewers.containsAll(Set.of(MARIA, ELENA, PAVEL, ADMIN)));
+        assertFalse(viewers.contains(DMITRY), "не участник");
+
+        IllegalArgumentException refused = assertThrows(IllegalArgumentException.class, () -> tasks.create(
+                new NewTask("Постороннему", project.id(), DMITRY, TaskPriority.LOW, null, List.of())));
+        assertTrue(refused.getMessage().contains("не участвует в проекте"));
+        tasks.create(new NewTask("Администратору", project.id(), ADMIN, TaskPriority.LOW, null, List.of()));
+
+        assertThrows(IllegalArgumentException.class, () -> tasks.update(new TaskEdit(mariasTask.id(), mariasTask.title(),
+                null, null, null, null, ELENA, List.of(), new TaskExtras(null, List.of(), List.of(DMITRY)))),
+                "наблюдатель не из проекта");
+    }
+
+    @Test
+    void assigneeRemovedFromProjectStaysAndDoesNotBlockEditing() {
+        Map<UUID, MemberRole> withoutElena = new LinkedHashMap<>();
+        withoutElena.put(PAVEL, MemberRole.OBSERVER);
+        projects.update(project.id(), project.name(), MARIA, withoutElena);
+
+        // Елена уже не в проекте, но осталась исполнителем — добавить наблюдателя можно
+        tasks.update(new TaskEdit(mariasTask.id(), mariasTask.title(), null, null, null, null, ELENA, List.of(),
+                new TaskExtras(null, List.of(), List.of(PAVEL))));
     }
 
     private PermissionService as(UUID userId) {

@@ -78,7 +78,8 @@ class DataLayerTest {
         tracker = new ChangeTracker(uow, session);
         TagService tagService = new TagService(new H2TagRepository(uow), tracker, session,
                 new PermissionService(uow, new H2PermissionRepository(uow), session));
-        taskService = new TaskServiceImpl(uow, new H2TaskRepository(uow), tagService, tracker, session);
+        taskService = new TaskServiceImpl(uow, new H2TaskRepository(uow), tagService, tracker, session,
+                new H2PermissionRepository(uow));
         projectService = new ProjectServiceImpl(uow, new H2ProjectRepository(uow), tracker, session);
     }
 
@@ -359,6 +360,12 @@ class DataLayerTest {
 
     private TaskView createTask() {
         ProjectView project = projectService.create("Проект", DevDataSeeder.DEV_ADMIN_ID);
+        // Исполнители и наблюдатели в тестах не участники — открытый проект видят все
+        try {
+            execute("UPDATE projects SET visibility = 'PUBLIC' WHERE id = '" + project.id() + "'");
+        } catch (SQLException e) {
+            throw new IllegalStateException(e);
+        }
         return taskService.create(new NewTask(
                 "Задача", project.id(), MARIA, TaskPriority.MEDIUM, LocalDate.now().plusDays(1), List.of("backend", "срочно")));
     }

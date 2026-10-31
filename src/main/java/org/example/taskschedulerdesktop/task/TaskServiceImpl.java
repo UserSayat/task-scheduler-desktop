@@ -1,6 +1,7 @@
 package org.example.taskschedulerdesktop.task;
 
 import com.github.f4b6a3.uuid.UuidCreator;
+import org.example.taskschedulerdesktop.access.PermissionRepository;
 import org.example.taskschedulerdesktop.session.Session;
 import org.example.taskschedulerdesktop.shared.database.UnitOfWork;
 import org.example.taskschedulerdesktop.shared.exception.NotFoundException;
@@ -19,7 +20,9 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * Задачи. Каждая запись — одна транзакция: строка задачи, её коллекции,
@@ -35,14 +38,16 @@ public class TaskServiceImpl implements TaskService {
     private final TagService tagService;
     private final ChangeTracker changeTracker;
     private final Session session;
+    private final PermissionRepository permissions;
 
     public TaskServiceImpl(UnitOfWork uow, TaskRepository repository, TagService tagService,
-                           ChangeTracker changeTracker, Session session) {
+                           ChangeTracker changeTracker, Session session, PermissionRepository permissions) {
         this.uow = uow;
         this.repository = repository;
         this.tagService = tagService;
         this.changeTracker = changeTracker;
         this.session = session;
+        this.permissions = permissions;
     }
 
     // ===== ЧТЕНИЕ =====
@@ -117,6 +122,10 @@ public class TaskServiceImpl implements TaskService {
             task.setUpdatedBy(userId);
 
             repository.insert(task);
+            // После вставки: задача в несуществующий проект падает на ограничении базы, а не здесь
+            if (newTask.responsibleId() != null) {
+                requireCanView(newTask.projectId(), List.of(newTask.responsibleId()));
+            }
             changeTracker.created(EntityType.TASK, task.getId(), Fields.ON_CREATE, now);
 
             log.debug("Task created: {}", task.getId());
@@ -165,11 +174,16 @@ public class TaskServiceImpl implements TaskService {
                     ? withCoExecutors(edit.responsibleId(), extras.coExecutorIds())
                     : withResponsible(task.getAssignees(), edit.responsibleId());
             if (!new HashSet<>(assignees).equals(new HashSet<>(task.getAssignees()))) {
+                Set<UUID> before = task.getAssignees().stream().map(TaskAssignee::userId).collect(Collectors.toSet());
+                requireCanView(task.getProjectId(), assignees.stream().map(TaskAssignee::userId)
+                        .filter(id -> !before.contains(id)).toList());
                 task.setAssignees(assignees);
                 changed.add(Fields.ASSIGNEES);
             }
 
             if (extras != null && !new HashSet<>(extras.observerIds()).equals(new HashSet<>(task.getObserverIds()))) {
+                Set<UUID> before = Set.copyOf(task.getObserverIds());
+                requireCanView(task.getProjectId(), extras.observerIds().stream().filter(id -> !before.contains(id)).toList());
                 task.setObserverIds(extras.observerIds());
                 changed.add(Fields.OBSERVERS);
             }
@@ -205,6 +219,24 @@ public class TaskServiceImpl implements TaskService {
             repository.update(task);
             changeTracker.deleted(EntityType.TASK, id, now);
         });
+    }
+
+    /**
+     * Новые исполнители и наблюдатели должны видеть проект — иначе сервер отклонит изменение (API.md, 8.7).
+     * Кто уже был в задаче, остаётся, даже если его потом исключили из проекта.
+     */
+    private void requireCanView(UUID projectId, List<UUID> added) throws SQLException {
+        if (added.isEmpty()) {
+            return;
+        }
+        Set<UUID> viewers = permissions.usersWhoCanView(projectId);
+        for (UUID userId : added) {
+            if (!viewers.contains(userId)) {
+                String name = permissions.userName(userId).orElse("Сотрудник");
+                throw new IllegalArgumentException("«" + name + "» не участвует в проекте: добавьте сотрудника в участники "
+                        + "или выберите другого сотрудника");
+            }
+        }
     }
 
     /**
