@@ -10,7 +10,6 @@
       xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml">
     <HBox alignment="CENTER_LEFT" spacing="8">
-        <Region styleClass="dot-blue" HBox.hgrow="NEVER"/>
         <Label fx:id="projectNameLabel" styleClass="project-name-label " text="Редизайн портала"
                HBox.hgrow="ALWAYS"/>
         <Label fx:id="supervisorInitialsLabel" styleClass="section-mono" text="/А.К."/>

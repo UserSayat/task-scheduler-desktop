@@ -59,6 +59,22 @@
   -fx-background-color: rgba(255,255,255,0.11);
   -fx-text-fill: rgba(255,255,255,0.96);
 }
+/* ── Проекты в боковом меню ─────────────────────────── */
+.sidebar-projects-scroll, .sidebar-projects-scroll > .viewport {
+  -fx-background-color: transparent; -fx-background: transparent; -fx-padding: 0; -fx-background-insets: 0;
+}
+.sidebar-projects-scroll .scroll-bar:vertical { -fx-background-color: transparent; -fx-pref-width: 6; }
+.sidebar-projects-scroll .scroll-bar .thumb { -fx-background-color: rgba(255,255,255,0.14); -fx-background-radius: 3; }
+.sidebar-projects-scroll .scroll-bar .increment-button,
+.sidebar-projects-scroll .scroll-bar .decrement-button { -fx-padding: 0; -fx-pref-height: 0; }
+.sidebar-projects { -fx-padding: 0 0 12 0; }
+.sidebar-project { -fx-padding: 6 20 6 20; -fx-font-size: 13px; }
+.sidebar-project-name { -fx-text-fill: rgba(255,255,255,0.4); -fx-font-size: 13px; }
+.sidebar-project:hover .sidebar-project-name { -fx-text-fill: rgba(255,255,255,0.7); }
+.sidebar-project.nav-btn-active .sidebar-project-name { -fx-text-fill: rgba(255,255,255,0.96); }
+.sidebar-project-count { -fx-text-fill: rgba(255,255,255,0.3); -fx-font-size: 11px; }
+.sidebar-projects-empty { -fx-text-fill: rgba(255,255,255,0.3); -fx-font-size: 12px; -fx-padding: 4 20 4 20; }
+
 .nav-project-btn {
   -fx-background-color: transparent;
   -fx-text-fill: rgba(255,255,255,0.38);
@@ -643,15 +659,6 @@
   -fx-background-color: #9b9b95;
 }
 
-/* ── Цветовые точки проектов ────────────────────────── */
-.dot-blue    { -fx-background-color: #1a3a8f; -fx-min-width:8;-fx-min-height:8;
-             -fx-max-width:8;-fx-max-height:8; -fx-background-radius:4; }
-.dot-violet  { -fx-background-color: #7c3aed; -fx-min-width:8;-fx-min-height:8;
-             -fx-max-width:8;-fx-max-height:8; -fx-background-radius:4; }
-.dot-teal    { -fx-background-color: #0f766e; -fx-min-width:8;-fx-min-height:8;
-             -fx-max-width:8;-fx-max-height:8; -fx-background-radius:4; }
-.dot-amber   { -fx-background-color: #92400e; -fx-min-width:8;-fx-min-height:8;
-             -fx-max-width:8;-fx-max-height:8; -fx-background-radius:4; }
 
 /* ── Контент / скролл-зона ──────────────────────────── */
 .content-area { -fx-background-color: #f6f6f4; -fx-padding: 24 32; }

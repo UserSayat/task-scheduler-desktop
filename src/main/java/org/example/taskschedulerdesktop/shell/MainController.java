@@ -6,6 +6,8 @@ import org.example.taskschedulerdesktop.config.AppConfig;
 import org.example.taskschedulerdesktop.notification.NotificationsChangedEvent;
 import org.example.taskschedulerdesktop.notification.NotificationsPanel;
 import org.example.taskschedulerdesktop.project.ProjectChangedEvent;
+import javafx.scene.layout.VBox;
+import org.example.taskschedulerdesktop.project.ProjectView;
 import org.example.taskschedulerdesktop.shared.event.ChangeType;
 import org.example.taskschedulerdesktop.shared.event.EventBus;
 import org.example.taskschedulerdesktop.shared.event.PageTitleChangedEvent;
@@ -89,6 +91,9 @@ public class MainController implements Shutdownable {
     @FXML private HBox logoBox;
     @FXML private HBox headerRight;
 
+    @FXML private VBox sidebarProjectsList;
+    private SidebarProjects sidebarProjects;
+
     private final MenuItem logoutItem = new MenuItem("Выйти");
     private boolean loggingOut;
 
@@ -112,6 +117,12 @@ public class MainController implements Shutdownable {
 
     private void highlightCurrentSection() {
         Button active = sectionButtons().get(NavigationManager.getCurrentPage());
+        // Открыт проект из списка в меню — подсвечиваем его строку, а не пункт «Проекты»
+        UUID openProject = Routes.PROJECT_DETAILS.equals(NavigationManager.getCurrentPage())
+                && NavigationManager.getCurrentContext() instanceof ProjectView project ? project.id() : null;
+        if (sidebarProjects != null && sidebarProjects.highlight(openProject)) {
+            active = null;
+        }
         // Настройки открываются шестерёнкой в верхней полосе — подсвечиваем её
         settingsButton.getStyleClass().remove("header-icon-active");
         if (Routes.SETTINGS.equals(NavigationManager.getCurrentPage())) {
@@ -157,6 +168,10 @@ public class MainController implements Shutdownable {
         tagsButton.setOnAction(event -> NavigationManager.navigateTo(Routes.TAGS, "Теги"));
         settingsButton.setOnAction(event -> NavigationManager.navigateTo(Routes.SETTINGS, "Настройки"));
 
+        sidebarProjects = new SidebarProjects(sidebarProjectsList, appConfig.getAsyncProjectService(),
+                this::openProjectFromSidebar);
+        sidebarProjects.start();
+
         showCurrentUser();
         setUpProfileMenu();
         EventBus.getInstance().subscribe(UsersChangedEvent.class, usersListener);
@@ -164,6 +179,16 @@ public class MainController implements Shutdownable {
         setUpNotifications();
 
         NavigationManager.navigateTo(Routes.DASHBOARD, "Обзор");
+    }
+
+    /** Проект из меню: как переключение раздела. Уже открытый проект не перезагружаем. */
+    private void openProjectFromSidebar(ProjectView project) {
+        if (Routes.PROJECT_DETAILS.equals(NavigationManager.getCurrentPage())
+                && NavigationManager.getCurrentContext() instanceof ProjectView open
+                && open.id().equals(project.id())) {
+            return;
+        }
+        NavigationManager.navigateToSection(Routes.PROJECT_DETAILS, project.name(), project);
     }
 
     public void updateBackButtonState() {
@@ -400,6 +425,9 @@ public class MainController implements Shutdownable {
         EventBus.getInstance().unsubscribe(PageTitleChangedEvent.class, titleUpdateListener);
         EventBus.getInstance().unsubscribe(NotificationsChangedEvent.class, notificationsListener);
         EventBus.getInstance().unsubscribe(UsersChangedEvent.class, usersListener);
+        if (sidebarProjects != null) {
+            sidebarProjects.stop();
+        }
         appConfig.getSyncService().removeStatusListener(syncStatusListener);
         appConfig.getSyncService().removeChangeListener(serverChangesListener);
     }

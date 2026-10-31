@@ -16,7 +16,6 @@
         <VBox styleClass="card">
             <HBox alignment="CENTER_LEFT" spacing="16" style="-fx-padding:0 0 16 0;">
                 <HBox alignment="CENTER_LEFT" spacing="10" HBox.hgrow="ALWAYS">
-                    <Region fx:id="projectDot" style="-fx-background-color:#1a3a8f;-fx-min-width:12;-fx-min-height:12;-fx-max-width:12;-fx-max-height:12;-fx-background-radius:6;" />
                     <VBox spacing="3">
                         <Label fx:id="projectNameLabel" style="-fx-font-family:'Georgia',serif;-fx-font-size:22px;-fx-text-fill:#111110;" text="Редизайн портала" />
                         <Label fx:id="projectSupervisorLabel" styleClass="section-mono" text="Руководитель: А.К." />

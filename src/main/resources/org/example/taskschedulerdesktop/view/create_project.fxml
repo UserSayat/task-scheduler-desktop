@@ -31,41 +31,6 @@
         <ComboBox fx:id="supervisorComboBox" maxWidth="Infinity"
                   styleClass="combo-box-styled" promptText="Выбрать"/>
 
-        <Label text="ЦВЕТ" styleClass="field-label"/>
-        <HBox spacing="8">
-            <ToggleButton fx:id="c1" styleClass="toggle-high"
-                          style="-fx-background-color:#1a3a8f;-fx-text-fill:transparent;
-                                 -fx-min-width:28;-fx-min-height:28;-fx-max-width:28;-fx-max-height:28;"/>
-            <ToggleButton fx:id="c2"
-                          style="-fx-background-color:#7c3aed;-fx-text-fill:transparent;
-                                 -fx-min-width:28;-fx-min-height:28;-fx-max-width:28;-fx-max-height:28;
-                                 -fx-border-width:0;"/>
-            <ToggleButton fx:id="c3"
-                          style="-fx-background-color:#0f766e;-fx-text-fill:transparent;
-                                 -fx-min-width:28;-fx-min-height:28;-fx-max-width:28;-fx-max-height:28;
-                                 -fx-border-width:0;"/>
-            <ToggleButton fx:id="c4"
-                          style="-fx-background-color:#92400e;-fx-text-fill:transparent;
-                                 -fx-min-width:28;-fx-min-height:28;-fx-max-width:28;-fx-max-height:28;
-                                 -fx-border-width:0;"/>
-            <ToggleButton fx:id="c5"
-                          style="-fx-background-color:#be185d;-fx-text-fill:transparent;
-                                 -fx-min-width:28;-fx-min-height:28;-fx-max-width:28;-fx-max-height:28;
-                                 -fx-border-width:0;"/>
-            <ToggleButton fx:id="c6"
-                          style="-fx-background-color:#0369a1;-fx-text-fill:transparent;
-                                 -fx-min-width:28;-fx-min-height:28;-fx-max-width:28;-fx-max-height:28;
-                                 -fx-border-width:0;"/>
-            <ToggleButton fx:id="c7"
-                          style="-fx-background-color:#15803d;-fx-text-fill:transparent;
-                                 -fx-min-width:28;-fx-min-height:28;-fx-max-width:28;-fx-max-height:28;
-                                 -fx-border-width:0;"/>
-            <ToggleButton fx:id="c8"
-                          style="-fx-background-color:#b45309;-fx-text-fill:transparent;
-                                 -fx-min-width:28;-fx-min-height:28;-fx-max-width:28;-fx-max-height:28;
-                                 -fx-border-width:0;"/>
-        </HBox>
-
         <HBox spacing="8" style="-fx-padding:6 0 0 0;">
             <Button fx:id="createProjectButton" text="Создать проект" styleClass="btn-primary"
                     HBox.hgrow="ALWAYS" maxWidth="Infinity"/>

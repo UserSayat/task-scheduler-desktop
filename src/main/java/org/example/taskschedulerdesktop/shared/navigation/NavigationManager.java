@@ -65,12 +65,14 @@ public class NavigationManager {
         final String title;
         final Parent node;
         final Object controller;
+        final Object context;
 
-        PageInfo(String fxmlPath, String title, Parent node, Object controller) {
+        PageInfo(String fxmlPath, String title, Parent node, Object controller, Object context) {
             this.fxmlPath = fxmlPath;
             this.title = title;
             this.node = node;
             this.controller = controller;
+            this.context = context;
         }
     }
     private static final Stack<PageInfo> history = new Stack<>();
@@ -92,6 +94,8 @@ public class NavigationManager {
     // Храним ссылку на контроллер ТЕКУЩЕЙ страницы, чтобы вовремя вызывать shutdown
     private static Object currentController = null;
     private static Parent currentNode = null;
+    /** С каким объектом открыта текущая страница (например, проект), или null. */
+    private static Object currentContext = null;
 
     // ============================================================
     // ИНИЦИАЛИЗАЦИЯ
@@ -116,6 +120,18 @@ public class NavigationManager {
     }
 
     public static void navigateTo(String fxmlPath, String title, Object context) {
+        navigate(fxmlPath, title, context, null);
+    }
+
+    /**
+     * Открыть страницу из бокового меню: как переключение раздела (без перехода «вглубь»),
+     * но с контекстом — например, проект из списка проектов в меню.
+     */
+    public static void navigateToSection(String fxmlPath, String title, Object context) {
+        navigate(fxmlPath, title, context, Animations.Direction.SECTION);
+    }
+
+    private static void navigate(String fxmlPath, String title, Object context, Animations.Direction forced) {
         // Уже на этой странице (например, повторное нажатие на пункт меню) — не перезагружаем, без моргания
         if (!isBackNavigation && context == null && fxmlPath.equals(currentPage)) {
             return;
@@ -123,6 +139,7 @@ public class NavigationManager {
 
         // Направление анимации определяем сразу: флаг «Назад» действует только во время этого вызова
         Animations.Direction direction = isBackNavigation ? Animations.Direction.BACK
+                : forced != null ? forced
                 : context != null ? Animations.Direction.FORWARD
                 : Animations.Direction.SECTION;
 
@@ -131,8 +148,8 @@ public class NavigationManager {
         if (!isBackNavigation && currentPage != null && !fxmlPath.equals(currentPage)) {
             keepLeaving = direction == Animations.Direction.FORWARD && currentNode != null;
             history.push(keepLeaving
-                    ? new PageInfo(currentPage, currentTitle, currentNode, currentController)
-                    : new PageInfo(currentPage, currentTitle, null, null));
+                    ? new PageInfo(currentPage, currentTitle, currentNode, currentController, currentContext)
+                    : new PageInfo(currentPage, currentTitle, null, null, null));
         }
         boolean leavingKept = keepLeaving;
 
@@ -163,6 +180,7 @@ public class NavigationManager {
 
                 currentController = newController;
                 currentNode = page;
+                currentContext = context;
 
                 if (newController instanceof ContextAware aware) {
                     aware.setContext(context);
@@ -212,6 +230,7 @@ public class NavigationManager {
             Animations.swapPage(contentArea, previousPage.node, Animations.Direction.BACK);
             currentNode = previousPage.node;
             currentController = previousPage.controller;
+            currentContext = previousPage.context;
             currentPage = previousPage.fxmlPath;
             currentTitle = previousPage.title;
             EventBus.getInstance().fire(new PageTitleChangedEvent(currentTitle));
@@ -247,6 +266,11 @@ public class NavigationManager {
      */
     public static String getCurrentPage() {
         return currentPage;
+    }
+
+    /** С каким объектом открыта текущая страница (например, {@code ProjectView}), или null. */
+    public static Object getCurrentContext() {
+        return currentContext;
     }
 
     /** Эта страница сейчас на экране (а не лежит в истории для «Назад»). */

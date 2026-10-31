@@ -15,7 +15,6 @@
     <HBox alignment="CENTER_LEFT" spacing="8" style="-fx-padding:0 0 14 0;">
         <VBox HBox.hgrow="ALWAYS" spacing="3">
             <HBox spacing="8" alignment="CENTER_LEFT">
-                <Region styleClass="dot-blue"/>
                 <Label fx:id="projectNameLabel" text="Редизайн портала"
                        style="-fx-font-family:'Georgia',serif;-fx-font-size:18px;-fx-text-fill:#111110;"/>
             </HBox>
