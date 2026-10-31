@@ -62,8 +62,10 @@
 
         <!-- Задачи + боковая панель -->
         <HBox spacing="20.0">
-            <!-- Задачи по статусам -->
-            <VBox HBox.hgrow="ALWAYS">
+            <!-- Задачи по статусам: пустые разделы не показываются -->
+            <VBox HBox.hgrow="ALWAYS" spacing="18">
+                <Label fx:id="noTasksLabel" text="В проекте пока нет задач" styleClass="project-no-tasks"
+                       visible="false" managed="false" />
                 <!-- В работе -->
                 <VBox spacing="6">
                     <HBox alignment="CENTER_LEFT" spacing="8">
@@ -71,7 +73,7 @@
                         <Label fx:id="amountOfTasksInProgressLabel" styleClass="section-mono" text="2" />
                         <ProgressIndicator fx:id="tasksInProgressLoadingIndicator" prefHeight="15.0" prefWidth="15.0" visible="false" />
                     </HBox>
-                    <VBox fx:id="tasksInProgressVBox" styleClass="card">
+                    <VBox fx:id="tasksInProgressVBox" styleClass="project-task-list">
                     </VBox>
                 </VBox>
 
@@ -82,7 +84,7 @@
                         <Label fx:id="amountOfTasksUnderReviewLabel" styleClass="section-mono" text="1" />
                         <ProgressIndicator fx:id="tasksUnderReviewLoadingIndicator" prefHeight="15.0" prefWidth="15.0" visible="false" />
                     </HBox>
-                    <VBox fx:id="tasksUnderReviewVBox" styleClass="card">
+                    <VBox fx:id="tasksUnderReviewVBox" styleClass="project-task-list">
                     </VBox>
                 </VBox>
 
@@ -93,7 +95,7 @@
                         <Label fx:id="amountOfNewTasksLabel" styleClass="section-mono" text="1" />
                         <ProgressIndicator fx:id="newTasksLoadingIndicator" prefHeight="15.0" prefWidth="15.0" visible="false" />
                     </HBox>
-                    <VBox fx:id="newTasksVBox" styleClass="card">
+                    <VBox fx:id="newTasksVBox" styleClass="project-task-list">
                     </VBox>
                 </VBox>
 
@@ -104,7 +106,7 @@
                         <Label fx:id="amountOfCompletedTasksLabel" styleClass="section-mono" text="1" />
                         <ProgressIndicator fx:id="completedTasksLoadingIndicator" prefHeight="15.0" prefWidth="15.0" visible="false" />
                     </HBox>
-                    <VBox fx:id="completedTasksVBox" styleClass="card">
+                    <VBox fx:id="completedTasksVBox" styleClass="project-task-list">
                     </VBox>
                 </VBox>
             </VBox>

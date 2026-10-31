@@ -59,6 +59,15 @@
   -fx-background-color: rgba(255,255,255,0.11);
   -fx-text-fill: rgba(255,255,255,0.96);
 }
+/* ── Задачи на странице проекта: отдельные карточки ─── */
+.project-task-list { -fx-spacing: 6; }
+.project-task-card {
+  -fx-background-color: white; -fx-border-color: #e2e2dc; -fx-border-width: 1;
+  -fx-padding: 12 16; -fx-cursor: hand;
+}
+.project-task-card:hover { -fx-border-color: #c8c8c0; -fx-background-color: #fcfcfb; }
+.project-no-tasks { -fx-text-fill: #9b9b95; -fx-font-size: 13px; -fx-padding: 4 0 0 0; }
+
 /* ── Проекты в боковом меню ─────────────────────────── */
 .sidebar-projects-scroll, .sidebar-projects-scroll > .viewport {
   -fx-background-color: transparent; -fx-background: transparent; -fx-padding: 0; -fx-background-insets: 0;

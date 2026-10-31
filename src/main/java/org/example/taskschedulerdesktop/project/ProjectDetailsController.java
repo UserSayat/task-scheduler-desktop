@@ -59,6 +59,7 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
     @FXML private VBox tasksInProgressVBox;
     @FXML private VBox tasksUnderReviewVBox;
     @FXML private VBox completedTasksVBox;
+    @FXML private Label noTasksLabel;
 
     @FXML private ProgressIndicator newTasksLoadingIndicator;
     @FXML private ProgressIndicator tasksInProgressLoadingIndicator;
@@ -163,25 +164,43 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
         Service<List<Node>> loaderService = asyncTaskService.createLoaderService(context.id(), status);
 
         indicator.visibleProperty().bind(loaderService.runningProperty());
+        showSection(container, false); // до загрузки раздел скрыт, чтобы не мелькал пустым
 
         loaderService.setOnSucceeded(event -> {
-            container.getChildren().clear();
             List<Node> taskCards = loaderService.getValue();
-            if (taskCards.isEmpty()) {
-                container.getChildren().add(new Label("Нет задач"));
-            } else {
-                container.getChildren().addAll(taskCards);
-            }
+            container.getChildren().setAll(taskCards);
+            // Раздел без задач не показываем вовсе
+            showSection(container, !taskCards.isEmpty());
         });
 
         loaderService.setOnFailed(event -> {
-            container.getChildren().clear();
-            container.getChildren().add(new Label("Ошибка БД"));
+            container.getChildren().setAll(new Label("Не удалось загрузить задачи"));
+            showSection(container, true);
             Throwable error = loaderService.getException();
             if (error != null) error.printStackTrace();
         });
 
         return loaderService;
+    }
+
+    /** Показать или скрыть раздел статуса целиком (заголовок со счётчиком и список задач). */
+    private void showSection(VBox container, boolean show) {
+        Node section = container.getParent();
+        section.setVisible(show);
+        section.setManaged(show);
+        // Состояние загрузчиков обновляется после этого обработчика — проверяем на следующем такте
+        javafx.application.Platform.runLater(this::updateNoTasksLabel);
+    }
+
+    /** «В проекте пока нет задач» — когда все разделы загружены и пусты. */
+    private void updateNoTasksLabel() {
+        boolean anyShown = java.util.stream.Stream.of(newTasksVBox, tasksInProgressVBox, tasksUnderReviewVBox, completedTasksVBox)
+                .anyMatch(list -> list.getParent().isManaged());
+        boolean anyLoading = java.util.stream.Stream.of(newTasksLoader, inProgressLoader, underReviewLoader, completedLoader)
+                .anyMatch(loader -> loader == null || loader.getState() != javafx.concurrent.Worker.State.SUCCEEDED
+                        && loader.getState() != javafx.concurrent.Worker.State.FAILED);
+        noTasksLabel.setVisible(!anyShown && !anyLoading);
+        noTasksLabel.setManaged(!anyShown && !anyLoading);
     }
 
     public void refreshAllContainers() {
