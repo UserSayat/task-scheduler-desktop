@@ -12,7 +12,7 @@
                 <Label text="TF" style="-fx-text-fill:white;-fx-font-size:10px;-fx-font-weight:bold;"/>
             </StackPane>
             <VBox spacing="2">
-                <Label text="TaskFlow" styleClass="login-title"/>
+                <Label text="TaskHub" styleClass="login-title"/>
                 <Label text="КОРПОРАТИВНЫЙ ПОРТАЛ" styleClass="field-label"/>
             </VBox>
         </HBox>

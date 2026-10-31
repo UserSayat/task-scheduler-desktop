@@ -1,4 +1,4 @@
-# Сборка установщиков TaskFlow: .msi для Windows и .dmg для macOS (Apple Silicon).
+# Сборка установщиков TaskHub: .msi для Windows и .dmg для macOS (Apple Silicon).
 #
 # Адрес сервера берётся из переменной репозитория TASKHUB_SERVER_URL
 # (Settings → Secrets and variables → Actions → Variables), а при ручном запуске
@@ -60,7 +60,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: TaskFlow-windows
+          name: TaskHub-windows
           path: target/dist/*.msi
 
   macos:
@@ -86,7 +86,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: TaskFlow-macos
+          name: TaskHub-macos
           path: target/dist/*.dmg
 
   release:

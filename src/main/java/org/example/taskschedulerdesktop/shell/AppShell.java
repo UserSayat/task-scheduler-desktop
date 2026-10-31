@@ -67,7 +67,7 @@ public class AppShell {
         BackNavigation.install(scene, () -> mainController != null);
         stage.setMinWidth(900);
         stage.setMinHeight(600);
-        stage.setTitle("Корпоративный планировщик");
+        stage.setTitle("TaskHub");
         // Значок окна и панели задач: система выбирает подходящий размер
         for (int size : new int[]{16, 24, 32, 48, 64, 128, 256}) {
             URL icon = getClass().getResource("/org/example/taskschedulerdesktop/icons/app-" + size + ".png");

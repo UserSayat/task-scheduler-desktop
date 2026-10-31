@@ -15,8 +15,8 @@
         <jackson.version>2.18.2</jackson.version>
 
         <!-- Сборка приложения для Windows (jpackage), см. README -->
-        <app.name>TaskFlow</app.name>
-        <app.version>1.0.0</app.version>
+        <app.name>TaskHub</app.name>
+        <app.version>1.0.1</app.version>
         <!-- Адрес сервера, вшиваемый в приложение: mvn package -Dtaskhub.server.url=https://... -->
         <taskhub.server.url>http://localhost:8080</taskhub.server.url>
         <!-- app-image — папка с программой; профили installer (.msi) и mac-installer (.dmg) — установщики -->
@@ -195,9 +195,9 @@
                                     <arg value="--app-version"/>
                                     <arg value="${app.version}"/>
                                     <arg value="--vendor"/>
-                                    <arg value="TaskFlow"/>
+                                    <arg value="TaskHub"/>
                                     <arg value="--description"/>
-                                    <arg value="TaskFlow - corporate task planner"/>
+                                    <arg value="TaskHub - corporate task planner"/>
                                     <!-- Установщик собирается в кодировке 1252: в его текстах только латиница -->
                                     <!-- Адрес сервера и уровень журнала для установленного приложения -->
                                     <arg value="--java-options"/>
@@ -229,27 +229,27 @@
 
     <profiles>
         <!-- Установщик для Windows: mvn package -Pinstaller -Dtaskhub.server.url=https://...
-             Результат — target/dist/TaskFlow-1.0.0.msi. Нужен WiX Toolset 3 (см. README). -->
+             Результат — target/dist/TaskHub-1.0.0.msi. Нужен WiX Toolset 3 (см. README). -->
         <profile>
             <id>installer</id>
             <properties>
                 <jpackage.type>msi</jpackage.type>
-                <!-- Ярлыки в «Пуске» и на рабочем столе, выбор папки; один и тот же upgrade-uuid,
-                     чтобы новая версия ставилась поверх старой, а не рядом -->
-                <jpackage.platform.args>--win-menu --win-menu-group TaskFlow --win-shortcut --win-dir-chooser --win-upgrade-uuid 07e8e4cd-907d-4e09-8655-07f69f917d76</jpackage.platform.args>
+                <!-- Ярлыки в «Пуске» и на рабочем столе (при установке — галочки, создавать ли их), выбор папки;
+                     один и тот же upgrade-uuid, чтобы новая версия ставилась поверх старой, а не рядом -->
+                <jpackage.platform.args>--win-menu --win-menu-group TaskHub --win-shortcut --win-shortcut-prompt --win-dir-chooser --win-upgrade-uuid 07e8e4cd-907d-4e09-8655-07f69f917d76</jpackage.platform.args>
             </properties>
         </profile>
 
         <!-- Установщик для macOS: mvn package -Pmac-installer -Dtaskhub.server.url=https://...
              Собирается только на Mac (jpackage не собирает для другой системы); результат —
-             target/dist/TaskFlow-1.0.0.dmg для того процессора, на котором шла сборка
+             target/dist/TaskHub-1.0.0.dmg для того процессора, на котором шла сборка
              (Apple Silicon или Intel). Приложение не подписано: при первом запуске macOS
              попросит подтвердить открытие (правый щелчок → «Открыть»). -->
         <profile>
             <id>mac-installer</id>
             <properties>
                 <jpackage.type>dmg</jpackage.type>
-                <jpackage.platform.args>--mac-package-name TaskFlow --mac-package-identifier org.example.taskflow</jpackage.platform.args>
+                <jpackage.platform.args>--mac-package-name TaskHub --mac-package-identifier org.example.taskhub</jpackage.platform.args>
             </properties>
         </profile>
 

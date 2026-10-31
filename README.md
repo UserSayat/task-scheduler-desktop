@@ -54,15 +54,15 @@ H2 TCP-сервер для просмотра базы из IDE: `-Dtaskhub.h2.t
 
 Адрес сервера вшивается в приложение при сборке (`-Dtaskhub.server.url`), сотрудникам ничего настраивать не нужно.
 
-**Установщик `.msi`** — ярлыки в «Пуске» и на рабочем столе, удаление через «Приложения»; новая версия ставится поверх старой:
+**Установщик `.msi`** — выбор папки и галочки «ярлык на рабочем столе» и «ярлык в меню Пуск» (обе отмечены), удаление через «Приложения»; новая версия ставится поверх старой:
 
 ```bash
 mvn clean package -Pinstaller -Dtaskhub.server.url=https://203-0-113-10.sslip.io
 ```
 
-Результат — `target/dist/TaskFlow-1.0.0.msi`. Для сборки нужен [WiX Toolset 3.14](https://github.com/wixtoolset/wix3/releases): архив `wix314-binaries.zip`, распакованный в `~/tools/wix314` (другая папка — `-Dwix.dir=...`). Номер версии — свойство `app.version` в `pom.xml`: перед выпуском новой версии его нужно увеличить, иначе установщик не обновит старую.
+Результат — `target/dist/TaskHub-1.0.0.msi`. Для сборки нужен [WiX Toolset 3.14](https://github.com/wixtoolset/wix3/releases): архив `wix314-binaries.zip`, распакованный в `~/tools/wix314` (другая папка — `-Dwix.dir=...`). Номер версии — свойство `app.version` в `pom.xml`: перед выпуском новой версии его нужно увеличить, иначе установщик не обновит старую.
 
-**Папка с программой** (без установки, WiX не нужен): `mvn clean package -Dtaskhub.server.url=https://...` → `target/dist/TaskFlow/TaskFlow.exe`.
+**Папка с программой** (без установки, WiX не нужен): `mvn clean package -Dtaskhub.server.url=https://...` → `target/dist/TaskHub/TaskHub.exe`.
 
 Java на компьютерах сотрудников не нужна: она входит в сборку.
 
@@ -72,7 +72,7 @@ Java на компьютерах сотрудников не нужна: она 
 mvn clean package -Pmac-installer -Dtaskhub.server.url=https://203-0-113-10.sslip.io
 ```
 
-Только на Mac: результат — `target/dist/TaskFlow-1.0.0.dmg` для процессора, на котором шла сборка (Apple Silicon или Intel). Значок `.icns` подставляется сам. Приложение не подписано сертификатом Apple, поэтому при первом запуске macOS попросит подтвердить открытие: правый щелчок по TaskFlow → «Открыть».
+Только на Mac: результат — `target/dist/TaskHub-1.0.0.dmg` для процессора, на котором шла сборка (Apple Silicon или Intel). Значок `.icns` подставляется сам. Приложение не подписано сертификатом Apple, поэтому при первом запуске macOS попросит подтвердить открытие: правый щелчок по TaskHub → «Открыть».
 
 ## Сборка в GitHub Actions
 
