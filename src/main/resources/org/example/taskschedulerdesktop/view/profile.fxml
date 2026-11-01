@@ -18,6 +18,7 @@
     <VBox styleClass="modal-body">
         <Label text="Профиль" styleClass="modal-title"/>
         <Label fx:id="emailLabel" styleClass="section-mono"/>
+        <Label fx:id="serverLabel" styleClass="section-mono"/>
 
         <Label text="ИМЯ *" styleClass="field-label"/>
         <TextField fx:id="nameField" styleClass="text-field-styled"/>

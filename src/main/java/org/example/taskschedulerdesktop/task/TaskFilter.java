@@ -11,7 +11,7 @@ import java.util.function.Predicate;
 /**
  * Фильтр таблицы задач. Внутри параметра значения складываются через «или» («К выполнению» или «В работе»),
  * параметры — через «и». Пустой набор — параметр не ограничивает. Поиск без учёта регистра по названию,
- * проекту, исполнителю и тегам.
+ * проекту, ответственному, автору и тегам.
  */
 public record TaskFilter(
         String query,
@@ -118,6 +118,7 @@ public record TaskFilter(
         return contains(task.title(), needle)
                 || contains(task.projectName(), needle)
                 || contains(task.responsibleName(), needle)
+                || contains(task.creatorName(), needle)
                 || task.tagNames().stream().anyMatch(tag -> contains(tag, needle));
     }
 

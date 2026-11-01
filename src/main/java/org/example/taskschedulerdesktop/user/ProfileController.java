@@ -9,6 +9,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.example.taskschedulerdesktop.shared.api.OfflineException;
+import org.example.taskschedulerdesktop.shared.api.ServerConfig;
 import org.example.taskschedulerdesktop.shared.event.EventBus;
 import org.example.taskschedulerdesktop.shared.navigation.NavigationManager;
 import org.slf4j.Logger;
@@ -27,6 +28,7 @@ public class ProfileController {
     private final ProfileService profile;
 
     @FXML private Label emailLabel;
+    @FXML private Label serverLabel;
     @FXML private TextField nameField;
     @FXML private TextField positionField;
     @FXML private ComboBox<String> timezoneComboBox;
@@ -46,6 +48,7 @@ public class ProfileController {
     @FXML
     public void initialize() {
         timezoneComboBox.getItems().setAll(Timezones.COMMON);
+        serverLabel.setText("Сервер: " + ServerConfig.serverUrl());
         closeButton.setOnAction(event -> close());
         saveProfileButton.setOnAction(event -> saveProfile());
         changePasswordButton.setOnAction(event -> changePassword());

@@ -50,6 +50,7 @@ class TaskFilterTest {
         assertEquals(List.of(integration, report), shown(TaskFilter.ALL.withQuery("crm")));
         assertEquals(List.of(integration, done), shown(TaskFilter.ALL.withQuery("МАРИЯ")));
         assertEquals(List.of(layout, done), shown(TaskFilter.ALL.withQuery("дизайн")), "тег");
+        assertEquals(List.of(), shown(TaskFilter.ALL.withQuery("ольга")));
     }
 
     @Test
@@ -120,7 +121,7 @@ class TaskFilterTest {
     private static TaskView task(String title, UUID projectId, String project, UUID executorId, String executor,
                                  TaskStatus status, TaskPriority priority, LocalDate deadline, String tag) {
         return new TaskView(UUID.randomUUID(), title, null, projectId, project, executorId, executor,
-                status, priority, deadline, List.of(tag), true);
+                status, priority, deadline, List.of(tag), true, null, null);
     }
 
     @Test

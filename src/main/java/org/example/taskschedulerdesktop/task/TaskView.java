@@ -1,6 +1,7 @@
 package org.example.taskschedulerdesktop.task;
 
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
@@ -9,7 +10,9 @@ import java.util.UUID;
  * Задача для экранов: вместе с названием проекта, ответственным и тегами.
  * Только для чтения — изменения идут через команды сервиса (NewTask, TaskEdit).
  *
- * @param synced false, если у задачи есть изменения, ещё не отправленные на сервер
+ * @param synced      false, если у задачи есть изменения, ещё не отправленные на сервер
+ * @param creatorName автор — кто создал задачу
+ * @param createdAt   когда задачу создали
  */
 public record TaskView(
         UUID id,
@@ -23,7 +26,9 @@ public record TaskView(
         TaskPriority priority,
         LocalDate deadline,
         List<String> tagNames,
-        boolean synced
+        boolean synced,
+        String creatorName,
+        Instant createdAt
 ) {
 
     public String tagsAsText() {

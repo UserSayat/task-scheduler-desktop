@@ -24,6 +24,7 @@ public class H2TaskRepository implements TaskRepository {
             SELECT t.id, t.title, t.description, t.project_id, p.name AS project_name,
                    t.status, t.priority, t.deadline,
                    u.id AS responsible_id, u.name AS responsible_name,
+                   c.name AS creator_name, t.created_at,
                    (SELECT LISTAGG(tg.name, ',') WITHIN GROUP (ORDER BY tg.name)
                       FROM task_tags tt JOIN tags tg ON tg.id = tt.tag_id
                      WHERE tt.task_id = t.id AND tg.deleted_at IS NULL) AS tag_names,
@@ -33,6 +34,7 @@ public class H2TaskRepository implements TaskRepository {
               JOIN projects p ON p.id = t.project_id
               LEFT JOIN task_assignees a ON a.task_id = t.id AND a.role = 'RESPONSIBLE'
               LEFT JOIN users u ON u.id = a.user_id
+              LEFT JOIN users c ON c.id = t.creator_id
              WHERE t.deleted_at IS NULL AND p.deleted_at IS NULL
             """;
 
@@ -299,7 +301,9 @@ public class H2TaskRepository implements TaskRepository {
                 Jdbc.getEnum(rs, "priority", TaskPriority.class),
                 Jdbc.getDate(rs, "deadline"),
                 tagNames == null ? List.of() : Arrays.asList(tagNames.split(",")),
-                !rs.getBoolean("has_unsynced"));
+                !rs.getBoolean("has_unsynced"),
+                rs.getString("creator_name"),
+                Jdbc.getInstant(rs, "created_at"));
     }
 
     // ===== СТАТИСТИКА =====

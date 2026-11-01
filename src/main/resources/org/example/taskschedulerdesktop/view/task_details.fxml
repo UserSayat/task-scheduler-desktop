@@ -62,6 +62,18 @@
                 </VBox>
             </GridPane>
 
+            <!-- Автор: кто создал задачу и когда -->
+            <VBox spacing="6">
+                <Label text="АВТОР" styleClass="detail-field-label"/>
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <StackPane styleClass="avatar-box">
+                        <Label fx:id="authorAvatarLabel" styleClass="avatar-text"/>
+                    </StackPane>
+                    <Label fx:id="authorNameLabel"
+                           style="-fx-font-size:13px;-fx-text-fill:#111110;"/>
+                </HBox>
+            </VBox>
+
             <!-- Ответственный -->
             <VBox spacing="6">
                 <Label text="ОТВЕТСТВЕННЫЙ" styleClass="detail-field-label"/>

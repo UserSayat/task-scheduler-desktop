@@ -52,6 +52,8 @@ public class TaskDetailsController implements RightSidebar {
     @FXML private HBox assigneeView;
     @FXML private Label executorAvatarLabel;
     @FXML private Label executorNameLabel;
+    @FXML private Label authorAvatarLabel;
+    @FXML private Label authorNameLabel;
     @FXML private ComboBox<User> executorComboBox;
 
     @FXML private Label deadlineLabel;
@@ -337,12 +339,23 @@ public class TaskDetailsController implements RightSidebar {
         PriorityBadge.apply(priorityLabel, contextTask.priority());
         executorAvatarLabel.setText(Initials.of(contextTask.responsibleName()));
         executorNameLabel.setText(contextTask.responsibleName() != null ? contextTask.responsibleName() : "Не назначен");
+        authorAvatarLabel.setText(Initials.of(contextTask.creatorName()));
+        authorNameLabel.setText(authorText(contextTask));
         deadlineLabel.setText(formatFull(contextTask.deadline()));
         updateTags();
         boolean hasDescription = contextTask.description() != null && !contextTask.description().isBlank();
         taskDescriptionLabel.setText(hasDescription ? contextTask.description() : "Описания нет");
 
         log.info("UI updated");
+    }
+
+    /** «Мария Волкова · 28 окт.» — кто и когда создал задачу. */
+    private static String authorText(TaskView task) {
+        String name = task.creatorName() != null ? task.creatorName() : "Неизвестно";
+        if (task.createdAt() == null) {
+            return name;
+        }
+        return name + " · " + org.example.taskschedulerdesktop.shared.ui.DateFormatter.formatShort(task.createdAt().atZone(java.time.ZoneId.systemDefault()).toLocalDate());
     }
 
     private void afterAssignmentChange(TaskView updated) {

@@ -5,7 +5,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.control.Hyperlink;
 import org.example.taskschedulerdesktop.shared.api.ApiException;
 import org.example.taskschedulerdesktop.shared.api.OfflineException;
-import org.example.taskschedulerdesktop.shared.api.ServerConfig;
 import org.example.taskschedulerdesktop.sync.SyncService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +35,6 @@ public class LoginController {
     @FXML private Button loginButton;
     @FXML private HBox progressBox;
     @FXML private Label progressLabel;
-    @FXML private Label serverLabel;
 
     @FXML private Label formTitle;
     @FXML private ImageView logoImage;
@@ -76,7 +74,6 @@ public class LoginController {
         // Иконка вровень с «TaskHub / корпоративный портал»
         logoImage.fitHeightProperty().bind(logoText.heightProperty());
 
-        serverLabel.setText("Сервер: " + ServerConfig.serverUrl());
         loginButton.setOnAction(event -> login());
 
         forgotLink.setOnAction(event -> showReset());

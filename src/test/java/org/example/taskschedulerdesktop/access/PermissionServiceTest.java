@@ -177,6 +177,7 @@ class PermissionServiceTest {
         assertEquals(ELENA, taken.responsibleId());
         assertEquals(TaskStatus.IN_PROGRESS, taken.status());
         assertEquals(java.time.LocalDate.now(), tasks.findExtras(free.id()).startDate(), "дата начала — день, когда взяли в работу");
+        assertTrue(taken.creatorName() != null && taken.createdAt() != null, "в задаче виден автор и дата создания");
 
         assertTrue(as(MARIA).taskRights(free.id()).canJoin());
         tasks.join(free.id());

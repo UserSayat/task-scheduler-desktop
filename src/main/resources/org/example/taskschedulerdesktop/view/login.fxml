@@ -91,6 +91,5 @@
             <Label fx:id="progressLabel" styleClass="page-date"/>
         </HBox>
 
-        <Label fx:id="serverLabel" styleClass="page-date"/>
     </VBox>
 </StackPane>

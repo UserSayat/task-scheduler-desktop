@@ -9,7 +9,7 @@
 
     <!-- Поиск, выпадающие фильтры (их добавляет контроллер) и счётчик -->
     <HBox fx:id="topFilters" spacing="8" alignment="CENTER_LEFT">
-        <TextField fx:id="searchField" promptText="Поиск по задаче, проекту, ответственному или тегу"
+        <TextField fx:id="searchField" promptText="Поиск по задаче, проекту, людям или тегу"
                    styleClass="task-search" HBox.hgrow="ALWAYS" maxWidth="380" minWidth="160"/>
         <Button fx:id="resetFiltersButton" text="Сбросить" styleClass="filter-reset" minWidth="-Infinity"/>
         <Region HBox.hgrow="ALWAYS"/>
