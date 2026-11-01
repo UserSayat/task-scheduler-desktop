@@ -95,12 +95,29 @@ jobs:
     needs: [windows, macos]
     runs-on: ubuntu-latest
     steps:
+      # Репозиторий — ради CHANGELOG.md; до загрузки установщиков, иначе checkout очистил бы dist
+      - uses: actions/checkout@v4
+
       - uses: actions/download-artifact@v4
         with:
           path: dist
           merge-multiple: true
 
+      # Описание выпуска — раздел этой версии из CHANGELOG.md (от «## [X.Y.Z]» до следующего «## [»)
+      - name: Описание выпуска
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          awk -v v="$version" '
+            /^## \[/ { if (found) exit; if (index($0, "## [" v "]") == 1) { found = 1; next } }
+            found { print }
+          ' CHANGELOG.md > release-notes.md
+          if [ ! -s release-notes.md ]; then
+            echo "::warning::В CHANGELOG.md нет раздела [$version] — описание выпуска будет пустым"
+          fi
+
+      # Под описанием GitHub добавляет ссылку на полный список изменений
       - uses: softprops/action-gh-release@v2
         with:
           files: dist/*
+          body_path: release-notes.md
           generate_release_notes: true

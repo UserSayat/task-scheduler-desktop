@@ -80,7 +80,7 @@ Workflow `.github/workflows/installers.yml` собирает `.msi` (Windows) и
 
 1. Один раз задать адрес сервера: Settings → Secrets and variables → Actions → Variables → `TASKHUB_SERVER_URL` = `https://203-0-113-10.sslip.io`.
 2. Собрать вручную: Actions → «Установщики» → Run workflow (адрес можно указать в поле) — файлы появятся в разделе Artifacts.
-3. Выпустить версию: увеличить `app.version` в `pom.xml`, затем `git tag v1.0.1 && git push origin v1.0.1` — установщики прикрепятся к GitHub Release.
+3. Выпустить версию: добавить раздел `## [X.Y.Z]` в [CHANGELOG.md](CHANGELOG.md) (что нового — обычным языком), увеличить `app.version` в `pom.xml`, закоммитить, затем `git tag vX.Y.Z && git push origin vX.Y.Z` — установщики прикрепятся к GitHub Release, а раздел из CHANGELOG.md станет его описанием.
 
 ## Структура (package by feature)
 
