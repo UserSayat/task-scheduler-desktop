@@ -55,6 +55,11 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public ProjectView create(String name, UUID ownerId) {
+        return create(name, ownerId, Visibility.PRIVATE);
+    }
+
+    @Override
+    public ProjectView create(String name, UUID ownerId, Visibility visibility) {
         String validName = validName(name);
         Objects.requireNonNull(ownerId, "ownerId");
 
@@ -73,6 +78,7 @@ public class ProjectServiceImpl implements ProjectService {
             project.setId(UuidCreator.getTimeOrderedEpoch());
             project.setName(validName);
             project.setOwnerId(ownerId);
+            project.setVisibility(Objects.requireNonNull(visibility, "visibility"));
             project.setMembers(members);
             project.setCreatedAt(now);
             project.setUpdatedAt(now);

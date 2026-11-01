@@ -3,7 +3,10 @@ package org.example.taskschedulerdesktop.project;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 import org.example.taskschedulerdesktop.user.User;
 import org.example.taskschedulerdesktop.shared.navigation.NavigationManager;
@@ -22,6 +25,11 @@ public class CreateProjectController {
 
     @FXML private ComboBox<User> supervisorComboBox;
 
+    @FXML private ToggleGroup visibilityGroup;
+    @FXML private ToggleButton publicToggle;
+    @FXML private ToggleButton privateToggle;
+    @FXML private Label visibilityHint;
+
     @FXML private Button createProjectButton;
     @FXML private Button cancelButton;
 
@@ -32,6 +40,18 @@ public class CreateProjectController {
 
     @FXML
     public void initialize() {
+        publicToggle.setUserData(Visibility.PUBLIC);
+        privateToggle.setUserData(Visibility.PRIVATE);
+        // Выбор есть всегда: повторное нажатие на выбранную кнопку его не снимает
+        visibilityGroup.selectedToggleProperty().addListener((obs, oldToggle, newToggle) -> {
+            if (newToggle == null) {
+                oldToggle.setSelected(true);
+            } else {
+                showVisibilityHint();
+            }
+        });
+        showVisibilityHint();
+
         userService.findActiveUsers(
                 users -> supervisorComboBox.getItems().setAll(users),
                 error -> NavigationManager.showToast("Ошибка загрузки сотрудников", "error")
@@ -44,7 +64,7 @@ public class CreateProjectController {
                 return;
             }
 
-            projectService.saveProject(projectNameTextField.getText(), owner.getId(),
+            projectService.saveProject(projectNameTextField.getText(), owner.getId(), selectedVisibility(),
                     created -> {
                         Stage stage = (Stage) createProjectButton.getScene().getWindow();
                         if (stage != null) {
@@ -61,5 +81,15 @@ public class CreateProjectController {
                 NavigationManager.closeDialog(stage);
             }
         });
+    }
+
+    private Visibility selectedVisibility() {
+        return (Visibility) visibilityGroup.getSelectedToggle().getUserData();
+    }
+
+    private void showVisibilityHint() {
+        visibilityHint.setText(selectedVisibility() == Visibility.PUBLIC
+                ? "Проект и его задачи видят все сотрудники"
+                : "Видят только участники проекта и администраторы");
     }
 }

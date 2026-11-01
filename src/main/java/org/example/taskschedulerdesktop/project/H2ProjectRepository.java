@@ -18,7 +18,7 @@ public class H2ProjectRepository implements ProjectRepository {
      * Проект + владелец + статистика по задачам + признак синхронизации.
      */
     private static final String VIEW_SELECT = """
-            SELECT p.id, p.name, p.owner_id, u.name AS owner_name, p.status,
+            SELECT p.id, p.name, p.owner_id, u.name AS owner_name, p.status, p.visibility,
                    (SELECT COUNT(*) FROM tasks t
                      WHERE t.project_id = p.id AND t.deleted_at IS NULL) AS total_tasks,
                    (SELECT COUNT(*) FROM tasks t
@@ -229,6 +229,7 @@ public class H2ProjectRepository implements ProjectRepository {
                 rs.getInt("total_tasks"),
                 rs.getInt("done_tasks"),
                 !rs.getBoolean("has_unsynced"),
-                Jdbc.getEnum(rs, "status", ProjectStatus.class));
+                Jdbc.getEnum(rs, "status", ProjectStatus.class),
+                Jdbc.getEnum(rs, "visibility", Visibility.class));
     }
 }

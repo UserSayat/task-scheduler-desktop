@@ -10,6 +10,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import org.example.taskschedulerdesktop.project.AsyncProjectService;
 import org.example.taskschedulerdesktop.project.ProjectChangedEvent;
+import org.example.taskschedulerdesktop.project.ProjectLock;
 import org.example.taskschedulerdesktop.project.ProjectView;
 import org.example.taskschedulerdesktop.shared.event.EventBus;
 import org.example.taskschedulerdesktop.task.TaskChangedEvent;
@@ -121,6 +122,7 @@ public class SidebarProjects {
     private Button row(ProjectView project) {
         Label name = new Label(project.name());
         name.getStyleClass().add("sidebar-project-name");
+        ProjectLock.apply(name, project.isPrivate());
         name.setMinWidth(0);
         HBox.setHgrow(name, Priority.ALWAYS);
         name.setMaxWidth(Double.MAX_VALUE);

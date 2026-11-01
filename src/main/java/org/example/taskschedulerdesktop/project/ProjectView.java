@@ -15,11 +15,17 @@ public record ProjectView(
         int totalTasks,
         int doneTasks,
         boolean synced,
-        ProjectStatus status
+        ProjectStatus status,
+        Visibility visibility
 ) {
 
     public boolean archived() {
         return status == ProjectStatus.ARCHIVED;
+    }
+
+    /** Закрытый: видят только участники и администраторы. */
+    public boolean isPrivate() {
+        return visibility == Visibility.PRIVATE;
     }
 
     public int remainingTasks() {

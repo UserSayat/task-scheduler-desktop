@@ -11,7 +11,10 @@ public interface ProjectService {
 
     ProjectView findById(UUID id);
 
+    /** Закрытый проект (видимость по умолчанию в модели). */
     ProjectView create(String name, UUID ownerId);
+
+    ProjectView create(String name, UUID ownerId, Visibility visibility);
 
     /**
      * Название и руководитель. Остальные участники остаются как были, прежний руководитель становится менеджером.

@@ -62,6 +62,13 @@ public class AsyncProjectService {
         }, onError);
     }
 
+    public void saveProject(String name, UUID ownerId, Visibility visibility, Consumer<ProjectView> onSuccess, Consumer<Throwable> onError) {
+        submit(() -> delegate.create(name, ownerId, visibility), created -> {
+            EventBus.getInstance().fire(new ProjectChangedEvent(created.id(), ChangeType.CREATED));
+            onSuccess.accept(created);
+        }, onError);
+    }
+
     public void updateProject(UUID projectId, String name, UUID ownerId, Consumer<ProjectView> onSuccess, Consumer<Throwable> onError) {
         submit(() -> delegate.update(projectId, name, ownerId), updated -> {
             EventBus.getInstance().fire(new ProjectChangedEvent(projectId, ChangeType.UPDATED));

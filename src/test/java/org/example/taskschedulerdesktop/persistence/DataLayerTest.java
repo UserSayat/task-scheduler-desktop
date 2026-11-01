@@ -84,6 +84,19 @@ class DataLayerTest {
     }
 
     @Test
+    void projectKeepsChosenVisibility() throws SQLException {
+        ProjectView open = projectService.create("Открытый", MARIA, Visibility.PUBLIC);
+        ProjectView closed = projectService.create("Закрытый", MARIA, Visibility.PRIVATE);
+
+        assertFalse(open.isPrivate());
+        assertTrue(closed.isPrivate());
+        assertEquals(Visibility.PUBLIC, projectService.findInfo(open.id()).visibility());
+        // Видимость уходит на сервер вместе с созданием проекта
+        assertEquals(1, count("SELECT COUNT(*) FROM field_versions WHERE entity_id = '" + open.id()
+                + "' AND field_name = 'visibility'"));
+    }
+
+    @Test
     void createWritesEntityAndChangeLogInOneGo() throws SQLException {
         ProjectView project = projectService.create("Редизайн сайта", MARIA);
         TaskView task = taskService.create(new NewTask(

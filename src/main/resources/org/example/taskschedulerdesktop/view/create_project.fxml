@@ -27,6 +27,18 @@
         <TextField fx:id="projectNameTextField" promptText="Название проекта"
                    styleClass="text-field-styled"/>
 
+        <Label text="ДОСТУП" styleClass="field-label"/>
+        <HBox spacing="4">
+            <fx:define>
+                <ToggleGroup fx:id="visibilityGroup"/>
+            </fx:define>
+            <ToggleButton fx:id="publicToggle" text="Открытый" styleClass="toggle-visibility"
+                          toggleGroup="$visibilityGroup" selected="true"/>
+            <ToggleButton fx:id="privateToggle" text="Закрытый" styleClass="toggle-visibility"
+                          toggleGroup="$visibilityGroup"/>
+        </HBox>
+        <Label fx:id="visibilityHint" styleClass="visibility-hint" wrapText="true"/>
+
         <Label text="РУКОВОДИТЕЛЬ" styleClass="field-label"/>
         <ComboBox fx:id="supervisorComboBox" maxWidth="Infinity"
                   styleClass="combo-box-styled" promptText="Выбрать"/>

@@ -92,6 +92,11 @@
 .sidebar-projects { -fx-padding: 0 0 12 0; }
 .sidebar-project { -fx-padding: 6 20 6 20; -fx-font-size: 13px; }
 .sidebar-project-name { -fx-text-fill: rgba(255,255,255,0.4); -fx-font-size: 13px; }
+/* Замок у закрытого проекта; в меню — под цвет названия */
+.project-lock { -fx-fill: #9b9b95; }
+.sidebar-project .project-lock { -fx-fill: rgba(255,255,255,0.3); }
+.sidebar-project:hover .project-lock { -fx-fill: rgba(255,255,255,0.6); }
+.sidebar-project.nav-btn-active .project-lock { -fx-fill: rgba(255,255,255,0.85); }
 .sidebar-project:hover .sidebar-project-name { -fx-text-fill: rgba(255,255,255,0.7); }
 .sidebar-project.nav-btn-active .sidebar-project-name { -fx-text-fill: rgba(255,255,255,0.96); }
 .sidebar-project-count { -fx-text-fill: rgba(255,255,255,0.3); -fx-font-size: 11px; }
@@ -558,6 +563,18 @@
 .toggle-low:selected {
   -fx-border-color: #14532d; -fx-border-width: 1.5;
 }
+
+/* Доступ к проекту в окне создания */
+.toggle-visibility {
+  -fx-background-color: white; -fx-text-fill: #55554f;
+  -fx-border-color: #e2e2dc; -fx-border-width: 1;
+  -fx-font-size: 12px; -fx-padding: 5 14;
+  -fx-cursor: hand; -fx-background-radius: 0; -fx-border-radius: 0;
+}
+.toggle-visibility:selected {
+  -fx-background-color: #111110; -fx-text-fill: white; -fx-border-color: #111110;
+}
+.visibility-hint { -fx-font-size: 12px; -fx-text-fill: #9b9b95; -fx-padding: 0 0 4 0; }
 
 /* ── Модальное окно ─────────────────────────────────── */
 .modal-root { -fx-background-color: white; }

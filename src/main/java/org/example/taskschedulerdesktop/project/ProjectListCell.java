@@ -51,6 +51,7 @@ public class ProjectListCell extends ListCell<ProjectView> {
             setGraphic(null);
         } else {
             nameLabel.setText(project.name());
+            ProjectLock.apply(nameLabel, project.isPrivate());
             supervisorLabel.setText(Initials.of(project.ownerName()));
             ratioLabel.setText(project.doneTasks() + "/" + project.totalTasks() + " задач");
             percentLabel.setText(project.percentDone() + "%");
