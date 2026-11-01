@@ -2,16 +2,18 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
 <StackPane styleClass="login-root" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
            fx:controller="org.example.taskschedulerdesktop.auth.LoginController">
     <VBox styleClass="login-card" maxWidth="380" maxHeight="-Infinity" spacing="14">
-        <HBox spacing="10" alignment="CENTER_LEFT">
-            <StackPane styleClass="logo-icon">
-                <Label text="TF" style="-fx-text-fill:white;-fx-font-size:10px;-fx-font-weight:bold;"/>
-            </StackPane>
-            <VBox spacing="2">
+        <HBox spacing="10" alignment="CENTER_LEFT" fillHeight="false">
+            <!-- Иконка приложения: высота — как у подписи справа (задаёт контроллер) -->
+            <ImageView fx:id="logoImage" preserveRatio="true" smooth="true">
+                <Image url="@../icons/app-128.png"/>
+            </ImageView>
+            <VBox fx:id="logoText" spacing="2">
                 <Label text="TaskHub" styleClass="login-title"/>
                 <Label text="КОРПОРАТИВНЫЙ ПОРТАЛ" styleClass="field-label"/>
             </VBox>

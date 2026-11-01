@@ -16,6 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
 /**
@@ -38,6 +39,8 @@ public class LoginController {
     @FXML private Label serverLabel;
 
     @FXML private Label formTitle;
+    @FXML private ImageView logoImage;
+    @FXML private VBox logoText;
     @FXML private VBox loginBox;
     @FXML private Hyperlink forgotLink;
     @FXML private Label infoLabel;
@@ -70,6 +73,9 @@ public class LoginController {
 
     @FXML
     public void initialize() {
+        // Иконка вровень с «TaskHub / корпоративный портал»
+        logoImage.fitHeightProperty().bind(logoText.heightProperty());
+
         serverLabel.setText("Сервер: " + ServerConfig.serverUrl());
         loginButton.setOnAction(event -> login());
 
