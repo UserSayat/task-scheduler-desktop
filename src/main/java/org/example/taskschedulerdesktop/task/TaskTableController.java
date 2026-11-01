@@ -22,6 +22,8 @@ import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -56,8 +58,30 @@ public class TaskTableController implements Shutdownable {
 
     private final Consumer<TaskChangedEvent> taskChangedEventListener = event -> loadTasks();
 
+    /** Откуда брать задачи: по умолчанию все видимые; «Обзор» подставляет «Мои задачи». */
+    private BiConsumer<Consumer<List<TaskView>>, Consumer<Throwable>> source;
+    private int loadRequest;
+
     public TaskTableController(AsyncTaskService asyncTaskService) {
         this.asyncTaskService = asyncTaskService;
+        this.source = asyncTaskService::findAllTasksView;
+    }
+
+    /** Показывать задачи из другого источника (сразу перезагружает таблицу). */
+    public void setSource(BiConsumer<Consumer<List<TaskView>>, Consumer<Throwable>> source) {
+        this.source = source;
+        loadTasks();
+    }
+
+    /** Подсказка вместо пустой таблицы, когда задач нет совсем. */
+    public void setEmptyText(String text) {
+        emptyPlaceholder.setText(text);
+    }
+
+    /** Упорядочить по сроку: ближайший первым (как щелчок по заголовку «Дедлайн»). */
+    public void sortByDeadline() {
+        deadlineColumn.setSortType(TableColumn.SortType.ASCENDING);
+        taskTable.getSortOrder().setAll(List.of(deadlineColumn));
     }
 
     @FXML
@@ -143,13 +167,21 @@ public class TaskTableController implements Shutdownable {
     }
 
     public void loadTasks() {
-        asyncTaskService.findAllTasksView(
+        // Ответы приходят асинхронно; более старый запрос (например, до смены источника) не должен затереть новый
+        int request = ++loadRequest;
+        source.accept(
                 taskViews -> {
+                    if (request != loadRequest) {
+                        return;
+                    }
                     log.debug("onSuccess: received {} tasks", taskViews.size());
                     bindPlaceholder();
                     allTasks.setAll(taskViews);
                 },
                 error -> {
+                    if (request != loadRequest) {
+                        return;
+                    }
                     allTasks.clear();
                     taskTable.placeholderProperty().unbind();
                     taskTable.setPlaceholder(new Label("Ошибка загрузки: " + error.getMessage()));

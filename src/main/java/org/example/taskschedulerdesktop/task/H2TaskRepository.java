@@ -272,6 +272,15 @@ public class H2TaskRepository implements TaskRepository {
                 """, maxDaysUntilDeadline);
     }
 
+    @Override
+    public List<TaskView> findOpenViewsAssignedTo(UUID userId) throws SQLException {
+        return queryViews(VIEW_SELECT + """
+                 AND t.status <> 'DONE'
+                 AND EXISTS (SELECT 1 FROM task_assignees m WHERE m.task_id = t.id AND m.user_id = ?)
+                 ORDER BY t.deadline NULLS LAST, t.created_at
+                """, userId);
+    }
+
     private List<TaskView> queryViews(String sql, Object... params) throws SQLException {
         List<TaskView> views = new ArrayList<>();
         try (PreparedStatement ps = uow.connection().prepareStatement(sql)) {

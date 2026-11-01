@@ -29,6 +29,9 @@ public interface TaskRepository {
 
     List<TaskView> findUpcomingDeadlines(int maxDaysUntilDeadline) throws SQLException;
 
+    /** Незавершённые задачи, где пользователь ответственный или соисполнитель: ближайший срок первым. */
+    List<TaskView> findOpenViewsAssignedTo(UUID userId) throws SQLException;
+
     /** Самые важные открытые задачи проекта: сначала по приоритету, потом по сроку. */
     List<TaskView> findTopOpenViews(UUID projectId, int limit) throws SQLException;
 

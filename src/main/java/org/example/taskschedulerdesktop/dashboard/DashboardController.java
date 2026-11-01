@@ -24,6 +24,7 @@ import org.example.taskschedulerdesktop.shared.navigation.Routes;
 import org.example.taskschedulerdesktop.project.AsyncProjectService;
 import org.example.taskschedulerdesktop.task.AsyncTaskService;
 import org.example.taskschedulerdesktop.task.TaskStatus;
+import org.example.taskschedulerdesktop.task.TaskTableController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,6 +47,9 @@ public class DashboardController implements Shutdownable {
     @FXML private ListView<TaskView> deadlinesListView;
 
     @FXML private VBox taskTableContainerVBox;
+    @FXML private Label myTasksCount;
+
+    private TaskTableController myTasks;
 
     private final Consumer<TaskChangedEvent> taskUpdateListener = event -> {
         refreshStat();
@@ -134,6 +138,13 @@ public class DashboardController implements Shutdownable {
             Node taskTable = loader.load();
             taskTableContainerVBox.getChildren().add(taskTable);
 
+            // «Мои задачи» (ТЗ, раздел 10): свои незавершённые задачи, ближайший срок первым
+            myTasks = loader.getController();
+            myTasks.setEmptyText("Нет задач в работе — свободные задачи можно взять в разделе «Задачи»");
+            myTasks.setSource(asyncTaskService::findMyOpenTasks);
+            myTasks.sortByDeadline();
+            myTasks.totalProperty().addListener((obs, old, count) -> myTasksCount.setText(count + " " + tasksWord(count.intValue())));
+
             log.debug("Task table loaded successfully");
         } catch (IOException e) {
             log.error("Error loading task table", e);
@@ -186,9 +197,25 @@ public class DashboardController implements Shutdownable {
         ;
     }
 
+    /** 1 задача, 2 задачи, 5 задач. */
+    private static String tasksWord(int count) {
+        int lastTwo = count % 100;
+        if (lastTwo >= 11 && lastTwo <= 14) {
+            return "задач";
+        }
+        return switch (count % 10) {
+            case 1 -> "задача";
+            case 2, 3, 4 -> "задачи";
+            default -> "задач";
+        };
+    }
+
     @Override
     public void shutdown() {
         EventBus.getInstance().unsubscribe(TaskChangedEvent.class, taskUpdateListener);
         EventBus.getInstance().unsubscribe(ProjectChangedEvent.class, projectUpdateListener);
+        if (myTasks != null) {
+            myTasks.shutdown(); // иначе таблица продолжала бы слушать изменения задач после ухода с «Обзора»
+        }
     }
 }

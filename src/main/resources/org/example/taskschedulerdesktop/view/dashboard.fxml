@@ -107,11 +107,12 @@
                 </rowConstraints>
             </GridPane>
 
-            <!-- Таблица последних задач -->
-            <!--        <HBox alignment="CENTER_LEFT" style="-fx-padding:0 0 12 0;">-->
-            <!--            <Label text="Последние задачи" styleClass="card-title" HBox.hgrow="ALWAYS"/>-->
-            <!--            <Label text="6 из 10" styleClass="section-mono"/>-->
-            <!--        </HBox>-->
+            <!-- Мои задачи: незавершённые, где пользователь ответственный или соисполнитель -->
+            <HBox alignment="CENTER_LEFT" spacing="8">
+                <Label text="Мои задачи" styleClass="card-title"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label fx:id="myTasksCount" styleClass="section-mono" text="ответственный или соисполнитель"/>
+            </HBox>
             <VBox fx:id="taskTableContainerVBox">
             </VBox>
 

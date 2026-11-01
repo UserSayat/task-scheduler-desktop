@@ -14,6 +14,9 @@ public interface TaskService {
 
     List<TaskView> findUpcomingDeadlines(int maxDaysUntilDeadline);
 
+    /** «Мои задачи»: незавершённые, где текущий пользователь ответственный или соисполнитель. */
+    List<TaskView> findMyOpenViews();
+
     List<TaskView> findTopOpenViews(UUID projectId, int limit);
 
     TaskView create(NewTask newTask);

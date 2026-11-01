@@ -100,6 +100,10 @@ public class AsyncTaskService {
         submit(delegate::findAllViews, onSuccess, onError);
     }
 
+    public void findMyOpenTasks(Consumer<List<TaskView>> onSuccess, Consumer<Throwable> onError) {
+        submit(delegate::findMyOpenViews, onSuccess, onError);
+    }
+
     public void findUpcomingDeadlines(int maxDaysUntilDeadline, Consumer<List<TaskView>> onSuccess, Consumer<Throwable> onError) {
         submit(() -> delegate.findUpcomingDeadlines(maxDaysUntilDeadline), onSuccess, onError);
     }

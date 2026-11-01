@@ -76,6 +76,12 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    public List<TaskView> findMyOpenViews() {
+        UUID me = session.getCurrentUserId();
+        return me == null ? List.of() : uow.read(() -> repository.findOpenViewsAssignedTo(me));
+    }
+
+    @Override
     public List<TaskView> findTopOpenViews(UUID projectId, int limit) {
         return uow.read(() -> repository.findTopOpenViews(projectId, limit));
     }

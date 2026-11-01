@@ -160,6 +160,24 @@ class PermissionServiceTest {
                 new TaskExtras(null, List.of(), List.of(PAVEL))));
     }
 
+    @Test
+    void myTasksAreOpenTasksWhereIAmResponsibleOrCoExecutor() {
+        // Мария — соисполнитель задачи, где ответственная Елена
+        tasks.update(new TaskEdit(mariasTask.id(), mariasTask.title(), null, null, null, null, ELENA, List.of(),
+                new TaskExtras(null, List.of(MARIA), List.of(PAVEL))));
+
+        as(ELENA);
+        assertEquals(List.of(mariasTask.id()), tasks.findMyOpenViews().stream().map(TaskView::id).toList(), "ответственная");
+        as(MARIA);
+        assertEquals(List.of(mariasTask.id()), tasks.findMyOpenViews().stream().map(TaskView::id).toList(), "соисполнитель");
+        as(PAVEL);
+        assertTrue(tasks.findMyOpenViews().isEmpty(), "наблюдатель — не исполнитель");
+
+        as(ELENA);
+        tasks.update(new TaskEdit(mariasTask.id(), mariasTask.title(), null, TaskStatus.DONE, null, null, ELENA, List.of()));
+        assertTrue(tasks.findMyOpenViews().isEmpty(), "завершённые не показываются");
+    }
+
     private PermissionService as(UUID userId) {
         session.signIn(userId);
         return permissions;
