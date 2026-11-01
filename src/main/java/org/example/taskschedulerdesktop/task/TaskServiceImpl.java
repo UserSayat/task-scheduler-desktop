@@ -2,6 +2,7 @@ package org.example.taskschedulerdesktop.task;
 
 import com.github.f4b6a3.uuid.UuidCreator;
 import org.example.taskschedulerdesktop.access.PermissionRepository;
+import org.example.taskschedulerdesktop.access.ProjectTeam;
 import org.example.taskschedulerdesktop.session.Session;
 import org.example.taskschedulerdesktop.shared.database.UnitOfWork;
 import org.example.taskschedulerdesktop.shared.exception.NotFoundException;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
@@ -124,7 +126,7 @@ public class TaskServiceImpl implements TaskService {
             repository.insert(task);
             // После вставки: задача в несуществующий проект падает на ограничении базы, а не здесь
             if (newTask.responsibleId() != null) {
-                requireCanView(newTask.projectId(), List.of(newTask.responsibleId()));
+                requireTeam(newTask.projectId(), List.of(newTask.responsibleId()), true);
             }
             changeTracker.created(EntityType.TASK, task.getId(), Fields.ON_CREATE, now);
 
@@ -175,15 +177,15 @@ public class TaskServiceImpl implements TaskService {
                     : withResponsible(task.getAssignees(), edit.responsibleId());
             if (!new HashSet<>(assignees).equals(new HashSet<>(task.getAssignees()))) {
                 Set<UUID> before = task.getAssignees().stream().map(TaskAssignee::userId).collect(Collectors.toSet());
-                requireCanView(task.getProjectId(), assignees.stream().map(TaskAssignee::userId)
-                        .filter(id -> !before.contains(id)).toList());
+                requireTeam(task.getProjectId(), assignees.stream().map(TaskAssignee::userId)
+                        .filter(id -> !before.contains(id)).toList(), true);
                 task.setAssignees(assignees);
                 changed.add(Fields.ASSIGNEES);
             }
 
             if (extras != null && !new HashSet<>(extras.observerIds()).equals(new HashSet<>(task.getObserverIds()))) {
                 Set<UUID> before = Set.copyOf(task.getObserverIds());
-                requireCanView(task.getProjectId(), extras.observerIds().stream().filter(id -> !before.contains(id)).toList());
+                requireTeam(task.getProjectId(), extras.observerIds().stream().filter(id -> !before.contains(id)).toList(), false);
                 task.setObserverIds(extras.observerIds());
                 changed.add(Fields.OBSERVERS);
             }
@@ -222,19 +224,25 @@ public class TaskServiceImpl implements TaskService {
     }
 
     /**
-     * Новые исполнители и наблюдатели должны видеть проект — иначе сервер отклонит изменение (API.md, 8.7).
-     * Кто уже был в задаче, остаётся, даже если его потом исключили из проекта.
+     * Новые исполнители — участники проекта, кроме наблюдателей; новые наблюдатели — любые участники
+     * и администраторы.
+     * Иначе сервер отклонит изменение (API.md, 8.7). Кто уже был в задаче, остаётся, даже если его потом
+     * исключили из проекта.
      */
-    private void requireCanView(UUID projectId, List<UUID> added) throws SQLException {
+    private void requireTeam(UUID projectId, List<UUID> added, boolean assignees) throws SQLException {
         if (added.isEmpty()) {
             return;
         }
-        Set<UUID> viewers = permissions.usersWhoCanView(projectId);
+        Map<UUID, String> roles = permissions.projectMembers(projectId);
+        ProjectTeam team = ProjectTeam.of(roles, assignees ? Set.of() : permissions.admins());
         for (UUID userId : added) {
-            if (!viewers.contains(userId)) {
+            if (!(assignees ? team.assignable() : team.observers()).contains(userId)) {
                 String name = permissions.userName(userId).orElse("Сотрудник");
-                throw new IllegalArgumentException("«" + name + "» не участвует в проекте: добавьте сотрудника в участники "
-                        + "или выберите другого сотрудника");
+                throw new IllegalArgumentException(roles.containsKey(userId)
+                        ? "«" + name + "» — наблюдатель в проекте и не может исполнять задачи: смените ему роль "
+                                + "или выберите другого сотрудника"
+                        : "«" + name + "» не участвует в проекте: добавьте сотрудника в участники "
+                                + "или выберите другого сотрудника");
             }
         }
     }

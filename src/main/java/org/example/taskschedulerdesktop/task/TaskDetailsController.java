@@ -8,6 +8,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.example.taskschedulerdesktop.access.AsyncPermissionService;
 import org.example.taskschedulerdesktop.access.PermissionService;
+import org.example.taskschedulerdesktop.access.ProjectTeam;
 import org.example.taskschedulerdesktop.shared.ui.RightSidebar;
 import org.example.taskschedulerdesktop.user.User;
 import org.example.taskschedulerdesktop.shared.navigation.NavigationManager;
@@ -19,6 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -80,7 +82,7 @@ public class TaskDetailsController implements RightSidebar {
     /** Все активные сотрудники. */
     private List<User> allUsers = List.of();
     /** Кто видит проект задачи; null — ещё не загружено. */
-    private Set<UUID> projectViewers;
+    private ProjectTeam projectTeam;
 
     @FXML private HBox viewActionsHBox;
     @FXML private Button acceptButton;
@@ -266,35 +268,46 @@ public class TaskDetailsController implements RightSidebar {
         updateUI();
         loadRights();
         loadExtras();
-        loadProjectViewers();
+        loadProjectTeam();
     }
 
-    private void loadProjectViewers() {
-        projectViewers = null;
+    private void loadProjectTeam() {
+        projectTeam = null;
         TaskView task = contextTask;
-        permissions.usersWhoCanView(task.projectId(), viewers -> {
+        permissions.projectTeam(task.projectId(), team -> {
             if (task == contextTask) {
-                projectViewers = viewers;
+                projectTeam = team;
             }
         });
     }
 
     /**
-     * Кого можно выбрать исполнителем, соисполнителем или наблюдателем: тех, кто видит проект (API.md, 8.7),
-     * и тех, кто уже есть в задаче, — чтобы их можно было оставить или снять.
+     * Кого можно выбрать исполнителем и соисполнителем: участников проекта, кроме наблюдателей (API.md, 8.7),
+     * и тех, кто уже исполняет задачу, — чтобы их можно было оставить или снять.
      */
-    private List<User> candidates() {
-        if (projectViewers == null) {
-            return allUsers;
-        }
-        Set<UUID> allowed = new HashSet<>(projectViewers);
+    private List<User> assigneeCandidates() {
+        Set<UUID> current = new HashSet<>();
         if (contextTask.responsibleId() != null) {
-            allowed.add(contextTask.responsibleId());
+            current.add(contextTask.responsibleId());
         }
         if (extras != null) {
-            allowed.addAll(extras.coExecutorIds());
-            allowed.addAll(extras.observerIds());
+            current.addAll(extras.coExecutorIds());
         }
+        return candidates(projectTeam == null ? null : projectTeam.assignable(), current);
+    }
+
+    /** Наблюдателем — любого участника проекта, администратора и тех, кто уже наблюдает. */
+    private List<User> observerCandidates() {
+        return candidates(projectTeam == null ? null : projectTeam.observers(),
+                extras != null ? extras.observerIds() : List.of());
+    }
+
+    private List<User> candidates(Set<UUID> team, Collection<UUID> current) {
+        if (team == null) {
+            return allUsers; // состав ещё загружается; лишнего не пропустит проверка при сохранении
+        }
+        Set<UUID> allowed = new HashSet<>(team);
+        allowed.addAll(current);
         return allUsers.stream().filter(user -> allowed.contains(user.getId())).toList();
     }
 
@@ -444,7 +457,7 @@ public class TaskDetailsController implements RightSidebar {
         statusComboBox.setValue(contextTask.status().getDisplayName());
         priorityComboBox.setValue(contextTask.priority().getDisplayName());
         deadlineDatePicker.setValue(contextTask.deadline());
-        executorComboBox.getItems().setAll(candidates());
+        executorComboBox.getItems().setAll(assigneeCandidates());
         executorComboBox.setValue(executorComboBox.getItems().stream()
                 .filter(user -> user.getId().equals(contextTask.responsibleId()))
                 .findFirst()
@@ -455,7 +468,7 @@ public class TaskDetailsController implements RightSidebar {
         if (extras != null) {
             startDatePicker.setValue(extras.startDate());
             coExecutorsPicker.show(executorComboBox.getItems(), Set.copyOf(extras.coExecutorIds()), userNames);
-            observersPicker.show(executorComboBox.getItems(), Set.copyOf(extras.observerIds()), userNames);
+            observersPicker.show(observerCandidates(), Set.copyOf(extras.observerIds()), userNames);
         }
 
         boolean statusOnly = !rights.canEdit();

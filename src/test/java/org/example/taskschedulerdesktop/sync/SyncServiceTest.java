@@ -360,7 +360,7 @@ class SyncServiceTest {
 
     private TaskView createTask(String title) {
         ProjectView project = projectService.create("Проект", DevDataSeeder.DEV_ADMIN_ID);
-        makePublic(project.id()); // исполнитель Мария не участник — открытый проект видят все
+        addEveryone(project.id()); // исполнитель — участник проекта
         return taskService.create(new NewTask(title, project.id(), MARIA, TaskPriority.HIGH, null, List.of()));
     }
 
@@ -411,9 +411,10 @@ class SyncServiceTest {
         return SyncValues.uuidArray(List.of());
     }
 
-    private void makePublic(UUID projectId) {
+    /** Все сотрудники — участники проекта. */
+    private void addEveryone(UUID projectId) {
         try (Connection c = DriverManager.getConnection(url, "sa", "");
-             PreparedStatement ps = c.prepareStatement("UPDATE projects SET visibility = 'PUBLIC' WHERE id = ?")) {
+             PreparedStatement ps = c.prepareStatement("INSERT INTO project_members (id, project_id, user_id, role) SELECT RANDOM_UUID(), p.id, u.id, 'MEMBER' FROM projects p CROSS JOIN users u WHERE p.id = ? AND NOT EXISTS (SELECT 1 FROM project_members m WHERE m.project_id = p.id AND m.user_id = u.id)")) {
             ps.setObject(1, projectId);
             ps.executeUpdate();
         } catch (SQLException e) {

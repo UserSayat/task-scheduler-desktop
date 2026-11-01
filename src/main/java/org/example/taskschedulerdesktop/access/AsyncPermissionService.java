@@ -48,9 +48,9 @@ public class AsyncPermissionService {
         run(delegate::projectsForNewTasks, onResult, Set.of());
     }
 
-    /** Кто может быть исполнителем или наблюдателем задач проекта; при ошибке — пустой набор. */
-    public void usersWhoCanView(UUID projectId, Consumer<Set<UUID>> onResult) {
-        run(() -> delegate.usersWhoCanView(projectId), onResult, Set.of());
+    /** Кого можно назначить на задачи проекта; при ошибке — никого. */
+    public void projectTeam(UUID projectId, Consumer<ProjectTeam> onResult) {
+        run(() -> delegate.projectTeam(projectId), onResult, ProjectTeam.EMPTY);
     }
 
     private <T> void run(Callable<T> check, Consumer<T> onResult, T denied) {

@@ -104,7 +104,7 @@ class PermissionServiceTest {
         assertEquals(new PermissionService.TaskRights(false, true), as(ELENA).taskRights(mariasTask.id()), "исполнитель");
         assertEquals(new PermissionService.TaskRights(false, false), as(PAVEL).taskRights(mariasTask.id()));
 
-        TaskView elenasTask = tasks.create(new NewTask("Задача Елены", project.id(), PAVEL, TaskPriority.LOW, null, List.of()));
+        TaskView elenasTask = tasks.create(new NewTask("Задача Елены", project.id(), ELENA, TaskPriority.LOW, null, List.of()));
         assertTrue(permissions.taskRights(elenasTask.id()).canEdit(), "автор может менять свою задачу");
     }
 
@@ -122,20 +122,30 @@ class PermissionServiceTest {
     }
 
     @Test
-    void assigneesAndObserversOfPrivateProjectMustSeeIt() {
-        // Закрытый проект видят участники и администратор
-        Set<UUID> viewers = permissions.usersWhoCanView(project.id());
-        assertTrue(viewers.containsAll(Set.of(MARIA, ELENA, PAVEL, ADMIN)));
-        assertFalse(viewers.contains(DMITRY), "не участник");
+    void assigneesAndObserversMustBeProjectMembers() {
+        // Исполнители — участники, кроме наблюдателей; наблюдатели — любые участники и администратор
+        ProjectTeam team = permissions.projectTeam(project.id());
+        assertEquals(Set.of(MARIA, ELENA), team.assignable());
+        assertEquals(Set.of(MARIA, ELENA, PAVEL, ADMIN), team.observers());
 
-        IllegalArgumentException refused = assertThrows(IllegalArgumentException.class, () -> tasks.create(
+        IllegalArgumentException outsider = assertThrows(IllegalArgumentException.class, () -> tasks.create(
                 new NewTask("Постороннему", project.id(), DMITRY, TaskPriority.LOW, null, List.of())));
-        assertTrue(refused.getMessage().contains("не участвует в проекте"));
-        tasks.create(new NewTask("Администратору", project.id(), ADMIN, TaskPriority.LOW, null, List.of()));
+        assertTrue(outsider.getMessage().contains("не участвует в проекте"));
+        assertThrows(IllegalArgumentException.class, () -> tasks.create(
+                new NewTask("Администратору", project.id(), ADMIN, TaskPriority.LOW, null, List.of())),
+                "администратор вне проекта");
+        IllegalArgumentException observer = assertThrows(IllegalArgumentException.class, () -> tasks.create(
+                new NewTask("Наблюдателю", project.id(), PAVEL, TaskPriority.LOW, null, List.of())));
+        assertTrue(observer.getMessage().contains("наблюдатель в проекте"));
 
         assertThrows(IllegalArgumentException.class, () -> tasks.update(new TaskEdit(mariasTask.id(), mariasTask.title(),
                 null, null, null, null, ELENA, List.of(), new TaskExtras(null, List.of(), List.of(DMITRY)))),
                 "наблюдатель не из проекта");
+        assertThrows(IllegalArgumentException.class, () -> tasks.update(new TaskEdit(mariasTask.id(), mariasTask.title(),
+                null, null, null, null, ELENA, List.of(), new TaskExtras(null, List.of(PAVEL), List.of()))),
+                "соисполнитель с ролью наблюдателя");
+        tasks.update(new TaskEdit(mariasTask.id(), mariasTask.title(), null, null, null, null, ELENA, List.of(),
+                new TaskExtras(null, List.of(MARIA), List.of(PAVEL, ADMIN))));
     }
 
     @Test

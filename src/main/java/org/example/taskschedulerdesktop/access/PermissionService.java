@@ -91,9 +91,9 @@ public class PermissionService {
         return uow.read(() -> isAdmin() ? null : repository.projectsWithRole(userId(), TASK_CREATORS));
     }
 
-    /** Кто может быть исполнителем или наблюдателем задач проекта (видит проект). */
-    public Set<UUID> usersWhoCanView(UUID projectId) {
-        return uow.read(() -> repository.usersWhoCanView(projectId));
+    /** Кого можно назначить исполнителем и наблюдателем задач проекта. */
+    public ProjectTeam projectTeam(UUID projectId) {
+        return uow.read(() -> ProjectTeam.of(repository.projectMembers(projectId), repository.admins()));
     }
 
     /**

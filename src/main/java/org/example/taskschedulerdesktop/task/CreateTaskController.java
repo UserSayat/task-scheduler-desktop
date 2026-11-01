@@ -144,8 +144,7 @@ public class CreateTaskController {
     }
 
     /**
-     * Исполнителем закрытого проекта может быть только его участник или администратор (API.md, 8.7):
-     * список зависит от выбранного проекта.
+     * Исполнитель — участник выбранного проекта, кроме наблюдателей (API.md, 8.7): список зависит от проекта.
      */
     private void refreshExecutors() {
         ProjectView project = projectComboBox.getValue();
@@ -153,14 +152,14 @@ public class CreateTaskController {
             executorComboBox.getItems().clear();
             return;
         }
-        permissions.usersWhoCanView(project.id(), viewers -> {
+        permissions.projectTeam(project.id(), team -> {
             if (project != projectComboBox.getValue()) {
                 return; // пока шёл запрос, выбрали другой проект
             }
             User selected = executorComboBox.getValue();
-            List<User> available = allUsers.stream().filter(user -> viewers.contains(user.getId())).toList();
+            List<User> available = allUsers.stream().filter(user -> team.assignable().contains(user.getId())).toList();
             executorComboBox.getItems().setAll(available);
-            executorComboBox.setPromptText(available.isEmpty() ? "Нет сотрудников с доступом к проекту" : "Назначить");
+            executorComboBox.setPromptText(available.isEmpty() ? "В проекте нет участников, которым можно назначить задачу" : "Назначить");
             if (selected != null && available.stream().anyMatch(user -> user.getId().equals(selected.getId()))) {
                 executorComboBox.setValue(selected);
             }

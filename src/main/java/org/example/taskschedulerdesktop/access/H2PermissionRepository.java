@@ -7,7 +7,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
@@ -21,23 +23,36 @@ public class H2PermissionRepository implements PermissionRepository {
     }
 
     @Override
-    public Set<UUID> usersWhoCanView(UUID projectId) throws SQLException {
+    public Map<UUID, String> projectMembers(UUID projectId) throws SQLException {
         String sql = """
-                SELECT u.id FROM users u
-                 WHERE u.deleted_at IS NULL
-                   AND (EXISTS (SELECT 1 FROM projects p WHERE p.id = ? AND p.visibility = 'PUBLIC')
-                        OR EXISTS (SELECT 1 FROM project_members m WHERE m.project_id = ? AND m.user_id = u.id)
-                        OR EXISTS (SELECT 1 FROM user_roles ur JOIN roles r ON r.id = ur.role_id
-                                    WHERE ur.user_id = u.id AND ur.scope_type = 'GLOBAL' AND r.code = 'ADMIN'))
+                SELECT m.user_id, m.role FROM project_members m JOIN users u ON u.id = m.user_id
+                 WHERE m.project_id = ? AND u.deleted_at IS NULL
                 """;
-        Set<UUID> ids = new HashSet<>();
+        Map<UUID, String> roles = new HashMap<>();
         try (PreparedStatement ps = uow.connection().prepareStatement(sql)) {
             Jdbc.setUuid(ps, 1, projectId);
-            Jdbc.setUuid(ps, 2, projectId);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    ids.add(Jdbc.getUuid(rs, "id"));
+                    roles.put(Jdbc.getUuid(rs, "user_id"), rs.getString("role"));
                 }
+            }
+        }
+        return roles;
+    }
+
+    @Override
+    public Set<UUID> admins() throws SQLException {
+        String sql = """
+                SELECT DISTINCT u.id FROM users u
+                  JOIN user_roles ur ON ur.user_id = u.id
+                  JOIN roles r ON r.id = ur.role_id
+                 WHERE u.deleted_at IS NULL AND ur.scope_type = 'GLOBAL' AND r.code = 'ADMIN'
+                """;
+        Set<UUID> ids = new HashSet<>();
+        try (PreparedStatement ps = uow.connection().prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                ids.add(Jdbc.getUuid(rs, "id"));
             }
         }
         return ids;

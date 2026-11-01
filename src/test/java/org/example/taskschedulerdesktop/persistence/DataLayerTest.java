@@ -373,9 +373,9 @@ class DataLayerTest {
 
     private TaskView createTask() {
         ProjectView project = projectService.create("Проект", DevDataSeeder.DEV_ADMIN_ID);
-        // Исполнители и наблюдатели в тестах не участники — открытый проект видят все
+        // Исполнители и наблюдатели — участники проекта: добавляем всех сотрудников
         try {
-            execute("UPDATE projects SET visibility = 'PUBLIC' WHERE id = '" + project.id() + "'");
+            execute("INSERT INTO project_members (id, project_id, user_id, role) SELECT RANDOM_UUID(), p.id, u.id, 'MEMBER' FROM projects p CROSS JOIN users u WHERE p.id = ? AND NOT EXISTS (SELECT 1 FROM project_members m WHERE m.project_id = p.id AND m.user_id = u.id)".replace("?", "'" + project.id() + "'"));
         } catch (SQLException e) {
             throw new IllegalStateException(e);
         }
