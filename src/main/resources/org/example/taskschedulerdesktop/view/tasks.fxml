@@ -1,37 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.geometry.*?>
 
 <VBox spacing="14" styleClass="content-area"
       fx:controller="org.example.taskschedulerdesktop.task.TasksController"
       xmlns:fx="http://javafx.com/fxml/1">
 
-    <VBox fx:id="taskTableContainerVBox" spacing="30.0" VBox.vgrow="ALWAYS">
-        <!-- Фильтры -->
-<!--        <HBox spacing="8" alignment="CENTER_LEFT">-->
-<!--            <Label text="СТАТУС" styleClass="section-mono" style="-fx-padding:0 4 0 0;"/>-->
-<!--            <Button fx:id="fAll" text="Все" styleClass="filter-btn-active"/>-->
-<!--            <Button fx:id="fTodo" text="К выполнению" styleClass="filter-btn"/>-->
-<!--            <Button fx:id="fProgress" text="В работе" styleClass="filter-btn"/>-->
-<!--            <Button fx:id="fReview" text="На проверке" styleClass="filter-btn"/>-->
-<!--            <Button fx:id="fDone" text="Завершено" styleClass="filter-btn"/>-->
+    <!-- Поиск, выпадающие фильтры (их добавляет контроллер) и счётчик -->
+    <HBox fx:id="topFilters" spacing="8" alignment="CENTER_LEFT">
+        <TextField fx:id="searchField" promptText="Поиск по задаче, проекту, исполнителю или тегу"
+                   styleClass="task-search" HBox.hgrow="ALWAYS" maxWidth="380" minWidth="160"/>
+        <Button fx:id="resetFiltersButton" text="Сбросить" styleClass="filter-reset" minWidth="-Infinity"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Label fx:id="taskCountLabel" styleClass="section-mono" minWidth="-Infinity"/>
+    </HBox>
 
-<!--            <Separator orientation="VERTICAL" prefHeight="16"-->
-<!--                       style="-fx-padding:0 4;"/>-->
+    <!-- Статус и приоритет: можно выбрать несколько значений; кнопки создаёт контроллер -->
+    <FlowPane hgap="8" vgap="8" alignment="CENTER_LEFT">
+        <HBox fx:id="statusFilters" spacing="4" alignment="CENTER_LEFT">
+            <Label text="СТАТУС" styleClass="filter-caption"/>
+        </HBox>
+        <Separator orientation="VERTICAL" prefHeight="20" styleClass="filter-separator"/>
+        <HBox fx:id="priorityFilters" spacing="4" alignment="CENTER_LEFT">
+            <Label text="ПРИОРИТЕТ" styleClass="filter-caption"/>
+        </HBox>
+    </FlowPane>
 
-<!--            <Label text="ПРИОРИТЕТ" styleClass="section-mono" style="-fx-padding:0 4 0 0;"/>-->
-<!--            <Button fx:id="pAll" text="Все" styleClass="filter-btn-active"/>-->
-<!--            <Button fx:id="pHigh" text="Высокий" styleClass="filter-btn"/>-->
-<!--            <Button fx:id="pMedium" text="Средний" styleClass="filter-btn"/>-->
-<!--            <Button fx:id="pLow" text="Низкий"  styleClass="filter-btn"/>-->
-
-<!--            <Region HBox.hgrow="ALWAYS"/>-->
-<!--            <Label fx:id="taskCount" text="10 / 10 задач" styleClass="section-mono"/>-->
-<!--        </HBox>-->
-    </VBox>
+    <VBox fx:id="taskTableContainerVBox" VBox.vgrow="ALWAYS"/>
 </VBox>

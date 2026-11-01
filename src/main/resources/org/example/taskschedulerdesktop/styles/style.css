@@ -444,6 +444,7 @@
 }
 .task-table .table-row-cell:selected .table-cell { -fx-text-fill: #111110; }
 .task-table .table-cell {
+  -fx-alignment: CENTER; /* под заголовком колонки, который тоже по центру */
   -fx-padding: 10 16;
   -fx-text-fill: #5a5a56;
   -fx-font-size: 12px;
@@ -493,6 +494,92 @@
 .task-table .scroll-bar .thumb:hover {
     -fx-background-color: #9b9b95;
 }
+
+/* Стрелка сортировки в заголовке колонки */
+.task-table .column-header .arrow {
+  -fx-background-color: #1a3a8f;
+  -fx-padding: 3 4 3 4;
+}
+.task-table .column-header .sort-order { -fx-text-fill: #9b9b95; -fx-font-size: 10px; }
+
+/* ── Фильтры экрана «Задачи» ───────────────────────── */
+.filter-caption {
+  -fx-font-family: "JetBrains Mono", monospace;
+  -fx-font-size: 11px;
+  -fx-text-fill: #9b9b95;
+  -fx-padding: 0 6 0 0;
+}
+.filter-separator { -fx-padding: 0 6; }
+.filter-chip {
+  -fx-background-color: white;
+  -fx-text-fill: #5a5a56;
+  -fx-border-color: #e2e2dc;
+  -fx-border-width: 1;
+  -fx-font-size: 12px;
+  -fx-padding: 5 12;
+  -fx-cursor: hand;
+  -fx-background-radius: 0;
+  -fx-border-radius: 0;
+}
+.filter-chip:hover { -fx-border-color: #c8c8c0; }
+.filter-chip:selected {
+  -fx-background-color: #e8edf8;
+  -fx-text-fill: #1a3a8f;
+  -fx-border-color: #1a3a8f;
+}
+/* Выпадающие фильтры: проект, исполнитель, срок */
+.filter-menu {
+  -fx-background-color: white;
+  -fx-text-fill: #5a5a56;
+  -fx-border-color: #e2e2dc;
+  -fx-border-width: 1;
+  -fx-background-radius: 0;
+  -fx-border-radius: 0;
+  -fx-font-size: 12px;
+  -fx-padding: 4 8;
+  -fx-cursor: hand;
+}
+.filter-menu:hover { -fx-border-color: #c8c8c0; }
+.filter-menu > .label { -fx-text-fill: #5a5a56; }
+.filter-menu > .arrow-button > .arrow { -fx-background-color: #9b9b95; }
+.filter-menu.filter-menu-active {
+  -fx-background-color: #e8edf8;
+  -fx-border-color: #1a3a8f;
+}
+.filter-menu.filter-menu-active > .label { -fx-text-fill: #1a3a8f; }
+.filter-menu.filter-menu-active > .arrow-button > .arrow { -fx-background-color: #1a3a8f; }
+.filter-menu-check { -fx-font-size: 12px; -fx-text-fill: #111110; }
+
+.task-search {
+  -fx-background-color: white;
+  -fx-border-color: #e2e2dc;
+  -fx-border-width: 1;
+  -fx-background-radius: 0;
+  -fx-border-radius: 0;
+  -fx-font-size: 13px;
+  -fx-padding: 7 10;
+  -fx-pref-width: 360;
+}
+.task-search:focused { -fx-border-color: #1a3a8f; }
+.filter-reset {
+  -fx-background-color: white;
+  -fx-text-fill: #5a5a56;
+  -fx-border-color: #e2e2dc;
+  -fx-border-width: 1;
+  -fx-background-radius: 0;
+  -fx-border-radius: 0;
+  -fx-font-size: 12px;
+  -fx-padding: 5 10;
+  -fx-graphic-text-gap: 6;
+  -fx-cursor: hand;
+}
+.filter-reset .filter-reset-icon { -fx-stroke: #9b9b95; -fx-stroke-width: 1.4; -fx-fill: transparent; }
+.filter-reset:hover {
+  -fx-background-color: #fef2f2;
+  -fx-text-fill: #b91c1c;
+  -fx-border-color: #f3c4c4;
+}
+.filter-reset:hover .filter-reset-icon { -fx-stroke: #b91c1c; }
 
 /* ── Фильтры ────────────────────────────────────────── */
 .filter-btn {
