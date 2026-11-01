@@ -14,6 +14,7 @@ import org.example.taskschedulerdesktop.shared.ui.Shutdownable;
 import org.example.taskschedulerdesktop.task.DeadlineListCell;
 import org.example.taskschedulerdesktop.project.ProjectListCell;
 import org.example.taskschedulerdesktop.task.TaskView;
+import org.example.taskschedulerdesktop.project.ProjectChangedEvent;
 import org.example.taskschedulerdesktop.shared.event.EventBus;
 import org.example.taskschedulerdesktop.task.TaskChangedEvent;
 import org.example.taskschedulerdesktop.project.ProjectView;
@@ -51,6 +52,8 @@ public class DashboardController implements Shutdownable {
         loadProjects();
         loadDeadlines();
     };
+    /** Проект создан, переименован, архивирован или пришёл с сервера — список проектов на обзоре обновляется. */
+    private final Consumer<ProjectChangedEvent> projectUpdateListener = event -> loadProjects();
 
     public DashboardController(AsyncProjectService asyncProjectService, AsyncTaskService asyncTaskService) {
         this.asyncProjectService = asyncProjectService;
@@ -60,6 +63,7 @@ public class DashboardController implements Shutdownable {
     @FXML
     public void initialize() {
         EventBus.getInstance().subscribe(TaskChangedEvent.class, taskUpdateListener);
+        EventBus.getInstance().subscribe(ProjectChangedEvent.class, projectUpdateListener);
 
         refreshStat();
         loadProjects();
@@ -185,5 +189,6 @@ public class DashboardController implements Shutdownable {
     @Override
     public void shutdown() {
         EventBus.getInstance().unsubscribe(TaskChangedEvent.class, taskUpdateListener);
+        EventBus.getInstance().unsubscribe(ProjectChangedEvent.class, projectUpdateListener);
     }
 }

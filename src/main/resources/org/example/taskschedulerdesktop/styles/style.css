@@ -68,14 +68,27 @@
 .project-task-card:hover { -fx-border-color: #c8c8c0; -fx-background-color: #fcfcfb; }
 .project-no-tasks { -fx-text-fill: #9b9b95; -fx-font-size: 13px; -fx-padding: 4 0 0 0; }
 
+/* ── Полосы прокрутки: везде без стрелок, только бегунок ── */
+.scroll-bar .increment-button,
+.scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+    -fx-min-width: 0;  -fx-min-height: 0;
+    -fx-pref-width: 0; -fx-pref-height: 0;
+    -fx-max-width: 0;  -fx-max-height: 0;
+}
+.scroll-bar .increment-arrow,
+.scroll-bar .decrement-arrow {
+    -fx-shape: null;
+    -fx-padding: 0;
+}
+
 /* ── Проекты в боковом меню ─────────────────────────── */
 .sidebar-projects-scroll, .sidebar-projects-scroll > .viewport {
   -fx-background-color: transparent; -fx-background: transparent; -fx-padding: 0; -fx-background-insets: 0;
 }
 .sidebar-projects-scroll .scroll-bar:vertical { -fx-background-color: transparent; -fx-pref-width: 6; }
 .sidebar-projects-scroll .scroll-bar .thumb { -fx-background-color: rgba(255,255,255,0.14); -fx-background-radius: 3; }
-.sidebar-projects-scroll .scroll-bar .increment-button,
-.sidebar-projects-scroll .scroll-bar .decrement-button { -fx-padding: 0; -fx-pref-height: 0; }
 .sidebar-projects { -fx-padding: 0 0 12 0; }
 .sidebar-project { -fx-padding: 6 20 6 20; -fx-font-size: 13px; }
 .sidebar-project-name { -fx-text-fill: rgba(255,255,255,0.4); -fx-font-size: 13px; }
@@ -730,8 +743,8 @@
 }
 
 /* Скроллбар (опционально) */
-dashboard-list-view .scroll-bar:vertical,
-dashboard-list-view .scroll-bar:horizontal {
+.dashboard-list-view .scroll-bar:vertical,
+.dashboard-list-view .scroll-bar:horizontal {
     -fx-background-color: transparent;
 }
 /* ── Экран входа ────────────────────────────────────── */
