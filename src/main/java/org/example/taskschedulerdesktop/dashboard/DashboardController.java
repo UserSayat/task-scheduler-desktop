@@ -71,7 +71,9 @@ public class DashboardController implements Shutdownable {
         log.debug("loadProjects()");
         asyncProjectService.findAllProjects(
                 projects -> {
-                    ObservableList<ProjectView> observableList = FXCollections.observableList(projects);
+                    // Архивные проекты на обзоре не показываются — как и в боковом меню
+                    ObservableList<ProjectView> observableList = FXCollections.observableArrayList(
+                            projects.stream().filter(project -> !project.archived()).toList());
                     projectListView.setItems(observableList);
                     projectListView.setCellFactory(listView -> {
                         ProjectListCell cell = new ProjectListCell();

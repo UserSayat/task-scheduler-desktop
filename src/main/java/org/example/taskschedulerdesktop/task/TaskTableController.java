@@ -145,7 +145,6 @@ public class TaskTableController implements Shutdownable {
                     TaskView task = getTableView().getItems().get(getIndex());
                     Label label = new Label(item);
                     label.getStyleClass().add(getStyleClassForStatus(task.status()));
-                    label.setStyle("-fx");
 
                     setGraphic(label);
                 }
