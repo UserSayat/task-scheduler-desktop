@@ -16,7 +16,7 @@
 
         <!-- Сборка приложения для Windows (jpackage), см. README -->
         <app.name>TaskHub</app.name>
-        <app.version>1.0.3</app.version>
+        <app.version>1.0.4</app.version>
         <!-- Адрес сервера, вшиваемый в приложение: mvn package -Dtaskhub.server.url=https://... -->
         <taskhub.server.url>http://localhost:8080</taskhub.server.url>
         <!-- app-image — папка с программой; профили installer (.msi) и mac-installer (.dmg) — установщики -->
