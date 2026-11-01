@@ -238,6 +238,40 @@ class ServerIntegrationTest {
     }
 
     @Test
+    void grantedAndRemovedAdminRoleReloadsPrivateProjects() {
+        Device adminDevice = new Device();
+        AuthUser admin = adminDevice.auth.login(ADMIN_EMAIL, ADMIN_PASSWORD);
+        adminDevice.sync.initialLoad();
+        EmployeeAdminApi adminApi = new EmployeeAdminApi(adminDevice.api);
+        ProjectView secret = adminDevice.projects.create("Закрытый " + UUID.randomUUID().toString().substring(0, 8), admin.id());
+        assertEquals(SyncStatus.State.SYNCED, adminDevice.sync.synchronize().state());
+
+        UUID id = UuidCreator.getTimeOrderedEpoch();
+        String email = "role." + id.toString().substring(24) + "@taskhub.test";
+        String password = "Temp-" + UUID.randomUUID().toString().substring(0, 8);
+        adminApi.create(new EmployeeAdminApi.CreateRequest(id, "Роль Тестовая", email, null, "Europe/Moscow",
+                password, List.of()));
+        Device staffDevice = new Device();
+        firstLogin(staffDevice, email, password);
+        staffDevice.sync.initialLoad();
+        assertFalse(sees(staffDevice, secret), "закрытый проект не виден без роли");
+
+        // Выдали ADMIN — закрытые проекты появляются при следующей синхронизации
+        adminApi.setRoles(id, List.of(RoleAssignment.global(RoleAssignment.ADMIN)));
+        staffDevice.sync.synchronize();
+        assertTrue(sees(staffDevice, secret), "администратор видит закрытый проект");
+
+        // Сняли — исчезают
+        adminApi.setRoles(id, List.of());
+        staffDevice.sync.synchronize();
+        assertFalse(sees(staffDevice, secret), "после снятия роли проект удалён с устройства");
+    }
+
+    private static boolean sees(Device device, ProjectView project) {
+        return device.projects.findAll().stream().anyMatch(p -> p.id().equals(project.id()));
+    }
+
+    @Test
     void cardFieldsProfileTagsAndRejectedChangesGoThroughServer() {
         Device adminDevice = new Device();
         AuthUser admin = adminDevice.auth.login(ADMIN_EMAIL, ADMIN_PASSWORD);

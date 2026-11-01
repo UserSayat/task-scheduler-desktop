@@ -318,6 +318,7 @@ public class SyncService {
 
         String cursor = saved.orElseThrow();
         Set<UUID> projectsToLoad = new LinkedHashSet<>();
+        boolean wasAdmin = isAdmin();
         for (int round = 0; round < MAX_ROUNDS; round++) {
             PullResponse page;
             try {
@@ -347,10 +348,34 @@ public class SyncService {
             }
         }
 
+        // Выдали или сняли роль ADMIN — видимых закрытых проектов стало больше или меньше. Записей о них в журнале
+        // нет (это не смена участников), поэтому загружаем всё заново: snapshot и добавит, и уберёт лишнее
+        if (wasAdmin != isAdmin()) {
+            log.info("Administrator role changed, loading full snapshot");
+            fullSnapshot(changes);
+            return;
+        }
+
         projectsToLoad.removeAll(changes.revokedProjects());
         for (UUID projectId : projectsToLoad) {
             projectSnapshot(projectId, changes);
         }
+    }
+
+    /** Есть ли у текущего пользователя глобальная роль ADMIN — по локальной копии. */
+    private boolean isAdmin() {
+        UUID userId = session.getCurrentUserId();
+        return uow.read(() -> {
+            try (var ps = uow.connection().prepareStatement("""
+                    SELECT 1 FROM user_roles ur JOIN roles r ON r.id = ur.role_id
+                     WHERE ur.user_id = ? AND ur.scope_type = 'GLOBAL' AND r.code = 'ADMIN'
+                    """)) {
+                ps.setObject(1, userId);
+                try (var rs = ps.executeQuery()) {
+                    return rs.next();
+                }
+            }
+        });
     }
 
     // ===== snapshot =====
