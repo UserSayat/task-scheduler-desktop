@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- TaskHub: пустая замена английских строк jpackage. Иначе WiX 3 видит одни и те же ключи
+     в английском и русском (MsiInstallerStrings_ru.wxl) файлах и не собирает установщик. -->
+<WixLocalization Culture="en-us" xmlns="http://schemas.microsoft.com/wix/2006/localization" Codepage="1251"/>

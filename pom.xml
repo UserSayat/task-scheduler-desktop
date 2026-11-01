@@ -198,7 +198,7 @@
                                     <arg value="TaskHub"/>
                                     <arg value="--description"/>
                                     <arg value="TaskHub - corporate task planner"/>
-                                    <!-- Установщик собирается в кодировке 1252: в его текстах только латиница -->
+                                    <!-- Описание передаётся в командной строке WiX — латиницей, чтобы не пострадала кодировка -->
                                     <!-- Адрес сервера и уровень журнала для установленного приложения -->
                                     <arg value="--java-options"/>
                                     <arg value="-Dtaskhub.server=${taskhub.server.url}"/>
@@ -236,7 +236,8 @@
                 <jpackage.type>msi</jpackage.type>
                 <!-- Ярлыки в «Пуске» и на рабочем столе (при установке — галочки, создавать ли их), выбор папки;
                      один и тот же upgrade-uuid, чтобы новая версия ставилась поверх старой, а не рядом -->
-                <jpackage.platform.args>--win-menu --win-menu-group TaskHub --win-shortcut --win-shortcut-prompt --win-dir-chooser --win-upgrade-uuid 07e8e4cd-907d-4e09-8655-07f69f917d76</jpackage.platform.args>
+                <!-- src/main/jpackage/windows: установщик на русском и галочка «Запустить TaskHub» в конце -->
+                <jpackage.platform.args>--win-menu --win-menu-group TaskHub --win-shortcut --win-shortcut-prompt --win-dir-chooser --win-upgrade-uuid 07e8e4cd-907d-4e09-8655-07f69f917d76 --resource-dir ${project.basedir}/src/main/jpackage/windows</jpackage.platform.args>
             </properties>
         </profile>
 

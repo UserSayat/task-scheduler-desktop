@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- TaskHub: русские строки установщика jpackage. Окна WiX (кнопки, выбор папки, ход установки)
+     переводит сам WiX по культуре ru-ru. Кодировка 1251 — для кириллицы в базе MSI. -->
+<WixLocalization Culture="ru-ru" xmlns="http://schemas.microsoft.com/wix/2006/localization" Codepage="1251">
+  <String Id="message.install.dir.exist">Папка [INSTALLDIR] уже существует. Всё равно установить в неё?</String>
+  <String Id="MainFeatureTitle">Основные компоненты</String>
+  <String Id="DowngradeErrorMessage">Уже установлена более новая версия [ProductName]. Установка более старой версии запрещена, программа установки будет закрыта.</String>
+  <String Id="DisallowUpgradeErrorMessage">Уже установлена более старая версия [ProductName]. Обновление запрещено, программа установки будет закрыта.</String>
+
+  <String Id="ShortcutPromptDlg_Title">Установка [ProductName]</String>
+  <String Id="ShortcutPromptDlgTitle">{\WixUI_Font_Title}Ярлыки</String>
+  <String Id="ShortcutPromptDlgBannerBitmap">WixUI_Bmp_Banner</String>
+  <String Id="ShortcutPromptDlgDescription">Выберите, какие ярлыки создать.</String>
+  <String Id="ShortcutPromptDlgDesktopShortcutControlLabel">Ярлык на рабочем столе</String>
+  <String Id="ShortcutPromptDlgStartMenuShortcutControlLabel">Ярлык в меню «Пуск»</String>
+  <String Id="InstallDirNotEmptyDlg_Title">Установка [ProductName]</String>
+  <String Id="ContextMenuCommandLabel">Открыть в [ProductName]</String>
+
+  <String Id="LaunchAppCheckbox">Запустить [ProductName]</String>
+</WixLocalization>

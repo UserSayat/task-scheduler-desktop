@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- TaskHub: установщик на русском (язык продукта 1049). Строки — в MsiInstallerStrings_ru.wxl рядом. -->
+<Include>
+  <?undef JpProductLanguage ?>
+  <?define JpProductLanguage=1049 ?>
+</Include>
