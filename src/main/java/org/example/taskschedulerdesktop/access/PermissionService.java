@@ -37,8 +37,16 @@ public class PermissionService {
      *
      * @param canEdit         менять любые поля и удалять
      * @param canChangeStatus менять только статус (исполнители и соисполнители)
+     * @param canTake         взять задачу себе: у неё нет исполнителей, а пользователь может им стать
+     * @param canJoin         присоединиться соисполнителем: исполнители есть, пользователя среди них нет
+     * @param canLeave        отказаться: пользователь среди исполнителей
+     * @param responsible     пользователь — ответственный: только он начинает работу кнопкой «Взять в работу»
      */
-    public record TaskRights(boolean canEdit, boolean canChangeStatus) {}
+    public record TaskRights(boolean canEdit, boolean canChangeStatus, boolean canTake, boolean canJoin, boolean canLeave,
+                             boolean responsible) {
+
+        public static final TaskRights NONE = new TaskRights(false, false, false, false, false, false);
+    }
 
     private final UnitOfWork uow;
     private final PermissionRepository repository;
@@ -74,13 +82,18 @@ public class PermissionService {
         return uow.read(() -> {
             Optional<PermissionRepository.TaskFacts> task = repository.taskFacts(taskId);
             if (task.isEmpty()) {
-                return new TaskRights(false, false);
+                return TaskRights.NONE;
             }
             UUID userId = userId();
             boolean canEdit = isAdmin()
                     || userId.equals(task.get().creatorId())
                     || repository.memberRole(task.get().projectId(), userId).filter(PROJECT_MANAGERS::contains).isPresent();
-            return new TaskRights(canEdit, canEdit || repository.isAssignee(taskId, userId));
+            boolean assignee = repository.isAssignee(taskId, userId);
+            boolean contributor = repository.memberRole(task.get().projectId(), userId).filter(TASK_CREATORS::contains).isPresent();
+            boolean free = !repository.hasAssignees(taskId);
+            return new TaskRights(canEdit, canEdit || assignee,
+                    free && contributor, !free && !assignee && contributor, assignee,
+                    repository.isResponsible(taskId, userId));
         });
     }
 

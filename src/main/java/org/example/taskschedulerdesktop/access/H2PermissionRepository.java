@@ -141,4 +141,27 @@ public class H2PermissionRepository implements PermissionRepository {
             }
         }
     }
+
+    @Override
+    public boolean isResponsible(UUID taskId, UUID userId) throws SQLException {
+        try (PreparedStatement ps = uow.connection().prepareStatement(
+                "SELECT 1 FROM task_assignees WHERE task_id = ? AND user_id = ? AND role = 'RESPONSIBLE'")) {
+            Jdbc.setUuid(ps, 1, taskId);
+            Jdbc.setUuid(ps, 2, userId);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
+        }
+    }
+
+    @Override
+    public boolean hasAssignees(UUID taskId) throws SQLException {
+        try (PreparedStatement ps = uow.connection().prepareStatement(
+                "SELECT 1 FROM task_assignees WHERE task_id = ?")) {
+            Jdbc.setUuid(ps, 1, taskId);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
+        }
+    }
 }

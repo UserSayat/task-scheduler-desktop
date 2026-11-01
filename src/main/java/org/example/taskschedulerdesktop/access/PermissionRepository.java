@@ -37,5 +37,11 @@ public interface PermissionRepository {
     /** Исполнитель или соисполнитель задачи. */
     boolean isAssignee(UUID taskId, UUID userId) throws SQLException;
 
+    /** Ответственный ли пользователь за задачу (а не соисполнитель). */
+    boolean isResponsible(UUID taskId, UUID userId) throws SQLException;
+
+    /** Есть ли у задачи хоть один исполнитель. */
+    boolean hasAssignees(UUID taskId) throws SQLException;
+
     record TaskFacts(UUID projectId, UUID creatorId) {}
 }

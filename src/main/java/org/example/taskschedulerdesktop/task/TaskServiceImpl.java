@@ -250,9 +250,91 @@ public class TaskServiceImpl implements TaskService {
     /**
      * closedAt ставится при переходе в DONE и сбрасывается при выходе из него (API.md, 8.2).
      */
+    @Override
+    public TaskView take(UUID id) {
+        return changeOwnAssignment(id, (task, me, changed, now) -> {
+            if (task.getAssignees().isEmpty()) {
+                task.setAssignees(List.of(new TaskAssignee(me, AssigneeRole.RESPONSIBLE)));
+                changed.add(Fields.ASSIGNEES);
+            }
+            if (task.getStatus() == TaskStatus.NEW) {
+                changeStatus(task, TaskStatus.IN_PROGRESS, now, changed);
+            }
+        });
+    }
+
+    @Override
+    public TaskView join(UUID id) {
+        return changeOwnAssignment(id, (task, me, changed, now) -> {
+            if (task.getAssignees().stream().noneMatch(a -> a.userId().equals(me))) {
+                List<TaskAssignee> assignees = new ArrayList<>(task.getAssignees());
+                assignees.add(new TaskAssignee(me, AssigneeRole.CO_EXECUTOR));
+                task.setAssignees(assignees);
+                changed.add(Fields.ASSIGNEES);
+            }
+        });
+    }
+
+    @Override
+    public TaskView leave(UUID id) {
+        return changeOwnAssignment(id, (task, me, changed, now) -> {
+            boolean wasResponsible = task.getAssignees().stream()
+                    .anyMatch(a -> a.userId().equals(me) && a.role() == AssigneeRole.RESPONSIBLE);
+            List<TaskAssignee> assignees = task.getAssignees().stream()
+                    .filter(a -> !a.userId().equals(me)).toList();
+            if (assignees.size() != task.getAssignees().size()) {
+                task.setAssignees(assignees);
+                changed.add(Fields.ASSIGNEES);
+            }
+            if (wasResponsible && task.getStatus() != TaskStatus.NEW && task.getStatus() != TaskStatus.DONE) {
+                changeStatus(task, TaskStatus.NEW, now, changed);
+            }
+        });
+    }
+
+    private interface AssignmentChange {
+        void apply(Task task, UUID me, List<String> changed, Instant now) throws SQLException;
+    }
+
+    private TaskView changeOwnAssignment(UUID id, AssignmentChange change) {
+        return uow.inTransaction(() -> {
+            Task task = repository.findById(id)
+                    .orElseThrow(() -> new NotFoundException("Task not found: " + id));
+            Instant now = Instant.now();
+            List<String> changed = new ArrayList<>();
+            change.apply(task, session.getCurrentUserId(), changed, now);
+            if (!changed.isEmpty()) {
+                task.setUpdatedAt(now);
+                task.setUpdatedBy(session.getCurrentUserId());
+                repository.update(task);
+                changeTracker.updated(EntityType.TASK, task.getId(), changed, now);
+            }
+            return requireView(task.getId());
+        });
+    }
+
+    /**
+     * Дата начала по умолчанию — сегодня, но не позже дедлайна: иначе задача не сохранится.
+     * {@code null}, если дедлайн уже прошёл.
+     */
+    public static LocalDate defaultStartDate(LocalDate deadline, LocalDate today) {
+        return deadline == null || !deadline.isBefore(today) ? today : null;
+    }
+
     private void changeStatus(Task task, TaskStatus status, Instant now, List<String> changed) {
         task.setStatus(status);
         changed.add(Fields.STATUS);
+
+        // Задачу впервые берут в работу — это и есть её начало, если дату не указали сами
+        if (status == TaskStatus.IN_PROGRESS && task.getStartDate() == null) {
+            LocalDate start = defaultStartDate(task.getDeadline(), LocalDate.now());
+            if (start != null) {
+                task.setStartDate(start);
+                if (!changed.contains(Fields.START_DATE)) {
+                    changed.add(Fields.START_DATE);
+                }
+            }
+        }
 
         Instant closedAt = status == TaskStatus.DONE ? now : null;
         if (!Objects.equals(task.getClosedAt(), closedAt)) {

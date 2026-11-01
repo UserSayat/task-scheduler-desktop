@@ -66,6 +66,26 @@ public class AsyncTaskService {
         }, onError);
     }
 
+    public void takeTask(UUID id, Consumer<TaskView> onSuccess, Consumer<Throwable> onError) {
+        changeAssignment(() -> delegate.take(id), onSuccess, onError);
+    }
+
+    public void joinTask(UUID id, Consumer<TaskView> onSuccess, Consumer<Throwable> onError) {
+        changeAssignment(() -> delegate.join(id), onSuccess, onError);
+    }
+
+    public void leaveTask(UUID id, Consumer<TaskView> onSuccess, Consumer<Throwable> onError) {
+        changeAssignment(() -> delegate.leave(id), onSuccess, onError);
+    }
+
+    private void changeAssignment(Callable<TaskView> action,
+                                  Consumer<TaskView> onSuccess, Consumer<Throwable> onError) {
+        submit(action, updated -> {
+            EventBus.getInstance().fire(new TaskChangedEvent(updated.projectId(), updated.title()));
+            onSuccess.accept(updated);
+        }, onError);
+    }
+
     public void deleteTask(TaskView taskToDelete, Runnable onSuccess, Consumer<Throwable> onError) {
         submit(() -> {
             delegate.delete(taskToDelete.id());

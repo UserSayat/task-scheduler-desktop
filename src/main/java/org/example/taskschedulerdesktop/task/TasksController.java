@@ -72,7 +72,7 @@ public class TasksController implements Shutdownable {
                 values -> apply(filter.withPriorities(values)));
 
         projectMenu = new FilterMenu<>("Проект", values -> apply(filter.withProjects(values)));
-        executorMenu = new FilterMenu<>("Исполнитель", values -> apply(filter.withExecutors(values)));
+        executorMenu = new FilterMenu<>("Ответственный", values -> apply(filter.withExecutors(values)));
         deadlineMenu = new FilterMenu<>("Срок", values -> apply(filter.withDeadlines(values)));
         Map<DeadlineRange, String> ranges = new LinkedHashMap<>();
         for (DeadlineRange range : DeadlineRange.values()) {
@@ -102,7 +102,17 @@ public class TasksController implements Shutdownable {
     private void refreshOptions() {
         List<TaskView> tasks = table.tasks();
         projectMenu.setOptions(sortedOptions(tasks, TaskView::projectId, TaskView::projectName));
-        executorMenu.setOptions(sortedOptions(tasks, TaskView::responsibleId, TaskView::responsibleName));
+        executorMenu.setOptions(executorOptions(tasks));
+    }
+
+    /** Исполнители по алфавиту, а первым — «Без исполнителя», если такие задачи есть. */
+    static Map<UUID, String> executorOptions(Collection<TaskView> tasks) {
+        Map<UUID, String> options = new LinkedHashMap<>();
+        if (tasks.stream().anyMatch(task -> task.responsibleId() == null)) {
+            options.put(TaskFilter.NO_EXECUTOR, "Без ответственного");
+        }
+        options.putAll(sortedOptions(tasks, TaskView::responsibleId, TaskView::responsibleName));
+        return options;
     }
 
     static Map<UUID, String> sortedOptions(Collection<TaskView> tasks, Function<TaskView, UUID> id,

@@ -158,7 +158,9 @@ public class MainController implements Shutdownable {
         createTaskButton.setOnAction(event -> NavigationManager.openDialog(
                 Routes.CREATE_TASK,
                 "Новая задача",
-                AppConfig.getInstance().getPrimaryStage()));
+                AppConfig.getInstance().getPrimaryStage(),
+                // На странице проекта он подставится в окне создания
+                Routes.PROJECT_DETAILS.equals(NavigationManager.getCurrentPage()) ? NavigationManager.getCurrentContext() : null));
 
         reviewButton.setOnAction(event -> NavigationManager.navigateTo(Routes.DASHBOARD, "Обзор"));
         tasksButton.setOnAction(event -> NavigationManager.navigateTo(Routes.TASKS, "Задачи"));

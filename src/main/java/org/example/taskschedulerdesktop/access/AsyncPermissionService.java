@@ -40,7 +40,7 @@ public class AsyncPermissionService {
     }
 
     public void taskRights(UUID taskId, Consumer<PermissionService.TaskRights> onResult) {
-        run(() -> delegate.taskRights(taskId), onResult, new PermissionService.TaskRights(false, false));
+        run(() -> delegate.taskRights(taskId), onResult, PermissionService.TaskRights.NONE);
     }
 
     /** {@code null} в результате — любые проекты (администратор). */

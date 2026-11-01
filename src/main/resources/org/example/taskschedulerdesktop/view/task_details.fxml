@@ -62,9 +62,9 @@
                 </VBox>
             </GridPane>
 
-            <!-- Исполнитель -->
+            <!-- Ответственный -->
             <VBox spacing="6">
-                <Label text="ИСПОЛНИТЕЛЬ" styleClass="detail-field-label"/>
+                <Label text="ОТВЕТСТВЕННЫЙ" styleClass="detail-field-label"/>
                 <HBox spacing="10" alignment="CENTER_LEFT" fx:id="assigneeView">
                     <StackPane styleClass="avatar-box">
                         <Label fx:id="executorAvatarLabel" text="АК" styleClass="avatar-text"/>
@@ -140,6 +140,10 @@
             <HBox fx:id="viewActionsHBox" spacing="8" visible="true" managed="true">
                 <Button fx:id="acceptButton" text="Взять в работу" styleClass="btn-primary"
                         HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+                <Button fx:id="joinButton" text="Присоединиться" styleClass="btn-primary"
+                        HBox.hgrow="ALWAYS" maxWidth="Infinity" visible="false" managed="false"/>
+                <Button fx:id="leaveButton" text="Отказаться" styleClass="btn-secondary"
+                        visible="false" managed="false"/>
                 <Button text="Изменить" fx:id="editButton"
                         styleClass="btn-secondary"/>
             </HBox>

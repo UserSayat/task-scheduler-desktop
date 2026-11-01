@@ -11,13 +11,16 @@ import org.example.taskschedulerdesktop.project.AsyncProjectService;
 import org.example.taskschedulerdesktop.user.AsyncUserService;
 import org.example.taskschedulerdesktop.project.ProjectStringConverter;
 import org.example.taskschedulerdesktop.tag.Tags;
+import org.example.taskschedulerdesktop.shared.navigation.ContextAware;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
-public class CreateTaskController {
+public class CreateTaskController implements ContextAware {
 
     private static final Logger log = LoggerFactory.getLogger(CreateTaskController.class);
 
@@ -31,6 +34,13 @@ public class CreateTaskController {
     @FXML private ComboBox<ProjectView> projectComboBox;
 
     @FXML private ComboBox<User> executorComboBox;
+
+    /** Проект, со страницы которого открыто окно; его подставляем, если в нём можно создавать задачи. */
+    private UUID preferredProjectId;
+
+    /** Пункт списка «Без исполнителя»: такую задачу возьмёт себе любой участник проекта. */
+    private static final User NO_EXECUTOR =
+            new User(TaskFilter.NO_EXECUTOR, "Без ответственного", null, null, null, null);
 
     @FXML private ToggleGroup priorityGroup;
     @FXML private ToggleButton tCritical;
@@ -77,6 +87,8 @@ public class CreateTaskController {
                             .toList();
                     projectComboBox.setConverter(new ProjectStringConverter());
                     projectComboBox.getItems().setAll(available);
+                    available.stream().filter(project -> project.id().equals(preferredProjectId))
+                            .findFirst().ifPresent(projectComboBox::setValue);
                     if (available.isEmpty()) {
                         createTaskButton.setDisable(true);
                         projectComboBox.setPromptText("Нет проектов, где вы можете создавать задачи");
@@ -104,7 +116,7 @@ public class CreateTaskController {
             User executor = executorComboBox.getValue();
             LocalDate deadline = deadlineDatePicker.getValue();
 
-            if (taskNameTextField.getText().isBlank() || project == null || executor == null || deadline == null) {
+            if (taskNameTextField.getText().isBlank() || project == null || deadline == null) {
                 NavigationManager.showToast("Заполните пустые поля", "info");
                 return;
             }
@@ -117,7 +129,7 @@ public class CreateTaskController {
             NewTask newTask = new NewTask(
                     taskNameTextField.getText(),
                     project.id(),
-                    executor.getId(),
+                    executor == null || executor == NO_EXECUTOR ? null : executor.getId(),
                     (TaskPriority) priorityGroup.getSelectedToggle().getUserData(),
                     deadline,
                     Tags.parse(tagsTextField.getText()));
@@ -143,6 +155,15 @@ public class CreateTaskController {
         });
     }
 
+    @Override
+    public void setContext(Object context) {
+        if (context instanceof ProjectView project) {
+            preferredProjectId = project.id();
+            projectComboBox.getItems().stream().filter(p -> p.id().equals(project.id()))
+                    .findFirst().ifPresent(projectComboBox::setValue);
+        }
+    }
+
     /**
      * Исполнитель — участник выбранного проекта, кроме наблюдателей (API.md, 8.7): список зависит от проекта.
      */
@@ -157,12 +178,11 @@ public class CreateTaskController {
                 return; // пока шёл запрос, выбрали другой проект
             }
             User selected = executorComboBox.getValue();
-            List<User> available = allUsers.stream().filter(user -> team.assignable().contains(user.getId())).toList();
+            List<User> available = new ArrayList<>();
+            available.add(NO_EXECUTOR);
+            allUsers.stream().filter(user -> team.assignable().contains(user.getId())).forEach(available::add);
             executorComboBox.getItems().setAll(available);
-            executorComboBox.setPromptText(available.isEmpty() ? "В проекте нет участников, которым можно назначить задачу" : "Назначить");
-            if (selected != null && available.stream().anyMatch(user -> user.getId().equals(selected.getId()))) {
-                executorComboBox.setValue(selected);
-            }
+            executorComboBox.setValue(selected != null && available.contains(selected) ? selected : NO_EXECUTOR);
         });
     }
 }

@@ -86,6 +86,8 @@ public class TaskDetailsController implements RightSidebar {
 
     @FXML private HBox viewActionsHBox;
     @FXML private Button acceptButton;
+    @FXML private Button joinButton;
+    @FXML private Button leaveButton;
 
     @FXML private Button editButton;
     @FXML private HBox editActionsHBox;
@@ -101,7 +103,7 @@ public class TaskDetailsController implements RightSidebar {
     private boolean editMode = false;
 
     /** Права на открытую задачу; до проверки — никаких. */
-    private PermissionService.TaskRights rights = new PermissionService.TaskRights(false, false);
+    private PermissionService.TaskRights rights = PermissionService.TaskRights.NONE;
 
     public TaskDetailsController(AsyncTaskService taskService, AsyncUserService userService,
                                  AsyncPermissionService permissions) {
@@ -141,20 +143,25 @@ public class TaskDetailsController implements RightSidebar {
         });
 
         acceptButton.setOnAction(event -> {
-            if (contextTask == null) {
-                return;
+            if (contextTask != null) {
+                taskService.takeTask(contextTask.id(),
+                        updated -> { afterAssignmentChange(updated); NavigationManager.showToast("Задача в работе", "success"); },
+                        error -> NavigationManager.showToast("Не удалось взять задачу в работу", "error"));
             }
-            TaskEdit edit = new TaskEdit(contextTask.id(), contextTask.title(), contextTask.description(),
-                    TaskStatus.IN_PROGRESS, contextTask.priority(), contextTask.deadline(),
-                    contextTask.responsibleId(), contextTask.tagNames());
-            taskService.updateTask(edit,
-                    updated -> {
-                        contextTask = updated;
-                        updateUI();
-                        applyRights(rights);
-                        NavigationManager.showToast("Задача в работе", "success");
-                    },
-                    error -> NavigationManager.showToast("Не удалось взять задачу в работу", "error"));
+        });
+        joinButton.setOnAction(event -> {
+            if (contextTask != null) {
+                taskService.joinTask(contextTask.id(),
+                        updated -> { afterAssignmentChange(updated); NavigationManager.showToast("Вы соисполнитель задачи", "success"); },
+                        error -> NavigationManager.showToast("Не удалось присоединиться к задаче", "error"));
+            }
+        });
+        leaveButton.setOnAction(event -> {
+            if (contextTask != null) {
+                taskService.leaveTask(contextTask.id(),
+                        updated -> { afterAssignmentChange(updated); NavigationManager.showToast("Вы отказались от задачи", "success"); },
+                        error -> NavigationManager.showToast("Не удалось отказаться от задачи", "error"));
+            }
         });
 
         editButton.setOnAction(event -> {
@@ -338,6 +345,13 @@ public class TaskDetailsController implements RightSidebar {
         log.info("UI updated");
     }
 
+    private void afterAssignmentChange(TaskView updated) {
+        contextTask = updated;
+        updateUI();
+        loadExtras();
+        loadRights();
+    }
+
     private void loadExtras() {
         taskService.findTaskExtras(contextTask.id(), loaded -> {
             extras = loaded;
@@ -392,7 +406,7 @@ public class TaskDetailsController implements RightSidebar {
      * «Удалить» — только первые (API.md, 8.7).
      */
     private void loadRights() {
-        applyRights(new PermissionService.TaskRights(false, false));
+        applyRights(PermissionService.TaskRights.NONE);
         permissions.taskRights(contextTask.id(), this::applyRights);
     }
 
@@ -400,9 +414,15 @@ public class TaskDetailsController implements RightSidebar {
         this.rights = taskRights;
         editButton.setVisible(taskRights.canChangeStatus());
         editButton.setManaged(taskRights.canChangeStatus());
-        boolean canTake = taskRights.canChangeStatus() && contextTask.status() == TaskStatus.NEW;
+        // «Взять в работу» — свободная задача или новая задача, где пользователь ответственный
+        boolean open = contextTask.status() != TaskStatus.DONE;
+        boolean canTake = contextTask.status() == TaskStatus.NEW && (taskRights.canTake() || taskRights.responsible());
         acceptButton.setVisible(canTake);
         acceptButton.setManaged(canTake);
+        joinButton.setVisible(open && taskRights.canJoin());
+        joinButton.setManaged(open && taskRights.canJoin());
+        leaveButton.setVisible(open && taskRights.canLeave());
+        leaveButton.setManaged(open && taskRights.canLeave());
         if (!taskRights.canEdit()) {
             resetDeleteUI();
         }
@@ -466,7 +486,8 @@ public class TaskDetailsController implements RightSidebar {
         descriptionTextArea.setText(contextTask.description());
         showEditExtras(true);
         if (extras != null) {
-            startDatePicker.setValue(extras.startDate());
+            startDatePicker.setValue(extras.startDate() != null || !rights.canEdit() ? extras.startDate()
+                    : TaskServiceImpl.defaultStartDate(contextTask.deadline(), LocalDate.now()));
             coExecutorsPicker.show(executorComboBox.getItems(), Set.copyOf(extras.coExecutorIds()), userNames);
             observersPicker.show(observerCandidates(), Set.copyOf(extras.observerIds()), userNames);
         }

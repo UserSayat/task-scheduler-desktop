@@ -122,4 +122,12 @@ class TaskFilterTest {
         return new TaskView(UUID.randomUUID(), title, null, projectId, project, executorId, executor,
                 status, priority, deadline, List.of(tag), true);
     }
+
+    @Test
+    void filterFindsTasksWithoutExecutor() {
+        TaskView free = task("Свободная", crm, "Миграция CRM", null, null, TaskStatus.NEW, TaskPriority.LOW, null, "backend");
+        List<TaskView> tasks = List.of(free, report);
+        assertEquals(List.of(free), tasks.stream().filter(TaskFilter.ALL.withExecutors(Set.of(TaskFilter.NO_EXECUTOR))).toList());
+        assertEquals("Без ответственного", TasksController.executorOptions(tasks).values().iterator().next());
+    }
 }

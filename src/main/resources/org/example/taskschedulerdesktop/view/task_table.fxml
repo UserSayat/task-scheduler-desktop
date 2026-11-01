@@ -13,7 +13,7 @@
 <!--      <TableColumn fx:id="idColumn" prefWidth="30" text="#" />-->
       <TableColumn fx:id="taskNameColumn" prefWidth="200" text="Задача" />
       <TableColumn fx:id="projectNameColumn" prefWidth="150" text="Проект" />
-      <TableColumn fx:id="executorColumn" prefWidth="150" text="Исполнитель" />
+      <TableColumn fx:id="executorColumn" prefWidth="150" text="Ответственный" />
       <TableColumn fx:id="priorityColumn" prefWidth="130" minWidth="125" text="Приоритет" />
       <TableColumn fx:id="statusColumn" prefWidth="140" minWidth="135" text="Статус" />
       <TableColumn fx:id="deadlineColumn" prefWidth="100" text="Дедлайн" />

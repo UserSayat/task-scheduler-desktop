@@ -35,7 +35,7 @@
                           promptText="Выбрать проект"/>
             </VBox>
             <VBox HBox.hgrow="ALWAYS" spacing="5">
-                <Label text="ИСПОЛНИТЕЛЬ" styleClass="field-label"/>
+                <Label text="ОТВЕТСТВЕННЫЙ" styleClass="field-label"/>
                 <ComboBox fx:id="executorComboBox" maxWidth="Infinity"
                           styleClass="combo-box-styled"
                           promptText="Назначить"/>

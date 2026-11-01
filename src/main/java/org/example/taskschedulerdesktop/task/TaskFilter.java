@@ -3,6 +3,7 @@ package org.example.taskschedulerdesktop.task;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Predicate;
@@ -20,6 +21,9 @@ public record TaskFilter(
         Set<UUID> executorIds,
         Set<DeadlineRange> deadlines
 ) implements Predicate<TaskView> {
+
+    /** Значение фильтра по исполнителю для задач без ответственного. */
+    public static final UUID NO_EXECUTOR = new UUID(0, 0);
 
     public static final TaskFilter ALL = new TaskFilter("", Set.of(), Set.of(), Set.of(), Set.of(), Set.of());
 
@@ -101,7 +105,7 @@ public record TaskFilter(
         return (statuses.isEmpty() || statuses.contains(task.status()))
                 && (priorities.isEmpty() || priorities.contains(task.priority()))
                 && (projectIds.isEmpty() || projectIds.contains(task.projectId()))
-                && (executorIds.isEmpty() || (task.responsibleId() != null && executorIds.contains(task.responsibleId())))
+                && (executorIds.isEmpty() || executorIds.contains(Objects.requireNonNullElse(task.responsibleId(), NO_EXECUTOR)))
                 && (deadlines.isEmpty() || deadlines.stream().anyMatch(range -> range.matches(task, today)))
                 && matchesQuery(task);
     }

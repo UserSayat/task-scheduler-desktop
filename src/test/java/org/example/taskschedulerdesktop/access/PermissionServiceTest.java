@@ -16,6 +16,7 @@ import org.example.taskschedulerdesktop.task.TaskEdit;
 import org.example.taskschedulerdesktop.task.TaskExtras;
 import org.example.taskschedulerdesktop.task.TaskPriority;
 import org.example.taskschedulerdesktop.task.TaskServiceImpl;
+import org.example.taskschedulerdesktop.task.TaskStatus;
 import org.example.taskschedulerdesktop.task.TaskView;
 import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.BeforeEach;
@@ -100,9 +101,9 @@ class PermissionServiceTest {
 
     @Test
     void assigneeChangesOnlyStatusAuthorEditsOwnTask() {
-        assertEquals(new PermissionService.TaskRights(true, true), as(MARIA).taskRights(mariasTask.id()));
-        assertEquals(new PermissionService.TaskRights(false, true), as(ELENA).taskRights(mariasTask.id()), "исполнитель");
-        assertEquals(new PermissionService.TaskRights(false, false), as(PAVEL).taskRights(mariasTask.id()));
+        assertEquals(new PermissionService.TaskRights(true, true, false, true, false, false), as(MARIA).taskRights(mariasTask.id()), "автор может присоединиться");
+        assertEquals(new PermissionService.TaskRights(false, true, false, false, true, true), as(ELENA).taskRights(mariasTask.id()), "исполнитель");
+        assertEquals(PermissionService.TaskRights.NONE, as(PAVEL).taskRights(mariasTask.id()));
 
         TaskView elenasTask = tasks.create(new NewTask("Задача Елены", project.id(), ELENA, TaskPriority.LOW, null, List.of()));
         assertTrue(permissions.taskRights(elenasTask.id()).canEdit(), "автор может менять свою задачу");
@@ -162,5 +163,30 @@ class PermissionServiceTest {
     private PermissionService as(UUID userId) {
         session.signIn(userId);
         return permissions;
+    }
+
+    @Test
+    void takeJoinAndLeaveTaskWithoutExecutor() {
+        as(MARIA);
+        TaskView free = tasks.create(new NewTask("Свободная", project.id(), null, TaskPriority.LOW, null, List.of()));
+        assertEquals(new PermissionService.TaskRights(false, false, true, false, false, false), as(ELENA).taskRights(free.id()));
+        assertFalse(as(PAVEL).taskRights(free.id()).canTake(), "наблюдатель не берёт задачи");
+
+        as(ELENA);
+        TaskView taken = tasks.take(free.id());
+        assertEquals(ELENA, taken.responsibleId());
+        assertEquals(TaskStatus.IN_PROGRESS, taken.status());
+        assertEquals(java.time.LocalDate.now(), tasks.findExtras(free.id()).startDate(), "дата начала — день, когда взяли в работу");
+
+        assertTrue(as(MARIA).taskRights(free.id()).canJoin());
+        tasks.join(free.id());
+        assertEquals(List.of(MARIA), tasks.findExtras(free.id()).coExecutorIds());
+
+        // Ответственный отказывается: задача снова новая, соисполнитель остаётся
+        as(ELENA);
+        TaskView left = tasks.leave(free.id());
+        assertNull(left.responsibleId());
+        assertEquals(TaskStatus.NEW, left.status());
+        assertEquals(List.of(MARIA), tasks.findExtras(free.id()).coExecutorIds());
     }
 }
