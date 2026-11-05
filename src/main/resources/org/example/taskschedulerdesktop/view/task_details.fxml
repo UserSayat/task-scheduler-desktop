@@ -114,14 +114,14 @@
                 <VBox GridPane.columnIndex="0" spacing="6">
                     <Label text="НАЧАЛО" styleClass="detail-field-label"/>
                     <Label fx:id="startDateLabel"
-                           style="-fx-font-family:'Courier New';-fx-font-size:16px;-fx-text-fill:#111110;"/>
+                           style="-fx-font-size:16px;-fx-text-fill:#111110;"/>
                     <DatePicker fx:id="startDatePicker" maxWidth="Infinity"
                                 visible="false" managed="false"/>
                 </VBox>
                 <VBox GridPane.columnIndex="1" spacing="6">
                     <Label text="ДЕДЛАЙН" styleClass="detail-field-label"/>
                     <Label fx:id="deadlineLabel" text="03 авг"
-                           style="-fx-font-family:'Courier New';-fx-font-size:16px;-fx-text-fill:#111110;"/>
+                           style="-fx-font-size:16px;-fx-text-fill:#111110;"/>
                     <DatePicker fx:id="deadlineDatePicker" maxWidth="Infinity"
                                 visible="false" managed="false"/>
                 </VBox>

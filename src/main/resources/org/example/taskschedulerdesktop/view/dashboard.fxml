@@ -30,7 +30,6 @@
                 <!-- Всего -->
                 <StackPane styleClass="card" GridPane.columnIndex="0">
                     <VBox spacing="4">
-                        <Label style="-fx-alignment:TOP_RIGHT;" styleClass="stat-mono" text="001"/>
                         <Label fx:id="statAll" styleClass="stat-number" text="10"/>
                         <Label styleClass="stat-label" text="Всего задач"/>
 <!--                        <Label fx:id="amountOfActiveProjectsLabel" styleClass="stat-sub" text="активных проектов: 4"/>-->
@@ -40,7 +39,6 @@
                 <!-- В работе -->
                 <StackPane styleClass="card" GridPane.columnIndex="1">
                     <VBox spacing="4">
-                        <Label styleClass="stat-mono" text="002"/>
                         <Label fx:id="statInProgress" styleClass="stat-number" text="3"/>
                         <Label styleClass="stat-label" text="В работе"/>
 <!--                        <Label styleClass="stat-sub" text="требуют внимания"/>-->
@@ -50,7 +48,6 @@
                 <!-- На проверке -->
                 <StackPane styleClass="card" GridPane.columnIndex="2">
                     <VBox spacing="4">
-                        <Label styleClass="stat-mono" text="003"/>
                         <Label fx:id="statReview" styleClass="stat-number" text="2"/>
                         <Label styleClass="stat-label" text="На проверке"/>
 <!--                        <Label styleClass="stat-sub" text="ожидают решения"/>-->
@@ -60,7 +57,6 @@
                 <!-- Завершено -->
                 <StackPane styleClass="card" GridPane.columnIndex="3">
                     <VBox spacing="4">
-                        <Label styleClass="stat-mono" text="004"/>
                         <Label fx:id="statDone" styleClass="stat-number" text="2"/>
                         <Label styleClass="stat-label" text="Завершено"/>
 <!--                        <Label styleClass="stat-sub" text="за текущий спринт"/>-->
@@ -80,7 +76,7 @@
 
                 <!-- Прогресс проектов -->
                 <VBox styleClass="card" GridPane.columnIndex="0">
-                    <HBox alignment="CENTER_LEFT" spacing="8" style="-fx-padding: 0 0 16 0;">
+                    <HBox alignment="CENTER_LEFT" spacing="8" style="-fx-padding: 0 0 12 0;">
                         <Label styleClass="card-title" text="Проекты" HBox.hgrow="ALWAYS"/>
                         <Region HBox.hgrow="ALWAYS"/>
                         <Label styleClass="section-mono" text="прогресс выполнения"/>
@@ -92,10 +88,8 @@
 
                 <!-- Дедлайны -->
                 <VBox styleClass="card" GridPane.columnIndex="1">
-                    <HBox alignment="CENTER_LEFT" style="-fx-padding: 0 0 14 0;">
+                    <HBox alignment="CENTER_LEFT" style="-fx-padding: 0 0 12 0;">
                         <Label styleClass="card-title" text="Дедлайны"/>
-                        <Region HBox.hgrow="ALWAYS"/>
-                        <Label styleClass="section-mono" text="ближайшие"/>
                     </HBox>
 
                     <ListView fx:id="deadlinesListView" styleClass="dashboard-list-view">

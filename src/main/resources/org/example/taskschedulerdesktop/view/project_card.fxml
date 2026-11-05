@@ -21,7 +21,7 @@
             <Label fx:id="projectSupervisorLabel" text="Руководитель: А.К." styleClass="section-mono"/>
         </VBox>
         <VBox alignment="CENTER_RIGHT" spacing="1">
-            <Label fx:id="percentOfCompletionLabel" text="72%" style="-fx-font-family:'Georgia',serif;-fx-font-size:24px;-fx-text-fill:#111110;"/>
+            <Label fx:id="percentOfCompletionLabel" text="72%" style="-fx-font-family:'Segoe UI Semibold';-fx-font-size:24px;-fx-text-fill:#111110;"/>
             <Label text="выполнено" styleClass="section-mono"/>
         </VBox>
     </HBox>

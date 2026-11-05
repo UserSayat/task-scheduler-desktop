@@ -26,7 +26,6 @@ public class TaskSchedulerApplication extends Application {
         loadFont("/org/example/taskschedulerdesktop/fonts/Inter_18pt-Medium.ttf");
         loadFont("/org/example/taskschedulerdesktop/fonts/Inter_18pt-SemiBold.ttf");
         loadFont("/org/example/taskschedulerdesktop/fonts/Lora-Regular.ttf");
-        loadFont("/org/example/taskschedulerdesktop/fonts/JetBrainsMono-Regular.ttf");
     }
 
     @Override

@@ -27,14 +27,15 @@ public class DeadlineListCell extends ListCell<TaskView> {
         avatar.getStyleClass().add("avatar-box");
 
         titleLabel.getStyleClass().add("deadline-title");
-        titleLabel.setWrapText(true);
+        titleLabel.setWrapText(false); // в одну строку: карточки «Дедлайнов» и «Проектов» одной высоты
         dateLabel.getStyleClass().add("deadline-date");
         VBox text = new VBox(2, titleLabel, dateLabel);
         HBox.setHgrow(text, Priority.ALWAYS);
 
         root = new HBox(10, avatar, text);
         root.setAlignment(Pos.CENTER_LEFT);
-        root.getStyleClass().add("deadline-row");
+        root.getStyleClass().add("dashboard-item"); // отдельная карточка, как задачи на странице проекта
+        setPrefWidth(0); // по ширине списка: длинное название сокращается многоточием
     }
 
     @Override
