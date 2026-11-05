@@ -9,11 +9,6 @@
             fitToWidth="true" fitToHeight="true" hbarPolicy="NEVER" styleClass="scroll-pane-clean">
     <VBox styleClass="content-area">
 
-        <HBox alignment="CENTER_RIGHT">
-            <Button fx:id="createProjectButton" text="+ Новый проект"
-                    styleClass="btn-secondary"/>
-        </HBox>
-
         <TilePane fx:id="projectsTilePane"
                   hgap="20"
                   vgap="20"

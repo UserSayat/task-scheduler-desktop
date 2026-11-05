@@ -68,17 +68,6 @@
                         </graphic>
                         <tooltip><Tooltip text="Настройки"/></tooltip>
                     </Button>
-                    <Separator orientation="VERTICAL" styleClass="app-header-separator"/>
-                    <!-- Профиль: нажатие открывает меню «Профиль / Выйти» -->
-                    <HBox fx:id="userBox" styleClass="header-user" spacing="10" alignment="CENTER_LEFT">
-                        <StackPane styleClass="header-avatar">
-                            <Label fx:id="userInitialsLabel" text="—" styleClass="avatar-text"/>
-                        </StackPane>
-                        <VBox spacing="1" alignment="CENTER_LEFT">
-                            <Label fx:id="userNameLabel" text="Пользователь" styleClass="header-user-name"/>
-                            <Label fx:id="userPositionLabel" styleClass="header-user-role"/>
-                        </VBox>
-                    </HBox>
                 </HBox>
             </HBox>
         </top>
@@ -103,6 +92,16 @@
                         <VBox fx:id="sidebarProjectsList" styleClass="sidebar-projects"/>
                     </ScrollPane>
                 </VBox>
+                <!-- Профиль внизу меню: нажатие открывает «Профиль / Выйти» -->
+                <HBox fx:id="userBox" styleClass="sidebar-user" spacing="10" alignment="CENTER_LEFT">
+                    <StackPane styleClass="header-avatar">
+                        <Label fx:id="userInitialsLabel" text="—" styleClass="avatar-text"/>
+                    </StackPane>
+                    <VBox spacing="1" alignment="CENTER_LEFT" HBox.hgrow="ALWAYS" minWidth="0">
+                        <Label fx:id="userNameLabel" text="Пользователь" styleClass="header-user-name"/>
+                        <Label fx:id="userPositionLabel" styleClass="header-user-role"/>
+                    </VBox>
+                </HBox>
             </VBox>
         </left>
 
@@ -115,7 +114,10 @@
                         <Label fx:id="pageTitleLabel" text="Обзор" styleClass="page-title"/>
                         <Label fx:id="pageDate" styleClass="page-date"/>
                     </VBox>
-                    <Button fx:id="createTaskButton" text="+ Новая задача" styleClass="btn-secondary"/>
+                    <Button fx:id="createTaskButton" text="+ Новая задача" styleClass="btn-primary"/>
+                    <!-- Только на странице «Проекты» и только тем, кто может создавать проекты -->
+                    <Button fx:id="createProjectButton" text="+ Новый проект" styleClass="btn-secondary"
+                            visible="false" managed="false"/>
                 </HBox>
 
                 <!-- Динамическая область -->

@@ -80,6 +80,9 @@ public class MainController implements Shutdownable {
 
     @FXML private Button syncStatusButton;
     @FXML private Button createTaskButton;
+    @FXML private Button createProjectButton;
+    /** Может ли пользователь создавать проекты: администратор и руководитель проектов (API.md, 8.7). */
+    private boolean canCreateProjects;
 
     @FXML private Label userInitialsLabel;
     @FXML private Label userNameLabel;
@@ -101,7 +104,25 @@ public class MainController implements Shutdownable {
         pageTitleLabel.setText(event.getPageTitle());
         updateBackButtonState();
         highlightCurrentSection();
+        updateCreateProjectButton();
     };
+
+    /** «Новый проект» — в заголовке страницы «Проекты». Права перечитываем: роль могли снять на сервере. */
+    private void updateCreateProjectButton() {
+        boolean onProjects = Routes.PROJECTS.equals(NavigationManager.getCurrentPage());
+        showCreateProject(onProjects && canCreateProjects);
+        if (onProjects) {
+            appConfig.getAsyncPermissionService().globalRights(rights -> {
+                canCreateProjects = rights.canCreateProjects();
+                showCreateProject(canCreateProjects && Routes.PROJECTS.equals(NavigationManager.getCurrentPage()));
+            });
+        }
+    }
+
+    private void showCreateProject(boolean show) {
+        createProjectButton.setVisible(show);
+        createProjectButton.setManaged(show);
+    }
 
     /** Какой пункт меню подсвечивать на странице. Страница проекта относится к «Проектам». */
     private Map<String, Button> sectionButtons() {
@@ -161,6 +182,8 @@ public class MainController implements Shutdownable {
                 AppConfig.getInstance().getPrimaryStage(),
                 // На странице проекта он подставится в окне создания
                 Routes.PROJECT_DETAILS.equals(NavigationManager.getCurrentPage()) ? NavigationManager.getCurrentContext() : null));
+        createProjectButton.setOnAction(event -> NavigationManager.openDialog(
+                Routes.CREATE_PROJECT, "Новый проект", appConfig.getPrimaryStage()));
 
         reviewButton.setOnAction(event -> NavigationManager.navigateTo(Routes.DASHBOARD, "Обзор"));
         tasksButton.setOnAction(event -> NavigationManager.navigateTo(Routes.TASKS, "Задачи"));
@@ -222,7 +245,7 @@ public class MainController implements Shutdownable {
 
     }
 
-    /** Нажатие на профиль в верхней полосе — меню «Профиль / Выйти». */
+    /** Нажатие на профиль внизу меню — «Профиль / Выйти» над ним. */
     private void setUpProfileMenu() {
         MenuItem profileItem = new MenuItem("Профиль");
         profileItem.setOnAction(event -> NavigationManager.openDialog(Routes.PROFILE, "Профиль", appConfig.getPrimaryStage()));
@@ -237,7 +260,7 @@ public class MainController implements Shutdownable {
             if (menu.isShowing()) {
                 menu.hide();
             } else {
-                menu.show(userBox, javafx.geometry.Side.BOTTOM, 0, 6);
+                menu.show(userBox, javafx.geometry.Side.TOP, 0, -6);
             }
         });
     }

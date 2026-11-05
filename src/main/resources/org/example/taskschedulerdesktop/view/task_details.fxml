@@ -18,7 +18,7 @@
                    styleClass="detail-project" HBox.hgrow="ALWAYS"/>
             <Button fx:id="closeButton" text="×"
                     style="-fx-background-color:transparent;-fx-text-fill:#6b6b65;
-                           -fx-font-size:20px;-fx-cursor:hand;-fx-border-width:0;"/>
+                           -fx-font-size:22px;-fx-cursor:hand;-fx-border-width:0;"/>
         </HBox>
         <!-- Режим просмотра -->
         <Label fx:id="taskNameLabel"
@@ -70,7 +70,7 @@
                         <Label fx:id="authorAvatarLabel" styleClass="avatar-text"/>
                     </StackPane>
                     <Label fx:id="authorNameLabel"
-                           style="-fx-font-size:14px;-fx-text-fill:#111110;"/>
+                           style="-fx-font-size:16px;-fx-text-fill:#111110;"/>
                 </HBox>
             </VBox>
 
@@ -82,7 +82,7 @@
                         <Label fx:id="executorAvatarLabel" text="АК" styleClass="avatar-text"/>
                     </StackPane>
                     <Label fx:id="executorNameLabel" text="Алексей Козлов"
-                           style="-fx-font-size:14px;-fx-text-fill:#111110;"/>
+                           style="-fx-font-size:16px;-fx-text-fill:#111110;"/>
                 </HBox>
                 <ComboBox fx:id="executorComboBox" maxWidth="Infinity"
                           styleClass="combo-box-styled"
@@ -114,14 +114,14 @@
                 <VBox GridPane.columnIndex="0" spacing="6">
                     <Label text="НАЧАЛО" styleClass="detail-field-label"/>
                     <Label fx:id="startDateLabel"
-                           style="-fx-font-family:'Courier New';-fx-font-size:14px;-fx-text-fill:#111110;"/>
+                           style="-fx-font-family:'Courier New';-fx-font-size:16px;-fx-text-fill:#111110;"/>
                     <DatePicker fx:id="startDatePicker" maxWidth="Infinity"
                                 visible="false" managed="false"/>
                 </VBox>
                 <VBox GridPane.columnIndex="1" spacing="6">
                     <Label text="ДЕДЛАЙН" styleClass="detail-field-label"/>
                     <Label fx:id="deadlineLabel" text="03 авг"
-                           style="-fx-font-family:'Courier New';-fx-font-size:14px;-fx-text-fill:#111110;"/>
+                           style="-fx-font-family:'Courier New';-fx-font-size:16px;-fx-text-fill:#111110;"/>
                     <DatePicker fx:id="deadlineDatePicker" maxWidth="Infinity"
                                 visible="false" managed="false"/>
                 </VBox>

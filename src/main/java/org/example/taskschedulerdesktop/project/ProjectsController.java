@@ -3,16 +3,11 @@ package org.example.taskschedulerdesktop.project;
 import javafx.concurrent.Service;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.TilePane;
-import org.example.taskschedulerdesktop.access.AsyncPermissionService;
-import org.example.taskschedulerdesktop.config.AppConfig;
 import org.example.taskschedulerdesktop.shared.ui.Shutdownable;
 import org.example.taskschedulerdesktop.shared.event.EventBus;
-import org.example.taskschedulerdesktop.shared.navigation.NavigationManager;
-import org.example.taskschedulerdesktop.shared.navigation.Routes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,11 +19,7 @@ public class ProjectsController implements Shutdownable {
     private static final Logger log = LoggerFactory.getLogger(ProjectsController.class);
 
     private final AsyncProjectService projectService;
-    private final AsyncPermissionService permissions;
     private final Service<List<Node>> projectsLoader;
-
-    @FXML private Button createProjectButton;
-
 
     @FXML private TilePane projectsTilePane;
     @FXML private ProgressIndicator projectsLoadingIndicator;
@@ -38,9 +29,8 @@ public class ProjectsController implements Shutdownable {
         refreshProjects();
     };
 
-    public ProjectsController(AsyncProjectService projectService, AsyncPermissionService permissions) {
+    public ProjectsController(AsyncProjectService projectService) {
         this.projectService = projectService;
-        this.permissions = permissions;
         projectsLoader = projectService.createProjectsLoader();
 
     }
@@ -48,14 +38,6 @@ public class ProjectsController implements Shutdownable {
     @FXML
     public void initialize() {
         EventBus.getInstance().subscribe(ProjectChangedEvent.class, projectChangedListener);
-
-        // Создавать проекты могут администратор и руководитель проектов (API.md, 8.7)
-        createProjectButton.setVisible(false);
-        createProjectButton.setManaged(false);
-        permissions.globalRights(rights -> {
-            createProjectButton.setVisible(rights.canCreateProjects());
-            createProjectButton.setManaged(rights.canCreateProjects());
-        });
 
         projectsLoadingIndicator.visibleProperty().bind(projectsLoader.runningProperty());
 
@@ -78,14 +60,7 @@ public class ProjectsController implements Shutdownable {
             if (error != null) error.printStackTrace();
         });
 
-        //NavigationManager.setCurrentTitle("Проекты");
-
-        createProjectButton.setOnAction(event -> {
-            NavigationManager.openDialog(
-                    Routes.CREATE_PROJECT,
-                    "Новый проект",
-                    AppConfig.getInstance().getPrimaryStage());
-        });
+        // Кнопка «Новый проект» — в заголовке страницы (MainController)
 
         refreshProjects();
     }

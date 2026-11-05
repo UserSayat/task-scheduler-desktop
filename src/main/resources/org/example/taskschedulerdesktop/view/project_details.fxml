@@ -17,7 +17,7 @@
             <HBox alignment="CENTER_LEFT" spacing="16" style="-fx-padding:0 0 16 0;">
                 <HBox alignment="CENTER_LEFT" spacing="10" HBox.hgrow="ALWAYS">
                     <VBox spacing="3">
-                        <Label fx:id="projectNameLabel" style="-fx-font-family:'Georgia',serif;-fx-font-size:22px;-fx-text-fill:#111110;" text="Редизайн портала" />
+                        <Label fx:id="projectNameLabel" style="-fx-font-family:'Georgia',serif;-fx-font-size:24px;-fx-text-fill:#111110;" text="Редизайн портала" />
                         <Label fx:id="projectSupervisorLabel" styleClass="section-mono" text="Руководитель: А.К." />
                         <Label fx:id="projectMetaLabel" styleClass="section-mono" />
                     </VBox>
@@ -53,7 +53,7 @@
                 <Region HBox.hgrow="ALWAYS" />
                 <Button fx:id="deleteProjectButton" styleClass="btn-ghost-danger" text="Удалить проект" />
                 <HBox fx:id="confirmDeleteVBox" alignment="CENTER_RIGHT" managed="false" spacing="8" visible="false">
-                    <Label style="-fx-text-fill:#b91c1c;-fx-font-size:13px;" text="Удалить проект и все его задачи?" />
+                    <Label style="-fx-text-fill:#b91c1c;-fx-font-size:15px;" text="Удалить проект и все его задачи?" />
                     <Button fx:id="confirmDeleteButton" styleClass="btn-danger" text="Да, удалить" />
                     <Button fx:id="cancelDeleteButton" styleClass="btn-secondary" text="Отмена" />
                 </HBox>
@@ -69,7 +69,7 @@
                 <!-- В работе -->
                 <VBox spacing="6">
                     <HBox alignment="CENTER_LEFT" spacing="8">
-                        <Label style="-fx-text-fill:#1a3a8f;-fx-font-size:11px;-fx-font-family:'Courier New',monospace;" text="В РАБОТЕ" />
+                        <Label style="-fx-text-fill:#1a3a8f;-fx-font-size:13px;-fx-font-family:'Courier New',monospace;" text="В РАБОТЕ" />
                         <Label fx:id="amountOfTasksInProgressLabel" styleClass="section-mono" text="2" />
                         <ProgressIndicator fx:id="tasksInProgressLoadingIndicator" prefHeight="15.0" prefWidth="15.0" visible="false" />
                     </HBox>
@@ -80,7 +80,7 @@
                 <!-- На проверке -->
                 <VBox spacing="6">
                     <HBox alignment="CENTER_LEFT" spacing="8">
-                        <Label style="-fx-text-fill:#7c3aed;-fx-font-size:11px;-fx-font-family:'Courier New',monospace;" text="НА ПРОВЕРКЕ" />
+                        <Label style="-fx-text-fill:#7c3aed;-fx-font-size:13px;-fx-font-family:'Courier New',monospace;" text="НА ПРОВЕРКЕ" />
                         <Label fx:id="amountOfTasksUnderReviewLabel" styleClass="section-mono" text="1" />
                         <ProgressIndicator fx:id="tasksUnderReviewLoadingIndicator" prefHeight="15.0" prefWidth="15.0" visible="false" />
                     </HBox>
@@ -91,7 +91,7 @@
                 <!-- К выполнению -->
                 <VBox spacing="6">
                     <HBox alignment="CENTER_LEFT" spacing="8">
-                        <Label style="-fx-text-fill:#3d3d39;-fx-font-size:11px;-fx-font-family:'Courier New',monospace;" text="К ВЫПОЛНЕНИЮ" />
+                        <Label style="-fx-text-fill:#3d3d39;-fx-font-size:13px;-fx-font-family:'Courier New',monospace;" text="К ВЫПОЛНЕНИЮ" />
                         <Label fx:id="amountOfNewTasksLabel" styleClass="section-mono" text="1" />
                         <ProgressIndicator fx:id="newTasksLoadingIndicator" prefHeight="15.0" prefWidth="15.0" visible="false" />
                     </HBox>
@@ -102,7 +102,7 @@
                 <!-- Завершено -->
                 <VBox spacing="6">
                     <HBox alignment="CENTER_LEFT" spacing="8">
-                        <Label style="-fx-text-fill:#14532d;-fx-font-size:11px;-fx-font-family:'Courier New',monospace;" text="ЗАВЕРШЕНО" />
+                        <Label style="-fx-text-fill:#14532d;-fx-font-size:13px;-fx-font-family:'Courier New',monospace;" text="ЗАВЕРШЕНО" />
                         <Label fx:id="amountOfCompletedTasksLabel" styleClass="section-mono" text="1" />
                         <ProgressIndicator fx:id="completedTasksLoadingIndicator" prefHeight="15.0" prefWidth="15.0" visible="false" />
                     </HBox>
@@ -124,23 +124,23 @@
                     <Label styleClass="section-mono" text="ПО СТАТУСАМ" />
                     <HBox alignment="CENTER_LEFT" spacing="8">
                         <Region style="-fx-background-color:#1a3a8f;-fx-min-width:6;-fx-min-height:6;-fx-max-width:6;-fx-max-height:6;-fx-background-radius:3;" />
-                        <Label style="-fx-font-size:13px;-fx-text-fill:#3d3d39;" text="В работе" HBox.hgrow="ALWAYS" />
-                        <Label fx:id="amountOfTasksInProgressLabelSidePanel" style="-fx-font-family:'Courier New';-fx-font-size:13px;-fx-text-fill:#111110;" text="2" />
+                        <Label style="-fx-font-size:15px;-fx-text-fill:#3d3d39;" text="В работе" HBox.hgrow="ALWAYS" />
+                        <Label fx:id="amountOfTasksInProgressLabelSidePanel" style="-fx-font-family:'Courier New';-fx-font-size:15px;-fx-text-fill:#111110;" text="2" />
                     </HBox>
                     <HBox alignment="CENTER_LEFT" spacing="8">
                         <Region style="-fx-background-color:#7c3aed;-fx-min-width:6;-fx-min-height:6;-fx-max-width:6;-fx-max-height:6;-fx-background-radius:3;" />
-                        <Label style="-fx-font-size:13px;-fx-text-fill:#3d3d39;" text="На проверке" HBox.hgrow="ALWAYS" />
-                        <Label fx:id="amountOfTasksUnderReviewLabelSidePanel" style="-fx-font-family:'Courier New';-fx-font-size:13px;-fx-text-fill:#111110;" text="1" />
+                        <Label style="-fx-font-size:15px;-fx-text-fill:#3d3d39;" text="На проверке" HBox.hgrow="ALWAYS" />
+                        <Label fx:id="amountOfTasksUnderReviewLabelSidePanel" style="-fx-font-family:'Courier New';-fx-font-size:15px;-fx-text-fill:#111110;" text="1" />
                     </HBox>
                     <HBox alignment="CENTER_LEFT" spacing="8">
                         <Region style="-fx-background-color:#5a5a56;-fx-min-width:6;-fx-min-height:6;-fx-max-width:6;-fx-max-height:6;-fx-background-radius:3;" />
-                        <Label style="-fx-font-size:13px;-fx-text-fill:#3d3d39;" text="К выполнению" HBox.hgrow="ALWAYS" />
-                        <Label fx:id="amountOfNewTasksLabelSidePanel" style="-fx-font-family:'Courier New';-fx-font-size:13px;-fx-text-fill:#111110;" text="1" />
+                        <Label style="-fx-font-size:15px;-fx-text-fill:#3d3d39;" text="К выполнению" HBox.hgrow="ALWAYS" />
+                        <Label fx:id="amountOfNewTasksLabelSidePanel" style="-fx-font-family:'Courier New';-fx-font-size:15px;-fx-text-fill:#111110;" text="1" />
                     </HBox>
                     <HBox alignment="CENTER_LEFT" spacing="8">
                         <Region style="-fx-background-color:#14532d;-fx-min-width:6;-fx-min-height:6;-fx-max-width:6;-fx-max-height:6;-fx-background-radius:3;" />
-                        <Label style="-fx-font-size:13px;-fx-text-fill:#3d3d39;" text="Завершено" HBox.hgrow="ALWAYS" />
-                        <Label fx:id="amountOfCompletedTasksLabelSidePanel" style="-fx-font-family:'Courier New';-fx-font-size:13px;-fx-text-fill:#111110;" text="1" />
+                        <Label style="-fx-font-size:15px;-fx-text-fill:#3d3d39;" text="Завершено" HBox.hgrow="ALWAYS" />
+                        <Label fx:id="amountOfCompletedTasksLabelSidePanel" style="-fx-font-family:'Courier New';-fx-font-size:15px;-fx-text-fill:#111110;" text="1" />
                     </HBox>
                 </VBox>
 
@@ -149,23 +149,23 @@
                     <Label styleClass="section-mono" text="ПО ПРИОРИТЕТУ" />
                     <HBox alignment="CENTER_LEFT" spacing="8">
                         <Region style="-fx-background-color:#b91c1c;-fx-min-width:6;-fx-min-height:6;-fx-max-width:6;-fx-max-height:6;-fx-background-radius:3;" />
-                        <Label style="-fx-font-size:13px;-fx-text-fill:#3d3d39;" text="Критический" HBox.hgrow="ALWAYS" />
-                        <Label fx:id="amountOfCriticalPriorityTasksLabel" style="-fx-font-family:'Courier New';-fx-font-size:13px;-fx-text-fill:#111110;" text="0" />
+                        <Label style="-fx-font-size:15px;-fx-text-fill:#3d3d39;" text="Критический" HBox.hgrow="ALWAYS" />
+                        <Label fx:id="amountOfCriticalPriorityTasksLabel" style="-fx-font-family:'Courier New';-fx-font-size:15px;-fx-text-fill:#111110;" text="0" />
                     </HBox>
                     <HBox alignment="CENTER_LEFT" spacing="8">
                         <Region style="-fx-background-color:#d08a12;-fx-min-width:6;-fx-min-height:6;-fx-max-width:6;-fx-max-height:6;-fx-background-radius:3;" />
-                        <Label style="-fx-font-size:13px;-fx-text-fill:#3d3d39;" text="Высокий" HBox.hgrow="ALWAYS" />
-                        <Label fx:id="amountOfHighPriorityTasksLabel" style="-fx-font-family:'Courier New';-fx-font-size:13px;-fx-text-fill:#111110;" text="2" />
+                        <Label style="-fx-font-size:15px;-fx-text-fill:#3d3d39;" text="Высокий" HBox.hgrow="ALWAYS" />
+                        <Label fx:id="amountOfHighPriorityTasksLabel" style="-fx-font-family:'Courier New';-fx-font-size:15px;-fx-text-fill:#111110;" text="2" />
                     </HBox>
                     <HBox alignment="CENTER_LEFT" spacing="8">
                         <Region style="-fx-background-color:#3d8fd1;-fx-min-width:6;-fx-min-height:6;-fx-max-width:6;-fx-max-height:6;-fx-background-radius:3;" />
-                        <Label style="-fx-font-size:13px;-fx-text-fill:#3d3d39;" text="Средний" HBox.hgrow="ALWAYS" />
-                        <Label fx:id="amountOfMediumPriorityTasksLabel" style="-fx-font-family:'Courier New';-fx-font-size:13px;-fx-text-fill:#111110;" text="1" />
+                        <Label style="-fx-font-size:15px;-fx-text-fill:#3d3d39;" text="Средний" HBox.hgrow="ALWAYS" />
+                        <Label fx:id="amountOfMediumPriorityTasksLabel" style="-fx-font-family:'Courier New';-fx-font-size:15px;-fx-text-fill:#111110;" text="1" />
                     </HBox>
                     <HBox alignment="CENTER_LEFT" spacing="8">
                         <Region style="-fx-background-color:#14532d;-fx-min-width:6;-fx-min-height:6;-fx-max-width:6;-fx-max-height:6;-fx-background-radius:3;" />
-                        <Label style="-fx-font-size:13px;-fx-text-fill:#3d3d39;" text="Низкий" HBox.hgrow="ALWAYS" />
-                        <Label fx:id="amountOfLowPriorityTasksLabel" style="-fx-font-family:'Courier New';-fx-font-size:13px;-fx-text-fill:#111110;" text="2" />
+                        <Label style="-fx-font-size:15px;-fx-text-fill:#3d3d39;" text="Низкий" HBox.hgrow="ALWAYS" />
+                        <Label fx:id="amountOfLowPriorityTasksLabel" style="-fx-font-family:'Courier New';-fx-font-size:15px;-fx-text-fill:#111110;" text="2" />
                     </HBox>
                 </VBox>
             </VBox>

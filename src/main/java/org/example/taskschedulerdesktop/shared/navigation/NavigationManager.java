@@ -519,7 +519,7 @@ public class NavigationManager {
 
         Label label = new Label(message);
         label.setWrapText(true);
-        label.setStyle("-fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold;");
+        label.setStyle("-fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;");
 
         StackPane toast = new StackPane(label);
         toast.setStyle(

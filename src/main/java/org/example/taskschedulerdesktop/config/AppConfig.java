@@ -200,7 +200,7 @@ public class AppConfig {
                 return new TaskDetailsController(asyncTaskService, asyncUserService, asyncPermissionService);
             }
             if (clazz == ProjectsController.class) {
-                return new ProjectsController(asyncProjectService, asyncPermissionService);
+                return new ProjectsController(asyncProjectService);
             }
             if (clazz == CreateProjectController.class) {
                 return new CreateProjectController(asyncProjectService, asyncUserService);
@@ -298,6 +298,10 @@ public class AppConfig {
 
     public AsyncTaskService getAsyncTaskService() {
         return asyncTaskService;
+    }
+
+    public AsyncPermissionService getAsyncPermissionService() {
+        return asyncPermissionService;
     }
 
     public AsyncProjectService getAsyncProjectService() {

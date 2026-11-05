@@ -55,6 +55,7 @@ public class EmployeeCardController {
         if (task.deadline() != null) {
             Label deadline = new Label(formatShort(task.deadline()));
             deadline.getStyleClass().add("team-task-deadline");
+            deadline.setMinWidth(Region.USE_PREF_SIZE); // сокращается название, а не дата
             row.getChildren().add(deadline);
         }
         return row;
