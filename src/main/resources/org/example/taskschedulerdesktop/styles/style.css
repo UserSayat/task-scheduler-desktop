@@ -1,9 +1,12 @@
 /* ── Базовые токены ─────────────────────────────────── */
 .root {
-  -fx-font-family: "Inter", "Segoe UI", sans-serif;
+  -fx-font-family: "System"; /* Segoe UI на Windows, системный шрифт на macOS — с жирным начертанием */
   -fx-background-color: #f6f6f4;
-  -fx-font-size: 13px;
+  -fx-font-size: 14px;
 }
+
+/* Субпиксельное сглаживание (как ClearType): текст чётче и темнее серого сглаживания */
+.text { -fx-font-smoothing-type: lcd; }
 
 /* ── Сайдбар ────────────────────────────────────────── */
 .sidebar {
@@ -29,19 +32,19 @@
   -fx-font-weight: bold;
 }
 .logo-sub {
-  -fx-text-fill: rgba(255,255,255,0.28);
-  -fx-font-size: 11px;
+  -fx-text-fill: rgba(255,255,255,0.5);
+  -fx-font-size: 12px;
   -fx-font-family: "JetBrains Mono", monospace;
 }
 .nav-section-label {
-  -fx-text-fill: rgba(255,255,255,0.22);
-  -fx-font-size: 11px;
+  -fx-text-fill: rgba(255,255,255,0.5);
+  -fx-font-size: 12px;
   -fx-font-family: "JetBrains Mono", monospace;
   -fx-padding: 16 20 4 20;
 }
 .nav-btn {
   -fx-background-color: transparent;
-  -fx-text-fill: rgba(255,255,255,0.4);
+  -fx-text-fill: rgba(255,255,255,0.68);
   -fx-alignment: CENTER_LEFT;
   -fx-padding: 8 20 8 20;
   -fx-font-size: 14px;
@@ -66,7 +69,7 @@
   -fx-padding: 12 16; -fx-cursor: hand;
 }
 .project-task-card:hover { -fx-border-color: #c8c8c0; -fx-background-color: #fcfcfb; }
-.project-no-tasks { -fx-text-fill: #9b9b95; -fx-font-size: 13px; -fx-padding: 4 0 0 0; }
+.project-no-tasks { -fx-text-fill: #6b6b65; -fx-font-size: 14px; -fx-padding: 4 0 0 0; }
 
 /* ── Полосы прокрутки: везде без стрелок, только бегунок ── */
 .scroll-bar .increment-button,
@@ -90,30 +93,30 @@
 .sidebar-projects-scroll .scroll-bar:vertical { -fx-background-color: transparent; -fx-pref-width: 6; }
 .sidebar-projects-scroll .scroll-bar .thumb { -fx-background-color: rgba(255,255,255,0.14); -fx-background-radius: 3; }
 .sidebar-projects { -fx-padding: 0 0 12 0; }
-.sidebar-project { -fx-padding: 6 20 6 20; -fx-font-size: 13px; }
-.sidebar-project-name { -fx-text-fill: rgba(255,255,255,0.4); -fx-font-size: 13px; }
+.sidebar-project { -fx-padding: 6 20 6 20; -fx-font-size: 14px; }
+.sidebar-project-name { -fx-text-fill: rgba(255,255,255,0.68); -fx-font-size: 14px; }
 /* Замок у закрытого проекта; в меню — под цвет названия */
-.project-lock { -fx-fill: #9b9b95; }
-.sidebar-project .project-lock { -fx-fill: rgba(255,255,255,0.3); }
+.project-lock { -fx-fill: #6b6b65; }
+.sidebar-project .project-lock { -fx-fill: rgba(255,255,255,0.5); }
 .sidebar-project:hover .project-lock { -fx-fill: rgba(255,255,255,0.6); }
 .sidebar-project.nav-btn-active .project-lock { -fx-fill: rgba(255,255,255,0.85); }
 .sidebar-project:hover .sidebar-project-name { -fx-text-fill: rgba(255,255,255,0.7); }
 .sidebar-project.nav-btn-active .sidebar-project-name { -fx-text-fill: rgba(255,255,255,0.96); }
-.sidebar-project-count { -fx-text-fill: rgba(255,255,255,0.3); -fx-font-size: 11px; }
-.sidebar-projects-empty { -fx-text-fill: rgba(255,255,255,0.3); -fx-font-size: 12px; -fx-padding: 4 20 4 20; }
+.sidebar-project-count { -fx-text-fill: rgba(255,255,255,0.5); -fx-font-size: 12px; }
+.sidebar-projects-empty { -fx-text-fill: rgba(255,255,255,0.5); -fx-font-size: 13px; -fx-padding: 4 20 4 20; }
 
 .nav-project-btn {
   -fx-background-color: transparent;
-  -fx-text-fill: rgba(255,255,255,0.38);
+  -fx-text-fill: rgba(255,255,255,0.68);
   -fx-alignment: CENTER_LEFT;
   -fx-padding: 5 12 5 12;
-  -fx-font-size: 11px;
+  -fx-font-size: 12px;
   -fx-cursor: hand;
   -fx-border-width: 0;
   -fx-background-radius: 0;
 }
 .nav-project-btn:hover {
-  -fx-text-fill: rgba(255,255,255,0.65);
+  -fx-text-fill: rgba(255,255,255,0.8);
 }
 .sidebar-user-box {
   -fx-padding: 14 16 14 16;
@@ -128,8 +131,8 @@
   -fx-font-weight: 500;
 }
 .user-role {
-  -fx-text-fill: rgba(255,255,255,0.28);
-  -fx-font-size: 12px;
+  -fx-text-fill: rgba(255,255,255,0.5);
+  -fx-font-size: 13px;
 }
 
 /* ── Хедер ──────────────────────────────────────────── */
@@ -147,14 +150,14 @@
   -fx-text-fill: #111110;
 }
 .page-date {
-  -fx-text-fill: #9b9b95;
-  -fx-font-size: 12px;
+  -fx-text-fill: #6b6b65;
+  -fx-font-size: 13px;
   -fx-font-family: "JetBrains Mono", monospace;
 }
 
 .page-back-button {
-  -fx-text-fill: #9b9b95;
-  -fx-font-size: 12px;
+  -fx-text-fill: #6b6b65;
+  -fx-font-size: 13px;
   -fx-font-family: "JetBrains Mono", monospace;
   -fx-background-color: transparent;
   -fx-border-color: transparent
@@ -166,7 +169,7 @@
 .btn-primary {
   -fx-background-color: #111110;
   -fx-text-fill: white;
-  -fx-font-size: 13px;
+  -fx-font-size: 14px;
   -fx-padding: 7 14 7 14;
   -fx-cursor: hand;
   -fx-background-radius: 0;
@@ -176,10 +179,10 @@
 
 .btn-secondary {
   -fx-background-color: transparent;
-  -fx-text-fill: #5a5a56;
+  -fx-text-fill: #3d3d39;
   -fx-border-color: #e2e2dc;
   -fx-border-width: 1;
-  -fx-font-size: 13px;
+  -fx-font-size: 14px;
   -fx-padding: 6 12 6 12;
   -fx-cursor: hand;
   -fx-background-radius: 0;
@@ -192,7 +195,7 @@
 .btn-danger {
   -fx-background-color: #b91c1c;
   -fx-text-fill: white;
-  -fx-font-size: 12px;
+  -fx-font-size: 13px;
   -fx-padding: 6 12 6 12;
   -fx-cursor: hand;
   -fx-background-radius: 0;
@@ -200,8 +203,8 @@
 .btn-danger:hover { -fx-background-color: #991b1b; }
 .btn-ghost-danger {
   -fx-background-color: transparent;
-  -fx-text-fill: #9b9b95;
-  -fx-font-size: 12px;
+  -fx-text-fill: #6b6b65;
+  -fx-font-size: 13px;
   -fx-font-family: "JetBrains Mono", monospace;
   -fx-cursor: hand;
   -fx-border-width: 0;
@@ -210,8 +213,8 @@
 .btn-ghost-danger:hover { -fx-text-fill: #b91c1c; }
 .btn-ghost {
   -fx-background-color: transparent;
-  -fx-text-fill: #9b9b95;
-  -fx-font-size: 11px;
+  -fx-text-fill: #6b6b65;
+  -fx-font-size: 12px;
   -fx-font-family: "JetBrains Mono", monospace;
   -fx-cursor: hand;
   -fx-border-width: 0;
@@ -221,8 +224,8 @@
 
 /* ── Поля ввода ─────────────────────────────────────── */
 .field-label {
-  -fx-text-fill: #9b9b95;
-  -fx-font-size: 12px;
+  -fx-text-fill: #6b6b65;
+  -fx-font-size: 13px;
   -fx-font-family: "JetBrains Mono", monospace;
   -fx-padding: 0 0 5 0;
 }
@@ -233,9 +236,9 @@
   -fx-border-radius: 0;
   -fx-background-radius: 0;
   -fx-padding: 7 10 7 10;
-  -fx-font-size: 13px;
+  -fx-font-size: 14px;
   -fx-text-fill: #111110;
-  -fx-prompt-text-fill: #c8c8c0;
+  -fx-prompt-text-fill: #8a8a84;
 }
 .text-field-styled:focused {
   -fx-border-color: #1a3a8f;
@@ -247,7 +250,7 @@
   -fx-border-radius: 0;
   -fx-background-radius: 0;
   -fx-padding: 2 4 2 4;
-  -fx-font-size: 13px;
+  -fx-font-size: 14px;
 }
 .combo-box-styled:focused { -fx-border-color: #1a3a8f; }
 .combo-box-styled .list-cell { -fx-background-color: white; -fx-text-fill: #111110; }
@@ -270,8 +273,8 @@
   -fx-border-radius: 0;
   -fx-background-radius: 0;
   -fx-padding: 6 10;
-  -fx-prompt-text-fill: #9b9b95;
-  -fx-font-size: 12px;
+  -fx-prompt-text-fill: #6b6b65;
+  -fx-font-size: 13px;
   -fx-pref-width: 200px;
 }
 .search-field:focused { -fx-border-color: #1a3a8f; }
@@ -303,24 +306,24 @@
   -fx-text-fill: #111110;
 }
 .stat-label {
-  -fx-font-size: 13px;
+  -fx-font-size: 14px;
   -fx-font-weight: 600;
   -fx-text-fill: #111110;
 }
 .stat-sub {
-  -fx-font-size: 11px;
-  -fx-text-fill: #9b9b95;
+  -fx-font-size: 12px;
+  -fx-text-fill: #6b6b65;
   -fx-padding: 2 0 0 0;
 }
 .stat-mono {
   -fx-font-family: "JetBrains Mono", monospace;
-  -fx-font-size: 12px;
+  -fx-font-size: 13px;
   -fx-text-fill: #e2e2dc;
 }
 .section-mono {
   -fx-font-family: "JetBrains Mono", monospace;
-  -fx-font-size: 12px;
-  -fx-text-fill: #9b9b95;
+  -fx-font-size: 13px;
+  -fx-text-fill: #6b6b65;
 }
 
 /* ── Прогресс-бар ───────────────────────────────────── */
@@ -368,7 +371,7 @@
 }
 .avatar-text {
   -fx-text-fill: white;
-  -fx-font-size: 12px;
+  -fx-font-size: 13px;
   -fx-font-family: "JetBrains Mono", monospace;
   -fx-font-weight: bold;
 }
@@ -376,29 +379,29 @@
 /* ── Бейджи приоритет/статус ────────────────────────── */
 /* Приоритеты: низкий — зелёный, средний — голубой, высокий — жёлтый, критический — красный */
 .badge-critical { -fx-background-color: #fef2f2; -fx-text-fill: #b91c1c; -fx-font-weight: 600;
-              -fx-font-size: 13px; -fx-padding: 2 7 2 7; }
+              -fx-font-size: 14px; -fx-padding: 2 7 2 7; }
 .badge-high   { -fx-background-color: #fffbeb; -fx-text-fill: #92400e;
-              -fx-font-size: 13px; -fx-padding: 2 7 2 7; }
+              -fx-font-size: 14px; -fx-padding: 2 7 2 7; }
 .badge-medium { -fx-background-color: #eef6fd; -fx-text-fill: #1f6aa5;
-              -fx-font-size: 13px; -fx-padding: 2 7 2 7; }
+              -fx-font-size: 14px; -fx-padding: 2 7 2 7; }
 .badge-low    { -fx-background-color: #f0fdf4; -fx-text-fill: #14532d;
-              -fx-font-size: 13px; -fx-padding: 2 7 2 7; }
-.badge-todo        { -fx-background-color: #f6f6f4; -fx-text-fill: #5a5a56;
-                   -fx-font-size: 13px; -fx-padding: 2 7 2 7; }
+              -fx-font-size: 14px; -fx-padding: 2 7 2 7; }
+.badge-todo        { -fx-background-color: #f6f6f4; -fx-text-fill: #3d3d39;
+                   -fx-font-size: 14px; -fx-padding: 2 7 2 7; }
 .badge-in-progress { -fx-background-color: #e8edf8; -fx-text-fill: #1a3a8f;
-                   -fx-font-size: 13px; -fx-padding: 2 7 2 7; }
+                   -fx-font-size: 14px; -fx-padding: 2 7 2 7; }
 .badge-review      { -fx-background-color: #f5f3ff; -fx-text-fill: #7c3aed;
-                   -fx-font-size: 13px; -fx-padding: 2 7 2 7; }
+                   -fx-font-size: 14px; -fx-padding: 2 7 2 7; }
 .badge-done        { -fx-background-color: #f0fdf4; -fx-text-fill: #14532d;
-                   -fx-font-size: 13px; -fx-padding: 2 7 2 7; }
+                   -fx-font-size: 14px; -fx-padding: 2 7 2 7; }
 
 /* ── Тег ────────────────────────────────────────────── */
 .tag-chip {
   -fx-background-color: #f6f6f4;
-  -fx-text-fill: #9b9b95;
+  -fx-text-fill: #6b6b65;
   -fx-border-color: #e2e2dc;
   -fx-border-width: 1;
-  -fx-font-size: 10px;
+  -fx-font-size: 11px;
   -fx-font-family: "JetBrains Mono", monospace;
   -fx-padding: 1 5 1 5;
 }
@@ -420,8 +423,8 @@
   -fx-padding: 10 16;
 }
 .task-table .column-header .label {
-  -fx-text-fill: #9b9b95;
-  -fx-font-size: 12px;
+  -fx-text-fill: #6b6b65;
+  -fx-font-size: 13px;
   -fx-font-family: "JetBrains Mono", monospace;
   -fx-font-weight: normal;
 }
@@ -446,13 +449,13 @@
 .task-table .table-cell {
   -fx-alignment: CENTER; /* под заголовком колонки, который тоже по центру */
   -fx-padding: 10 16;
-  -fx-text-fill: #5a5a56;
-  -fx-font-size: 12px;
+  -fx-text-fill: #3d3d39;
+  -fx-font-size: 13px;
   -fx-border-width: 0;
 }
 .table-task-title { -fx-font-size: 14px; -fx-text-fill: #111110; -fx-font-weight: 500; }
-.table-mono       { -fx-font-family: "JetBrains Mono", monospace; -fx-font-size: 12px;
-                  -fx-text-fill: #c8c8c0; }
+.table-mono       { -fx-font-family: "JetBrains Mono", monospace; -fx-font-size: 13px;
+                  -fx-text-fill: #8a8a84; }
 
 .task-table .scroll-bar {
     -fx-background-color: transparent;
@@ -500,22 +503,22 @@
   -fx-background-color: #1a3a8f;
   -fx-padding: 3 4 3 4;
 }
-.task-table .column-header .sort-order { -fx-text-fill: #9b9b95; -fx-font-size: 10px; }
+.task-table .column-header .sort-order { -fx-text-fill: #6b6b65; -fx-font-size: 11px; }
 
 /* ── Фильтры экрана «Задачи» ───────────────────────── */
 .filter-caption {
   -fx-font-family: "JetBrains Mono", monospace;
-  -fx-font-size: 11px;
-  -fx-text-fill: #9b9b95;
+  -fx-font-size: 12px;
+  -fx-text-fill: #6b6b65;
   -fx-padding: 0 6 0 0;
 }
 .filter-separator { -fx-padding: 0 6; }
 .filter-chip {
   -fx-background-color: white;
-  -fx-text-fill: #5a5a56;
+  -fx-text-fill: #3d3d39;
   -fx-border-color: #e2e2dc;
   -fx-border-width: 1;
-  -fx-font-size: 12px;
+  -fx-font-size: 13px;
   -fx-padding: 5 12;
   -fx-cursor: hand;
   -fx-background-radius: 0;
@@ -530,17 +533,17 @@
 /* Выпадающие фильтры: проект, исполнитель, срок */
 .filter-menu {
   -fx-background-color: white;
-  -fx-text-fill: #5a5a56;
+  -fx-text-fill: #3d3d39;
   -fx-border-color: #e2e2dc;
   -fx-border-width: 1;
   -fx-background-radius: 0;
   -fx-border-radius: 0;
-  -fx-font-size: 12px;
+  -fx-font-size: 13px;
   -fx-padding: 4 8;
   -fx-cursor: hand;
 }
 .filter-menu:hover { -fx-border-color: #c8c8c0; }
-.filter-menu > .label { -fx-text-fill: #5a5a56; }
+.filter-menu > .label { -fx-text-fill: #3d3d39; }
 .filter-menu > .arrow-button > .arrow { -fx-background-color: #9b9b95; }
 .filter-menu.filter-menu-active {
   -fx-background-color: #e8edf8;
@@ -548,7 +551,7 @@
 }
 .filter-menu.filter-menu-active > .label { -fx-text-fill: #1a3a8f; }
 .filter-menu.filter-menu-active > .arrow-button > .arrow { -fx-background-color: #1a3a8f; }
-.filter-menu-check { -fx-font-size: 12px; -fx-text-fill: #111110; }
+.filter-menu-check { -fx-font-size: 13px; -fx-text-fill: #111110; }
 
 .task-search {
   -fx-background-color: white;
@@ -556,19 +559,19 @@
   -fx-border-width: 1;
   -fx-background-radius: 0;
   -fx-border-radius: 0;
-  -fx-font-size: 13px;
+  -fx-font-size: 14px;
   -fx-padding: 7 10;
   -fx-pref-width: 360;
 }
 .task-search:focused { -fx-border-color: #1a3a8f; }
 .filter-reset {
   -fx-background-color: white;
-  -fx-text-fill: #5a5a56;
+  -fx-text-fill: #3d3d39;
   -fx-border-color: #e2e2dc;
   -fx-border-width: 1;
   -fx-background-radius: 0;
   -fx-border-radius: 0;
-  -fx-font-size: 12px;
+  -fx-font-size: 13px;
   -fx-padding: 5 10;
   -fx-graphic-text-gap: 6;
   -fx-cursor: hand;
@@ -584,10 +587,10 @@
 /* ── Фильтры ────────────────────────────────────────── */
 .filter-btn {
   -fx-background-color: transparent;
-  -fx-text-fill: #5a5a56;
+  -fx-text-fill: #3d3d39;
   -fx-border-color: #e2e2dc;
   -fx-border-width: 1;
-  -fx-font-size: 12px;
+  -fx-font-size: 13px;
   -fx-padding: 4 10 4 10;
   -fx-cursor: hand;
   -fx-background-radius: 0;
@@ -599,7 +602,7 @@
   -fx-text-fill: #1a3a8f;
   -fx-border-color: #1a3a8f;
   -fx-border-width: 1;
-  -fx-font-size: 12px;
+  -fx-font-size: 13px;
   -fx-padding: 4 10 4 10;
   -fx-cursor: hand;
   -fx-background-radius: 0;
@@ -617,7 +620,7 @@
 .toggle-critical {
   -fx-background-color: #fef2f2; -fx-text-fill: #b91c1c;
   -fx-border-color: #fecaca; -fx-border-width: 1;
-  -fx-font-size: 12px; -fx-padding: 5 10;
+  -fx-font-size: 13px; -fx-padding: 5 10;
   -fx-cursor: hand; -fx-background-radius: 0; -fx-border-radius: 0;
 }
 .toggle-critical:selected {
@@ -626,7 +629,7 @@
 .toggle-high {
   -fx-background-color: #fffbeb; -fx-text-fill: #92400e;
   -fx-border-color: #fde68a; -fx-border-width: 1;
-  -fx-font-size: 12px; -fx-padding: 5 10;
+  -fx-font-size: 13px; -fx-padding: 5 10;
   -fx-cursor: hand; -fx-background-radius: 0; -fx-border-radius: 0;
 }
 .toggle-high:selected {
@@ -635,7 +638,7 @@
 .toggle-medium {
   -fx-background-color: #eef6fd; -fx-text-fill: #1f6aa5;
   -fx-border-color: #c5dff3; -fx-border-width: 1;
-  -fx-font-size: 12px; -fx-padding: 5 10;
+  -fx-font-size: 13px; -fx-padding: 5 10;
   -fx-cursor: hand; -fx-background-radius: 0; -fx-border-radius: 0;
 }
 .toggle-medium:selected {
@@ -644,7 +647,7 @@
 .toggle-low {
   -fx-background-color: #f0fdf4; -fx-text-fill: #14532d;
   -fx-border-color: #bbf7d0; -fx-border-width: 1;
-  -fx-font-size: 12px; -fx-padding: 5 10;
+  -fx-font-size: 13px; -fx-padding: 5 10;
   -fx-cursor: hand; -fx-background-radius: 0; -fx-border-radius: 0;
 }
 .toggle-low:selected {
@@ -655,13 +658,13 @@
 .toggle-visibility {
   -fx-background-color: white; -fx-text-fill: #55554f;
   -fx-border-color: #e2e2dc; -fx-border-width: 1;
-  -fx-font-size: 12px; -fx-padding: 5 14;
+  -fx-font-size: 13px; -fx-padding: 5 14;
   -fx-cursor: hand; -fx-background-radius: 0; -fx-border-radius: 0;
 }
 .toggle-visibility:selected {
   -fx-background-color: #111110; -fx-text-fill: white; -fx-border-color: #111110;
 }
-.visibility-hint { -fx-font-size: 12px; -fx-text-fill: #9b9b95; -fx-padding: 0 0 4 0; }
+.visibility-hint { -fx-font-size: 13px; -fx-text-fill: #6b6b65; -fx-padding: 0 0 4 0; }
 
 /* ── Модальное окно ─────────────────────────────────── */
 .modal-root { -fx-background-color: white; }
@@ -672,7 +675,7 @@
   -fx-spacing: 4;
 }
 .modal-body { -fx-padding: 20 28 24 28; -fx-spacing: 14; }
-.modal-sup  { -fx-text-fill: #9b9b95; -fx-font-size: 12px;
+.modal-sup  { -fx-text-fill: #6b6b65; -fx-font-size: 13px;
             -fx-font-family: "JetBrains Mono", monospace; }
 .modal-title { -fx-font-family: "Georgia", serif;
              -fx-font-size: 18px; -fx-text-fill: #111110; }
@@ -686,12 +689,12 @@
 }
 .detail-body  { -fx-padding: 20 24; -fx-spacing: 18; }
 .detail-field-label {
-  -fx-text-fill: #9b9b95;
-  -fx-font-size: 12px;
+  -fx-text-fill: #6b6b65;
+  -fx-font-size: 13px;
   -fx-font-family: "JetBrains Mono", monospace;
   -fx-padding: 0 0 5 0;
 }
-.detail-project { -fx-text-fill: #9b9b95; -fx-font-size: 12px;
+.detail-project { -fx-text-fill: #6b6b65; -fx-font-size: 13px;
                 -fx-font-family: "JetBrains Mono", monospace; -fx-padding: 0 0 6 0; }
 .detail-title   { -fx-font-family: "Georgia", serif; -fx-font-size: 17px;
                 -fx-text-fill: #111110; -fx-wrap-text: true; }
@@ -699,7 +702,7 @@
   -fx-background-color: #f6f6f4;
   -fx-padding: 12;
 }
-.detail-desc { -fx-font-size: 14px; -fx-text-fill: #5a5a56;
+.detail-desc { -fx-font-size: 14px; -fx-text-fill: #3d3d39;
              -fx-wrap-text: true; }
 .confirm-delete-box {
   -fx-background-color: #fef2f2;
@@ -718,8 +721,8 @@
   -fx-spacing: 10;
   -fx-alignment: CENTER_LEFT;
 }
-.deadline-title { -fx-font-size: 13px; -fx-text-fill: #111110; }
-.deadline-date  { -fx-font-size: 11px; -fx-text-fill: #9b9b95;
+.deadline-title { -fx-font-size: 14px; -fx-text-fill: #111110; }
+.deadline-date  { -fx-font-size: 12px; -fx-text-fill: #6b6b65;
                 -fx-font-family: "JetBrains Mono", monospace; }
 
 /* ── Прокрутка ──────────────────────────────────────── */
@@ -795,7 +798,7 @@
 /* ── Поле проект-detail ─────────────────────────────── */
 .proj-detail-stat-val { -fx-font-family: "Georgia", serif;
                       -fx-font-size: 22px; -fx-text-fill: #111110; }
-.proj-detail-stat-lbl { -fx-font-size: 12px; -fx-text-fill: #9b9b95;
+.proj-detail-stat-lbl { -fx-font-size: 13px; -fx-text-fill: #6b6b65;
                       -fx-font-family: "JetBrains Mono", monospace; }
 
 /* ── Мини-карточка члена команды ────────────────────── */
@@ -803,11 +806,11 @@
            -fx-border-width: 1; -fx-padding: 20; }
 .team-card:hover { -fx-border-color: #c8c8c0; }
 .team-name  { -fx-font-size: 15px; -fx-font-weight: 600; -fx-text-fill: #111110; }
-.team-role  { -fx-font-size: 13px; -fx-text-fill: #9b9b95; }
+.team-role  { -fx-font-size: 14px; -fx-text-fill: #6b6b65; }
 .mini-stat-box { -fx-background-color: #f6f6f4; -fx-alignment: CENTER;
                -fx-padding: 8; -fx-spacing: 2; }
 .mini-stat-val { -fx-font-size: 15px; -fx-font-weight: 600; -fx-text-fill: #111110; }
-.mini-stat-lbl { -fx-font-size: 12px; -fx-text-fill: #9b9b95; }
+.mini-stat-lbl { -fx-font-size: 13px; -fx-text-fill: #6b6b65; }
 
 /* dashboard-list-view */
 .dashboard-list-view {
@@ -838,7 +841,7 @@
 
 .dashboard-list-view .percent-of-completion-label {
     -fx-font-family:'JetBrains Mono';
-    -fx-font-size:13px;
+    -fx-font-size:14px;
     -fx-text-fill: #000000;
 }
 
@@ -869,15 +872,15 @@
 .login-error {
   -fx-background-color: #fef2f2;
   -fx-text-fill: #b91c1c;
-  -fx-font-size: 12px;
+  -fx-font-size: 13px;
   -fx-padding: 8 10 8 10;
 }
 
 /* ── Выход и индикатор синхронизации ────────────────── */
 .logout-btn {
   -fx-background-color: transparent;
-  -fx-text-fill: rgba(255,255,255,0.35);
-  -fx-font-size: 11px;
+  -fx-text-fill: rgba(255,255,255,0.68);
+  -fx-font-size: 12px;
   -fx-font-family: "JetBrains Mono", monospace;
   -fx-cursor: hand;
   -fx-border-width: 0;
@@ -888,23 +891,23 @@
 .sync-indicator {
   -fx-background-color: transparent;
   -fx-border-width: 0;
-  -fx-font-size: 12px;
+  -fx-font-size: 13px;
   -fx-font-family: "JetBrains Mono", monospace;
   -fx-cursor: hand;
   -fx-padding: 6 8 6 8;
 }
 .sync-indicator:hover { -fx-background-color: #f6f6f4; }
 .sync-indicator:disabled { -fx-opacity: 1; }
-.sync-ok      { -fx-text-fill: #5a5a56; }
+.sync-ok      { -fx-text-fill: #3d3d39; }
 .sync-pending { -fx-text-fill: #92400e; }
-.sync-offline { -fx-text-fill: #9b9b95; }
+.sync-offline { -fx-text-fill: #6b6b65; }
 .sync-error   { -fx-text-fill: #b91c1c; }
 
 /* ── Экран «Команда»: задачи в карточке сотрудника ──── */
-.team-empty { -fx-font-size: 14px; -fx-text-fill: #9b9b95; -fx-padding: 24; }
-.team-task-title { -fx-font-size: 11px; -fx-text-fill: #5a5a56; }
-.team-task-deadline { -fx-font-size: 11px; -fx-text-fill: #9b9b95; }
-.team-task-empty { -fx-font-size: 11px; -fx-text-fill: #9b9b95; }
+.team-empty { -fx-font-size: 14px; -fx-text-fill: #6b6b65; -fx-padding: 24; }
+.team-task-title { -fx-font-size: 12px; -fx-text-fill: #3d3d39; }
+.team-task-deadline { -fx-font-size: 12px; -fx-text-fill: #6b6b65; }
+.team-task-empty { -fx-font-size: 12px; -fx-text-fill: #6b6b65; }
 .team-task-dot {
   -fx-min-width: 6; -fx-min-height: 6;
   -fx-max-width: 6; -fx-max-height: 6;
@@ -916,20 +919,20 @@
 .team-task-dot-low      { -fx-background-color: #14532d; }
 
 /* ── Участники проекта ──────────────────────────────── */
-.members-empty { -fx-font-size: 12px; -fx-text-fill: #9b9b95; }
-.member-name { -fx-font-size: 13px; -fx-text-fill: #111110; }
+.members-empty { -fx-font-size: 13px; -fx-text-fill: #6b6b65; }
+.member-name { -fx-font-size: 14px; -fx-text-fill: #111110; }
 .member-remove-btn {
-  -fx-background-color: transparent; -fx-text-fill: #9b9b95;
+  -fx-background-color: transparent; -fx-text-fill: #6b6b65;
   -fx-font-size: 16px; -fx-cursor: hand; -fx-padding: 0 6;
 }
 .member-remove-btn:hover { -fx-text-fill: #b91c1c; }
-.member-role { -fx-font-size: 10px; -fx-text-fill: #9b9b95; }
+.member-role { -fx-font-size: 11px; -fx-text-fill: #6b6b65; }
 
 /* ── Экран «Сотрудники» ─────────────────────────────── */
-.employees-hint { -fx-font-size: 12px; -fx-text-fill: #9b9b95; }
+.employees-hint { -fx-font-size: 13px; -fx-text-fill: #6b6b65; }
 .employee-blocked { -fx-text-fill: #b91c1c; -fx-font-weight: 600; }
 
-.project-card-task { -fx-font-size: 12px; -fx-text-fill: #5a5a56; }
+.project-card-task { -fx-font-size: 13px; -fx-text-fill: #3d3d39; }
 
 /* ── Уведомления ─────────────────────────────────────── */
 .bell-btn {
@@ -937,10 +940,10 @@
   -fx-cursor: hand; -fx-padding: 6 8 6 8;
 }
 .bell-btn:hover { -fx-background-color: #f6f6f4; }
-.bell-icon { -fx-fill: #5a5a56; }
+.bell-icon { -fx-fill: #3d3d39; }
 .bell-badge {
   -fx-background-color: #b91c1c; -fx-text-fill: white;
-  -fx-font-size: 10px; -fx-font-weight: bold;
+  -fx-font-size: 11px; -fx-font-weight: bold;
   -fx-padding: 0 5 0 5; -fx-background-radius: 8;
 }
 .notifications-panel {
@@ -951,10 +954,10 @@
 .notifications-header { -fx-font-size: 14px; -fx-font-weight: 600; -fx-text-fill: #111110; }
 .notifications-link {
   -fx-background-color: transparent; -fx-border-width: 0; -fx-cursor: hand;
-  -fx-text-fill: #1a3a8f; -fx-font-size: 12px; -fx-padding: 0;
+  -fx-text-fill: #1a3a8f; -fx-font-size: 13px; -fx-padding: 0;
 }
-.notifications-link:disabled { -fx-text-fill: #9b9b95; }
-.notifications-empty { -fx-font-size: 13px; -fx-text-fill: #9b9b95; -fx-padding: 24 14 24 14; }
+.notifications-link:disabled { -fx-text-fill: #6b6b65; }
+.notifications-empty { -fx-font-size: 14px; -fx-text-fill: #6b6b65; -fx-padding: 24 14 24 14; }
 .notification-row {
   -fx-padding: 10 14 10 14; -fx-cursor: hand;
   -fx-border-color: transparent transparent #f6f6f4 transparent;
@@ -966,22 +969,22 @@
   -fx-translate-y: 5;
 }
 .notification-dot-read { -fx-min-width: 8; -fx-max-width: 8; }
-.notification-title { -fx-font-size: 13px; -fx-text-fill: #5a5a56; }
-.notification-title-unread { -fx-font-size: 13px; -fx-font-weight: 600; -fx-text-fill: #111110; }
-.notification-body { -fx-font-size: 12px; -fx-text-fill: #5a5a56; }
-.notification-time { -fx-font-size: 11px; -fx-text-fill: #9b9b95; }
+.notification-title { -fx-font-size: 14px; -fx-text-fill: #3d3d39; }
+.notification-title-unread { -fx-font-size: 14px; -fx-font-weight: 600; -fx-text-fill: #111110; }
+.notification-body { -fx-font-size: 13px; -fx-text-fill: #3d3d39; }
+.notification-time { -fx-font-size: 12px; -fx-text-fill: #6b6b65; }
 
 /* ── Карточка задачи: люди и описание ───────────────── */
-.detail-people { -fx-font-size: 13px; -fx-text-fill: #111110; }
-.text-area-styled { -fx-font-size: 13px; }
+.detail-people { -fx-font-size: 14px; -fx-text-fill: #111110; }
+.text-area-styled { -fx-font-size: 14px; }
 
 .sidebar-user-box { -fx-cursor: hand; }
 
 /* ── Вход: ссылки и сообщения ───────────────────────── */
-.login-link { -fx-text-fill: #1a3a8f; -fx-font-size: 12px; -fx-padding: 0; -fx-border-width: 0; }
-.login-info { -fx-text-fill: #15803d; -fx-font-size: 13px; }
+.login-link { -fx-text-fill: #1a3a8f; -fx-font-size: 13px; -fx-padding: 0; -fx-border-width: 0; }
+.login-info { -fx-text-fill: #15803d; -fx-font-size: 14px; }
 
-.project-description { -fx-font-size: 13px; -fx-text-fill: #5a5a56; -fx-padding: 4 0 0 0; }
+.project-description { -fx-font-size: 14px; -fx-text-fill: #3d3d39; -fx-padding: 4 0 0 0; }
 
 .tag-swatch {
   -fx-min-width: 18; -fx-min-height: 18; -fx-max-width: 18; -fx-max-height: 18;
@@ -994,7 +997,7 @@
 .settings-root { -fx-background-color: #f6f6f4; }
 .settings-content { -fx-padding: 20 32 28 32; }
 .settings-header {
-  -fx-font-size: 11px; -fx-font-weight: 600; -fx-text-fill: #9b9b95;
+  -fx-font-size: 12px; -fx-font-weight: 600; -fx-text-fill: #6b6b65;
   -fx-padding: 14 0 2 14;
 }
 .settings-group {
@@ -1014,10 +1017,10 @@
 .settings-icon-amber  { -fx-background-color: #b45309; }
 .settings-glyph { -fx-fill: white; -fx-scale-x: 0.9; -fx-scale-y: 0.9; }
 .settings-title { -fx-font-size: 14px; -fx-text-fill: #111110; }
-.settings-subtitle { -fx-font-size: 12px; -fx-text-fill: #9b9b95; }
+.settings-subtitle { -fx-font-size: 13px; -fx-text-fill: #6b6b65; }
 .settings-control { -fx-pref-width: 260; -fx-min-width: 200; }
 .settings-control-small { -fx-pref-width: 140; -fx-min-width: 120; }
-.settings-footnote { -fx-font-size: 12px; -fx-text-fill: #9b9b95; -fx-padding: 4 14 0 14; }
+.settings-footnote { -fx-font-size: 13px; -fx-text-fill: #6b6b65; -fx-padding: 4 14 0 14; }
 .settings-footer {
   -fx-background-color: white;
   -fx-border-color: #e6e6e0 transparent transparent transparent; -fx-border-width: 1 0 0 0;
@@ -1027,11 +1030,11 @@
 /* Статус сотрудника — «таблетка», как статусы задач */
 .employee-active {
   -fx-text-fill: #14532d; -fx-background-color: #f0fdf4;
-  -fx-padding: 2px 10px; -fx-font-size: 12px;
+  -fx-padding: 2px 10px; -fx-font-size: 13px;
 }
 .employee-blocked-pill {
   -fx-text-fill: #b91c1c; -fx-background-color: #fef2f2;
-  -fx-padding: 2px 10px; -fx-font-size: 12px; -fx-font-weight: 600;
+  -fx-padding: 2px 10px; -fx-font-size: 13px; -fx-font-weight: 600;
 }
 
 /* ── Своя рамка окна ─────────────────────────────────── */
@@ -1080,10 +1083,10 @@
 
 /* ── Диалоги в рамке приложения ─────────────────────── */
 .dialog-window { -fx-background-color: white; }
-.dialog-title { -fx-text-fill: rgba(255,255,255,0.85); -fx-font-size: 12px; }
+.dialog-title { -fx-text-fill: rgba(255,255,255,0.85); -fx-font-size: 13px; }
 .dialog-body { -fx-background-color: white; -fx-padding: 20 24 18 24; -fx-min-width: 360; -fx-pref-width: 420; }
 .dialog-header { -fx-font-size: 15px; -fx-font-weight: 600; -fx-text-fill: #111110; }
-.dialog-text { -fx-font-size: 13px; -fx-text-fill: #5a5a56; -fx-line-spacing: 2; }
+.dialog-text { -fx-font-size: 14px; -fx-text-fill: #3d3d39; -fx-line-spacing: 2; }
 .dialog-actions { -fx-padding: 8 0 0 0; }
 
 /* ── Верхняя полоса приложения ───────────────────────── */
@@ -1100,12 +1103,12 @@
 .app-header .sync-indicator { -fx-background-radius: 6; }
 .app-header .sync-ok      { -fx-text-fill: rgba(255,255,255,0.7); }
 .app-header .sync-pending { -fx-text-fill: #fbbf24; }
-.app-header .sync-offline { -fx-text-fill: rgba(255,255,255,0.45); }
+.app-header .sync-offline { -fx-text-fill: rgba(255,255,255,0.75); }
 .app-header .sync-error   { -fx-text-fill: #f87171; }
-.sync-icon { -fx-fill: rgba(255,255,255,0.45); }
+.sync-icon { -fx-fill: rgba(255,255,255,0.75); }
 .sync-ok .sync-icon      { -fx-fill: #4ade80; }
 .sync-pending .sync-icon { -fx-fill: #fbbf24; }
-.sync-offline .sync-icon { -fx-fill: rgba(255,255,255,0.45); }
+.sync-offline .sync-icon { -fx-fill: rgba(255,255,255,0.75); }
 .sync-error .sync-icon   { -fx-fill: #f87171; }
 .sync-indicator { -fx-graphic-text-gap: 8; }
 .header-user {
@@ -1116,9 +1119,9 @@
   -fx-background-color: #1a3a8f; -fx-background-radius: 5;
   -fx-min-width: 26; -fx-min-height: 26; -fx-max-width: 26; -fx-max-height: 26;
 }
-.header-avatar .avatar-text { -fx-font-size: 10px; }
-.header-user-name { -fx-font-size: 12px; -fx-text-fill: rgba(255,255,255,0.92); -fx-font-weight: 600; }
-.header-user-role { -fx-font-size: 10px; -fx-text-fill: rgba(255,255,255,0.5); }
+.header-avatar .avatar-text { -fx-font-size: 11px; }
+.header-user-name { -fx-font-size: 13px; -fx-text-fill: rgba(255,255,255,0.92); -fx-font-weight: 600; }
+.header-user-role { -fx-font-size: 11px; -fx-text-fill: rgba(255,255,255,0.75); }
 .profile-menu .menu-item { -fx-padding: 6 18 6 14; }
 .header-with-window-controls { -fx-padding: 0 0 0 24; }
 .window-controls-in-header { -fx-padding: 0 0 0 10; }
@@ -1126,7 +1129,7 @@
 /* Логотип в полосе — компактнее */
 .app-header-logo .logo-icon { -fx-min-width: 24px; -fx-min-height: 24px; -fx-max-width: 24px; -fx-max-height: 24px; }
 .app-header-logo .logo-glyph { -fx-scale-x: 0.75; -fx-scale-y: 0.75; }
-.app-header-logo .logo-text { -fx-font-size: 13px; }
+.app-header-logo .logo-text { -fx-font-size: 14px; }
 .bell-btn { -fx-background-radius: 6; }
 .app-header .bell-btn:hover { -fx-background-color: rgba(255,255,255,0.08); }
 .app-header .bell-icon { -fx-fill: rgba(255,255,255,0.7); }

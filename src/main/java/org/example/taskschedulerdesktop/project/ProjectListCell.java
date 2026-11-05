@@ -28,7 +28,7 @@ public class ProjectListCell extends ListCell<ProjectView> {
     public ProjectListCell() {
         nameLabel.getStyleClass().add("project-name-label");
         supervisorLabel.getStyleClass().add("section-mono");
-        ratioLabel.setStyle("-fx-font-size:13px;-fx-text-fill:#9b9b95;");
+        ratioLabel.setStyle("-fx-font-size:14px;-fx-text-fill:#6b6b65;");
         percentLabel.getStyleClass().add("percent-of-completion-label");
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
