@@ -253,7 +253,32 @@
   -fx-font-size: 16px;
 }
 .combo-box-styled:focused { -fx-border-color: #1a3a8f; }
-.combo-box-styled .list-cell { -fx-background-color: white; -fx-text-fill: #111110; }
+/* Само поле — белое; строки выпадающего списка подсвечиваются отдельно (ниже) */
+.combo-box-styled > .list-cell { -fx-background-color: white; -fx-text-fill: #111110; }
+.combo-box-styled .combo-box-popup .list-view {
+  -fx-background-color: white; -fx-border-color: #e2e2dc; -fx-background-insets: 0; -fx-padding: 2 0 2 0;
+}
+.combo-box-styled .combo-box-popup .list-view .list-cell {
+  -fx-background-color: white; -fx-text-fill: #111110; -fx-padding: 7 12 7 12;
+}
+/* Строка под курсором */
+.combo-box-styled .combo-box-popup .list-view .list-cell:filled:hover {
+  -fx-background-color: #e8edf8; -fx-text-fill: #111110;
+}
+/* Уже выбранное значение */
+.combo-box-styled .combo-box-popup .list-view .list-cell:filled:selected {
+  -fx-background-color: #1a3a8f; -fx-text-fill: white;
+}
+.combo-box-styled .combo-box-popup .list-view .list-cell:filled:selected:hover {
+  -fx-background-color: #234aaf; -fx-text-fill: white;
+}
+/* Меню с галочками (соисполнители, наблюдатели) — та же подсветка */
+.combo-box-styled .context-menu .menu-item:focused,
+.combo-box-styled .context-menu .menu-item:hover {
+  -fx-background-color: #e8edf8;
+}
+.combo-box-styled .context-menu .menu-item:focused .label,
+.combo-box-styled .context-menu .menu-item:hover .label { -fx-text-fill: #111110; }
 .date-picker-styled {
   -fx-background-color: white;
   -fx-border-color: #e2e2dc;
