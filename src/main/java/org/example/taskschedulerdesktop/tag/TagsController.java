@@ -11,6 +11,7 @@ import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Region;
@@ -41,8 +42,8 @@ public class TagsController {
     @FXML private Label formTitle;
     @FXML private TextField nameField;
     @FXML private ColorPicker colorPicker;
+    @FXML private javafx.scene.layout.VBox formCard;
     @FXML private Button saveButton;
-    @FXML private Button newButton;
     @FXML private Button deleteButton;
 
     public TagsController(TagAdminService service) {
@@ -52,6 +53,8 @@ public class TagsController {
     @FXML
     public void initialize() {
         WholeRows.fit(tagsTable); // нижняя видимая строка не обрезается
+        // Карточка справа — ровно по высоте таблицы (таблица обрезается до целых строк)
+        formCard.maxHeightProperty().bind(tagsTable.heightProperty());
         nameColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().name()));
         tasksColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().tasks()));
         colorColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().color()));
@@ -72,7 +75,21 @@ public class TagsController {
         tagsTable.setPlaceholder(new Label("Тегов пока нет"));
         tagsTable.getSelectionModel().selectedItemProperty().addListener((obs, old, selected) -> showForm(selected));
 
-        newButton.setOnAction(event -> tagsTable.getSelectionModel().clearSelection());
+        // Выйти из изменения тега и вернуться к созданию нового: щелчок по пустому месту таблицы или Esc
+        tagsTable.setRowFactory(table -> {
+            TableRow<TagRow> row = new TableRow<>();
+            row.setOnMousePressed(event -> {
+                if (row.isEmpty()) {
+                    table.getSelectionModel().clearSelection();
+                }
+            });
+            return row;
+        });
+        tagsTable.setOnKeyPressed(event -> {
+            if (event.getCode() == javafx.scene.input.KeyCode.ESCAPE) {
+                tagsTable.getSelectionModel().clearSelection();
+            }
+        });
         saveButton.setOnAction(event -> save());
         deleteButton.setOnAction(event -> delete());
 

@@ -7,7 +7,6 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
 <HBox spacing="16" styleClass="content-area"
@@ -26,18 +25,15 @@
         </columnResizePolicy>
     </TableView>
 
-    <VBox spacing="10" prefWidth="300" minWidth="280" styleClass="card">
+    <VBox fx:id="formCard" spacing="10" prefWidth="300" minWidth="280" styleClass="card">
         <Label fx:id="formTitle" text="Новый тег" styleClass="team-name"/>
         <Label text="НАЗВАНИЕ" styleClass="field-label"/>
         <TextField fx:id="nameField" promptText="backend" styleClass="text-field-styled"/>
-        <Label text="ЦВЕТ" styleClass="field-label"/>
-        <ColorPicker fx:id="colorPicker" maxWidth="Infinity"/>
+        <!-- Выбор цвета пока скрыт: новым тегам достаётся цвет по умолчанию, у старых цвет сохраняется -->
+        <Label text="ЦВЕТ" styleClass="field-label" visible="false" managed="false"/>
+        <ColorPicker fx:id="colorPicker" maxWidth="Infinity" visible="false" managed="false"/>
         <Button fx:id="saveButton" text="Добавить тег" styleClass="btn-primary" maxWidth="Infinity"/>
-        <HBox spacing="8">
-            <Button fx:id="newButton" text="Новый тег" styleClass="btn-secondary"/>
-            <Region HBox.hgrow="ALWAYS"/>
-            <Button fx:id="deleteButton" text="Удалить" styleClass="btn-ghost-danger"/>
-        </HBox>
+        <Button fx:id="deleteButton" text="Удалить" styleClass="btn-ghost-danger"/>
         <Label text="Создавать, менять и удалять теги может только администратор. Изменения уйдут на сервер при синхронизации."
                wrapText="true" minHeight="-Infinity" styleClass="employees-hint"/>
     </VBox>
