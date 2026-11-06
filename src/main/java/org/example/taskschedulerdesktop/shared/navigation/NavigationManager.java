@@ -209,7 +209,9 @@ public class NavigationManager {
         // Сохраняем текущую страницу в историю (если есть). При переходе вглубь — вместе с её состоянием
         // Сохранённый раздел меню в историю целиком не кладём: «Назад» достанет его из sectionCache
         boolean keepLeaving = false;
-        if (!isBackNavigation && currentPage != null && !fxmlPath.equals(currentPage)) {
+        if (Routes.DASHBOARD.equals(fxmlPath)) {
+            clearHistory(); // «Обзор» — начальная страница: с неё назад не возвращаются
+        } else if (!isBackNavigation && currentPage != null && !fxmlPath.equals(currentPage)) {
             keepLeaving = direction == Animations.Direction.FORWARD && currentNode != null
                     && !sectionCache.containsKey(currentPage);
             history.push(keepLeaving
@@ -336,6 +338,9 @@ public class NavigationManager {
             // Страница сохранена целиком: показываем её сразу, текущую закрываем
             PageInfo previousPage = history.pop();
             leaveCurrentPage(false);
+            if (Routes.DASHBOARD.equals(previousPage.fxmlPath)) {
+                clearHistory();
+            }
             Animations.swapPage(contentArea, previousPage.node, Animations.Direction.BACK);
             currentNode = previousPage.node;
             currentController = previousPage.controller;
@@ -354,6 +359,14 @@ public class NavigationManager {
         } else {
             log.info("History is empty, nowhere to go");
         }
+    }
+
+    /** Забыть историю; страницы, сохранённые в ней целиком, закрываются. */
+    private static void clearHistory() {
+        for (PageInfo page : history) {
+            shutdownController(page.controller);
+        }
+        history.clear();
     }
 
     /**
