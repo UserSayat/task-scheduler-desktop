@@ -6,6 +6,8 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.TilePane;
+import javafx.scene.layout.VBox;
+import org.example.taskschedulerdesktop.shared.ui.CenteredTileRows;
 import org.example.taskschedulerdesktop.shared.navigation.CachedPage;
 import org.example.taskschedulerdesktop.shared.event.EventBus;
 import org.slf4j.Logger;
@@ -18,11 +20,17 @@ public class ProjectsController implements CachedPage {
 
     private static final Logger log = LoggerFactory.getLogger(ProjectsController.class);
 
+    /** Карточек в ряду не больше трёх; уже этой ширины карточку не сжимаем — уходит в следующий ряд. */
+    static final int MAX_COLUMNS = 3;
+    static final double MIN_CARD_WIDTH = 460;
+    static final double MAX_CARD_WIDTH = 620;
+
     private final AsyncProjectService projectService;
     private final Service<List<Node>> projectsLoader;
     /** Раздел скрыт (см. {@link CachedPage}): карточки не слушают изменения задач. */
     private boolean paused;
 
+    @FXML private VBox projectsPage;
     @FXML private TilePane projectsTilePane;
     @FXML private ProgressIndicator projectsLoadingIndicator;
 
@@ -40,6 +48,11 @@ public class ProjectsController implements CachedPage {
     @FXML
     public void initialize() {
         EventBus.getInstance().subscribe(ProjectChangedEvent.class, projectChangedListener);
+
+        // Ширина карточек — по ширине окна: на большом мониторе три в ряд, на ноутбуке две;
+        // ряд стоит по центру, карточки — от его левого края
+        CenteredTileRows.install(projectsTilePane, projectsPage,
+                available -> cardWidth(available, projectsTilePane.getHgap()), MAX_COLUMNS);
 
         projectsLoadingIndicator.visibleProperty().bind(projectsLoader.runningProperty());
 
@@ -69,6 +82,21 @@ public class ProjectsController implements CachedPage {
         // Кнопка «Новый проект» — в заголовке страницы (MainController)
 
         refreshProjects();
+    }
+
+    /**
+     * Ширина карточки для ряда шириной {@code available}: столько колонок, сколько влезает карточек
+     * не уже {@link #MIN_CARD_WIDTH}, но не больше {@link #MAX_COLUMNS}; карточки делят ряд поровну,
+     * но не шире {@link #MAX_CARD_WIDTH} (тогда ряд стоит по центру).
+     */
+    static double cardWidth(double available, double gap) {
+        if (available <= 0) {
+            return MIN_CARD_WIDTH; // ширина ещё не посчитана
+        }
+        int columns = (int) Math.floor((available + gap) / (MIN_CARD_WIDTH + gap));
+        columns = Math.max(1, Math.min(MAX_COLUMNS, columns));
+        double width = (available - gap * (columns - 1)) / columns;
+        return Math.floor(Math.max(Math.min(width, MAX_CARD_WIDTH), Math.min(MIN_CARD_WIDTH, available)));
     }
 
     public void refreshProjects() {

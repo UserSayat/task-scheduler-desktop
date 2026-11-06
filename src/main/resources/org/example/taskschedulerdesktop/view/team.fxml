@@ -9,16 +9,15 @@
             xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="org.example.taskschedulerdesktop.team.TeamController">
-    <VBox>
+    <VBox fx:id="teamPage" styleClass="content-area">
         <Label fx:id="emptyLabel" styleClass="team-empty" visible="false" managed="false"
                text="Сотрудников пока нет. Они появятся после синхронизации с сервером."/>
+        <!-- Ряд карточек по центру, карточки от его левого края (CenteredTileRows);
+             все одной высоты (место под две задачи у каждой) -->
         <TilePane fx:id="teamTilePane"
-                  styleClass="content-area"
                   hgap="12"
                   vgap="12"
-                  prefTileWidth="300"
-                  prefTileHeight="200"
-                  alignment="CENTER">
+                  prefTileWidth="300">
         </TilePane>
     </VBox>
 </ScrollPane>

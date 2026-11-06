@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
+import org.example.taskschedulerdesktop.shared.ui.CenteredTileRows;
 import org.example.taskschedulerdesktop.shared.event.EventBus;
 import org.example.taskschedulerdesktop.shared.navigation.NavigationManager;
 import org.example.taskschedulerdesktop.shared.navigation.CachedPage;
@@ -28,6 +29,7 @@ public class TeamController implements CachedPage {
 
     private final AsyncTeamService teamService;
 
+    @FXML private VBox teamPage;
     @FXML private TilePane teamTilePane;
     @FXML private Label emptyLabel;
 
@@ -41,6 +43,9 @@ public class TeamController implements CachedPage {
 
     @FXML
     public void initialize() {
+        // Ряд карточек по центру страницы, карточки — от его левого края
+        double cardWidth = teamTilePane.getPrefTileWidth();
+        CenteredTileRows.install(teamTilePane, teamPage, available -> cardWidth, Integer.MAX_VALUE);
         EventBus.getInstance().subscribe(TaskChangedEvent.class, taskListener);
         EventBus.getInstance().subscribe(UsersChangedEvent.class, usersListener);
         loadTeam();

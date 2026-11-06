@@ -31,5 +31,6 @@
          <Label text="готово" styleClass="mini-stat-lbl"/>
       </VBox>
    </GridPane>
-   <VBox fx:id="topTasksVBox" spacing="5"/>
+   <!-- Место всегда под две задачи: карточки одного размера, сколько бы задач ни было -->
+   <VBox fx:id="topTasksVBox" spacing="5" styleClass="team-card-tasks"/>
 </VBox>
