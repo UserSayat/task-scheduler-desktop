@@ -106,6 +106,9 @@ public class TaskTableController implements Shutdownable {
         deadlineColumn.setCellValueFactory(cell -> new SimpleObjectProperty<>(cell.getValue().deadline()));
         deadlineColumn.setComparator(TaskSorting.DEADLINE);
         deadlineColumn.setCellFactory(column -> new TableCell<>() {
+            private final Label label = new Label();
+            private String styleClass;
+
             @Override
             protected void updateItem(LocalDate deadline, boolean empty) {
                 super.updateItem(deadline, empty);
@@ -115,8 +118,10 @@ public class TaskTableController implements Shutdownable {
                     setGraphic(null);
                     return;
                 }
-                Label label = new Label(deadline.format(DATE));
-                label.getStyleClass().add(task.isOverdue() ? "deadline-overdue" : "deadline-normal");
+                label.setText(deadline.format(DATE));
+                String now = task.isOverdue() ? "deadline-overdue" : "deadline-normal";
+                setStyleClass(label, styleClass, now);
+                styleClass = now;
                 setGraphic(label);
             }
         });
@@ -198,9 +203,15 @@ public class TaskTableController implements Shutdownable {
 
     private record Badge(String text, String styleClass) {}
 
-    /** Ячейка-плашка (приоритет, статус); сортируется по значению, а не по тексту. */
+    /**
+     * Ячейка-плашка (приоритет, статус); сортируется по значению, а не по тексту. Метка у ячейки одна
+     * на всё время: при прокрутке и обновлении меняются только её текст и цвет, новых узлов не создаётся.
+     */
     private static <T> TableCell<TaskView, T> badgeCell(Function<T, Badge> badge) {
         return new TableCell<>() {
+            private final Label label = new Label();
+            private String styleClass;
+
             @Override
             protected void updateItem(T item, boolean empty) {
                 super.updateItem(item, empty);
@@ -210,11 +221,22 @@ public class TaskTableController implements Shutdownable {
                     return;
                 }
                 Badge b = badge.apply(item);
-                Label label = new Label(b.text());
-                label.getStyleClass().add(b.styleClass());
+                label.setText(b.text());
+                setStyleClass(label, styleClass, b.styleClass());
+                styleClass = b.styleClass();
                 setGraphic(label);
             }
         };
+    }
+
+    /** Сменить у метки один класс оформления на другой, не трогая остальные. */
+    private static void setStyleClass(Label label, String old, String now) {
+        if (!now.equals(old)) {
+            if (old != null) {
+                label.getStyleClass().remove(old);
+            }
+            label.getStyleClass().add(now);
+        }
     }
 
     private static String styleClassForStatus(TaskStatus status) {
@@ -228,7 +250,21 @@ public class TaskTableController implements Shutdownable {
 
     @Override
     public void shutdown() {
+        pause();
+    }
+
+    /** Раздел с таблицей скрыт (см. {@code CachedPage}): не перечитывать задачи в фоне. */
+    public void pause() {
         EventBus.getInstance().unsubscribe(TaskChangedEvent.class, taskChangedEventListener);
         log.debug("Unsubscribe from TaskChangedEvent");
+    }
+
+    /** Раздел снова на экране: следить за задачами и, если они менялись, перечитать. */
+    public void resume(boolean dataChanged) {
+        EventBus.getInstance().unsubscribe(TaskChangedEvent.class, taskChangedEventListener); // не подписаться дважды
+        EventBus.getInstance().subscribe(TaskChangedEvent.class, taskChangedEventListener);
+        if (dataChanged) {
+            loadTasks();
+        }
     }
 }

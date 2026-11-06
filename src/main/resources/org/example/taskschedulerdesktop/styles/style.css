@@ -426,6 +426,8 @@
   -fx-border-color: #e2e2dc;
   -fx-border-width: 1;
   -fx-table-cell-border-color: #f0f0ec;
+  /* Строки одной высоты (поля 10 + текст + плашка): таблице не нужно измерять каждую строку */
+  -fx-fixed-cell-size: 46;
 }
 .task-table .column-header-background {
   -fx-background-color: #f6f6f4;

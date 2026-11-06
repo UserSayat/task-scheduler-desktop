@@ -7,7 +7,7 @@ import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import org.example.taskschedulerdesktop.shared.event.EventBus;
 import org.example.taskschedulerdesktop.shared.navigation.NavigationManager;
-import org.example.taskschedulerdesktop.shared.ui.Shutdownable;
+import org.example.taskschedulerdesktop.shared.navigation.CachedPage;
 import org.example.taskschedulerdesktop.task.TaskChangedEvent;
 import org.example.taskschedulerdesktop.user.UsersChangedEvent;
 import org.slf4j.Logger;
@@ -21,7 +21,7 @@ import java.util.function.Consumer;
  * Экран «Команда»: активные сотрудники и их задачи. Сотрудников присылает сервер при синхронизации,
  * экран читает их из локальной базы и перечитывает, когда меняются задачи или сотрудники.
  */
-public class TeamController implements Shutdownable {
+public class TeamController implements CachedPage {
 
     private static final Logger log = LoggerFactory.getLogger(TeamController.class);
     private static final String CARD = "/org/example/taskschedulerdesktop/view/employee_card.fxml";
@@ -71,8 +71,23 @@ public class TeamController implements Shutdownable {
     }
 
     @Override
-    public void shutdown() {
+    public void pause() {
         EventBus.getInstance().unsubscribe(TaskChangedEvent.class, taskListener);
         EventBus.getInstance().unsubscribe(UsersChangedEvent.class, usersListener);
+    }
+
+    @Override
+    public void resume(boolean dataChanged) {
+        pause(); // не подписаться дважды
+        EventBus.getInstance().subscribe(TaskChangedEvent.class, taskListener);
+        EventBus.getInstance().subscribe(UsersChangedEvent.class, usersListener);
+        if (dataChanged) {
+            loadTeam();
+        }
+    }
+
+    @Override
+    public void shutdown() {
+        pause();
     }
 }

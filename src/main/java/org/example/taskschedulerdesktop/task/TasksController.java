@@ -13,7 +13,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.SVGPath;
 import org.example.taskschedulerdesktop.config.AppConfig;
-import org.example.taskschedulerdesktop.shared.ui.Shutdownable;
+import org.example.taskschedulerdesktop.shared.navigation.CachedPage;
 import org.example.taskschedulerdesktop.task.TaskFilter.DeadlineRange;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +35,7 @@ import java.util.function.Function;
  * Экран «Задачи»: поиск, фильтры и таблица. Статус и приоритет — кнопки, можно выбрать несколько
  * значений; проект, исполнитель и срок — выпадающие списки с галочками.
  */
-public class TasksController implements Shutdownable {
+public class TasksController implements CachedPage {
 
     private static final Logger log = LoggerFactory.getLogger(TasksController.class);
 
@@ -255,6 +255,20 @@ public class TasksController implements Shutdownable {
             log.debug("Task table loaded successfully");
         } catch (IOException e) {
             log.error("Error loading task table", e);
+        }
+    }
+
+    @Override
+    public void pause() {
+        if (table != null) {
+            table.pause();
+        }
+    }
+
+    @Override
+    public void resume(boolean dataChanged) {
+        if (table != null) {
+            table.resume(dataChanged);
         }
     }
 

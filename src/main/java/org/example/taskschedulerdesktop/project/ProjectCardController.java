@@ -89,7 +89,8 @@ public class ProjectCardController implements ContextAware, Shutdownable {
                 }
             };
 
-            EventBus.getInstance().subscribe(TaskChangedEvent.class, taskChangedListener);
+            // Подписку включает раздел «Проекты» (listen()), когда показывает карточку: карточка создаётся
+            // в фоновом потоке, а события живут в потоке интерфейса
 
             Clicks.onClick(rootVBox, () -> {
                 log.debug("Click on the card, context = {}", context);
@@ -157,6 +158,14 @@ public class ProjectCardController implements ContextAware, Shutdownable {
                 topTasksVBox.getChildren().add(row);
             }
         }, error -> log.error("Top tasks loading error", error));
+    }
+
+    /** Следить за задачами проекта, пока карточка на экране. Повторный вызов не подписывает дважды. */
+    public void listen() {
+        if (taskChangedListener != null) {
+            EventBus.getInstance().unsubscribe(TaskChangedEvent.class, taskChangedListener);
+            EventBus.getInstance().subscribe(TaskChangedEvent.class, taskChangedListener);
+        }
     }
 
     @Override

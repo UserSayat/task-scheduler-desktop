@@ -29,10 +29,18 @@ import org.example.taskschedulerdesktop.shared.event.PageTitleChangedEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.example.taskschedulerdesktop.project.ProjectChangedEvent;
+import org.example.taskschedulerdesktop.task.TaskChangedEvent;
+import org.example.taskschedulerdesktop.user.UsersChangedEvent;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.Stack;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.function.Consumer;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -57,7 +65,7 @@ public class NavigationManager {
     /**
      * Запись истории. При переходе вглубь страница сохраняется целиком ({@code node} и {@code controller}):
      * «Назад» показывает её мгновенно и в том же состоянии, как в macOS. После переключения
-     * раздела меню хранится только путь — страница загрузится заново.
+     * раздела меню хранится только путь: разделы меню берутся из {@link #sectionCache}, остальное загружается заново.
      */
     private static class PageInfo {
         final String fxmlPath;
@@ -75,6 +83,30 @@ public class NavigationManager {
         }
     }
     private static final Stack<PageInfo> history = new Stack<>();
+
+    /** Разделы меню, которые сохраняются между переходами (см. {@link CachedPage}). */
+    private static final Set<String> CACHED_SECTIONS = Set.of(Routes.DASHBOARD, Routes.TASKS, Routes.PROJECTS, Routes.TEAM);
+
+    /** Сохранённый раздел: экран, его контроллер и стоит ли он на паузе. */
+    private static final class CachedSection {
+        final Parent node;
+        final CachedPage controller;
+        boolean paused;
+        /** Значение {@link #dataVersion} в момент паузы. */
+        long pausedAt;
+
+        CachedSection(Parent node, CachedPage controller) {
+            this.node = node;
+            this.controller = controller;
+        }
+    }
+    private static final Map<String, CachedSection> sectionCache = new HashMap<>();
+
+    /** Растёт при каждом изменении задач, проектов и сотрудников: по нему раздел понимает, устарел ли он. */
+    private static final AtomicLong dataVersion = new AtomicLong();
+    private static final Consumer<TaskChangedEvent> taskChanged = event -> dataVersion.incrementAndGet();
+    private static final Consumer<ProjectChangedEvent> projectChanged = event -> dataVersion.incrementAndGet();
+    private static final Consumer<UsersChangedEvent> usersChanged = event -> dataVersion.incrementAndGet();
     private static String currentPage = null;
     private static String currentTitle = "";
 
@@ -108,6 +140,10 @@ public class NavigationManager {
         // Сдвигаемые при переходах экраны не должны заезжать на меню и шапку
         Animations.clipToBounds(contentArea);
 
+        EventBus bus = EventBus.getInstance();
+        bus.subscribe(TaskChangedEvent.class, taskChanged);
+        bus.subscribe(ProjectChangedEvent.class, projectChanged);
+        bus.subscribe(UsersChangedEvent.class, usersChanged);
     }
 
     public static void navigateTo(String fxmlPath) {
@@ -143,14 +179,22 @@ public class NavigationManager {
                 : Animations.Direction.SECTION;
 
         // Сохраняем текущую страницу в историю (если есть). При переходе вглубь — вместе с её состоянием
+        // Сохранённый раздел меню в историю целиком не кладём: «Назад» достанет его из sectionCache
         boolean keepLeaving = false;
         if (!isBackNavigation && currentPage != null && !fxmlPath.equals(currentPage)) {
-            keepLeaving = direction == Animations.Direction.FORWARD && currentNode != null;
+            keepLeaving = direction == Animations.Direction.FORWARD && currentNode != null
+                    && !sectionCache.containsKey(currentPage);
             history.push(keepLeaving
                     ? new PageInfo(currentPage, currentTitle, currentNode, currentController, currentContext)
                     : new PageInfo(currentPage, currentTitle, null, null, null));
         }
         boolean leavingKept = keepLeaving;
+
+        CachedSection cached = context == null ? sectionCache.get(fxmlPath) : null;
+        if (cached != null) {
+            showCachedSection(fxmlPath, title, cached, direction, leavingKept);
+            return;
+        }
 
         log.debug("Start async loading page: {}", fxmlPath);
 
@@ -172,9 +216,9 @@ public class NavigationManager {
                 Parent page = loader.getRoot();
                 Object newController = loader.getController();
 
-                // Страница, сохранённая в истории целиком, продолжит жить — её не закрываем
-                if (!leavingKept && currentController instanceof Shutdownable shutdownable) {
-                    shutdownable.shutdown();
+                leaveCurrentPage(leavingKept);
+                if (context == null && CACHED_SECTIONS.contains(fxmlPath) && newController instanceof CachedPage section) {
+                    sectionCache.put(fxmlPath, new CachedSection(page, section));
                 }
 
                 currentController = newController;
@@ -212,6 +256,46 @@ public class NavigationManager {
         navigationExecutor.submit(loadTask);
     }
 
+    /** Показать сохранённый раздел сразу, без загрузки и построения экрана. */
+    private static void showCachedSection(String fxmlPath, String title, CachedSection cached,
+                                          Animations.Direction direction, boolean leavingKept) {
+        leaveCurrentPage(leavingKept);
+        currentController = cached.controller;
+        currentNode = cached.node;
+        currentContext = null;
+        Animations.swapPage(contentArea, cached.node, direction);
+        currentPage = fxmlPath;
+        if (title != null) {
+            currentTitle = title;
+        }
+        if (cached.paused) {
+            cached.paused = false;
+            cached.controller.resume(dataVersion.get() != cached.pausedAt);
+        }
+        EventBus.getInstance().fire(new PageTitleChangedEvent(currentTitle));
+        log.debug("Cached page displayed: {}", fxmlPath);
+    }
+
+    /**
+     * Уход с текущей страницы: сохранённый раздел меню ставится на паузу, остальные страницы закрываются.
+     * Страница, сохранённая в истории целиком ({@code kept}), продолжает жить.
+     */
+    private static void leaveCurrentPage(boolean kept) {
+        if (kept || currentController == null) {
+            return;
+        }
+        CachedSection section = currentPage != null ? sectionCache.get(currentPage) : null;
+        if (section != null && section.controller == currentController) {
+            if (!section.paused) {
+                section.paused = true;
+                section.pausedAt = dataVersion.get();
+                section.controller.pause();
+            }
+        } else if (currentController instanceof Shutdownable shutdownable) {
+            shutdownable.shutdown();
+        }
+    }
+
     // ============================================================
     // КНОПКА НАЗАД
     // ============================================================
@@ -223,9 +307,7 @@ public class NavigationManager {
         if (!history.isEmpty() && history.peek().node != null) {
             // Страница сохранена целиком: показываем её сразу, текущую закрываем
             PageInfo previousPage = history.pop();
-            if (currentController instanceof Shutdownable shutdownable) {
-                shutdownable.shutdown();
-            }
+            leaveCurrentPage(false);
             Animations.swapPage(contentArea, previousPage.node, Animations.Direction.BACK);
             currentNode = previousPage.node;
             currentController = previousPage.controller;
@@ -568,12 +650,25 @@ public class NavigationManager {
             rightSidebar = null;
         }
         rightSidebarController = null;
-        // Страницы, сохранённые в истории целиком, ещё подписаны на события — закрываем их
+        // Страницы, сохранённые в истории целиком, и сохранённые разделы ещё подписаны на события — закрываем их
         for (PageInfo page : history) {
             if (page.controller instanceof Shutdownable shutdownable) {
                 shutdownable.shutdown();
             }
         }
+        boolean currentIsCached = false;
+        for (CachedSection section : sectionCache.values()) {
+            section.controller.shutdown();
+            currentIsCached |= section.controller == currentController;
+        }
+        if (!currentIsCached && currentController instanceof Shutdownable shutdownable) {
+            shutdownable.shutdown();
+        }
+        sectionCache.clear();
+        EventBus bus = EventBus.getInstance();
+        bus.unsubscribe(TaskChangedEvent.class, taskChanged);
+        bus.unsubscribe(ProjectChangedEvent.class, projectChanged);
+        bus.unsubscribe(UsersChangedEvent.class, usersChanged);
         history.clear();
         currentPage = null;
         currentController = null;

@@ -10,7 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.VBox;
 import org.example.taskschedulerdesktop.config.AppConfig;
-import org.example.taskschedulerdesktop.shared.ui.Shutdownable;
+import org.example.taskschedulerdesktop.shared.navigation.CachedPage;
 import org.example.taskschedulerdesktop.task.DeadlineListCell;
 import org.example.taskschedulerdesktop.project.ProjectListCell;
 import org.example.taskschedulerdesktop.task.TaskView;
@@ -31,7 +31,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.function.Consumer;
 
-public class DashboardController implements Shutdownable {
+public class DashboardController implements CachedPage {
 
     private static final Logger log = LoggerFactory.getLogger(DashboardController.class);
 
@@ -211,11 +211,31 @@ public class DashboardController implements Shutdownable {
     }
 
     @Override
-    public void shutdown() {
+    public void pause() {
         EventBus.getInstance().unsubscribe(TaskChangedEvent.class, taskUpdateListener);
         EventBus.getInstance().unsubscribe(ProjectChangedEvent.class, projectUpdateListener);
         if (myTasks != null) {
-            myTasks.shutdown(); // иначе таблица продолжала бы слушать изменения задач после ухода с «Обзора»
+            myTasks.pause(); // иначе таблица продолжала бы перечитывать задачи, пока «Обзор» скрыт
         }
+    }
+
+    @Override
+    public void resume(boolean dataChanged) {
+        pause(); // не подписаться дважды
+        EventBus.getInstance().subscribe(TaskChangedEvent.class, taskUpdateListener);
+        EventBus.getInstance().subscribe(ProjectChangedEvent.class, projectUpdateListener);
+        if (myTasks != null) {
+            myTasks.resume(dataChanged);
+        }
+        if (dataChanged) {
+            refreshStat();
+            loadProjects();
+            loadDeadlines();
+        }
+    }
+
+    @Override
+    public void shutdown() {
+        pause();
     }
 }

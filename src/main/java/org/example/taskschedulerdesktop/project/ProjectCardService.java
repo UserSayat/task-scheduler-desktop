@@ -32,6 +32,7 @@ public class ProjectCardService {
             ProjectCardController controller = loader.getController();
 
             controller.setContext(project);
+            card.getProperties().put(ProjectCardController.class, controller); // чтобы раздел мог закрыть карточку
 
             return card;
 
