@@ -204,6 +204,8 @@ public class MainController implements Shutdownable {
         setUpNotifications();
 
         NavigationManager.navigateTo(Routes.DASHBOARD, "Обзор");
+        // Остальные разделы, панель задачи и «Новая задача» — заранее, пока открыт «Обзор»
+        NavigationManager.warmUp();
     }
 
     /** Проект из меню: как переключение раздела. Уже открытый проект не перезагружаем. */

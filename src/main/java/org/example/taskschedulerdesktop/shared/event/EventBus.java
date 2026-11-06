@@ -3,25 +3,26 @@ package org.example.taskschedulerdesktop.shared.event;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Consumer;
 
+/**
+ * Шина событий приложения. Подписываться можно из любого потока: экраны загружаются в фоне,
+ * и их контроллеры подписываются ещё до показа, пока поток интерфейса рассылает события.
+ */
 public class EventBus {
 
-    private static EventBus instance;
+    private static final EventBus instance = new EventBus();
     private static final Logger log = LoggerFactory.getLogger(EventBus.class);
 
-    private final Map<Class<?>, List<Consumer<Object>>> subscribers = new HashMap<>();
+    private final Map<Class<?>, List<Consumer<Object>>> subscribers = new ConcurrentHashMap<>();
 
     private EventBus() {}
 
     public static EventBus getInstance() {
-        if (instance == null) {
-            instance = new EventBus();
-        }
         return instance;
     }
 
@@ -32,7 +33,7 @@ public class EventBus {
     public <T> void subscribe(Class<T> eventType, Consumer<T> listener) {
         log.debug("SUBSCRIBE: {} -> {}", eventType.getSimpleName(), listener.hashCode());
 
-        subscribers.computeIfAbsent(eventType, k -> new ArrayList<>())
+        subscribers.computeIfAbsent(eventType, k -> new CopyOnWriteArrayList<>())
                 .add((Consumer<Object>) listener);
     }
 
@@ -60,7 +61,8 @@ public class EventBus {
         List<Consumer<Object>> listeners = subscribers.get(eventType);
 
         if (listeners != null) {
-            for (Consumer<Object> listener : new ArrayList<>(listeners)) {
+            // Список копируется при каждом изменении, поэтому перебор не ломается, если обработчик отписывается
+            for (Consumer<Object> listener : listeners) {
                 try {
                     ((Consumer<T>) listener).accept(event);
                 } catch (Exception e) {

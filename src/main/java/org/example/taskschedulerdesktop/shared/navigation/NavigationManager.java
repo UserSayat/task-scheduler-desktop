@@ -106,7 +106,35 @@ public class NavigationManager {
     private static final AtomicLong dataVersion = new AtomicLong();
     private static final Consumer<TaskChangedEvent> taskChanged = event -> dataVersion.incrementAndGet();
     private static final Consumer<ProjectChangedEvent> projectChanged = event -> dataVersion.incrementAndGet();
-    private static final Consumer<UsersChangedEvent> usersChanged = event -> dataVersion.incrementAndGet();
+    /** Растёт при изменении сотрудников: от них зависит заготовка панели задачи (списки исполнителей). */
+    private static final AtomicLong usersVersion = new AtomicLong();
+    private static final Consumer<UsersChangedEvent> usersChanged = event -> {
+        dataVersion.incrementAndGet();
+        usersVersion.incrementAndGet();
+    };
+
+    /** Растёт при выходе из аккаунта: запоздавшие заготовки старого окна не попадают в новое. */
+    private static int generation;
+
+    /**
+     * Заранее загруженный экземпляр панели или диалога: разметка загружена в фоне, стили применены.
+     * {@code freshness} — версия данных, от которых он зависит, на момент подготовки.
+     */
+    private record Spare(FXMLLoader loader, Stage stage, java.util.function.LongSupplier source, long freshness) {
+        boolean stale() {
+            return source.getAsLong() != freshness;
+        }
+    }
+    private static final Map<String, Spare> spares = new HashMap<>();
+    /** Диалоги, для которых держится запасной экземпляр: их открывают чаще всего. */
+    private static final Set<String> SPARE_DIALOGS = Set.of(Routes.CREATE_TASK, Routes.CREATE_PROJECT);
+    /** Пауза перед первым шагом подготовки (пока появляется первый экран) и между шагами. */
+    private static final Duration WARM_UP_DELAY = Duration.millis(1500);
+    private static final Duration WARM_UP_GAP = Duration.millis(400);
+    /** Сколько ждать данных раздела перед расчётом раскладки, чтобы сразу создались строки таблиц. */
+    private static final Duration DATA_SETTLE = Duration.millis(600);
+    /** Когда готовить следующий запасной экземпляр: после анимации открытия или закрытия диалога. */
+    private static final Duration SPARE_REFILL_DELAY = Duration.millis(700);
     private static String currentPage = null;
     private static String currentTitle = "";
 
@@ -378,40 +406,59 @@ public class NavigationManager {
 
     public static Stage openDialog(String fxmlPath, String title, Stage owner, Object context) {
         try {
-            FXMLLoader loader = new FXMLLoader(
-                    NavigationManager.class.getResource(fxmlPath)
-            );
-            loader.setControllerFactory(controllerFactory);
-
-            Parent root = loader.load();
-            DateFormatter.applyToPickers(root);
+            // Запасной экземпляр (разметка и окно со стилями готовы заранее) — только для того же владельца
+            Spare spare = SPARE_DIALOGS.contains(fxmlPath) ? takeSpare(fxmlPath) : null;
+            if (spare != null && spare.stage().getOwner() != owner) {
+                shutdownController(spare.loader().getController());
+                spare = null;
+            }
+            FXMLLoader loader;
+            Stage dialogStage;
+            if (spare != null) {
+                loader = spare.loader();
+                dialogStage = spare.stage();
+            } else {
+                loader = new FXMLLoader(NavigationManager.class.getResource(fxmlPath));
+                loader.setControllerFactory(controllerFactory);
+                DateFormatter.applyToPickers(loader.load());
+                dialogStage = dialogStage(loader.getRoot(), owner);
+            }
 
             if (loader.getController() instanceof ContextAware aware) {
                 aware.setContext(context);
             }
-
-            Stage dialogStage = new Stage();
             dialogStage.setTitle(title);
-            dialogStage.initModality(Modality.WINDOW_MODAL);
-            dialogStage.initOwner(owner);
-
-            Scene scene = DialogFrame.scene(dialogStage, root);
-            // Esc закрывает окно (если клавишу не забрал, например, открытый выпадающий список)
-            scene.addEventHandler(javafx.scene.input.KeyEvent.KEY_PRESSED, event -> {
-                if (event.getCode() == javafx.scene.input.KeyCode.ESCAPE && !event.isConsumed()) {
-                    closeDialog(dialogStage);
-                    event.consume();
-                }
-            });
-            dialogStage.setScene(scene);
-            dialogStage.setOnShown(event -> Animations.popIn(scene.getRoot()));
             dialogStage.showAndWait();
+
+            if (SPARE_DIALOGS.contains(fxmlPath)) {
+                int gen = generation;
+                later(SPARE_REFILL_DELAY, gen, () -> prepareDialog(fxmlPath, owner, gen, () -> {}));
+            }
             return dialogStage;
 
         } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
+    }
+
+    /** Окно диалога со своей рамкой: модальное, закрывается по Esc, появляется с анимацией. */
+    private static Stage dialogStage(Parent root, Stage owner) {
+        Stage dialogStage = new Stage();
+        dialogStage.initModality(Modality.WINDOW_MODAL);
+        dialogStage.initOwner(owner);
+
+        Scene scene = DialogFrame.scene(dialogStage, root);
+        // Esc закрывает окно (если клавишу не забрал, например, открытый выпадающий список)
+        scene.addEventHandler(javafx.scene.input.KeyEvent.KEY_PRESSED, event -> {
+            if (event.getCode() == javafx.scene.input.KeyCode.ESCAPE && !event.isConsumed()) {
+                closeDialog(dialogStage);
+                event.consume();
+            }
+        });
+        dialogStage.setScene(scene);
+        dialogStage.setOnShown(event -> Animations.popIn(scene.getRoot()));
+        return dialogStage;
     }
 
     public static void closeDialog(Stage stage) {
@@ -463,6 +510,7 @@ public class NavigationManager {
 
     public static void openRightSidebar(String path, Object context) {
         log.debug("openRightSidebar: path={}, context={}", path, context);
+        stopSidebarSlide();
 
         if (rightSidebar != null) {
             globalStackPane.getChildren().remove(rightSidebar);
@@ -474,13 +522,17 @@ public class NavigationManager {
         }
 
         try {
-            FXMLLoader loader = new FXMLLoader(
-                    NavigationManager.class.getResource(path)
-            );
-            loader.setControllerFactory(AppConfig.getInstance().getControllerFactory());
-
-            Parent sidebar = loader.load();
-            DateFormatter.applyToPickers(sidebar);
+            // Заранее подготовленный экземпляр открывается без загрузки разметки; иначе — загружаем сейчас
+            Spare spare = takeSpare(path);
+            FXMLLoader loader;
+            if (spare != null) {
+                loader = spare.loader();
+            } else {
+                loader = new FXMLLoader(NavigationManager.class.getResource(path));
+                loader.setControllerFactory(AppConfig.getInstance().getControllerFactory());
+                DateFormatter.applyToPickers(loader.load());
+            }
+            Parent sidebar = loader.getRoot();
 
             Object controller = loader.getController();
 
@@ -494,13 +546,7 @@ public class NavigationManager {
 
             rightSidebar = sidebar;
             rightSidebarController = controller;
-
-            if (rightSidebar instanceof VBox sidebarVBox) {
-                sidebarVBox.setPrefWidth(RIGHT_SIDEBAR_WIDTH);
-                sidebarVBox.setMaxWidth(RIGHT_SIDEBAR_WIDTH);
-            }
-
-            StackPane.setAlignment(rightSidebar, Pos.CENTER_RIGHT);
+            sizeSidebar(rightSidebar);
 
             sidebarOverlay = new Region();
             sidebarOverlay.setBackground(new Background(
@@ -521,9 +567,30 @@ public class NavigationManager {
             // Раскладка панели — до начала выезда, иначе первый кадр анимации запаздывает
             globalStackPane.applyCss();
             globalStackPane.layout();
-            Animations.slidePanel(rightSidebar, sidebarOverlay, RIGHT_SIDEBAR_WIDTH, true).play();
+            var slide = Animations.slidePanel(rightSidebar, sidebarOverlay, RIGHT_SIDEBAR_WIDTH, true);
+            sidebarSlide = slide;
+            slide.setOnFinished(event -> {
+                if (sidebarSlide == slide) {
+                    sidebarSlide = null;
+                }
+            });
+            slide.play();
+            // Следующий экземпляр — когда панель уже выехала, чтобы не мешать анимации
+            int gen = generation;
+            later(SPARE_REFILL_DELAY, gen, () -> prepareSidebar(path, gen, () -> {}));
         } catch (IOException e) {
             log.error("Sidebar loading error", e);
+        }
+    }
+
+    /** Анимация выезда панели, пока она идёт, иначе null. */
+    private static javafx.animation.Animation sidebarSlide;
+
+    /** Панель закрывают или меняют на другую посреди выезда: выезд останавливается, чтобы не спорить с закрытием. */
+    private static void stopSidebarSlide() {
+        if (sidebarSlide != null) {
+            sidebarSlide.stop();
+            sidebarSlide = null;
         }
     }
 
@@ -542,6 +609,7 @@ public class NavigationManager {
         if (rightSidebar == null) {
             return;
         }
+        stopSidebarSlide();
 
         if (rightSidebarController instanceof Shutdownable shutdownable) {
             shutdownable.shutdown();
@@ -560,6 +628,203 @@ public class NavigationManager {
         var animateSidebar = Animations.slidePanel(closingSidebar, closingOverlay, RIGHT_SIDEBAR_WIDTH, false);
         animateSidebar.setOnFinished(event -> globalStackPane.getChildren().removeAll(closingSidebar, closingOverlay));
         animateSidebar.play();
+    }
+
+    // ============================================================
+    // ЗАРАНЕЕ ПОДГОТОВЛЕННЫЕ ЭКРАНЫ
+    // ============================================================
+
+    /** Шаг подготовки; по завершении вызывает {@code next}. */
+    private interface WarmUpStep {
+        void run(Runnable next);
+    }
+
+    /**
+     * Заранее построить разделы «Задачи», «Проекты», «Команда», панель задачи и окно «Новая задача» —
+     * по одному, с паузами, пока пользователь смотрит на первый экран. Тогда их первое открытие
+     * не подтормаживает: разметка загружается в фоне, а стили и раскладка считаются заранее.
+     */
+    public static void warmUp() {
+        if ("false".equalsIgnoreCase(System.getProperty("taskhub.warmUp"))) {
+            return; // для проверки: -Dtaskhub.warmUp=false
+        }
+        int gen = generation;
+        java.util.Deque<WarmUpStep> steps = new java.util.ArrayDeque<>(List.of(
+                next -> warmSection(Routes.TASKS, gen, next),
+                next -> warmSection(Routes.PROJECTS, gen, next),
+                next -> warmSection(Routes.TEAM, gen, next),
+                next -> prepareSidebar(Routes.TASK_DETAILS, gen, next),
+                next -> prepareDialog(Routes.CREATE_TASK, AppConfig.getInstance().getPrimaryStage(), gen, next)));
+        runSteps(steps, gen, WARM_UP_DELAY);
+    }
+
+    private static void runSteps(java.util.Deque<WarmUpStep> steps, int gen, Duration delay) {
+        WarmUpStep step = steps.poll();
+        if (step == null) {
+            return;
+        }
+        later(delay, gen, () -> step.run(() -> runSteps(steps, gen, WARM_UP_GAP)));
+    }
+
+    /** Сколько пользователь должен ничего не делать, чтобы заготовка не помешала ему подтормаживанием. */
+    private static final long IDLE_NANOS = 700_000_000L;
+    private static volatile long lastInputNanos;
+    private static Scene watchedScene;
+    /** Пути, для которых запасной экземпляр сейчас готовится: второй раз не начинаем. */
+    private static final Set<String> preparing = new java.util.HashSet<>();
+
+    /**
+     * Выполнить, когда пользователь ничего не делает (не двигает мышь, не нажимает клавиши) хотя бы 0,7 с:
+     * стили и раскладка заготовки занимают до ~150 мс, и в простое это не заметно.
+     */
+    private static void whenIdle(int gen, Runnable action) {
+        watchInput();
+        long idleFor = System.nanoTime() - lastInputNanos;
+        if (idleFor >= IDLE_NANOS) {
+            if (gen == generation) {
+                action.run();
+            }
+        } else {
+            later(Duration.millis(Math.max(100, (IDLE_NANOS - idleFor) / 1_000_000.0)), gen, () -> whenIdle(gen, action));
+        }
+    }
+
+    /** Следить за вводом в главном окне (для {@link #whenIdle}). */
+    private static void watchInput() {
+        Scene scene = globalStackPane != null ? globalStackPane.getScene() : null;
+        if (scene != null && scene != watchedScene) {
+            scene.addEventFilter(javafx.scene.input.InputEvent.ANY, event -> lastInputNanos = System.nanoTime());
+            watchedScene = scene;
+        }
+    }
+
+    /** Выполнить в потоке интерфейса через {@code delay}, если окно за это время не сменилось. */
+    private static void later(Duration delay, int gen, Runnable action) {
+        PauseTransition pause = new PauseTransition(delay);
+        pause.setOnFinished(event -> {
+            if (gen == generation) {
+                action.run();
+            }
+        });
+        pause.play();
+    }
+
+    /** Загрузить разметку в фоновом потоке; {@code onLoaded} вызывается в потоке интерфейса. */
+    private static void loadInBackground(String fxmlPath, Consumer<FXMLLoader> onLoaded) {
+        Task<FXMLLoader> task = new Task<>() {
+            @Override
+            protected FXMLLoader call() throws Exception {
+                FXMLLoader loader = new FXMLLoader(NavigationManager.class.getResource(fxmlPath));
+                loader.setControllerFactory(controllerFactory);
+                DateFormatter.applyToPickers(loader.load());
+                return loader;
+            }
+        };
+        task.setOnSucceeded(event -> onLoaded.accept(task.getValue()));
+        task.setOnFailed(event -> log.warn("Background load failed: {}", fxmlPath, task.getException()));
+        navigationExecutor.submit(task);
+    }
+
+    /**
+     * Применить стили и посчитать раскладку заранее: узел на мгновение добавляется под текущий экран
+     * и сразу убирается — кадр с ним не рисуется, а при показе почти вся работа уже сделана.
+     */
+    private static void prerender(Pane parent, Node node) {
+        parent.getChildren().add(0, node);
+        node.applyCss();
+        parent.layout();
+        parent.getChildren().remove(node);
+    }
+
+    private static void shutdownController(Object controller) {
+        if (controller instanceof Shutdownable shutdownable) {
+            shutdownable.shutdown();
+        }
+    }
+
+    /** Построить раздел меню заранее и сохранить его на паузе (см. {@link CachedPage}). */
+    private static void warmSection(String fxmlPath, int gen, Runnable next) {
+        if (sectionCache.containsKey(fxmlPath) || fxmlPath.equals(currentPage)) {
+            next.run();
+            return;
+        }
+        loadInBackground(fxmlPath, loader -> {
+            Object controller = loader.getController();
+            // Окно сменилось или раздел уже открыли сами — заготовка не нужна
+            if (gen != generation || !(controller instanceof CachedPage page)
+                    || sectionCache.containsKey(fxmlPath) || fxmlPath.equals(currentPage)) {
+                shutdownController(controller);
+                if (gen == generation) {
+                    next.run();
+                }
+                return;
+            }
+            CachedSection section = new CachedSection(loader.getRoot(), page);
+            section.paused = true;
+            section.pausedAt = dataVersion.get();
+            page.pause();
+            sectionCache.put(fxmlPath, section);
+            // Раскладку считаем, когда данные раздела уже пришли (тогда сразу создаются и строки таблиц)
+            // и пользователь ничего не делает
+            later(DATA_SETTLE, gen, () -> whenIdle(gen, () -> {
+                if (sectionCache.get(fxmlPath) == section && section.paused) {
+                    prerender(contentArea, section.node);
+                }
+                next.run();
+            }));
+        });
+    }
+
+    /** Подготовить запасной экземпляр боковой панели. */
+    private static void prepareSidebar(String path, int gen, Runnable next) {
+        if (spares.containsKey(path) || !preparing.add(path)) {
+            next.run();
+            return;
+        }
+        loadInBackground(path, loader -> whenIdle(gen, () -> {
+            preparing.remove(path);
+            Parent root = loader.getRoot();
+            sizeSidebar(root);
+            prerender(globalStackPane, root);
+            spares.put(path, new Spare(loader, null, usersVersion::get, usersVersion.get()));
+            next.run();
+        }));
+    }
+
+    /** Подготовить запасной экземпляр диалога: разметка, окно и сцена со стилями — всё, кроме показа. */
+    private static void prepareDialog(String path, Stage owner, int gen, Runnable next) {
+        if (spares.containsKey(path) || owner == null || !preparing.add(path)) {
+            next.run();
+            return;
+        }
+        loadInBackground(path, loader -> whenIdle(gen, () -> {
+            preparing.remove(path);
+            Stage stage = dialogStage(loader.getRoot(), owner);
+            stage.getScene().getRoot().applyCss();
+            spares.put(path, new Spare(loader, stage, dataVersion::get, dataVersion.get()));
+            next.run();
+        }));
+    }
+
+    /**
+     * Забрать запасной экземпляр, если он есть и данные, от которых он зависит, не менялись.
+     * Устаревший закрывается: вместо него загрузится свежий.
+     */
+    private static Spare takeSpare(String path) {
+        Spare spare = spares.remove(path);
+        if (spare != null && spare.stale()) {
+            shutdownController(spare.loader().getController());
+            return null;
+        }
+        return spare;
+    }
+
+    private static void sizeSidebar(Parent sidebar) {
+        if (sidebar instanceof Region region) {
+            region.setPrefWidth(RIGHT_SIDEBAR_WIDTH);
+            region.setMaxWidth(RIGHT_SIDEBAR_WIDTH);
+        }
+        StackPane.setAlignment(sidebar, Pos.CENTER_RIGHT);
     }
 
     private static boolean isChildOf(Node node, Node potentialParent) {
@@ -665,6 +930,11 @@ public class NavigationManager {
             shutdownable.shutdown();
         }
         sectionCache.clear();
+        // Заготовки старого окна больше не нужны, а запоздавшие — не попадут в новое
+        generation++;
+        spares.values().forEach(spare -> shutdownController(spare.loader().getController()));
+        spares.clear();
+        preparing.clear();
         EventBus bus = EventBus.getInstance();
         bus.unsubscribe(TaskChangedEvent.class, taskChanged);
         bus.unsubscribe(ProjectChangedEvent.class, projectChanged);
