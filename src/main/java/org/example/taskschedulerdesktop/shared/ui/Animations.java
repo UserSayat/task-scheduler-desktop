@@ -4,17 +4,12 @@ import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
 import javafx.animation.Interpolator;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
 import javafx.animation.ParallelTransition;
 import javafx.animation.ScaleTransition;
 import javafx.animation.SequentialTransition;
-import javafx.animation.Timeline;
 import javafx.scene.Node;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
@@ -146,29 +141,6 @@ public final class Animations {
         down.setToY(1);
         down.setInterpolator(SPRING_BOUNCE);
         new SequentialTransition(up, down).play();
-    }
-
-    /**
-     * При наведении по краю карточки проступает мягкая тень — без подъёма и сдвига.
-     * Эффект висит на карточке только при наведении: постоянная тень у каждой карточки
-     * заставляла перерисовывать их через промежуточный буфер.
-     */
-    public static void hoverShadow(Node node) {
-        DropShadow shadow = new DropShadow(0, Color.rgb(0, 0, 0, 0.08));
-        node.setOnMouseEntered(event -> {
-            if (!ENABLED) {
-                shadow.setRadius(10);
-                node.setEffect(shadow);
-                return;
-            }
-            node.setEffect(shadow);
-            new Timeline(new KeyFrame(Duration.millis(160),
-                    new KeyValue(shadow.radiusProperty(), 10, Interpolator.EASE_OUT))).play();
-        });
-        node.setOnMouseExited(event -> {
-            shadow.setRadius(0);
-            node.setEffect(null);
-        });
     }
 
     /** «Дыхание» — пока идёт синхронизация. Возвращает анимацию, чтобы её остановить. */

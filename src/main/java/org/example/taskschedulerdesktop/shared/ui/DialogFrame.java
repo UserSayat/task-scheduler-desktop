@@ -8,15 +8,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.SVGPath;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -25,8 +22,9 @@ import javafx.stage.WindowEvent;
 import java.util.Locale;
 
 /**
- * Своя рамка для диалоговых окон — в том же стиле, что у главного окна: тёмный заголовок с названием,
- * кнопка закрытия по правилам платформы, тень и скруглённые углы. Окно перетаскивается за заголовок.
+ * Своя рамка для диалоговых окон — в том же стиле, что у главного окна: тёмный заголовок с названием и
+ * кнопка закрытия по правилам платформы. Окно непрозрачное: скругление и тень — только системные (Windows 11).
+ * Окно перетаскивается за заголовок.
  * <p>
  * Здесь же общие для всех рамок настройки: включена ли своя рамка и в каком стиле рисовать кнопки.
  */
@@ -47,10 +45,6 @@ public final class DialogFrame {
         default -> System.getProperty("os.name", "").toLowerCase(Locale.ROOT).contains("mac");
     };
 
-    /** Отступ под тень вокруг окна. */
-    public static final double SHADOW = 14;
-    /** Радиус скругления углов окна — как у окон системы: Windows 11 — 8, macOS — 10. */
-    public static final double RADIUS = MAC ? 10 : 8;
     public static final double TITLE_HEIGHT = MAC ? 30 : 32;
     /** Крестик Windows 11 (10×10). */
     public static final String CLOSE_ICON =
@@ -67,9 +61,10 @@ public final class DialogFrame {
     public static Scene scene(Stage stage, Parent content) {
         Scene scene;
         if (enabled()) {
-            stage.initStyle(StageStyle.TRANSPARENT);
-            scene = new Scene(build(stage, content));
-            scene.setFill(Color.TRANSPARENT);
+            // Непрозрачное окно: в Windows 11 углы, тень и контур рисует система, в остальных — контур рисуем сами
+            stage.initStyle(StageStyle.UNDECORATED);
+            NativeCorners.install(stage);
+            scene = new Scene(build(stage, content, !NativeCorners.supported()));
         } else {
             scene = new Scene(content);
         }
@@ -77,37 +72,15 @@ public final class DialogFrame {
         return scene;
     }
 
-    /** Слой с тенью под окном: отдельный, чтобы тень не перерисовывалась при изменении содержимого. */
-    public static Region shadowLayer() {
-        Region shadow = new Region();
-        shadow.getStyleClass().add("window-shadow");
-        DropShadow drop = new DropShadow(SHADOW * 1.4, Color.rgb(0, 0, 0, 0.28));
-        drop.setOffsetY(3);
-        shadow.setEffect(drop);
-        shadow.setStyle("-fx-background-color: #f6f6f4; -fx-background-radius: " + RADIUS + ";");
-        return shadow;
-    }
-
     /**
-     * Тонкий контур по краю окна, как рисует система у своих окон: без него скруглённый край
-     * на светлом фоне расплывается, с ним выглядит чётким. Щелчки проходит насквозь.
+     * Тонкий контур по краю окна, как у системных окон: без него светлое окно сливается со светлым фоном.
+     * Щелчки проходят насквозь.
      */
     public static Region outlineLayer() {
         Region outline = new Region();
         outline.getStyleClass().add("window-outline");
         outline.setMouseTransparent(true);
-        outline.setStyle("-fx-border-radius: " + RADIUS + "; -fx-background-radius: " + RADIUS + ";");
         return outline;
-    }
-
-    /** Обрезка по скруглённому прямоугольнику размером с узел. */
-    public static void clipRounded(Region region) {
-        Rectangle clip = new Rectangle();
-        clip.widthProperty().bind(region.widthProperty());
-        clip.heightProperty().bind(region.heightProperty());
-        clip.setArcWidth(RADIUS * 2);
-        clip.setArcHeight(RADIUS * 2);
-        region.setClip(clip);
     }
 
     /** Кнопка окна в стиле Windows 11. */
@@ -149,18 +122,12 @@ public final class DialogFrame {
 
     // ===== Построение =====
 
-    private static Parent build(Stage stage, Parent content) {
-        StackPane root = new StackPane();
-        root.getStyleClass().add("window-root");
-        root.setPadding(new Insets(SHADOW));
-
+    /** @param outline рисовать ли контур по краю (там, где его не рисует система) */
+    private static Parent build(Stage stage, Parent content, boolean outline) {
         VBox window = new VBox(titleBar(stage), content);
         window.getStyleClass().addAll("window", "dialog-window");
         VBox.setVgrow(content, Priority.ALWAYS);
-        clipRounded(window);
-
-        root.getChildren().addAll(shadowLayer(), window, outlineLayer());
-        return root;
+        return outline ? new StackPane(window, outlineLayer()) : window;
     }
 
     private static Node titleBar(Stage stage) {

@@ -525,8 +525,7 @@ public class NavigationManager {
         toast.setStyle(
                 "-fx-background-color: " + color + "; " +
                         "-fx-padding: 12 24 12 24; " +
-                        "-fx-background-radius: 8; " +
-                        "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 12, 0, 0, 3);"
+                        "-fx-background-radius: 8;"
         );
         label.setMaxWidth(352); // длинный текст переносится, а плашка не шире 400
         toast.setMaxWidth(javafx.scene.layout.Region.USE_PREF_SIZE); // по размеру текста, не во всю ширину

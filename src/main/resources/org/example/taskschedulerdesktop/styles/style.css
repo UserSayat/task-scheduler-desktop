@@ -966,7 +966,6 @@
 }
 .notifications-panel {
   -fx-background-color: white; -fx-border-color: #e2e2dc; -fx-border-width: 1;
-  -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 16, 0, 0, 4);
 }
 .notifications-top { -fx-padding: 12 14 10 14; -fx-border-color: transparent transparent #f0f0ec transparent; }
 .notifications-header { -fx-font-size: 16px; -fx-font-weight: 600; -fx-text-fill: #111110; }

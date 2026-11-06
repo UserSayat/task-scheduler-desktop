@@ -10,7 +10,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -19,19 +18,23 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.SVGPath;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.example.taskschedulerdesktop.shared.ui.DialogFrame;
+import org.example.taskschedulerdesktop.shared.ui.NativeCorners;
 
 import java.util.List;
 
 /**
  * Своя рамка главного окна вместо системной: заголовок в цветах приложения, кнопки окна по правилам
  * платформы (macOS — три круглые слева, Windows — справа), перетаскивание, разворачивание двойным щелчком
- * и перетаскиванием к верхнему краю экрана, изменение размера за края, тень и скруглённые углы.
+ * и перетаскиванием к верхнему краю экрана, изменение размера за края.
+ * <p>
+ * Окно непрозрачное: прозрачное окно с нарисованной тенью заметно нагружает процессор на больших экранах.
+ * Поэтому тень и скруглённые углы есть только там, где их рисует сама система (Windows 11,
+ * см. {@link NativeCorners}); в остальных системах — прямые углы и тонкий контур по краю.
  * <p>
  * Над левым меню заголовок тёмный, над рабочей областью — светлый, поэтому он сливается с интерфейсом.
  * Системная рамка возвращается флагом {@code -Dtaskhub.nativeFrame=true}.
@@ -49,17 +52,12 @@ public class WindowFrame {
      */
     private static final boolean MAC = DialogFrame.MAC;
 
-    /** Отступ под тень вокруг окна (когда окно не развёрнуто). */
-    private static final double SHADOW = DialogFrame.SHADOW;
-    /** Углы скруглены всегда — и в окне, и в развёрнутом виде, как у IntelliJ IDEA. */
-    private static final double RADIUS = DialogFrame.RADIUS;
     /** Ширина зоны у края, за которую тянется размер окна. */
     private static final double GRIP = 6;
     private static final double TITLE_HEIGHT = DialogFrame.TITLE_HEIGHT;
 
     private final Stage stage;
     private final StackPane root = new StackPane();
-    private final Region shadow = new Region();
     private final VBox window = new VBox();
     private final Region outline = DialogFrame.outlineLayer();
     private final Region titleLeft = new Region();
@@ -74,7 +72,6 @@ public class WindowFrame {
     private HBox attachedLogo;
     private javafx.scene.layout.Pane attachedRight;
     private final StackPane content = new StackPane();
-    private final Rectangle clip = new Rectangle();
     private Button maximizeButton;
 
     private boolean maximized;
@@ -88,13 +85,17 @@ public class WindowFrame {
     private double pressScreenY;
     private Rectangle2D pressBounds;
 
+    /** Windows 11 сама скругляет углы и рисует тень и контур (см. {@link NativeCorners}). */
+    private final boolean nativeCorners = NativeCorners.supported();
+
     public WindowFrame(Stage stage) {
         this.stage = stage;
-        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.initStyle(StageStyle.UNDECORATED);
+        NativeCorners.install(stage);
         build();
     }
 
-    /** Корень сцены: окно с тенью. */
+    /** Корень сцены. */
     public Parent root() {
         return root;
     }
@@ -120,43 +121,27 @@ public class WindowFrame {
         }
     }
 
-    /** Подготовить сцену: прозрачный фон, иначе не видно тени и скруглений. */
+    /** Подготовить сцену: фон цвета окна (виден на мгновение при изменении размера), края тянут размер. */
     public void install(Scene scene) {
-        scene.setFill(Color.TRANSPARENT);
+        scene.setFill(Color.web("#f6f6f4"));
         scene.addEventFilter(MouseEvent.MOUSE_MOVED, this::updateResizeCursor);
         scene.addEventFilter(MouseEvent.MOUSE_PRESSED, this::startResize);
         scene.addEventFilter(MouseEvent.MOUSE_DRAGGED, this::resize);
         scene.addEventFilter(MouseEvent.MOUSE_RELEASED, event -> resizeCursor = Cursor.DEFAULT);
     }
 
-    /** Размер окна вместе с полями под тень. */
-    public static double outerSize(double size) {
-        return enabled() ? size + 2 * SHADOW : size;
-    }
-
     // ===== Построение =====
 
     private void build() {
         root.getStyleClass().add("window-root");
-        root.setPadding(new Insets(SHADOW));
-
-        shadow.getStyleClass().add("window-shadow");
-        DropShadow drop = new DropShadow(SHADOW * 1.4, Color.rgb(0, 0, 0, 0.28));
-        drop.setOffsetY(3);
-        shadow.setEffect(drop); // тень у отдельного слоя: содержимое меняется, а тень не перерисовывается
-        shadow.setBackground(null);
-        shadow.setStyle("-fx-background-color: #f6f6f4; -fx-background-radius: " + RADIUS + ";");
-
         window.getStyleClass().add("window");
-        clip.widthProperty().bind(window.widthProperty());
-        clip.heightProperty().bind(window.heightProperty());
-        clip.setArcWidth(RADIUS * 2);
-        clip.setArcHeight(RADIUS * 2);
-        window.setClip(clip);
-
         VBox.setVgrow(content, Priority.ALWAYS);
         window.getChildren().addAll(titleBar(), content);
-        root.getChildren().addAll(shadow, window, outline);
+        if (nativeCorners) {
+            root.getChildren().add(window); // углы, тень и контур — от системы
+        } else {
+            root.getChildren().addAll(window, outline); // контур, чтобы окно не сливалось с фоном
+        }
 
         stage.maximizedProperty().addListener((obs, was, now) -> {
             // Системные сочетания (например, Win+↑) разворачивают окно сами — подстраиваем рамку
@@ -165,11 +150,8 @@ public class WindowFrame {
                 maximize();
             }
         });
-        // На весь экран — прямоугольное окно без тени; при выходе возвращается прежний вид
-        stage.fullScreenProperty().addListener((obs, was, now) -> {
-            setFrameless(now || maximized);
-            setRounded(!now);
-        });
+        // На весь экран — без скругления и контура; при выходе возвращается прежний вид
+        stage.fullScreenProperty().addListener((obs, was, now) -> updateEdges());
     }
 
     private Node titleBar() {
@@ -333,17 +315,16 @@ public class WindowFrame {
         restoreBounds = new Rectangle2D(stage.getX(), stage.getY(), stage.getWidth(), stage.getHeight());
         Rectangle2D area = currentScreen().getVisualBounds();
         maximized = true;
-        setFrameless(true);
         stage.setX(area.getMinX());
         stage.setY(area.getMinY());
         stage.setWidth(area.getWidth());
         stage.setHeight(area.getHeight());
         updateMaximizeIcon();
+        updateEdges();
     }
 
     private void restore() {
         maximized = false;
-        setFrameless(false);
         if (restoreBounds != null) {
             stage.setX(restoreBounds.getMinX());
             stage.setY(restoreBounds.getMinY());
@@ -351,20 +332,20 @@ public class WindowFrame {
             stage.setHeight(restoreBounds.getHeight());
         }
         updateMaximizeIcon();
+        updateEdges();
     }
 
-    /** Развёрнутое окно — без тени, вплотную к краям экрана. Скругление углов не меняется. */
-    private void setFrameless(boolean frameless) {
-        root.setPadding(frameless ? Insets.EMPTY : new Insets(SHADOW));
-        shadow.setVisible(!frameless);
-    }
-
-    /** Скруглённые углы окна; на весь экран — прямые, иначе по углам видно то, что под окном. */
-    private void setRounded(boolean rounded) {
-        double arc = rounded ? RADIUS * 2 : 0;
-        clip.setArcWidth(arc);
-        clip.setArcHeight(arc);
-        outline.setVisible(rounded);
+    /**
+     * Края окна: развёрнутое и на весь экран — прямоугольное и без контура, как у системных окон;
+     * обычное — со скруглёнными углами Windows 11 или с тонким контуром в остальных системах.
+     */
+    private void updateEdges() {
+        boolean framed = !stage.isFullScreen() && !maximized;
+        if (nativeCorners) {
+            NativeCorners.setRounded(stage, framed);
+        } else {
+            outline.setVisible(framed);
+        }
     }
 
     private void updateMaximizeIcon() {
@@ -392,8 +373,8 @@ public class WindowFrame {
             // а курсор остаётся на том же месте заголовка (в той же доле ширины)
             double ratio = dragOffsetX / stage.getWidth();
             restore();
-            dragOffsetX = SHADOW + (stage.getWidth() - 2 * SHADOW) * ratio;
-            dragOffsetY = SHADOW + Math.min(dragOffsetY, 24);
+            dragOffsetX = stage.getWidth() * ratio;
+            dragOffsetY = Math.min(dragOffsetY, 24);
         }
         stage.setX(event.getScreenX() - dragOffsetX);
         stage.setY(event.getScreenY() - dragOffsetY);
@@ -421,12 +402,12 @@ public class WindowFrame {
         root.setCursor(cursor == Cursor.DEFAULT ? null : cursor);
     }
 
-    /** Курсор по положению относительно краёв окна (без полей под тень). */
+    /** Курсор по положению относительно краёв окна. */
     private Cursor cursorAt(double x, double y) {
-        double left = SHADOW;
-        double top = SHADOW;
-        double right = stage.getScene().getWidth() - SHADOW;
-        double bottom = stage.getScene().getHeight() - SHADOW;
+        double left = 0;
+        double top = 0;
+        double right = stage.getScene().getWidth();
+        double bottom = stage.getScene().getHeight();
         boolean w = x >= left - GRIP && x <= left + GRIP;
         boolean e = x >= right - GRIP && x <= right + GRIP;
         boolean n = y >= top - GRIP && y <= top + GRIP;

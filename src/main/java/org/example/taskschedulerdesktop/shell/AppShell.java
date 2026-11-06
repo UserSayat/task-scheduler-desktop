@@ -50,7 +50,7 @@ public class AppShell {
     public void start() {
         if (WindowFrame.enabled()) {
             frame = new WindowFrame(stage);
-            scene = new Scene(frame.root(), WindowFrame.outerSize(1280), WindowFrame.outerSize(720));
+            scene = new Scene(frame.root(), 1280, 720);
             frame.install(scene);
         } else {
             scene = new Scene(new StackPane(), 1280, 720);

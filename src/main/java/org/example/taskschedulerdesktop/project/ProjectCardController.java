@@ -9,7 +9,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import org.example.taskschedulerdesktop.shared.ui.Animations;
 import org.example.taskschedulerdesktop.config.AppConfig;
 import org.example.taskschedulerdesktop.shared.event.EventBus;
 import org.example.taskschedulerdesktop.shared.navigation.ContextAware;
@@ -92,7 +91,6 @@ public class ProjectCardController implements ContextAware, Shutdownable {
 
             EventBus.getInstance().subscribe(TaskChangedEvent.class, taskChangedListener);
 
-            Animations.hoverShadow(rootVBox);
             Clicks.onClick(rootVBox, () -> {
                 log.debug("Click on the card, context = {}", context);
                 NavigationManager.navigateTo(Routes.PROJECT_DETAILS, this.context.name(), this.context);
