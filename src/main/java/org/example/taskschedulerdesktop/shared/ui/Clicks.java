@@ -26,7 +26,9 @@ public final class Clicks {
      */
     public static void onClick(Node node, Runnable action) {
         node.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> {
-            if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 1) {
+            // Номер щелчка в серии не проверяем: при быстрых щелчках (открыл панель — закрыл — открыл)
+            // JavaFX считает их 2-м, 3-м… и проверка «только первый» глотала их до паузы
+            if (event.getButton() == MouseButton.PRIMARY) {
                 node.getProperties().put(PRESS_KEY, new double[]{event.getScreenX(), event.getScreenY()});
             } else {
                 node.getProperties().remove(PRESS_KEY);
