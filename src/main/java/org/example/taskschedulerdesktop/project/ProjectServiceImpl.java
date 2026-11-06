@@ -60,8 +60,18 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public ProjectView create(String name, UUID ownerId, Visibility visibility) {
+        return create(name, ownerId, visibility, null, Map.of());
+    }
+
+    @Override
+    public ProjectView create(String name, UUID ownerId, Visibility visibility, String description,
+                              Map<UUID, MemberRole> chosenMembers) {
         String validName = validName(name);
         Objects.requireNonNull(ownerId, "ownerId");
+        Objects.requireNonNull(chosenMembers, "members");
+        if (chosenMembers.containsValue(MemberRole.OWNER)) {
+            throw new IllegalArgumentException("Руководитель у проекта один — он задаётся отдельно");
+        }
 
         return uow.inTransaction(() -> {
             Instant now = Instant.now();
@@ -70,15 +80,23 @@ public class ProjectServiceImpl implements ProjectService {
             List<ProjectMember> members = new ArrayList<>();
             members.add(new ProjectMember(ownerId, MemberRole.OWNER, now));
             // Создатель должен сохранить доступ к проекту, даже если владельцем назначил другого
-            if (!userId.equals(ownerId)) {
+            if (!userId.equals(ownerId) && !chosenMembers.containsKey(userId)) {
                 members.add(new ProjectMember(userId, MemberRole.MANAGER, now));
             }
+            chosenMembers.forEach((memberId, role) -> {
+                if (!memberId.equals(ownerId)) {
+                    members.add(new ProjectMember(memberId, role, now));
+                }
+            });
 
             Project project = new Project();
             project.setId(UuidCreator.getTimeOrderedEpoch());
             project.setName(validName);
             project.setOwnerId(ownerId);
             project.setVisibility(Objects.requireNonNull(visibility, "visibility"));
+            if (description != null && !description.isBlank()) {
+                project.setDescription(description.strip());
+            }
             project.setMembers(members);
             project.setCreatedAt(now);
             project.setUpdatedAt(now);

@@ -15,7 +15,6 @@ import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.stage.Window;
-import org.example.taskschedulerdesktop.config.AppConfig;
 import org.example.taskschedulerdesktop.session.Session;
 import org.example.taskschedulerdesktop.shared.event.EventBus;
 import org.example.taskschedulerdesktop.shared.navigation.NavigationManager;
@@ -80,7 +79,7 @@ public class EmployeesController implements Shutdownable {
             row.setOnMouseClicked(event -> {
                 if (event.getButton() == javafx.scene.input.MouseButton.PRIMARY
                         && event.getClickCount() == 2 && !row.isEmpty()) {
-                    openDialog(row.getItem());
+                    openCard(row.getItem());
                 }
             });
             return row;
@@ -89,8 +88,8 @@ public class EmployeesController implements Shutdownable {
 
         searchField.textProperty().addListener((obs, old, query) -> applyFilter(query));
 
-        addButton.setOnAction(event -> openDialog(null));
-        editButton.setOnAction(event -> openDialog(selected()));
+        addButton.setOnAction(event -> openCard(null));
+        editButton.setOnAction(event -> openCard(selected()));
         blockButton.setOnAction(event -> toggleBlocked(selected()));
         resetPasswordButton.setOnAction(event -> resetPassword(selected()));
         deleteButton.setOnAction(event -> delete(selected()));
@@ -133,10 +132,9 @@ public class EmployeesController implements Shutdownable {
 
     // ===== Действия =====
 
-    private void openDialog(Employee employee) {
-        NavigationManager.openDialog(Routes.EMPLOYEE_DIALOG,
-                employee == null ? "Новый сотрудник" : "Сотрудник",
-                AppConfig.getInstance().getPrimaryStage(),
+    private void openCard(Employee employee) {
+        NavigationManager.openForm(Routes.EMPLOYEE_DIALOG,
+                employee == null ? "Новый сотрудник" : employee.name(),
                 employee);
     }
 

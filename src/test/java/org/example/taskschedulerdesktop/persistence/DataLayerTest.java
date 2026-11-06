@@ -97,6 +97,34 @@ class DataLayerTest {
     }
 
     @Test
+    void projectAndTaskCreatedWithDescriptionAndMembers() throws SQLException {
+        UUID elena = UUID.fromString("00000000-0000-7000-8000-0000000000a3");
+        UUID pavel = UUID.fromString("00000000-0000-7000-8000-0000000000a4");
+        Map<UUID, MemberRole> chosen = new LinkedHashMap<>();
+        chosen.put(elena, MemberRole.MEMBER);
+        chosen.put(pavel, MemberRole.OBSERVER);
+        chosen.put(MARIA, MemberRole.MANAGER); // руководитель в участниках — пропускается
+
+        ProjectView project = projectService.create("С участниками", MARIA, Visibility.PRIVATE, "  Цели проекта  ", chosen);
+
+        assertEquals("Цели проекта", projectService.findInfo(project.id()).description());
+        Map<UUID, MemberRole> roles = new LinkedHashMap<>();
+        projectService.findMembers(project.id()).forEach(member -> roles.put(member.userId(), member.role()));
+        assertEquals(Map.of(MARIA, MemberRole.OWNER, DevDataSeeder.DEV_ADMIN_ID, MemberRole.MANAGER,
+                elena, MemberRole.MEMBER, pavel, MemberRole.OBSERVER), roles);
+        // Всё уходит на сервер одной записью о создании, без отдельного изменения
+        assertEquals(1, syncLog("PROJECT", project.id(), "CREATE"));
+        assertEquals(0, syncLog("PROJECT", project.id(), "UPDATE"));
+
+        TaskView task = taskService.create(new NewTask("С описанием", project.id(), elena, TaskPriority.LOW,
+                LocalDate.now().plusDays(2), List.of(), "Подробности задачи\n"));
+        assertEquals("Подробности задачи", taskService.findViewById(task.id()).description());
+        TaskView empty = taskService.create(new NewTask("Без описания", project.id(), null, TaskPriority.LOW,
+                null, List.of(), "   "));
+        assertNull(taskService.findViewById(empty.id()).description());
+    }
+
+    @Test
     void createWritesEntityAndChangeLogInOneGo() throws SQLException {
         ProjectView project = projectService.create("Редизайн сайта", MARIA);
         TaskView task = taskService.create(new NewTask(

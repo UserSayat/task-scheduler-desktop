@@ -7,11 +7,11 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 import org.example.taskschedulerdesktop.shared.api.OfflineException;
 import org.example.taskschedulerdesktop.shared.api.ServerConfig;
 import org.example.taskschedulerdesktop.shared.event.EventBus;
 import org.example.taskschedulerdesktop.shared.navigation.NavigationManager;
+import org.example.taskschedulerdesktop.shell.Logout;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,7 +19,7 @@ import java.util.concurrent.Callable;
 import java.util.function.Consumer;
 
 /**
- * Диалог «Профиль»: имя, должность, часовой пояс (работает и офлайн) и смена пароля (только онлайн).
+ * Страница «Профиль»: имя, должность, часовой пояс (работает и офлайн) и смена пароля (только онлайн).
  */
 public class ProfileController {
 
@@ -38,8 +38,8 @@ public class ProfileController {
     @FXML private PasswordField newPasswordField;
     @FXML private PasswordField repeatPasswordField;
     @FXML private Button changePasswordButton;
+    @FXML private Button logoutButton;
 
-    @FXML private Button closeButton;
 
     public ProfileController(ProfileService profile) {
         this.profile = profile;
@@ -49,9 +49,15 @@ public class ProfileController {
     public void initialize() {
         timezoneComboBox.getItems().setAll(Timezones.COMMON);
         serverLabel.setText("Сервер: " + ServerConfig.serverUrl());
-        closeButton.setOnAction(event -> close());
         saveProfileButton.setOnAction(event -> saveProfile());
         changePasswordButton.setOnAction(event -> changePassword());
+        // «Выйти» — с подтверждением; в демо-режиме выходить некуда
+        logoutButton.setVisible(Logout.available());
+        logoutButton.setManaged(Logout.available());
+        logoutButton.setOnAction(event -> {
+            logoutButton.setDisable(true);
+            Logout.start(() -> logoutButton.setDisable(false));
+        });
 
         run(profile::current, user -> {
             emailLabel.setText(user.getEmail());
@@ -134,12 +140,5 @@ public class ProfileController {
         Thread thread = new Thread(task, "profile");
         thread.setDaemon(true);
         thread.start();
-    }
-
-    private void close() {
-        Stage stage = (Stage) closeButton.getScene().getWindow();
-        if (stage != null) {
-            NavigationManager.closeDialog(stage);
-        }
     }
 }

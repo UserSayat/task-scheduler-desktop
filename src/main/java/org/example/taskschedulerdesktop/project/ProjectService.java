@@ -17,6 +17,13 @@ public interface ProjectService {
     ProjectView create(String name, UUID ownerId, Visibility visibility);
 
     /**
+     * Проект сразу с описанием и участниками (кроме руководителя). Создатель, если он не руководитель
+     * и не выбрал себе роль сам, становится менеджером — чтобы не потерять доступ к своему проекту.
+     */
+    ProjectView create(String name, UUID ownerId, Visibility visibility, String description,
+                       Map<UUID, MemberRole> members);
+
+    /**
      * Название и руководитель. Остальные участники остаются как были, прежний руководитель становится менеджером.
      */
     ProjectView update(UUID id, String name, UUID ownerId);

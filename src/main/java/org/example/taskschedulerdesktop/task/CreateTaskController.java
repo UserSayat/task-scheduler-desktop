@@ -4,7 +4,6 @@ import org.example.taskschedulerdesktop.shared.ui.MultiSelectField;
 import org.example.taskschedulerdesktop.shared.ui.ComboSearch;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
 import org.example.taskschedulerdesktop.access.AsyncPermissionService;
 import org.example.taskschedulerdesktop.project.ProjectView;
 import org.example.taskschedulerdesktop.user.User;
@@ -31,6 +30,7 @@ public class CreateTaskController implements ContextAware {
     private final AsyncPermissionService permissions;
 
     @FXML private TextField taskNameTextField;
+    @FXML private javafx.scene.control.TextArea descriptionTextArea;
 
     @FXML private ComboBox<ProjectView> projectComboBox;
 
@@ -141,27 +141,20 @@ public class CreateTaskController implements ContextAware {
                     executor == null || executor == NO_EXECUTOR ? null : executor.getId(),
                     (TaskPriority) priorityGroup.getSelectedToggle().getUserData(),
                     deadline,
-                    tagPicker.selected());
+                    tagPicker.selected(),
+                    descriptionTextArea.getText());
 
             taskService.createTask(newTask,
                     created -> {
-                        Stage stage = (Stage) createTaskButton.getScene().getWindow();
-                        if (stage != null) {
-                            NavigationManager.closeDialog(stage);
-                            NavigationManager.showToast("Задача сохранена", "success");
-                        }
+                        NavigationManager.closeForm();
+                        NavigationManager.showToast("Задача сохранена", "success");
                     },
                     error -> NavigationManager.showToast(error instanceof IllegalArgumentException
                             ? error.getMessage() : "Ошибка создания задачи", "error")
             );
         });
 
-        cancelButton.setOnAction(event -> {
-            Stage stage = (Stage) cancelButton.getScene().getWindow();
-            if (stage != null) {
-                NavigationManager.closeDialog(stage);
-            }
-        });
+        cancelButton.setOnAction(event -> NavigationManager.closeForm());
     }
 
     @Override

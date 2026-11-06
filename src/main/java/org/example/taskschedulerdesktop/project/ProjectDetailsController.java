@@ -12,7 +12,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import org.example.taskschedulerdesktop.access.AsyncPermissionService;
-import org.example.taskschedulerdesktop.config.AppConfig;
 import org.example.taskschedulerdesktop.shared.ui.DateFormatter;
 import org.example.taskschedulerdesktop.shared.ui.Shutdownable;
 import org.example.taskschedulerdesktop.shared.event.ChangeType;
@@ -38,6 +37,8 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
     private final AsyncPermissionService permissions;
     private static final Logger log = LoggerFactory.getLogger(ProjectDetailsController.class);
 
+    @FXML private javafx.scene.control.ScrollPane pageScroll;
+    @FXML private VBox sideColumn;
     @FXML private Label projectNameLabel;
     @FXML private Label projectSupervisorLabel;
     @FXML private Label numberOfTasksLabel;
@@ -216,11 +217,37 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
      */
     public void refreshNewTasks() { newTasksLoader.restart(); }
     public void refreshInProgressTasks() { inProgressLoader.restart(); }
+    /** Доля ширины правой панели, которую занимает правая колонка. */
+    private static final double SIDE_COLUMN_SHARE = 0.7;
+
+    /**
+     * Ширина правой колонки — 70% места под правой панелью задачи
+     * (панель шириной {@link NavigationManager#RIGHT_SIDEBAR_WIDTH} прижата к правому краю окна, как и страница).
+     * От правого края окна до колонки — отступ страницы и полоса прокрутки, если она видна.
+     */
+    private void fitSideColumn() {
+        if (!(pageScroll.getContent() instanceof javafx.scene.layout.Region content)) {
+            return;
+        }
+        // Всё, что справа от области просмотра: полоса прокрутки и правая рамка (левая — не в счёт)
+        double scrollBar = Math.max(0, pageScroll.getWidth() - pageScroll.getViewportBounds().getWidth()
+                - pageScroll.getInsets().getLeft());
+        double underPanel = NavigationManager.RIGHT_SIDEBAR_WIDTH - content.getPadding().getRight() - scrollBar;
+        // На 30% уже места под панелью: колонка целиком прячется под панель задачи, левой части больше места
+        double width = Math.max(200, Math.round(underPanel * SIDE_COLUMN_SHARE));
+        sideColumn.setMinWidth(width);
+        sideColumn.setPrefWidth(width);
+        sideColumn.setMaxWidth(width);
+    }
+
     public void refreshUnderReviewTasks() { underReviewLoader.restart(); }
     public void refreshCompletedTasks() { completedLoader.restart(); }
 
     @FXML
     public void initialize() {
+        // Правая колонка ровно под правой панелью: пересчёт при изменении ширины окна и появлении прокрутки
+        pageScroll.widthProperty().addListener((obs, old, width) -> fitSideColumn());
+        pageScroll.viewportBoundsProperty().addListener((obs, old, bounds) -> fitSideColumn());
         EventBus.getInstance().subscribe(TaskChangedEvent.class, taskUpdateListener);
         EventBus.getInstance().subscribe(ProjectChangedEvent.class, projectUpdateListener);
     }
@@ -251,9 +278,8 @@ public class ProjectDetailsController implements Shutdownable, ContextAware {
             );
 
             editProjectButton.setOnAction(event -> {
-                NavigationManager.openDialog(Routes.EDIT_PROJECT,
-                        "РЕДАКТИРОВАНИЕ",
-                        AppConfig.getInstance().getPrimaryStage(),
+                NavigationManager.openForm(Routes.EDIT_PROJECT,
+                        "Редактирование: " + this.context.name(),
                         this.context);
             });
 

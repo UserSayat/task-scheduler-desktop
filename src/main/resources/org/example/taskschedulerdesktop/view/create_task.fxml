@@ -1,81 +1,82 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
-<?import org.example.taskschedulerdesktop.shared.ui.MultiSelectField?>
 <?import javafx.scene.layout.*?>
+<?import org.example.taskschedulerdesktop.shared.ui.MultiSelectField?>
 
-<VBox styleClass="modal-root" prefWidth="480"
-      fx:controller="org.example.taskschedulerdesktop.task.CreateTaskController"
+<!-- Новая задача — отдельная страница: слева главное, справа параметры -->
+<VBox fx:controller="org.example.taskschedulerdesktop.task.CreateTaskController"
       xmlns="http://javafx.com/javafx/21"
       xmlns:fx="http://javafx.com/fxml/1">
+    <!-- Кнопки формы: шапка окна забирает их к себе (MainController) -->
+    <HBox styleClass="page-actions" spacing="8" alignment="CENTER_RIGHT">
+        <Button fx:id="cancelButton" text="Отмена" styleClass="btn-secondary"/>
+        <Button fx:id="createTaskButton" text="Создать задачу" styleClass="btn-primary"/>
+    </HBox>
+    <ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="scroll-pane-clean" VBox.vgrow="ALWAYS">
+        <VBox spacing="16" styleClass="content-area">
+            <!-- Две карточки: 60% и 40% ширины, одной высоты -->
+            <GridPane hgap="16">
+                <columnConstraints>
+                    <ColumnConstraints percentWidth="60"/>
+                    <ColumnConstraints percentWidth="40"/>
+                </columnConstraints>
+                <VBox styleClass="card, form-card" maxHeight="Infinity" GridPane.columnIndex="0">
+                    <VBox spacing="5">
+                        <Label text="НАЗВАНИЕ *" styleClass="field-label"/>
+                        <TextField fx:id="taskNameTextField" promptText="Что нужно сделать?"
+                                   styleClass="text-field-styled, form-title-field"/>
+                    </VBox>
+                    <VBox spacing="5">
+                        <Label text="ПРИОРИТЕТ" styleClass="field-label"/>
+                        <HBox spacing="4">
+                            <fx:define>
+                                <ToggleGroup fx:id="priorityGroup"/>
+                            </fx:define>
+                            <ToggleButton fx:id="tCritical" text="Критический"
+                                          styleClass="toggle-critical" toggleGroup="$priorityGroup"/>
+                            <ToggleButton fx:id="tHigh" text="Высокий"
+                                          styleClass="toggle-high" toggleGroup="$priorityGroup"/>
+                            <ToggleButton fx:id="tMedium" text="Средний"
+                                          styleClass="toggle-medium" toggleGroup="$priorityGroup" selected="true"/>
+                            <ToggleButton fx:id="tLow" text="Низкий"
+                                          styleClass="toggle-low" toggleGroup="$priorityGroup"/>
+                        </HBox>
+                    </VBox>
+                    <VBox spacing="5">
+                        <Label text="ТЕГИ" styleClass="field-label"/>
+                        <!-- Выбор из существующих тегов (TagPicker) -->
+                        <MultiSelectField fx:id="tagsMenu" maxWidth="Infinity"/>
+                    </VBox>
+                </VBox>
 
-<!--    TODO добавить этот блок когда создание задачи будет происходить не в диалоге, а на текущем экране (Верхний слой StackPane)   -->
-<!--    <VBox styleClass="modal-header" spacing="3">-->
-<!--        <HBox alignment="CENTER_LEFT">-->
-<!--            <Label text="СОЗДАНИЕ" styleClass="modal-sup" HBox.hgrow="ALWAYS"/>-->
-<!--            <Button fx:id="exitButton" text="×"-->
-<!--                    style="-fx-background-color:transparent;-fx-text-fill:#6b6b65;-->
-<!--                           -fx-font-size:20px;-fx-cursor:hand;-fx-border-width:0;"/>-->
-<!--        </HBox>-->
-<!--        <Label text="Новая задача" styleClass="modal-title"/>-->
-<!--    </VBox>-->
+                <VBox styleClass="card, form-card" maxHeight="Infinity" GridPane.columnIndex="1">
+                    <VBox spacing="5">
+                        <Label text="ПРОЕКТ" styleClass="field-label"/>
+                        <ComboBox fx:id="projectComboBox" maxWidth="Infinity"
+                                  styleClass="combo-box-styled" promptText="Выбрать проект"/>
+                    </VBox>
+                    <VBox spacing="5">
+                        <Label text="ОТВЕТСТВЕННЫЙ" styleClass="field-label"/>
+                        <ComboBox fx:id="executorComboBox" maxWidth="Infinity"
+                                  styleClass="combo-box-styled" promptText="Назначить"/>
+                    </VBox>
+                    <VBox spacing="5">
+                        <Label text="СРОК" styleClass="field-label"/>
+                        <DatePicker fx:id="deadlineDatePicker" maxWidth="Infinity"
+                                    styleClass="date-picker-styled"/>
+                    </VBox>
+                </VBox>
+            </GridPane>
 
-    <VBox styleClass="modal-body">
-        <Label text="НАЗВАНИЕ *" styleClass="field-label"/>
-        <TextField fx:id="taskNameTextField" promptText="Что нужно сделать?"
-                   styleClass="text-field-styled"/>
-
-        <HBox spacing="12">
-            <VBox HBox.hgrow="ALWAYS" spacing="5">
-                <Label text="ПРОЕКТ" styleClass="field-label"/>
-                <ComboBox fx:id="projectComboBox" maxWidth="Infinity"
-                          styleClass="combo-box-styled"
-                          promptText="Выбрать проект"/>
+            <!-- Описание — на всю ширину под карточками -->
+            <VBox styleClass="card, form-card">
+                <VBox spacing="5">
+                    <Label text="ОПИСАНИЕ" styleClass="field-label"/>
+                    <TextArea fx:id="descriptionTextArea" wrapText="true" prefHeight="260" minHeight="200"
+                              promptText="Подробности, ссылки, критерии готовности" styleClass="text-area-styled"/>
+                </VBox>
             </VBox>
-            <VBox HBox.hgrow="ALWAYS" spacing="5">
-                <Label text="ОТВЕТСТВЕННЫЙ" styleClass="field-label"/>
-                <ComboBox fx:id="executorComboBox" maxWidth="Infinity"
-                          styleClass="combo-box-styled"
-                          promptText="Назначить"/>
-            </VBox>
-        </HBox>
-
-        <Label text="ПРИОРИТЕТ" styleClass="field-label"/>
-        <HBox spacing="4">
-            <fx:define>
-                <ToggleGroup fx:id="priorityGroup"/>
-            </fx:define>
-            <ToggleButton fx:id="tCritical" text="Критический"
-                          styleClass="toggle-critical" toggleGroup="$priorityGroup"/>
-            <ToggleButton fx:id="tHigh"   text="Высокий"
-                          styleClass="toggle-high" toggleGroup="$priorityGroup"/>
-            <ToggleButton fx:id="tMedium" text="Средний"
-                          styleClass="toggle-medium" toggleGroup="$priorityGroup" selected="true"/>
-            <ToggleButton fx:id="tLow"    text="Низкий"
-                          styleClass="toggle-low" toggleGroup="$priorityGroup"/>
-        </HBox>
-
-        <HBox spacing="12">
-            <!-- prefWidth 0 у обеих колонок: строка делится поровну, а не по ширине полей -->
-            <VBox HBox.hgrow="ALWAYS" spacing="5" prefWidth="0">
-                <Label text="СРОК" styleClass="field-label"/>
-                <DatePicker fx:id="deadlineDatePicker" maxWidth="Infinity"
-                            styleClass="date-picker-styled"/>
-            </VBox>
-            <VBox HBox.hgrow="ALWAYS" spacing="5" prefWidth="0">
-                <Label text="ТЕГИ" styleClass="field-label"/>
-                <!-- Выбор из существующих тегов (TagPicker) -->
-                <MultiSelectField fx:id="tagsMenu" maxWidth="Infinity" />
-            </VBox>
-        </HBox>
-
-        <HBox spacing="8" style="-fx-padding:6 0 0 0;">
-            <Button fx:id="createTaskButton" text="Создать задачу" styleClass="btn-primary"
-                    HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
-            <Button fx:id="cancelButton" text="Отмена" styleClass="btn-secondary"/>
-        </HBox>
-    </VBox>
+        </VBox>
+    </ScrollPane>
 </VBox>

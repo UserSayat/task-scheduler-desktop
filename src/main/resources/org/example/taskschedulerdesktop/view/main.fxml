@@ -118,6 +118,8 @@
                     <!-- Только на странице «Проекты» и только тем, кто может создавать проекты -->
                     <Button fx:id="createProjectButton" text="+ Новый проект" styleClass="btn-secondary"
                             visible="false" managed="false"/>
+                    <!-- Кнопки открытой формы («Отмена», «Создать задачу» и т. п.) -->
+                    <HBox fx:id="pageActions" spacing="8" alignment="CENTER_RIGHT"/>
                 </HBox>
 
                 <!-- Динамическая область -->

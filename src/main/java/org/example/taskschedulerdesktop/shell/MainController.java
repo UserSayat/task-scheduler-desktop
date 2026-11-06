@@ -1,6 +1,5 @@
 package org.example.taskschedulerdesktop.shell;
 
-import org.example.taskschedulerdesktop.shared.ui.Dialogs;
 import org.example.taskschedulerdesktop.shared.ui.Animations;
 import org.example.taskschedulerdesktop.config.AppConfig;
 import org.example.taskschedulerdesktop.notification.NotificationsChangedEvent;
@@ -30,11 +29,7 @@ import java.util.UUID;
 import java.util.function.Consumer;
 import javafx.animation.Animation;
 import javafx.application.Platform;
-import javafx.concurrent.Task;
 import javafx.fxml.FXML;
-import javafx.scene.control.SeparatorMenuItem;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.ContextMenu;
 import javafx.scene.layout.HBox;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -81,6 +76,9 @@ public class MainController implements Shutdownable {
     @FXML private Button syncStatusButton;
     @FXML private Button createTaskButton;
     @FXML private Button createProjectButton;
+    @FXML private HBox pageActions;
+    /** Страница, чьи кнопки сейчас в шапке (чтобы не перекладывать их повторно при смене заголовка). */
+    private javafx.scene.Node actionsPage;
     /** Может ли пользователь создавать проекты: администратор и руководитель проектов (API.md, 8.7). */
     private boolean canCreateProjects;
 
@@ -97,12 +95,15 @@ public class MainController implements Shutdownable {
     @FXML private VBox sidebarProjectsList;
     private SidebarProjects sidebarProjects;
 
-    private final MenuItem logoutItem = new MenuItem("Выйти");
-    private boolean loggingOut;
 
     private final Consumer<PageTitleChangedEvent> titleUpdateListener = event -> {
         pageTitleLabel.setText(event.getPageTitle());
         updateBackButtonState();
+        // На самих формах кнопка «Новая задача» лишняя: у формы свои «Отмена» и «Создать»
+        boolean form = NavigationManager.isFormPage();
+        createTaskButton.setVisible(!form);
+        createTaskButton.setManaged(!form);
+        showPageActions();
         highlightCurrentSection();
         updateCreateProjectButton();
     };
@@ -176,14 +177,13 @@ public class MainController implements Shutdownable {
 
         pageDate.setText(DateFormatter.formatFullWithDay(LocalDate.now()));
 
-        createTaskButton.setOnAction(event -> NavigationManager.openDialog(
+        createTaskButton.setOnAction(event -> NavigationManager.openForm(
                 Routes.CREATE_TASK,
                 "Новая задача",
-                AppConfig.getInstance().getPrimaryStage(),
-                // На странице проекта он подставится в окне создания
+                // На странице проекта он подставится в форме создания
                 Routes.PROJECT_DETAILS.equals(NavigationManager.getCurrentPage()) ? NavigationManager.getCurrentContext() : null));
-        createProjectButton.setOnAction(event -> NavigationManager.openDialog(
-                Routes.CREATE_PROJECT, "Новый проект", appConfig.getPrimaryStage()));
+        createProjectButton.setOnAction(event -> NavigationManager.openForm(
+                Routes.CREATE_PROJECT, "Новый проект", null));
 
         reviewButton.setOnAction(event -> NavigationManager.navigateTo(Routes.DASHBOARD, "Обзор"));
         tasksButton.setOnAction(event -> NavigationManager.navigateTo(Routes.TASKS, "Задачи"));
@@ -218,6 +218,21 @@ public class MainController implements Shutdownable {
         NavigationManager.navigateToSection(Routes.PROJECT_DETAILS, project.name(), project);
     }
 
+    /** Кнопки открытой формы («Отмена», «Создать задачу» и т. п.) — в шапку, справа от заголовка. */
+    private void showPageActions() {
+        javafx.scene.Node page = NavigationManager.getCurrentPageNode();
+        if (page == actionsPage) {
+            return;
+        }
+        actionsPage = page;
+        pageActions.getChildren().clear();
+        if (page != null && page.lookup(".page-actions") instanceof javafx.scene.layout.Pane actions
+                && actions.getParent() instanceof javafx.scene.layout.Pane owner) {
+            owner.getChildren().remove(actions);
+            pageActions.getChildren().add(actions);
+        }
+    }
+
     public void updateBackButtonState() {
         boolean canGoBack = NavigationManager.canGoBack();
         backButton.setVisible(canGoBack);
@@ -247,23 +262,11 @@ public class MainController implements Shutdownable {
 
     }
 
-    /** Нажатие на профиль внизу меню — «Профиль / Выйти» над ним. */
+    /** Нажатие на профиль внизу меню открывает страницу профиля (там же — «Выйти»). */
     private void setUpProfileMenu() {
-        MenuItem profileItem = new MenuItem("Профиль");
-        profileItem.setOnAction(event -> NavigationManager.openDialog(Routes.PROFILE, "Профиль", appConfig.getPrimaryStage()));
-        logoutItem.setOnAction(event -> logout());
-        ContextMenu menu = new ContextMenu(profileItem);
-        if (!appConfig.isDemoMode()) {
-            menu.getItems().addAll(new SeparatorMenuItem(), logoutItem); // в демо-режиме выходить некуда
-        }
-        menu.getStyleClass().add("profile-menu");
         userBox.setOnMouseClicked(event -> {
             event.consume(); // двойной щелчок по профилю не должен разворачивать окно
-            if (menu.isShowing()) {
-                menu.hide();
-            } else {
-                menu.show(userBox, javafx.geometry.Side.TOP, 0, -6);
-            }
+            NavigationManager.openForm(Routes.PROFILE, "Профиль", null);
         });
     }
 
@@ -282,53 +285,6 @@ public class MainController implements Shutdownable {
 
     public HBox headerRight() {
         return headerRight;
-    }
-
-    /**
-     * Выход: сначала попытка отправить изменения. Если что-то осталось неотправленным (нет связи),
-     * пользователь решает, выходить ли: изменения сохранятся на этом компьютере и уйдут после следующего входа.
-     */
-    private void logout() {
-        if (loggingOut) {
-            return;
-        }
-        loggingOut = true;
-        logoutItem.setDisable(true);
-        Task<SyncStatus> sync = new Task<>() {
-            @Override
-            protected SyncStatus call() {
-                return appConfig.getSyncService().synchronize();
-            }
-        };
-        sync.setOnSucceeded(event -> {
-            SyncStatus status = sync.getValue();
-            if (status.pending() > 0 && !confirmLogout(status.pending())) {
-                loggingOut = false;
-                logoutItem.setDisable(false);
-                return;
-            }
-            Task<Void> logout = new Task<>() {
-                @Override
-                protected Void call() {
-                    appConfig.getAuthService().logout();
-                    return null;
-                }
-            };
-            logout.setOnSucceeded(e -> appConfig.getAppShell().showLogin(null));
-            logout.setOnFailed(e -> appConfig.getAppShell().showLogin(null));
-            startDaemon(logout, "logout");
-        });
-        sync.setOnFailed(event -> {
-            loggingOut = false;
-            logoutItem.setDisable(false);
-        });
-        startDaemon(sync, "logout-sync");
-    }
-
-    private boolean confirmLogout(int pending) {
-        return Dialogs.confirm(appConfig.getPrimaryStage(), "Выход", "Выйти из аккаунта?",
-                "Не отправлено изменений: " + pending + " (нет связи с сервером).\n"
-                        + "Они сохранятся на этом компьютере и будут отправлены после следующего входа.");
     }
 
     // ===== Уведомления =====
@@ -439,12 +395,6 @@ public class MainController implements Shutdownable {
         if (changes.usersChanged()) {
             bus.fire(new UsersChangedEvent());
         }
-    }
-
-    private static void startDaemon(Task<?> task, String name) {
-        Thread thread = new Thread(task, name);
-        thread.setDaemon(true);
-        thread.start();
     }
 
     @Override

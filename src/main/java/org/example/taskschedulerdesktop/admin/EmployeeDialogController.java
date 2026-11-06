@@ -7,7 +7,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
-import javafx.stage.Stage;
 import org.example.taskschedulerdesktop.shared.navigation.ContextAware;
 import org.example.taskschedulerdesktop.shared.navigation.NavigationManager;
 import org.example.taskschedulerdesktop.user.Timezones;
@@ -26,7 +25,6 @@ public class EmployeeDialogController implements ContextAware {
 
     private final EmployeeAdminService service;
 
-    @FXML private Label titleLabel;
     @FXML private TextField nameField;
     @FXML private TextField emailField;
     @FXML private TextField positionField;
@@ -66,7 +64,6 @@ public class EmployeeDialogController implements ContextAware {
             return; // новый сотрудник
         }
         this.employee = existing;
-        titleLabel.setText("Сотрудник");
         nameField.setText(existing.name());
         emailField.setText(existing.email());
         positionField.setText(existing.position());
@@ -144,9 +141,6 @@ public class EmployeeDialogController implements ContextAware {
     }
 
     private void close() {
-        Stage stage = (Stage) cancelButton.getScene().getWindow();
-        if (stage != null) {
-            NavigationManager.closeDialog(stage);
-        }
+        NavigationManager.closeForm();
     }
 }

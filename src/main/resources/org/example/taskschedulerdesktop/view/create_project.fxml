@@ -1,52 +1,82 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox styleClass="modal-root" prefWidth="420"
-      fx:controller="org.example.taskschedulerdesktop.project.CreateProjectController"
+<!-- Новый проект — отдельная страница: слева сам проект, справа люди -->
+<VBox fx:controller="org.example.taskschedulerdesktop.project.CreateProjectController"
       xmlns="http://javafx.com/javafx/21"
       xmlns:fx="http://javafx.com/fxml/1">
+    <!-- Кнопки формы: шапка окна забирает их к себе (MainController) -->
+    <HBox styleClass="page-actions" spacing="8" alignment="CENTER_RIGHT">
+        <Button fx:id="cancelButton" text="Отмена" styleClass="btn-secondary"/>
+        <Button fx:id="createProjectButton" text="Создать проект" styleClass="btn-primary"/>
+    </HBox>
+    <ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="scroll-pane-clean" VBox.vgrow="ALWAYS">
+        <VBox spacing="16" styleClass="content-area">
+            <!-- Две карточки: 60% и 40% ширины, одной высоты -->
+            <GridPane hgap="16">
+                <columnConstraints>
+                    <ColumnConstraints percentWidth="60"/>
+                    <ColumnConstraints percentWidth="40"/>
+                </columnConstraints>
+                <VBox styleClass="card, form-card" maxHeight="Infinity" GridPane.columnIndex="0">
+                    <VBox spacing="5">
+                        <Label text="НАЗВАНИЕ *" styleClass="field-label"/>
+                        <TextField fx:id="projectNameTextField" promptText="Название проекта"
+                                   styleClass="text-field-styled, form-title-field"/>
+                    </VBox>
+                    <VBox spacing="5">
+                        <Label text="ДОСТУП" styleClass="field-label"/>
+                        <HBox spacing="4">
+                            <fx:define>
+                                <ToggleGroup fx:id="visibilityGroup"/>
+                            </fx:define>
+                            <ToggleButton fx:id="publicToggle" text="Открытый" styleClass="toggle-visibility"
+                                          toggleGroup="$visibilityGroup" selected="true"/>
+                            <ToggleButton fx:id="privateToggle" text="Закрытый" styleClass="toggle-visibility"
+                                          toggleGroup="$visibilityGroup"/>
+                        </HBox>
+                        <Label fx:id="visibilityHint" styleClass="visibility-hint" wrapText="true"/>
+                    </VBox>
+                </VBox>
 
-<!--    TODO добавить этот блок когда создание проекта будет происходить не в диалоге, а на текущем экране (Верхний слой StackPane)-->
-<!--    <VBox styleClass="modal-header" spacing="3">-->
-<!--        <HBox alignment="CENTER_LEFT">-->
-<!--            <Label fx:id="formSup" text="СОЗДАНИЕ" styleClass="modal-sup" HBox.hgrow="ALWAYS"/>-->
-<!--            <Button fx:id="exitButton" text="×"-->
-<!--                    style="-fx-background-color:transparent;-fx-text-fill:#6b6b65;-->
-<!--                           -fx-font-size:20px;-fx-cursor:hand;-fx-border-width:0;"/>-->
-<!--        </HBox>-->
-<!--        <Label fx:id="formTitle" text="Новый проект" styleClass="modal-title"/>-->
-<!--    </VBox>-->
+                <VBox styleClass="card, form-card" maxHeight="Infinity" GridPane.columnIndex="1">
+                    <VBox spacing="5">
+                        <Label text="РУКОВОДИТЕЛЬ *" styleClass="field-label"/>
+                        <ComboBox fx:id="supervisorComboBox" maxWidth="Infinity"
+                                  styleClass="combo-box-styled" promptText="Выбрать"/>
+                    </VBox>
+                    <VBox spacing="8">
+                        <Label text="УЧАСТНИКИ" styleClass="field-label"/>
+                        <!-- Строка добавления: сотрудник, его роль и «+» -->
+                        <HBox spacing="6" alignment="CENTER_LEFT">
+                            <ComboBox fx:id="newMemberComboBox" maxWidth="Infinity" HBox.hgrow="ALWAYS"
+                                      styleClass="combo-box-styled, compact-combo" promptText="Сотрудник"/>
+                            <ComboBox fx:id="newMemberRoleComboBox" prefWidth="136" minWidth="-Infinity"
+                                      styleClass="combo-box-styled, compact-combo"/>
+                            <Button fx:id="addMemberButton" text="+" styleClass="btn-secondary, add-member-button"
+                                    minWidth="-Infinity">
+                                <tooltip><Tooltip text="Добавить в проект"/></tooltip>
+                            </Button>
+                        </HBox>
+                        <!-- До пяти участников видно сразу, дальше — прокрутка; высота карточки не прыгает -->
+                        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="scroll-pane-clean"
+                                    prefHeight="236" minHeight="236" maxHeight="236" style="-fx-padding: 0;">
+                            <VBox fx:id="membersVBox" spacing="6"/>
+                        </ScrollPane>
+                    </VBox>
+                </VBox>
+            </GridPane>
 
-    <VBox styleClass="modal-body">
-        <Label text="НАЗВАНИЕ *" styleClass="field-label"/>
-        <TextField fx:id="projectNameTextField" promptText="Название проекта"
-                   styleClass="text-field-styled"/>
-
-        <Label text="ДОСТУП" styleClass="field-label"/>
-        <HBox spacing="4">
-            <fx:define>
-                <ToggleGroup fx:id="visibilityGroup"/>
-            </fx:define>
-            <ToggleButton fx:id="publicToggle" text="Открытый" styleClass="toggle-visibility"
-                          toggleGroup="$visibilityGroup" selected="true"/>
-            <ToggleButton fx:id="privateToggle" text="Закрытый" styleClass="toggle-visibility"
-                          toggleGroup="$visibilityGroup"/>
-        </HBox>
-        <Label fx:id="visibilityHint" styleClass="visibility-hint" wrapText="true"/>
-
-        <Label text="РУКОВОДИТЕЛЬ" styleClass="field-label"/>
-        <ComboBox fx:id="supervisorComboBox" maxWidth="Infinity"
-                  styleClass="combo-box-styled" promptText="Выбрать"/>
-
-        <HBox spacing="8" style="-fx-padding:6 0 0 0;">
-            <Button fx:id="createProjectButton" text="Создать проект" styleClass="btn-primary"
-                    HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
-            <Button fx:id="cancelButton" text="Отмена" styleClass="btn-secondary"/>
-        </HBox>
-    </VBox>
+            <!-- Описание — на всю ширину под карточками -->
+            <VBox styleClass="card, form-card">
+                <VBox spacing="5">
+                    <Label text="ОПИСАНИЕ" styleClass="field-label"/>
+                    <TextArea fx:id="descriptionTextArea" wrapText="true" prefHeight="260" minHeight="200"
+                              promptText="Цели и границы проекта" styleClass="text-area-styled"/>
+                </VBox>
+            </VBox>
+        </VBox>
+    </ScrollPane>
 </VBox>

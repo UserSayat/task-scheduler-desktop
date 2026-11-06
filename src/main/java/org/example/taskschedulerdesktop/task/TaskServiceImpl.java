@@ -120,6 +120,9 @@ public class TaskServiceImpl implements TaskService {
             task.setStatus(TaskStatus.NEW);
             task.setPriority(newTask.priority() != null ? newTask.priority() : TaskPriority.MEDIUM);
             task.setDeadline(newTask.deadline());
+            if (newTask.description() != null && !newTask.description().isBlank()) {
+                task.setDescription(newTask.description().strip());
+            }
             if (newTask.responsibleId() != null) {
                 task.setAssignees(List.of(new TaskAssignee(newTask.responsibleId(), AssigneeRole.RESPONSIBLE)));
             }

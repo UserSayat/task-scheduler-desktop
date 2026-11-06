@@ -1204,3 +1204,25 @@
 .app-header .bell-icon { -fx-fill: rgba(255,255,255,0.7); }
 .app-header .header-icon-active, .app-header .header-icon-active:hover { -fx-background-color: rgba(255,255,255,0.14); }
 .app-header .header-icon-active .bell-icon { -fx-fill: white; }
+
+/* ── Формы-страницы (новая задача, проект, сотрудник, профиль) ── */
+.form-card { -fx-padding: 28; -fx-spacing: 20; }
+.form-title-field { -fx-font-size: 18px; -fx-padding: 10 12 10 12; }
+.combo-box-styled .list-cell.combo-prompt { -fx-text-fill: #8a8984; }
+/* «+» в строке добавления участника: квадрат высотой с поле */
+.add-member-button { -fx-font-size: 20px; -fx-padding: 0; -fx-pref-width: 42; -fx-pref-height: 42; }
+/* Поля формы одной высоты: текстовые и выпадающие списки выглядят одинаково */
+.form-card .text-field-styled, .form-card .combo-box-styled { -fx-pref-height: 42; }
+.form-card .form-title-field { -fx-pref-height: 48; }
+/* Компактные списки в строках участников: узкая стрелка, плотнее отступы — помещаются имя и роль */
+.compact-combo { -fx-font-size: 14px; }
+.compact-combo .list-cell { -fx-padding: 4 4 4 8; }
+.compact-combo .arrow-button { -fx-padding: 0 8 0 4; }
+.add-member-button { -fx-pref-width: 34; }
+/* Участник в списке: имя в рамке, как поле, той же высоты */
+.member-name-box {
+  -fx-font-size: 14px; -fx-text-fill: #111110;
+  -fx-background-color: white; -fx-border-color: #e2e2dc; -fx-border-width: 1;
+  -fx-padding: 0 8 0 8; -fx-pref-height: 42; -fx-min-height: 42;
+}
+.member-remove-button:hover { -fx-text-fill: #b91c1c; -fx-border-color: #b91c1c; }

@@ -5,10 +5,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
-import javafx.stage.Stage;
+import javafx.scene.layout.VBox;
 import org.example.taskschedulerdesktop.user.User;
 import org.example.taskschedulerdesktop.shared.navigation.NavigationManager;
 import org.example.taskschedulerdesktop.user.AsyncUserService;
@@ -23,6 +24,7 @@ public class CreateProjectController {
     private final AsyncUserService userService;
 
     @FXML private TextField projectNameTextField;
+    @FXML private TextArea descriptionTextArea;
 
     @FXML private ComboBox<User> supervisorComboBox;
 
@@ -30,6 +32,12 @@ public class CreateProjectController {
     @FXML private ToggleButton publicToggle;
     @FXML private ToggleButton privateToggle;
     @FXML private Label visibilityHint;
+
+    @FXML private VBox membersVBox;
+    @FXML private ComboBox<User> newMemberComboBox;
+    @FXML private ComboBox<MemberRole> newMemberRoleComboBox;
+    @FXML private Button addMemberButton;
+    private MembersEditor membersEditor;
 
     @FXML private Button createProjectButton;
     @FXML private Button cancelButton;
@@ -54,9 +62,14 @@ public class CreateProjectController {
             }
         });
         showVisibilityHint();
+        membersEditor = new MembersEditor(membersVBox, newMemberComboBox, newMemberRoleComboBox, addMemberButton,
+                supervisorComboBox, false);
 
         userService.findActiveUsers(
-                users -> supervisorComboBox.getItems().setAll(users),
+                users -> {
+                    supervisorComboBox.getItems().setAll(users);
+                    membersEditor.setUsers(users);
+                },
                 error -> NavigationManager.showToast("Ошибка загрузки сотрудников", "error")
         );
 
@@ -68,22 +81,15 @@ public class CreateProjectController {
             }
 
             projectService.saveProject(projectNameTextField.getText(), owner.getId(), selectedVisibility(),
+                    descriptionTextArea.getText(), membersEditor.members(),
                     created -> {
-                        Stage stage = (Stage) createProjectButton.getScene().getWindow();
-                        if (stage != null) {
-                            NavigationManager.closeDialog(stage);
-                            NavigationManager.showToast("Проект создан", "success");
-                        }
+                        NavigationManager.closeForm();
+                        NavigationManager.showToast("Проект создан", "success");
                     },
                     error -> NavigationManager.showToast("Ошибка создания проекта", "error"));
         });
 
-        cancelButton.setOnAction(event -> {
-            Stage stage = (Stage) cancelButton.getScene().getWindow();
-            if (stage != null) {
-                NavigationManager.closeDialog(stage);
-            }
-        });
+        cancelButton.setOnAction(event -> NavigationManager.closeForm());
     }
 
     private Visibility selectedVisibility() {

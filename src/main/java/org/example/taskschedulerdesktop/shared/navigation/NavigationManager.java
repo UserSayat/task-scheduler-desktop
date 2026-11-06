@@ -59,7 +59,8 @@ public class NavigationManager {
 
     private static Parent rightSidebar = null;
     private static Object rightSidebarController = null;
-    private static final double RIGHT_SIDEBAR_WIDTH = 400.0;
+    /** Ширина правой панели (задача); по ней же — правая колонка страницы проекта. */
+    public static final double RIGHT_SIDEBAR_WIDTH = 400.0;
     private static Region sidebarOverlay = null;
 
     /**
@@ -117,17 +118,22 @@ public class NavigationManager {
     private static int generation;
 
     /**
-     * Заранее загруженный экземпляр панели или диалога: разметка загружена в фоне, стили применены.
+     * Заранее загруженный экземпляр боковой панели: разметка загружена в фоне, стили применены.
      * {@code freshness} — версия данных, от которых он зависит, на момент подготовки.
      */
-    private record Spare(FXMLLoader loader, Stage stage, java.util.function.LongSupplier source, long freshness) {
+    private record Spare(FXMLLoader loader, java.util.function.LongSupplier source, long freshness) {
         boolean stale() {
             return source.getAsLong() != freshness;
         }
     }
     private static final Map<String, Spare> spares = new HashMap<>();
-    /** Диалоги, для которых держится запасной экземпляр: их открывают чаще всего. */
-    private static final Set<String> SPARE_DIALOGS = Set.of(Routes.CREATE_TASK, Routes.CREATE_PROJECT);
+    /**
+     * Формы (создание и изменение задачи, проекта, сотрудника, профиль) — отдельные страницы. В историю
+     * они не попадают: «Назад» не возвращает к брошенной форме, а сама форма после сохранения или отмены
+     * возвращает на страницу, с которой её открыли.
+     */
+    private static final Set<String> FORM_PAGES = Set.of(Routes.CREATE_TASK, Routes.CREATE_PROJECT,
+            Routes.EDIT_PROJECT, Routes.PROFILE, Routes.EMPLOYEE_DIALOG);
     /** Пауза перед первым шагом подготовки (пока появляется первый экран) и между шагами. */
     private static final Duration WARM_UP_DELAY = Duration.millis(1500);
     private static final Duration WARM_UP_GAP = Duration.millis(400);
@@ -211,7 +217,8 @@ public class NavigationManager {
         boolean keepLeaving = false;
         if (Routes.DASHBOARD.equals(fxmlPath)) {
             clearHistory(); // «Обзор» — начальная страница: с неё назад не возвращаются
-        } else if (!isBackNavigation && currentPage != null && !fxmlPath.equals(currentPage)) {
+        } else if (!isBackNavigation && currentPage != null && !fxmlPath.equals(currentPage)
+                && !FORM_PAGES.contains(currentPage)) {
             keepLeaving = direction == Animations.Direction.FORWARD && currentNode != null
                     && !sectionCache.containsKey(currentPage);
             history.push(keepLeaving
@@ -369,6 +376,31 @@ public class NavigationManager {
         history.clear();
     }
 
+    /** Открыть форму (см. {@link #FORM_PAGES}) страницей; страница под ней сохраняется для возврата. */
+    public static void openForm(String fxmlPath, String title, Object context) {
+        closeRightSidebar();
+        navigate(fxmlPath, title, context, Animations.Direction.FORWARD);
+    }
+
+    /** Форма сохранена или отменена — вернуться туда, откуда её открыли. */
+    public static void closeForm() {
+        if (canGoBack()) {
+            goBack();
+        } else {
+            navigateTo(Routes.DASHBOARD, "Обзор");
+        }
+    }
+
+    /** Корневой узел открытой страницы. */
+    public static Node getCurrentPageNode() {
+        return currentNode;
+    }
+
+    /** Открыта ли сейчас форма. */
+    public static boolean isFormPage() {
+        return FORM_PAGES.contains(currentPage);
+    }
+
     /**
      * Проверка: есть ли куда возвращаться.
      */
@@ -419,34 +451,16 @@ public class NavigationManager {
 
     public static Stage openDialog(String fxmlPath, String title, Stage owner, Object context) {
         try {
-            // Запасной экземпляр (разметка и окно со стилями готовы заранее) — только для того же владельца
-            Spare spare = SPARE_DIALOGS.contains(fxmlPath) ? takeSpare(fxmlPath) : null;
-            if (spare != null && spare.stage().getOwner() != owner) {
-                shutdownController(spare.loader().getController());
-                spare = null;
-            }
-            FXMLLoader loader;
-            Stage dialogStage;
-            if (spare != null) {
-                loader = spare.loader();
-                dialogStage = spare.stage();
-            } else {
-                loader = new FXMLLoader(NavigationManager.class.getResource(fxmlPath));
-                loader.setControllerFactory(controllerFactory);
-                DateFormatter.applyToPickers(loader.load());
-                dialogStage = dialogStage(loader.getRoot(), owner);
-            }
+            FXMLLoader loader = new FXMLLoader(NavigationManager.class.getResource(fxmlPath));
+            loader.setControllerFactory(controllerFactory);
+            DateFormatter.applyToPickers(loader.load());
+            Stage dialogStage = dialogStage(loader.getRoot(), owner);
 
             if (loader.getController() instanceof ContextAware aware) {
                 aware.setContext(context);
             }
             dialogStage.setTitle(title);
             dialogStage.showAndWait();
-
-            if (SPARE_DIALOGS.contains(fxmlPath)) {
-                int gen = generation;
-                later(SPARE_REFILL_DELAY, gen, () -> prepareDialog(fxmlPath, owner, gen, () -> {}));
-            }
             return dialogStage;
 
         } catch (IOException e) {
@@ -653,7 +667,7 @@ public class NavigationManager {
     }
 
     /**
-     * Заранее построить разделы «Задачи», «Проекты», «Команда», панель задачи и окно «Новая задача» —
+     * Заранее построить разделы «Задачи», «Проекты», «Команда» и панель задачи —
      * по одному, с паузами, пока пользователь смотрит на первый экран. Тогда их первое открытие
      * не подтормаживает: разметка загружается в фоне, а стили и раскладка считаются заранее.
      */
@@ -666,8 +680,7 @@ public class NavigationManager {
                 next -> warmSection(Routes.TASKS, gen, next),
                 next -> warmSection(Routes.PROJECTS, gen, next),
                 next -> warmSection(Routes.TEAM, gen, next),
-                next -> prepareSidebar(Routes.TASK_DETAILS, gen, next),
-                next -> prepareDialog(Routes.CREATE_TASK, AppConfig.getInstance().getPrimaryStage(), gen, next)));
+                next -> prepareSidebar(Routes.TASK_DETAILS, gen, next)));
         runSteps(steps, gen, WARM_UP_DELAY);
     }
 
@@ -799,22 +812,7 @@ public class NavigationManager {
             Parent root = loader.getRoot();
             sizeSidebar(root);
             prerender(globalStackPane, root);
-            spares.put(path, new Spare(loader, null, usersVersion::get, usersVersion.get()));
-            next.run();
-        }));
-    }
-
-    /** Подготовить запасной экземпляр диалога: разметка, окно и сцена со стилями — всё, кроме показа. */
-    private static void prepareDialog(String path, Stage owner, int gen, Runnable next) {
-        if (spares.containsKey(path) || owner == null || !preparing.add(path)) {
-            next.run();
-            return;
-        }
-        loadInBackground(path, loader -> whenIdle(gen, () -> {
-            preparing.remove(path);
-            Stage stage = dialogStage(loader.getRoot(), owner);
-            stage.getScene().getRoot().applyCss();
-            spares.put(path, new Spare(loader, stage, dataVersion::get, dataVersion.get()));
+            spares.put(path, new Spare(loader, usersVersion::get, usersVersion.get()));
             next.run();
         }));
     }

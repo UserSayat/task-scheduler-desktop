@@ -14,6 +14,12 @@ public record NewTask(
         UUID responsibleId,
         TaskPriority priority,
         LocalDate deadline,
-        List<String> tagNames
+        List<String> tagNames,
+        String description
 ) {
+    /** Без описания. */
+    public NewTask(String title, UUID projectId, UUID responsibleId, TaskPriority priority,
+                   LocalDate deadline, List<String> tagNames) {
+        this(title, projectId, responsibleId, priority, deadline, tagNames, null);
+    }
 }
