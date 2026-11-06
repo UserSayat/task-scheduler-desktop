@@ -79,10 +79,8 @@
 
                 <!-- Прогресс проектов -->
                 <VBox styleClass="card" GridPane.columnIndex="0">
-                    <HBox alignment="CENTER_LEFT" spacing="8" style="-fx-padding: 0 0 12 0;">
-                        <Label styleClass="card-title" text="Проекты" HBox.hgrow="ALWAYS"/>
-                        <Region HBox.hgrow="ALWAYS"/>
-                        <Label styleClass="section-mono" text="прогресс выполнения"/>
+                    <HBox alignment="CENTER_LEFT" style="-fx-padding: 0 0 12 0;">
+                        <Label styleClass="card-title" text="Проекты"/>
                     </HBox>
 
                     <!-- Четыре карточки по 74, на низком окне не меньше двух (WholeRows оставляет только целые) -->
@@ -105,15 +103,18 @@
                 </rowConstraints>
             </GridPane>
 
-            <!-- Мои задачи: незавершённые, где пользователь ответственный или соисполнитель -->
-            <HBox alignment="CENTER_LEFT" spacing="8">
-                <Label text="Мои задачи" styleClass="card-title"/>
-                <Region HBox.hgrow="ALWAYS"/>
-                <Label fx:id="myTasksCount" styleClass="section-mono" text="ответственный или соисполнитель"/>
-            </HBox>
-            <!-- Высота задана числами (5 строк желательно, 3 минимум), а не по таблице: её укорачивает WholeRows,
-                 и иначе контейнер сжимался бы вслед за ней. Свободное место — тоже таблице -->
-            <VBox fx:id="taskTableContainerVBox" VBox.vgrow="ALWAYS" prefHeight="266" minHeight="180">
+            <!-- Мои задачи: незавершённые, где пользователь ответственный или соисполнитель.
+                 Подпись и таблица — в одной карточке, как «Проекты» и «Дедлайны» -->
+            <VBox styleClass="card" VBox.vgrow="ALWAYS">
+                <HBox alignment="CENTER_LEFT" spacing="8" style="-fx-padding: 0 0 12 0;">
+                    <Label text="Мои задачи" styleClass="card-title"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Label fx:id="myTasksCount" styleClass="section-mono" text="ответственный или соисполнитель"/>
+                </HBox>
+                <!-- Высота задана числами (5 строк желательно, 3 минимум), а не по таблице: её укорачивает WholeRows,
+                     и иначе контейнер сжимался бы вслед за ней. Свободное место — тоже таблице -->
+                <VBox fx:id="taskTableContainerVBox" VBox.vgrow="ALWAYS" prefHeight="266" minHeight="174">
+                </VBox>
             </VBox>
 
         </VBox>
