@@ -1,7 +1,6 @@
 package org.example.taskschedulerdesktop.admin;
 
 import org.example.taskschedulerdesktop.shared.ui.WholeRows;
-import org.example.taskschedulerdesktop.shared.ui.Clicks;
 import org.example.taskschedulerdesktop.shared.ui.Dialogs;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -77,9 +76,10 @@ public class EmployeesController implements Shutdownable {
         employeesTable.setPlaceholder(new Label("Сотрудники появятся после синхронизации с сервером"));
         employeesTable.setRowFactory(table -> {
             TableRow<Employee> row = new TableRow<>();
-            // Карточка сотрудника открывается одним щелчком
-            Clicks.onClick(row, () -> {
-                if (!row.isEmpty()) {
+            // Один щелчок выделяет строку (для кнопок внизу), двойной — открывает карточку сотрудника
+            row.setOnMouseClicked(event -> {
+                if (event.getButton() == javafx.scene.input.MouseButton.PRIMARY
+                        && event.getClickCount() == 2 && !row.isEmpty()) {
                     openDialog(row.getItem());
                 }
             });
