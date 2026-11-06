@@ -248,6 +248,18 @@
   -fx-font-size: 16px;
 }
 .combo-box-styled:focused { -fx-border-color: #1a3a8f; }
+/* Поле, в котором можно печатать (ComboSearch): выглядит как обычное значение списка */
+.combo-box-styled .text-field {
+  -fx-background-color: white;
+  -fx-background-insets: 0;
+  -fx-background-radius: 0;
+  -fx-border-width: 0;
+  -fx-padding: 6 8 6 8;
+  -fx-font-size: 16px;
+  -fx-text-fill: #111110;
+  -fx-prompt-text-fill: #8a8a84;
+}
+.combo-box-styled .arrow-button { -fx-background-color: white; -fx-background-insets: 0; -fx-background-radius: 0; }
 /* Само поле — белое; строки выпадающего списка подсвечиваются отдельно (ниже) */
 .combo-box-styled > .list-cell { -fx-background-color: white; -fx-text-fill: #111110; }
 .combo-box-styled .combo-box-popup .list-view {
@@ -550,27 +562,50 @@
   -fx-text-fill: #1a3a8f;
   -fx-border-color: #1a3a8f;
 }
-/* Выпадающие фильтры: проект, исполнитель, срок */
-.filter-menu {
+/* Поле выбора нескольких вариантов (MultiSelectField): теги, соисполнители, наблюдатели, фильтры */
+.multi-select {
   -fx-background-color: white;
-  -fx-text-fill: #3d3d39;
   -fx-border-color: #e2e2dc;
   -fx-border-width: 1;
-  -fx-background-radius: 0;
-  -fx-border-radius: 0;
-  -fx-font-size: 15px;
-  -fx-padding: 4 8;
-  -fx-cursor: hand;
+  -fx-padding: 2 4 2 4;
 }
-.filter-menu:hover { -fx-border-color: #c8c8c0; }
-.filter-menu > .label { -fx-text-fill: #3d3d39; }
-.filter-menu > .arrow-button > .arrow { -fx-background-color: #9b9b95; }
-.filter-menu.filter-menu-active {
-  -fx-background-color: #e8edf8;
-  -fx-border-color: #1a3a8f;
+.multi-select:hover { -fx-border-color: #c8c8c0; }
+.multi-select:focus-within { -fx-border-color: #1a3a8f; }
+.multi-select .multi-select-field {
+  -fx-background-color: transparent;
+  -fx-background-insets: 0;
+  -fx-border-width: 0;
+  -fx-padding: 6 8 6 8;
+  -fx-font-size: 16px;
+  -fx-text-fill: #111110;
+  -fx-prompt-text-fill: #8a8a84;
 }
-.filter-menu.filter-menu-active > .label { -fx-text-fill: #1a3a8f; }
-.filter-menu.filter-menu-active > .arrow-button > .arrow { -fx-background-color: #1a3a8f; }
+.multi-select .arrow-button { -fx-padding: 0 8 0 8; -fx-cursor: hand; }
+.multi-select .arrow-button .arrow {
+  -fx-background-color: #3d3d39;
+  -fx-shape: "M 0 0 h 7 l -3.5 4 z";
+  -fx-min-width: 9; -fx-pref-width: 9; -fx-max-width: 9;
+  -fx-min-height: 5; -fx-pref-height: 5; -fx-max-height: 5;
+}
+.multi-select-popup {
+  -fx-background-color: white;
+  -fx-border-color: #e2e2dc;
+  -fx-border-width: 1;
+  -fx-padding: 4 0 4 0;
+  -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 10, 0, 0, 3);
+}
+.multi-select-scroll, .multi-select-scroll > .viewport { -fx-background-color: white; -fx-background-insets: 0; -fx-padding: 0; }
+.multi-select-options { -fx-spacing: 0; }
+.multi-select-options .check-box { -fx-padding: 7 12 7 12; }
+.multi-select-options .check-box:hover { -fx-background-color: #e8edf8; }
+.multi-select-hint { -fx-font-size: 15px; -fx-text-fill: #8a8a84; -fx-padding: 7 12 7 12; }
+.filter-reset-link { -fx-font-size: 15px; -fx-text-fill: #1a3a8f; -fx-padding: 6 12 4 12; -fx-border-width: 0; }
+.filter-reset-link:disabled { -fx-opacity: 0.4; }
+/* Фильтры на «Задачах» — те же поля, но компактнее; выбранный фильтр подсвечен */
+.multi-select.filter-menu .multi-select-field { -fx-font-size: 15px; -fx-padding: 4 6 4 6; -fx-text-fill: #3d3d39; -fx-prompt-text-fill: #3d3d39; }
+.multi-select.filter-menu.filter-menu-active { -fx-background-color: #e8edf8; -fx-border-color: #1a3a8f; }
+.multi-select.filter-menu.filter-menu-active .multi-select-field { -fx-text-fill: #1a3a8f; }
+.multi-select.filter-menu.filter-menu-active .arrow-button .arrow { -fx-background-color: #1a3a8f; }
 .filter-menu-check { -fx-font-size: 15px; -fx-text-fill: #111110; }
 
 .task-search {

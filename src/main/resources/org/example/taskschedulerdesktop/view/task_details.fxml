@@ -4,6 +4,7 @@
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
+<?import org.example.taskschedulerdesktop.shared.ui.MultiSelectField?>
 <?import javafx.scene.layout.*?>
 
 <VBox styleClass="detail-root"
@@ -93,7 +94,7 @@
             <VBox spacing="6">
                 <Label text="СОИСПОЛНИТЕЛИ" styleClass="detail-field-label"/>
                 <Label fx:id="coExecutorsLabel" wrapText="true" styleClass="detail-people"/>
-                <MenuButton fx:id="coExecutorsMenu" maxWidth="Infinity" styleClass="combo-box-styled"
+                <MultiSelectField fx:id="coExecutorsMenu" maxWidth="Infinity" 
                             visible="false" managed="false"/>
             </VBox>
 
@@ -101,7 +102,7 @@
             <VBox spacing="6">
                 <Label text="НАБЛЮДАТЕЛИ" styleClass="detail-field-label"/>
                 <Label fx:id="observersLabel" wrapText="true" styleClass="detail-people"/>
-                <MenuButton fx:id="observersMenu" maxWidth="Infinity" styleClass="combo-box-styled"
+                <MultiSelectField fx:id="observersMenu" maxWidth="Infinity" 
                             visible="false" managed="false"/>
             </VBox>
 
@@ -133,8 +134,9 @@
                 <FlowPane fx:id="tagsFlowPane"
                           hgap="6"
                           vgap="6"/>
-                <TextField fx:id="tagsTextField" styleClass="text-field-styled"
-                           visible="false" managed="false"/>
+                <!-- Выбор из существующих тегов (TagPicker) -->
+                <MultiSelectField fx:id="tagsMenu" maxWidth="Infinity" 
+                            visible="false" managed="false"/>
             </VBox>
 
             <!-- Описание -->

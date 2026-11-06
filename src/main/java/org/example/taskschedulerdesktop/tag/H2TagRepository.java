@@ -19,6 +19,19 @@ public class H2TagRepository implements TagRepository {
     }
 
     @Override
+    public java.util.List<String> findActiveNames() throws SQLException {
+        String sql = "SELECT name FROM tags WHERE deleted_at IS NULL ORDER BY LOWER(name)";
+        java.util.List<String> names = new java.util.ArrayList<>();
+        try (PreparedStatement ps = uow.connection().prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                names.add(rs.getString("name"));
+            }
+        }
+        return names;
+    }
+
+    @Override
     public Optional<Tag> findByNameIgnoreCase(String name) throws SQLException {
         String sql = "SELECT id, name, color FROM tags WHERE LOWER(name) = LOWER(?)";
         try (PreparedStatement ps = uow.connection().prepareStatement(sql)) {

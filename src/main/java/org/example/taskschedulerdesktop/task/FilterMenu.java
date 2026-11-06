@@ -1,46 +1,51 @@
 package org.example.taskschedulerdesktop.task;
 
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.CustomMenuItem;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.SeparatorMenuItem;
-import javafx.scene.layout.Region;
+import javafx.scene.control.Hyperlink;
+import org.example.taskschedulerdesktop.shared.ui.MultiSelectField;
 
 import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
 /**
- * Выпадающий фильтр с галочками: «Проект», «Исполнитель», «Срок». Меню не закрывается после
- * каждой галочки — можно отметить несколько значений подряд. Ничего не отмечено — фильтр выключен.
+ * Выпадающий фильтр с галочками: «Проект», «Исполнитель», «Срок». В поле можно печатать — список
+ * фильтруется; галочки не закрывают список, можно отметить несколько значений подряд.
+ * Ничего не отмечено — фильтр выключен.
  *
  * @param <T> значение фильтра
  */
 final class FilterMenu<T> {
 
-    private final MenuButton button = new MenuButton();
+    private final MultiSelectField<T> field = new MultiSelectField<>();
     private final String title;
     private final Consumer<Set<T>> onChange;
-    private final Set<T> selected = new LinkedHashSet<>();
     private Map<T, String> options = Map.of();
-    private final MenuItem resetItem = new MenuItem("Снять все");
+    private final Hyperlink resetLink = new Hyperlink("Снять все");
 
     FilterMenu(String title, Consumer<Set<T>> onChange) {
         this.title = title;
         this.onChange = onChange;
-        button.getStyleClass().add("filter-menu");
-        button.setFocusTraversable(false);
-        button.setMinWidth(Region.USE_PREF_SIZE); // не обрезать подпись, сжимается поле поиска
-        resetItem.setOnAction(event -> clear());
-        rebuild();
+        field.getStyleClass().add("filter-menu");
+        field.setPrefWidth(185);
+        field.setMinWidth(javafx.scene.layout.Region.USE_PREF_SIZE); // не сжимать подпись, сжимается поле поиска
+        field.setPromptText(title);
+        // «Проект: Миграция CRM» или «Проект: 3»
+        field.setSummary(labels -> labels.size() == 1 ? title + ": " + shorten(labels.get(0)) : title + ": " + labels.size());
+        field.setEmptyHint("Нет вариантов");
+        resetLink.getStyleClass().add("filter-reset-link");
+        resetLink.setOnAction(event -> clear());
+        field.setFooter(resetLink);
+        field.setOnChange(values -> {
+            showActive();
+            onChange.accept(values);
+        });
+        showActive();
     }
 
-    MenuButton node() {
-        return button;
+    MultiSelectField<T> node() {
+        return field;
     }
 
     /**
@@ -49,70 +54,36 @@ final class FilterMenu<T> {
      */
     void setOptions(Map<T, String> newOptions) {
         if (List.copyOf(options.entrySet()).equals(List.copyOf(newOptions.entrySet()))) {
-            return; // те же варианты в том же порядке — меню не трогаем
+            return; // те же варианты в том же порядке — список не трогаем
         }
         options = new LinkedHashMap<>(newOptions);
-        boolean dropped = selected.retainAll(options.keySet());
-        rebuild();
-        if (dropped) {
-            onChange.accept(Set.copyOf(selected));
+        Set<T> before = field.selected();
+        field.setOptions(options);
+        if (!field.selected().equals(before)) {
+            showActive();
+            onChange.accept(field.selected());
         }
     }
 
     void clear() {
-        if (!selected.isEmpty()) {
-            selected.clear();
-            rebuild();
+        if (!field.selected().isEmpty()) {
+            field.setSelected(List.of());
+            showActive();
             onChange.accept(Set.of());
         }
     }
 
-    private void rebuild() {
-        button.getItems().clear();
-        if (options.isEmpty()) {
-            MenuItem empty = new MenuItem("Нет вариантов");
-            empty.setDisable(true);
-            button.getItems().add(empty);
-        }
-        options.forEach((value, label) -> {
-            CheckBox box = new CheckBox(label);
-            box.setSelected(selected.contains(value));
-            box.getStyleClass().add("filter-menu-check");
-            box.selectedProperty().addListener((obs, was, now) -> {
-                if (now) {
-                    selected.add(value);
-                } else {
-                    selected.remove(value);
-                }
-                showTitle();
-                onChange.accept(Set.copyOf(selected));
-            });
-            CustomMenuItem item = new CustomMenuItem(box);
-            item.setHideOnClick(false);
-            button.getItems().add(item);
-        });
-        button.getItems().addAll(new SeparatorMenuItem(), resetItem);
-        showTitle();
-    }
-
-    /** Длинное название в подписи кнопки обрезается, целиком оно видно в списке. */
+    /** Длинное название в поле обрезается, целиком оно видно в списке. */
     private static String shorten(String label) {
-        return label.length() <= 18 ? label : label.substring(0, 17).strip() + "…";
+        return label.length() <= 10 ? label : label.substring(0, 9).strip() + "…";
     }
 
-    /** «Проект», «Проект: Миграция CRM» или «Проект: 3». */
-    private void showTitle() {
-        if (selected.isEmpty()) {
-            button.setText(title);
-        } else if (selected.size() == 1) {
-            button.setText(title + ": " + shorten(options.getOrDefault(selected.iterator().next(), "…")));
-        } else {
-            button.setText(title + ": " + selected.size());
-        }
-        resetItem.setDisable(selected.isEmpty());
-        button.getStyleClass().remove("filter-menu-active");
-        if (!selected.isEmpty()) {
-            button.getStyleClass().add("filter-menu-active");
+    private void showActive() {
+        boolean active = !field.selected().isEmpty();
+        resetLink.setDisable(!active);
+        field.getStyleClass().remove("filter-menu-active");
+        if (active) {
+            field.getStyleClass().add("filter-menu-active");
         }
     }
 }

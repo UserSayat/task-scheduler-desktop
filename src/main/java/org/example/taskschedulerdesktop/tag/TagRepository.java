@@ -16,4 +16,7 @@ public interface TagRepository {
     void insert(Tag tag, Instant createdAt, UUID createdBy) throws SQLException;
 
     boolean isDeleted(UUID id) throws SQLException;
+
+    /** Имена неудалённых тегов по алфавиту — для выбора тегов у задачи. */
+    java.util.List<String> findActiveNames() throws SQLException;
 }

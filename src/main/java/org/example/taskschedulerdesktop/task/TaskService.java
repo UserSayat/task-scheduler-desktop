@@ -44,6 +44,9 @@ public interface TaskService {
     /** Дата начала, соисполнители и наблюдатели. */
     TaskExtras findExtras(UUID id);
 
+    /** Имена существующих тегов по алфавиту — варианты для тегов задачи. */
+    List<String> findTagNames();
+
     void delete(UUID id);
 
     int countByProjectIdAndStatus(UUID projectId, TaskStatus status);

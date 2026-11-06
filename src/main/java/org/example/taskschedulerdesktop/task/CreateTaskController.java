@@ -1,5 +1,7 @@
 package org.example.taskschedulerdesktop.task;
 
+import org.example.taskschedulerdesktop.shared.ui.MultiSelectField;
+import org.example.taskschedulerdesktop.shared.ui.ComboSearch;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
@@ -10,7 +12,6 @@ import org.example.taskschedulerdesktop.shared.navigation.NavigationManager;
 import org.example.taskschedulerdesktop.project.AsyncProjectService;
 import org.example.taskschedulerdesktop.user.AsyncUserService;
 import org.example.taskschedulerdesktop.project.ProjectStringConverter;
-import org.example.taskschedulerdesktop.tag.Tags;
 import org.example.taskschedulerdesktop.shared.navigation.ContextAware;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,7 +51,8 @@ public class CreateTaskController implements ContextAware {
 
     @FXML private DatePicker deadlineDatePicker;
 
-    @FXML private TextField tagsTextField;
+    @FXML private MultiSelectField<String> tagsMenu;
+    private TagPicker tagPicker;
 
     /** Все активные сотрудники; в списке исполнителей — только те, кто видит выбранный проект. */
     private List<User> allUsers = List.of();
@@ -68,6 +70,13 @@ public class CreateTaskController implements ContextAware {
 
     @FXML
     public void initialize() {
+        // Поиск вводом с клавиатуры
+        ComboSearch.install(projectComboBox);
+        ComboSearch.install(executorComboBox);
+        // Теги — выбором из существующих, а не вводом вручную
+        tagPicker = new TagPicker(tagsMenu, "Без тегов");
+        taskService.findTagNames(names -> tagPicker.show(names, List.of()),
+                error -> tagPicker.show(List.of(), List.of()));
         executorComboBox.setPromptText("Сначала выберите проект");
         userService.findActiveUsers(
                 users -> {
@@ -132,7 +141,7 @@ public class CreateTaskController implements ContextAware {
                     executor == null || executor == NO_EXECUTOR ? null : executor.getId(),
                     (TaskPriority) priorityGroup.getSelectedToggle().getUserData(),
                     deadline,
-                    Tags.parse(tagsTextField.getText()));
+                    tagPicker.selected());
 
             taskService.createTask(newTask,
                     created -> {

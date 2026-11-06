@@ -112,6 +112,10 @@ public class AsyncTaskService {
         submit(() -> delegate.findViewById(taskId), onSuccess, onError);
     }
 
+    public void findTagNames(Consumer<List<String>> onSuccess, Consumer<Throwable> onError) {
+        submit(delegate::findTagNames, onSuccess, onError);
+    }
+
     public void findTaskExtras(UUID taskId, Consumer<TaskExtras> onSuccess, Consumer<Throwable> onError) {
         submit(() -> delegate.findExtras(taskId), onSuccess, onError);
     }

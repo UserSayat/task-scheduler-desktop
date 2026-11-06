@@ -1,5 +1,7 @@
 package org.example.taskschedulerdesktop.task;
 
+import org.example.taskschedulerdesktop.shared.ui.MultiSelectField;
+import org.example.taskschedulerdesktop.shared.ui.ComboSearch;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -15,7 +17,6 @@ import org.example.taskschedulerdesktop.shared.navigation.NavigationManager;
 import org.example.taskschedulerdesktop.user.AsyncUserService;
 import org.example.taskschedulerdesktop.user.Initials;
 import org.example.taskschedulerdesktop.tag.TagChips;
-import org.example.taskschedulerdesktop.tag.Tags;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,16 +61,17 @@ public class TaskDetailsController implements RightSidebar {
     @FXML private DatePicker deadlineDatePicker;
 
     @FXML private FlowPane tagsFlowPane;
-    @FXML private TextField tagsTextField;
+    @FXML private MultiSelectField<String> tagsMenu;
+    private TagPicker tagPicker;
 
     @FXML private Label taskDescriptionLabel;
     @FXML private VBox descriptionBox;
     @FXML private TextArea descriptionTextArea;
 
     @FXML private Label coExecutorsLabel;
-    @FXML private MenuButton coExecutorsMenu;
+    @FXML private MultiSelectField<UUID> coExecutorsMenu;
     @FXML private Label observersLabel;
-    @FXML private MenuButton observersMenu;
+    @FXML private MultiSelectField<UUID> observersMenu;
     @FXML private Label startDateLabel;
     @FXML private DatePicker startDatePicker;
 
@@ -116,6 +118,8 @@ public class TaskDetailsController implements RightSidebar {
 
     @FXML
     public void initialize() {
+        // Поиск вводом с клавиатуры
+        ComboSearch.install(executorComboBox);
         log.info("initialize()");
 
         for (TaskStatus status : TaskStatus.values()) {
@@ -127,6 +131,7 @@ public class TaskDetailsController implements RightSidebar {
         }
 
         coExecutorsPicker = new UserPicker(coExecutorsMenu, "Нет соисполнителей");
+        tagPicker = new TagPicker(tagsMenu, "Без тегов");
         observersPicker = new UserPicker(observersMenu, "Нет наблюдателей");
 
         userService.findActiveUsers(
@@ -210,7 +215,7 @@ public class TaskDetailsController implements RightSidebar {
                     TaskPriority.fromString(priorityComboBox.getValue()),
                     deadline,
                     executor != null ? executor.getId() : contextTask.responsibleId(),
-                    Tags.parse(tagsTextField.getText()),
+                    tagPicker.selected(),
                     extras == null ? null
                             : new TaskExtras(startDate, coExecutorsPicker.selected(), observersPicker.selected()));
 
@@ -481,8 +486,8 @@ public class TaskDetailsController implements RightSidebar {
         deadlineDatePicker.setManaged(true);
         executorComboBox.setVisible(true);
         executorComboBox.setManaged(true);
-        tagsTextField.setVisible(true);
-        tagsTextField.setManaged(true);
+        tagsMenu.setVisible(true);
+        tagsMenu.setManaged(true);
         editActionsHBox.setVisible(true);
         editActionsHBox.setManaged(true);
 
@@ -495,7 +500,10 @@ public class TaskDetailsController implements RightSidebar {
                 .filter(user -> user.getId().equals(contextTask.responsibleId()))
                 .findFirst()
                 .orElse(null));
-        tagsTextField.setText(contextTask.tagsAsText());
+        // Теги — выбором из существующих; пока список грузится, видны текущие теги задачи
+        List<String> current = contextTask.tagNames();
+        tagPicker.show(List.of(), current);
+        taskService.findTagNames(names -> tagPicker.show(names, current), error -> { });
         descriptionTextArea.setText(contextTask.description());
         showEditExtras(true);
         if (extras != null) {
@@ -514,7 +522,7 @@ public class TaskDetailsController implements RightSidebar {
         priorityComboBox.setDisable(statusOnly);
         deadlineDatePicker.setDisable(statusOnly);
         executorComboBox.setDisable(statusOnly);
-        tagsTextField.setDisable(statusOnly);
+        tagsMenu.setDisable(statusOnly);
     }
 
     private void exitEditMode() {
@@ -547,8 +555,8 @@ public class TaskDetailsController implements RightSidebar {
         deadlineDatePicker.setManaged(false);
         executorComboBox.setVisible(false);
         executorComboBox.setManaged(false);
-        tagsTextField.setVisible(false);
-        tagsTextField.setManaged(false);
+        tagsMenu.setVisible(false);
+        tagsMenu.setManaged(false);
         editActionsHBox.setVisible(false);
         editActionsHBox.setManaged(false);
         showEditExtras(false);

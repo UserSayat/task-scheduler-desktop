@@ -4,6 +4,7 @@
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
+<?import org.example.taskschedulerdesktop.shared.ui.MultiSelectField?>
 <?import javafx.scene.layout.*?>
 
 <VBox styleClass="modal-root" prefWidth="480"
@@ -58,16 +59,16 @@
         </HBox>
 
         <HBox spacing="12">
-            <VBox HBox.hgrow="ALWAYS" spacing="5">
+            <!-- prefWidth 0 у обеих колонок: строка делится поровну, а не по ширине полей -->
+            <VBox HBox.hgrow="ALWAYS" spacing="5" prefWidth="0">
                 <Label text="СРОК" styleClass="field-label"/>
                 <DatePicker fx:id="deadlineDatePicker" maxWidth="Infinity"
                             styleClass="date-picker-styled"/>
             </VBox>
-            <VBox HBox.hgrow="ALWAYS" spacing="5">
+            <VBox HBox.hgrow="ALWAYS" spacing="5" prefWidth="0">
                 <Label text="ТЕГИ" styleClass="field-label"/>
-                <TextField fx:id="tagsTextField"
-                           promptText="backend, дизайн — через запятую"
-                           styleClass="text-field-styled"/>
+                <!-- Выбор из существующих тегов (TagPicker) -->
+                <MultiSelectField fx:id="tagsMenu" maxWidth="Infinity" />
             </VBox>
         </HBox>
 

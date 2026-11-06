@@ -379,6 +379,11 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    public List<String> findTagNames() {
+        return uow.read(tagService::activeNames);
+    }
+
+    @Override
     public TaskExtras findExtras(UUID id) {
         Task task = uow.read(() -> repository.findById(id))
                 .orElseThrow(() -> new NotFoundException("Task not found: " + id));

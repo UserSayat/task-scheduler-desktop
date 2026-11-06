@@ -1,5 +1,6 @@
 package org.example.taskschedulerdesktop.project;
 
+import org.example.taskschedulerdesktop.shared.ui.ComboSearch;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -71,6 +72,8 @@ public class EditProjectController implements ContextAware {
 
     @FXML
     public void initialize() {
+        // Поиск вводом с клавиатуры
+        ComboSearch.install(supervisorComboBox);
         visibilityComboBox.getItems().setAll(Visibility.values());
         newMemberRoleComboBox.getItems().setAll(ASSIGNABLE_ROLES);
         newMemberRoleComboBox.setValue(MemberRole.MEMBER);

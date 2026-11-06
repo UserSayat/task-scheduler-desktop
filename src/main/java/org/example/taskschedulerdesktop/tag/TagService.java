@@ -67,6 +67,11 @@ public class TagService {
         return new ArrayList<>(ids);
     }
 
+    /** Имена существующих тегов по алфавиту: из них выбирают теги задачи. */
+    public List<String> activeNames() throws SQLException {
+        return repository.findActiveNames();
+    }
+
     private UUID create(String name, Instant now) throws SQLException {
         permissions.requireCanCreateTag(name);
         Tag tag = new Tag(UuidCreator.getTimeOrderedEpoch(), name, Tag.DEFAULT_COLOR);

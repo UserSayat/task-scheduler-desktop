@@ -1,5 +1,6 @@
 package org.example.taskschedulerdesktop.project;
 
+import org.example.taskschedulerdesktop.shared.ui.ComboSearch;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -40,6 +41,8 @@ public class CreateProjectController {
 
     @FXML
     public void initialize() {
+        // Поиск вводом с клавиатуры
+        ComboSearch.install(supervisorComboBox);
         publicToggle.setUserData(Visibility.PUBLIC);
         privateToggle.setUserData(Visibility.PRIVATE);
         // Выбор есть всегда: повторное нажатие на выбранную кнопку его не снимает
