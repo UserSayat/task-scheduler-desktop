@@ -49,6 +49,21 @@ public final class CenteredTileRows {
         tiles.setMaxWidth(row);
     }
 
+    /**
+     * Ширина карточки, при которой ряд заполняется до полей страницы: столько колонок, сколько влезает
+     * карточек не уже {@code min} (но не больше {@code maxColumns}), карточки делят ряд поровну, но не шире
+     * {@code max} — тогда ряд стоит по центру с равными отступами.
+     */
+    public static double fillWidth(double available, double gap, double min, double max, int maxColumns) {
+        if (available <= 0) {
+            return min; // ширина ещё не посчитана
+        }
+        int columns = (int) Math.floor((available + gap) / (min + gap));
+        columns = Math.max(1, Math.min(maxColumns, columns));
+        double width = (available - gap * (columns - 1)) / columns;
+        return Math.floor(Math.max(Math.min(width, max), Math.min(min, available)));
+    }
+
     /** Сколько карточек ширины {@code tile} помещается в ряд (хотя бы одна). */
     public static int columns(double available, double tile, double gap) {
         return Math.max(1, (int) Math.floor((available + gap) / (tile + gap)));

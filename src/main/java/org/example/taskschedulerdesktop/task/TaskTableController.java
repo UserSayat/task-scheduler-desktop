@@ -1,5 +1,6 @@
 package org.example.taskschedulerdesktop.task;
 
+import org.example.taskschedulerdesktop.shared.ui.WholeRows;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.property.ReadOnlyIntegerWrapper;
@@ -86,6 +87,7 @@ public class TaskTableController implements Shutdownable {
 
     @FXML
     public void initialize() {
+        WholeRows.fit(taskTable); // нижняя видимая строка не обрезается
         taskNameColumn.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().title()));
         taskNameColumn.setComparator(TaskSorting.TEXT);
         projectNameColumn.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().projectName()));

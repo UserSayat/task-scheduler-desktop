@@ -1,5 +1,6 @@
 package org.example.taskschedulerdesktop.tag;
 
+import org.example.taskschedulerdesktop.shared.ui.WholeRows;
 import org.example.taskschedulerdesktop.shared.ui.Dialogs;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -50,6 +51,7 @@ public class TagsController {
 
     @FXML
     public void initialize() {
+        WholeRows.fit(tagsTable); // нижняя видимая строка не обрезается
         nameColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().name()));
         tasksColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().tasks()));
         colorColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().color()));

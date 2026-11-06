@@ -15,7 +15,10 @@
 <?import javafx.scene.control.ListView?>
 <VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="org.example.taskschedulerdesktop.dashboard.DashboardController">
-    <ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="scroll-pane-clean">
+    <!-- Страница на всю высоту окна: «Мои задачи» тянутся до низа, снизу — такой же отступ, как сверху.
+         На низком окне таблица не меньше трёх строк, списки — двух карточек; не помещается — прокрутка. -->
+    <ScrollPane fitToWidth="true" fitToHeight="true" hbarPolicy="NEVER" styleClass="scroll-pane-clean"
+                VBox.vgrow="ALWAYS">
         <VBox spacing="16" styleClass="content-area">
 
             <!-- Статистика -->
@@ -82,7 +85,8 @@
                         <Label styleClass="section-mono" text="прогресс выполнения"/>
                     </HBox>
 
-                    <ListView fx:id="projectListView" styleClass="dashboard-list-view">
+                    <!-- Четыре карточки по 74, на низком окне не меньше двух (WholeRows оставляет только целые) -->
+                    <ListView fx:id="projectListView" styleClass="dashboard-list-view" prefHeight="296" minHeight="148">
                     </ListView>
                 </VBox>
 
@@ -92,7 +96,7 @@
                         <Label styleClass="card-title" text="Дедлайны"/>
                     </HBox>
 
-                    <ListView fx:id="deadlinesListView" styleClass="dashboard-list-view">
+                    <ListView fx:id="deadlinesListView" styleClass="dashboard-list-view" prefHeight="296" minHeight="148">
                     </ListView>
 
                 </VBox>
@@ -107,7 +111,9 @@
                 <Region HBox.hgrow="ALWAYS"/>
                 <Label fx:id="myTasksCount" styleClass="section-mono" text="ответственный или соисполнитель"/>
             </HBox>
-            <VBox fx:id="taskTableContainerVBox">
+            <!-- Высота задана числами (5 строк желательно, 3 минимум), а не по таблице: её укорачивает WholeRows,
+                 и иначе контейнер сжимался бы вслед за ней. Свободное место — тоже таблице -->
+            <VBox fx:id="taskTableContainerVBox" VBox.vgrow="ALWAYS" prefHeight="266" minHeight="180">
             </VBox>
 
         </VBox>

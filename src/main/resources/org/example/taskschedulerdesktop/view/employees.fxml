@@ -35,11 +35,12 @@
     </TableView>
 
     <HBox spacing="8" alignment="CENTER_LEFT">
-        <Button fx:id="editButton" text="Изменить" styleClass="btn-secondary"/>
-        <Button fx:id="blockButton" text="Заблокировать" styleClass="btn-secondary"/>
-        <Button fx:id="resetPasswordButton" text="Сбросить пароль" styleClass="btn-secondary"/>
+        <Button fx:id="editButton" text="Изменить" styleClass="btn-primary"/>
+        <Button fx:id="blockButton" text="Заблокировать" styleClass="btn-primary"/>
+        <Button fx:id="resetPasswordButton" text="Сбросить пароль" styleClass="btn-primary"/>
         <Region HBox.hgrow="ALWAYS"/>
         <Label text="Изменения сохраняются на сервере — нужна связь" styleClass="employees-hint"/>
-        <Button fx:id="deleteButton" text="Удалить" styleClass="btn-ghost-danger"/>
+        <!-- Чёрная, как остальные; при наведении — красная -->
+        <Button fx:id="deleteButton" text="Удалить" styleClass="btn-primary, btn-delete"/>
     </HBox>
 </VBox>

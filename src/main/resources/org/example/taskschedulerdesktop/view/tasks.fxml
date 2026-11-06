@@ -27,5 +27,6 @@
         </HBox>
     </FlowPane>
 
-    <VBox fx:id="taskTableContainerVBox" VBox.vgrow="ALWAYS"/>
+    <!-- Желаемая высота 0: контейнер не зависит от высоты таблицы (её укорачивает WholeRows) -->
+    <VBox fx:id="taskTableContainerVBox" VBox.vgrow="ALWAYS" prefHeight="0" minHeight="180"/>
 </VBox>

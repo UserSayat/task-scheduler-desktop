@@ -1,5 +1,6 @@
 package org.example.taskschedulerdesktop.admin;
 
+import org.example.taskschedulerdesktop.shared.ui.WholeRows;
 import org.example.taskschedulerdesktop.shared.ui.Clicks;
 import org.example.taskschedulerdesktop.shared.ui.Dialogs;
 import javafx.beans.property.SimpleStringProperty;
@@ -63,6 +64,7 @@ public class EmployeesController implements Shutdownable {
 
     @FXML
     public void initialize() {
+        WholeRows.fit(employeesTable); // нижняя видимая строка не обрезается
         setUpColumn(nameColumn, Employee::name);
         setUpColumn(emailColumn, Employee::email);
         setUpColumn(positionColumn, employee -> employee.position() != null ? employee.position() : "");

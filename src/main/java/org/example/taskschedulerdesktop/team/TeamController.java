@@ -43,9 +43,10 @@ public class TeamController implements CachedPage {
 
     @FXML
     public void initialize() {
-        // Ряд карточек по центру страницы, карточки — от его левого края
-        double cardWidth = teamTilePane.getPrefTileWidth();
-        CenteredTileRows.install(teamTilePane, teamPage, available -> cardWidth, Integer.MAX_VALUE);
+        // Как у проектов: карточки растягиваются до полей страницы (300–380), ряд по центру, карточки от его левого края
+        CenteredTileRows.install(teamTilePane, teamPage,
+                available -> CenteredTileRows.fillWidth(available, teamTilePane.getHgap(), 300, 380, Integer.MAX_VALUE),
+                Integer.MAX_VALUE);
         EventBus.getInstance().subscribe(TaskChangedEvent.class, taskListener);
         EventBus.getInstance().subscribe(UsersChangedEvent.class, usersListener);
         loadTeam();

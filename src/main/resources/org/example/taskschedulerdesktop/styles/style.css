@@ -172,6 +172,8 @@
 }
 .btn-primary:hover { -fx-background-color: #1a3a8f; }
 .btn-primary:disabled { -fx-opacity: 0.4; }
+/* Удаление: чёрная кнопка, при наведении красная */
+.btn-delete:hover { -fx-background-color: #b91c1c; }
 
 .btn-secondary {
   -fx-background-color: transparent;
@@ -424,6 +426,7 @@
 }
 
 /* ── Таблица задач ──────────────────────────────────── */
+/* Высоту таблицы WholeRows подгоняет под целые строки: рамка заканчивается на последней строке */
 .task-table {
   -fx-background-color: white;
   -fx-border-color: #e2e2dc;
@@ -829,11 +832,12 @@
 .mini-stat-lbl { -fx-font-size: 15px; -fx-text-fill: #6b6b65; }
 
 /* dashboard-list-view */
+/* Поле снизу задаёт WholeRows (остаток высоты, которого не хватает на целую карточку), поэтому его здесь нет */
 .dashboard-list-view {
     -fx-background-color: transparent;
     -fx-background-insets: 0;
-    -fx-padding: 0;
-    -fx-border-color: transparent;
+    /* Строка — карточка 66 + отступ под ней 8 */
+    -fx-fixed-cell-size: 74;
 }
 
 /* Внутренние слои VirtualFlow */

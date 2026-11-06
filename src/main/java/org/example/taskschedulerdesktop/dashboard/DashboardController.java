@@ -1,5 +1,7 @@
 package org.example.taskschedulerdesktop.dashboard;
 
+import javafx.scene.layout.Priority;
+import org.example.taskschedulerdesktop.shared.ui.WholeRows;
 import org.example.taskschedulerdesktop.shared.ui.Clicks;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -66,6 +68,9 @@ public class DashboardController implements CachedPage {
 
     @FXML
     public void initialize() {
+        // Нижняя видимая карточка в списках не обрезается
+        WholeRows.fit(projectListView);
+        WholeRows.fit(deadlinesListView);
         EventBus.getInstance().subscribe(TaskChangedEvent.class, taskUpdateListener);
         EventBus.getInstance().subscribe(ProjectChangedEvent.class, projectUpdateListener);
 
@@ -136,6 +141,7 @@ public class DashboardController implements CachedPage {
             loader.setControllerFactory(AppConfig.getInstance().getControllerFactory());
 
             Node taskTable = loader.load();
+            VBox.setVgrow(taskTable, Priority.ALWAYS); // «Мои задачи» — до низа страницы
             taskTableContainerVBox.getChildren().add(taskTable);
 
             // «Мои задачи» (ТЗ, раздел 10): свои незавершённые задачи, ближайший срок первым

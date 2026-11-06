@@ -90,13 +90,7 @@ public class ProjectsController implements CachedPage {
      * но не шире {@link #MAX_CARD_WIDTH} (тогда ряд стоит по центру).
      */
     static double cardWidth(double available, double gap) {
-        if (available <= 0) {
-            return MIN_CARD_WIDTH; // ширина ещё не посчитана
-        }
-        int columns = (int) Math.floor((available + gap) / (MIN_CARD_WIDTH + gap));
-        columns = Math.max(1, Math.min(MAX_COLUMNS, columns));
-        double width = (available - gap * (columns - 1)) / columns;
-        return Math.floor(Math.max(Math.min(width, MAX_CARD_WIDTH), Math.min(MIN_CARD_WIDTH, available)));
+        return CenteredTileRows.fillWidth(available, gap, MIN_CARD_WIDTH, MAX_CARD_WIDTH, MAX_COLUMNS);
     }
 
     public void refreshProjects() {

@@ -7,7 +7,6 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
 
 /**
  * Строка проекта на «Обзоре»: название, руководитель, сколько задач выполнено и полоса прогресса.
@@ -22,7 +21,8 @@ public class ProjectListCell extends ListCell<ProjectView> {
     private final Label ratioLabel = new Label();
     private final Label percentLabel = new Label();
     private final ProgressBar progressBar = new ProgressBar();
-    private final VBox root;
+    private final HBox root;
+    private static final double PROGRESS_WIDTH = 160;
 
     public ProjectListCell() {
         nameLabel.getStyleClass().add("project-name-label");
@@ -33,16 +33,22 @@ public class ProjectListCell extends ListCell<ProjectView> {
         percentLabel.setMinWidth(Region.USE_PREF_SIZE);
         ratioLabel.setStyle("-fx-font-size:16px;-fx-text-fill:#6b6b65;");
         percentLabel.getStyleClass().add("percent-of-completion-label");
+        // Процент фиксированной ширины, справа: полоски во всех строках стоят ровно друг под другом
+        percentLabel.setMinWidth(44);
+        percentLabel.setPrefWidth(44);
+        percentLabel.setAlignment(Pos.CENTER_RIGHT);
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
-        HBox top = new HBox(8, nameLabel, supervisorLabel, spacer, ratioLabel, percentLabel);
-        top.setAlignment(Pos.CENTER_LEFT);
 
-        progressBar.setMaxWidth(Double.MAX_VALUE);
+        // Полоска прогресса — в той же строке, короткая
+        progressBar.setMinWidth(PROGRESS_WIDTH);
+        progressBar.setPrefWidth(PROGRESS_WIDTH);
+        progressBar.setMaxWidth(PROGRESS_WIDTH);
         progressBar.setStyle("-fx-accent:#1a3a8f;");
         progressBar.getStyleClass().add("progress-thin");
 
-        root = new VBox(10, top, progressBar);
+        root = new HBox(12, nameLabel, supervisorLabel, spacer, ratioLabel, progressBar, percentLabel);
+        root.setAlignment(Pos.CENTER_LEFT);
         root.getStyleClass().add("dashboard-item"); // отдельная карточка, как задачи на странице проекта
         setPrefWidth(0); // по ширине списка, без горизонтальной прокрутки
     }
